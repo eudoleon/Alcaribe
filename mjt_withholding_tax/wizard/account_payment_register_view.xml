@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="mjt_view_account_payment_register_form_inherit" model="ir.ui.view">
+            <field name="name">account.payment.register.form.inherit</field>
+            <field name="model">account.payment.register</field>
+            <field name="inherit_id" ref="account.view_account_payment_register_form" />
+            <field name="arch" type="xml">
+                <xpath expr="//group" position="after">
+                    <notebook>
+                        <page id="withholding_tab" string="Withholding Lines">
+                            <field name="wht_tax_line_ids" mode="tree,kanban">
+                                <tree editable="bottom" string="Witholding Items">
+                                    <field name="tax_id"/>
+                                    <field name="name" required="1"/>
+                                    <field name="amount_withholding"/>
+                                </tree>
+                                <form>
+                                    <sheet>
+                                        <group>
+                                            <field name="tax_id"/>
+                                            <field name="name" required="1"/>
+                                            <field name="amount_withholding"/>
+                                        </group>
+                                    </sheet>
+                                </form>
+                            </field>
+                        </page>
+                    </notebook>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

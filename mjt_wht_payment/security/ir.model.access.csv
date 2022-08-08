@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_payment_wht_line_user,payment.wht.line.user,model_payment_wht_line,base.group_user,1,1,1,1
+access_bukti_potong_payment_user,bukti.potong.payment.user,model_bukti_potong_payment,base.group_user,1,1,1,1

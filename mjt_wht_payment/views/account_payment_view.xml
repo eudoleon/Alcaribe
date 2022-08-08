@@ -1,0 +1,63 @@
+<odoo>
+    <data>
+        <record id="mjt_view_account_payment_form_inherit" model="ir.ui.view">
+            <field name="name">mjt.account.payment.form.inherit</field>
+            <field name="model">account.payment</field>
+            <field name="inherit_id" ref="account.view_account_payment_form" />
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='ref']" position="after">
+                    <field name="is_pass_writeoff" invisible="1"/>
+                    <field name="is_wht_trx" attrs="{'invisible': [('is_internal_transfer', '!=', False)]}"/>
+                </xpath>
+                <xpath expr="//group[1]/group[@name='group3']" position="after">
+                    <field name="wht_line_ids" mode="tree,kanban" nolabel="1" attrs="{'invisible': [('is_wht_trx', '=', False)]}">
+                        <tree editable="bottom" string="Witholding Items">
+                            <field name="account_id"/>
+                            <field name="name" required="1"/>
+                            <field name="amount_wht"/>
+                        </tree>
+                        <form>
+                            <sheet>
+                                <group>
+                                    <field name="account_id"/>
+                                    <field name="name" required="1"/>
+                                    <field name="amount_wht"/>
+                                </group>
+                            </sheet>
+                        </form>
+                    </field>
+                    <!-- <field name="line_ids"/> -->
+                </xpath>
+                <xpath expr="//sheet/group[1]" position="after">
+                    <notebook>
+                        <page string="Bukti Potong" name="bukti_potong_line">
+                            <group>
+                                <field name="bukti_potong_ids" mode="tree,kanban" nolabel="1" attrs="{'invisible': [('is_wht_trx', '=', False)]}">
+                                    <tree editable="bottom" string="Bukti Potong Items">
+                                        <field name="number_bukti_potong"/>
+                                        <field name="date_bukti_potong"/>
+                                        <field name="jumlah"/>
+                                        <field name="sisa"/>
+                                        <field name="date_terima_bukti_potong"/>
+                                    </tree>
+                                    <form>
+                                        <sheet>
+                                            <group>
+                                                <field name="payment_id"/>
+                                                <field name="number_bukti_potong"/>
+                                                <field name="date_bukti_potong"/>
+                                                <field name="jumlah"/>
+                                                <field name="sisa"/>
+                                                <field name="date_terima_bukti_potong"/>
+                                            </group>
+                                        </sheet>
+                                    </form>
+                                </field>
+                            </group>
+                        </page>
+                    </notebook>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>
