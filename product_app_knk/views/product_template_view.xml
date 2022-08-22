@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <menuitem
+        id="knk_main_menu_products_app"
+        name="Products"
+        sequence="11"
+        web_icon="product_app_knk,static/description/icon.png"/>
+    <menuitem
+        id="knk_menu_product_templ"
+        parent="knk_main_menu_products_app"
+        action="product.product_template_action"
+        sequence="1"/>
+    <menuitem
+        id="knkmenu_product_product"
+        parent="knk_main_menu_products_app"
+        action="product.product_normal_action"
+        groups="product.group_product_variant"
+        sequence="2"/>
+    <menuitem
+        id="knkmenu_product_pricelist_main"
+        name="Pricelists"
+        parent="knk_main_menu_products_app"
+        action="product.product_pricelist_action2"
+        groups="product.group_product_pricelist"
+        sequence="3"/>
+    <menuitem
+        id="menu_products_config"
+        name="Configuration"
+        parent="knk_main_menu_products_app"
+        sequence="100"
+        groups="base.group_system"/>
+</odoo>

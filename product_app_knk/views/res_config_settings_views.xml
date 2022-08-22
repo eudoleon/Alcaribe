@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="res_config_settings_view_form" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit.sale</field>
+        <field name="model">res.config.settings</field>
+        <field name="priority" eval="10" />
+        <field name="inherit_id" ref="base.res_config_settings_view_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//div[hasclass('settings')]" position="inside">
+                <div class="app_settings_block" data-string="Products" string="Products" data-key="product_app_knk">
+                    <h2>Products &amp; Pricelists</h2>
+                    <div class="row mt16 o_settings_container" name="catalog_setting_container">
+                        <div class="col-12 col-lg-6 o_setting_box" id="variant_options">
+                            <div class="o_setting_left_pane">
+                                <field name="group_product_variant" />
+                            </div>
+                            <div class="o_setting_right_pane">
+                                <label for="group_product_variant" />
+                                <a href="https://www.odoo.com/documentation/15.0/applications/sales/sales/products_prices/products/variants.html" title="Documentation" class="o_doc_link" target="_blank"></a>
+                                <div class="text-muted">
+                                    Manage variants of a product using attributes (size, color, etc.)
+                                </div>
+                                <div class="content-group" attrs="{'invisible': [('group_product_variant','=',False)]}">
+                                    <div class="mt8">
+                                        <button name="%(product.attribute_action)d" icon="fa-arrow-right" type="action" string="Attributes" class="btn-link" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6 o_setting_box" id="pricelist_configuration">
+                            <div class="o_setting_left_pane">
+                                <field name="group_product_pricelist" />
+                            </div>
+                            <div class="o_setting_right_pane">
+                                <label for="group_product_pricelist" />
+                                <a href="https://www.odoo.com/documentation/15.0/applications/sales/sales/products_prices/prices/pricing.html" title="Documentation" class="o_doc_link" target="_blank"></a>
+                                <div class="text-muted">
+                                    Set multiple prices per product, automated discounts, etc.
+                                </div>
+                                <div class="content-group" attrs="{'invisible': [('group_product_pricelist' ,'=', False)]}">
+                                    <div class="mt16">
+                                        <field name="group_sale_pricelist" invisible="1" />
+                                        <field name="product_pricelist_setting" widget="radio" class="o_light_label" />
+                                    </div>
+                                    <div class="mt8">
+                                        <button name="%(product.product_pricelist_action2)d" icon="fa-arrow-right" type="action" string="Pricelists" groups="product.group_product_pricelist" class="btn-link" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </xpath>
+        </field>
+    </record>
+    <record id="action_product_config_settings" model="ir.actions.act_window">
+        <field name="name">Settings</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">res.config.settings</field>
+        <field name="view_id" ref="product_app_knk.res_config_settings_view_form" />
+        <field name="view_mode">form</field>
+        <field name="target">inline</field>
+        <field name="context">{'module' : 'product_app_knk', 'bin_size': False}</field>
+    </record>
+    <menuitem
+        id="menu_product_general_settings"
+        sequence="1"
+        name="Settings"
+        parent="product_app_knk.menu_products_config"
+        action="action_product_config_settings"
+        groups="base.group_system" />
+</odoo>
