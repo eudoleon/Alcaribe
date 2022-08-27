@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+   <data noupdate="1">
+
+       <!--Email template -->
+
+       <record model="mail.template" id="email_template_stock_alert">
+           <field name="name">Alerta de stock en venta</field>
+           <field name="model_id" ref="sale_stock_alert.model_sale_order"/>
+           <field name="email_from">${(object.user_id.email_formatted or user.email_formatted) | safe}</field>
+           <field name="subject">Stock faltante Venta Ref ${object.name or 'n/a' }</field>
+           <field name="auto_delete" eval="True"/>
+           <field name="lang">${object.partner_id.lang}</field>
+           <field name="body_html"><![CDATA[
+
+
+                Alerta automática por falta de stock:<br><br>
+
+                <p>El siguiente correo se detonó como alerta debido a que en la venta realizada con el Folio: <b>${object.name}</b> se detectó que no existe stock suficiente para los siguientes productos:<br></p><br>
+
+            <table style="width:100%;border-spacing: 0; border: 1px solid #e7e7e7; border-top: 1px solid #56b3b5;">
+                <tbody>
+                    <tr>
+                        <th style="width:40%;text-align:left;">
+                            Producto
+                        </th>
+                        <th style="width:20%;text-align:right;">
+                            Cantidad vendida
+                        </th>
+                        <th style="width:20%;text-align:right;">
+                            Cantidad disponible
+                        </th>
+                        <th style="width:20%;text-align:right;">
+                            Cantidad faltante
+                        </th>
+                  </tr>
+                </tbody>
+            </table>
+
+
+            % for so_line in object.order_line:
+  
+                % if (so_line.product_id.virtual_available is lessthan(so_line.product_uom_qty) ):
+
+                    <table style="width:100%;border-spacing: 0; background-color: #f9f9f9; border: 1px solid #e7e7e7; border-top: 2px solid #56b3b5;">
+                        <tbody>
+                            <tr>
+                                <th style="width:40%;text-align:left;">
+                                    ${so_line.product_id.name}
+                                </th>
+                                <th style="width:20%;text-align:right;">
+                                    ${so_line.product_uom_qty}
+                                </th>
+                                <th style="width:20%;text-align:right;">
+                                    ${so_line.product_id.virtual_available}
+                                </th>
+                                <th style="width:20%;text-align:right;">
+                                    % if ((so_line.product_uom_qty + so_line.product_id.virtual_available) is lessthan(0) ):
+                                        ${so_line.product_uom_qty}
+                                    % else:
+                                        ${0 - so_line.product_id.virtual_available}
+                                    % endif
+                                </th>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                % endif
+
+            % endfor
+
+
+                 ]]>
+           </field>
+       </record>
+   </data>
+</odoo>

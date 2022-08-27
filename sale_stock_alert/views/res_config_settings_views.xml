@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="res_config_settings_ssa_view_form" model="ir.ui.view">
+            <field name="name">res.config.settings.view.form.inherit.sale</field>
+            <field name="model">res.config.settings</field>
+            <field name="priority" eval="50"/>
+            <field name="inherit_id" ref="base.res_config_settings_view_form" />
+            <field name="arch" type="xml">
+                <xpath expr="//div[hasclass('settings')]" position="inside">
+                    <div class="app_settings_block" data-string="Sale Stock Alert" string="Sale Stock Alert" data-key="sale_stock_alert">
+                        <h2>Alerta email por falta de Stock</h2>
+                        <div class="row mt16 o_settings_container">
+                            <div class="col-12 col-lg-6 o_setting_box">
+                                <div class="o_setting_left_pane">
+                                    <field name="send_alert"/>
+                                </div>
+                                <div class="o_setting_right_pane">
+                                    <label for="send_alert"/>
+                                    <div class="text-muted">
+                                        Se detona el envío de email al detectar falta de stock en al realizar una venta
+                                    </div>
+                                    <div class="content-group" attrs="{'invisible': [('send_alert','=',False)]}">
+                                        <div class="row mt16">
+                                            <label for="alert_email_template_id" string="Alert Email Template" class="col-lg-4 o_light_label"/>
+                                            <field name="alert_email_template_id" class="oe_inline"/>
+                                        </div>
+                                    </div>
+                                    <div class="content-group" attrs="{'invisible': [('send_alert','=',False)]}">
+                                        <div class="row mt16">
+                                            <label for="user_ids" class="col-lg-4 o_light_label"/>
+                                            <field name="user_ids" widget= "many2many_tags"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </xpath>
+            </field>
+        </record>
+        
+        <record id="sale_stock_alert_settings_action" model="ir.actions.act_window">
+            <field name="name">Sale Stock Alert Settings</field>
+            <field name="res_model">res.config.settings</field>
+            <field name="view_id" ref="res_config_settings_ssa_view_form"/>
+            <field name="view_mode">form</field>
+            <field name="target">inline</field>
+            <field name="context">{'module' : 'sale_stock_alert'}</field>
+        </record>
+    </data>
+</odoo>
