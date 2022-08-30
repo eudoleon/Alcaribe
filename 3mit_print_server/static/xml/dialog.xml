@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<templates>
+
+    <div t-name="3mit.SelectionDialog" class="3mit_dialog">
+        <div class='selection scrollable-y touch-scrollable'>
+            <t t-foreach="widget.list || []" t-as="item">
+                <div t-attf-class="selection-item {{ widget.is_selected.call(widget, item.item) ? 'selected' : '' }}"
+                    t-att-data-item-value='item.item'>
+                    <t t-esc='item.label' />
+                </div>
+            </t>
+        </div>
+    </div>
+
+    <div t-name="3mit.PromptDialog" class="3mit_dialog">
+        <div class='prompt'>
+            <div name="body"></div>
+            <input type='text' t-att-value="widget.value || ''"></input>
+        </div>
+    </div>
+
+    <div t-name="3mit.AlertDialog" class="3mit_dialog">
+        <div class='prompt'>
+            <div name="body"></div>
+            <iframe id="__print__" name="__print__" style="display:none"></iframe>
+        </div>
+    </div>
+</templates>

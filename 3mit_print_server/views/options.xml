@@ -1,0 +1,124 @@
+<odoo>
+
+  <!-- action para invocar view de opciones de impresora -->
+  <record id="action_pos_options" model="ir.actions.act_window">
+    <field name="name">Opciones de Impresora</field>
+    <field name="type">ir.actions.act_window</field>
+    <field name="res_model">pos.printer.options</field>
+    <field name="view_mode">form</field>
+    <field name="target">new</field>
+
+    <field name="context">{
+      'search_default_config_id': [active_id],
+      'default_config_id': active_id}
+    </field>
+  </record>
+
+  <!-- agrega opción en menú del kanban -->
+  <record id="3mit_print_server_options" model="ir.ui.view">
+    <field name="name">pos.config.kanban.view</field>
+    <field name="model">pos.config</field>
+    <field name="inherit_id" ref="point_of_sale.view_pos_config_kanban" />
+    <field name="arch" type="xml">
+
+      <xpath expr="//div[@groups='point_of_sale.group_pos_manager']" position="after">
+      
+        <div class="row">
+          <div role="menuitem" class="col-12">
+            <a type="action" name="%(action_pos_options)d">Opciones de Impresora</a>
+          </div>
+        </div>
+      </xpath>
+    </field>
+  </record>
+
+
+  <!-- caja de opciones-->
+  <record id="options_form" model="ir.ui.view">
+    <field name="name">Opciones de Impresora</field>
+    <field name="model">pos.printer.options</field>
+    <field name="arch" type="xml">
+      
+      <form id="printer_options" js_class="pos_printer_options" string="Opciones de Impresora" >
+        <field name="printer_host" style="visibility:hidden" />
+        <sheet modifiers="{}">
+
+          <h2>
+            Reporte X
+          </h2>
+          <div class="row mt16 o_settings_container">
+            <div class="col-12 text-right">
+              <button id="reporteX" class="btn btn-primary" >Imprimir reporte X</button>
+            </div>
+          </div>
+
+          <h2 modifiers="{}">
+            Reporte Z
+          </h2>
+          <div class="row">
+            <div class="col-12">
+              <field name="reportZ_options" string="Opciones" widget="selection" />
+            </div>
+          </div>
+          <div class="row" attrs="{'invisible': [('reportZ_options', '!=', 'diario')]}">
+            <div class="col-12 text-right">
+              <button id="reporteZ" class="btn btn-primary ">Imprimir Reporte Z</button>
+            </div>
+          </div>
+          <div class="row" attrs="{'invisible': [('reportZ_options', '!=', 'numero')]}">
+            <div class="col-8">
+              <group>
+                <field name="numZInicio" />
+                <field name="numZFin" />
+              </group>
+            </div>
+            <div class="col-4 text-right">
+              <button id='reporteZporNumero' class="btn btn-primary" >Imprimir Reporte Z</button>
+            </div>
+          </div>
+          <div class="row" attrs="{'invisible': [('reportZ_options', '!=', 'fecha')]}">
+            <div class="col-8">
+              <group>
+                <field name="fechaZInicio" />
+                <field name="fechaZFin" />
+              </group>
+            </div>
+            <div class="col-4 text-right">
+              <button id='reporteZporFecha' class="btn btn-primary" >Imprimir Reporte Z</button>
+            </div>
+          </div>
+
+
+          <h2 modifiers="{}">
+            Memoria de Auditoría
+          </h2>
+          <div class="row">
+            <div class="col-8">
+              <group>
+                <field name="numFacturaInicio" string="Número Inicial"/>
+                <field name="numFacturaFin" string="Número Final"/>
+              </group>
+            </div>
+            <div class="col-4 text-right">
+              <button id="reporteFacturas" class="btn btn-primary" >Imprimir Facturas</button>
+              <button id="reporteNC" class="btn btn-secondary" >Imprimir Notas de Crédito</button>
+            </div>
+          </div>
+          <h2 modifiers="{}">
+            Numeración de Documentos
+          </h2>
+          <div class="row">
+            <div class="col">
+              <button id="numeroDocs" class="btn btn-primary" >Consultar Numeración</button>
+            </div>
+          </div>
+        </sheet>
+        <footer>
+          <button string="Cancelar" class='btn-default' special='cancel'></button>
+        </footer>
+      </form>
+
+    </field>
+  </record>
+
+</odoo>

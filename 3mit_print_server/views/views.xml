@@ -1,0 +1,27 @@
+<odoo>
+<record id="view_pos_order_tree" model="ir.ui.view">
+        <field name="name">pos.order.tree.vpos</field>
+        <field name="model">pos.order</field>
+        <field name="inherit_id" ref="point_of_sale.view_pos_order_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='pos_reference']" position="after">
+                <field name="ticket_fiscal" string="Nro Fiscal"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- para mapear con info en la impresoar fiscal. -->
+    <record id="view_pos_payment_metho_igtf_form" model="ir.ui.view">
+        <field name="name">view_pos_payment_metho_igtf_form</field>
+        <field name="model">pos.payment.method</field>
+        <field name="inherit_id" ref="point_of_sale.pos_payment_method_view_form"/>
+        <field name="arch" type="xml">
+                <xpath expr="//group[@name='Payment methods']" position="after">
+                    <group string="Método de Pago en la Impresora Fiscal">
+                        <field name="fiscal_print_name"/>
+                        <field name="fiscal_print_code" attrs="{'required': True}"/>
+                    </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>

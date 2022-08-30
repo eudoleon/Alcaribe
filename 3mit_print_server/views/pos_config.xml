@@ -1,0 +1,36 @@
+<odoo>
+
+    <data>
+        <record id="3mit_print_server_config" model="ir.ui.view">
+            <field name="name">pos.config.config</field>
+            <field name="model">pos.config</field>
+            <field name="inherit_id" ref="point_of_sale.pos_config_view_form" />
+            <field name="arch" type="xml">
+                <xpath expr="//div[@id='other_devices']//div[hasclass('o_setting_right_pane')]" position="inside">
+                    <div class="content-group" attrs="{'invisible' : [('other_devices', '=', False)]}">
+                        <div class="row mt-2">
+                            <label string="3Mit Printer Queue" for="printer_host" class="col-lg-5 o_form_label"/>       
+                        </div>
+                        <div class="row">
+                            <label string="Host" for="printer_host" class="col-lg-5 o_light_label" />
+                            <field name="printer_host" />
+                        </div>
+                        <!-- <div class="row" attrs="{'invisible': [('printer_host', 'in', [False, ''])]}">
+                            <label string="Puerto Serial" for="printer_port" class="col-lg-5 o_light_label" />
+                            <field name="printer_port" />
+                        </div> -->
+                        <div class="row" attrs="{'invisible': [('printer_host', 'in', [False, ''])]}">
+                            <label string="Serial de Impresora" for="printer_serial" class="col-lg-5 o_light_label" />
+                            <field name="printer_serial" />
+                        </div>
+                    </div>
+                    <div role="alert" class="alert alert-warning"
+                        attrs="{'invisible': ['|', '|', ('iface_print_via_proxy', '!=', True), ('other_devices', '!=', True), ('printer_host', 'in', [False, ''])]}">
+                        El driver 3Mit será usado en lugar de la impresora conectada al IoT Box.
+                    </div>
+                </xpath>
+            </field>
+        </record>
+    </data>
+
+</odoo>
