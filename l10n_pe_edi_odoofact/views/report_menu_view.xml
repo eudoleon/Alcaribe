@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <menuitem id="l10n_pe_edi_report_menu" name="Electronic Peruvian Statements" parent="account.menu_finance_reports" sequence="100"/>
+    </data>
+</odoo>

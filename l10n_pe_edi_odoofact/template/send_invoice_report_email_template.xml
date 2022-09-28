@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data noupdate="0">
+        <record id="send_invoice_report_email_template" model="mail.template">
+            <field name="name">Send Invoice Report Email Template</field>
+            <field name="model_id" ref="model_res_company"></field>
+            <field name="subject">Invoices Report not accepted by SUNAT</field>
+            <field name="body_html"><![CDATA[
+                <p><strong>do not reply to this email</strong></p>
+                <p><strong>Dear(s):</strong></p>
+                <p>We attach an excel report of the invoices not sent to nubefact and / or not accepted by sunat for the last --days-- days.</p>
+                <p>The documents shown are from the day --date-- onwards</p>
+                <p><strong>Amount of Docs:</strong></p>
+                <ul>
+                    --lines--
+                </ul>
+                <p><strong>NOTICE: You must check the status of the documents in your odoo system and in nubefact.</strong></p>
+                ]]>
+            </field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_form_company_inherited" model="ir.ui.view">
+            <field name="name">res.company.inherit</field>
+            <field name="model">res.company</field>
+            <field name="inherit_id" ref="base.view_company_form"/>
+            <field name="arch" type="xml">
+            <xpath expr="//page[1]" position="after">
+                <page string="Electronic Invoicing (PE)" groups="account.group_account_manager">
+                    <group>
+                        <group string="Send your electronic invoices by PSE / OSE" name="send_invoices_pse">
+                            <field name="l10n_pe_edi_send_invoice" widget="boolean_toggle"/>
+                            <field name="l10n_pe_edi_ose_id" options="{'no_create':True}"/>
+                            <field name="l10n_pe_edi_ose_code" invisible="True"/>
+                            <field name="l10n_pe_edi_ose_url"/>
+                            <field name="l10n_pe_edi_ose_token"/>
+                        </group>
+                        <group string="Send invoices automatically" name="send_invoices_auto">
+                            <field name="l10n_pe_edi_send_invoice_interval_unit"/>
+                            <label for="l10n_pe_edi_send_invoice_next_execution_date" string="Next Execution"/>
+                            <div>
+                                <field name="l10n_pe_edi_send_invoice_next_execution_date"/>
+                                <button name="run_send_invoice" string="Send Invoices" class="oe_link" icon="fa-cloud-upload" type="object" groups="base.group_no_one"/>
+                            </div>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Shops" name="shops">
+                            <field name="l10n_pe_edi_shop_ids"/>
+                        </page>
+                    </notebook>
+                </page>
+            </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

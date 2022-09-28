@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="res_config_settings_form_account_inherit" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit.einvoice</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="account.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@id='invoicing_settings']" position="after">
+                <h2>Peruvian Electronic Invoicing </h2>
+                <div class="row mt16 o_settings_container" id="einvoice_settings">
+                    <div class="col-12 col-lg-6 o_setting_box">
+                        <div class="o_setting_left_pane">
+                            <field name="l10n_pe_edi_send_invoice"/>
+                        </div>
+                        <div class="o_setting_right_pane">
+                            <span class="o_form_label">Send your electronic invoices by PSE / OSE</span>
+                            <span class="fa fa-lg fa-building-o" title="Values set here are company-specific." role="img" aria-label="Values set here are company-specific." groups="base.group_multi_company"/>
+                            <div class="text-muted">
+                                Choose your PSE / OSE provider
+                            </div>
+                            <div class="content-group" id="einvoice_supplier">
+                                <div class="row mt16">
+                                    <label for="l10n_pe_edi_ose_id" class="col-lg-3 o_light_label"/>
+                                    <field name="l10n_pe_edi_ose_id" options="{'no_create': True}"/>
+                                    <label for="l10n_pe_edi_multishop" class="col-lg-3 o_light_label"/>
+                                    <field name="l10n_pe_edi_multishop" />
+                                    <field name="l10n_pe_edi_ose_code" invisible="True"/>
+                                    <label for="l10n_pe_edi_ose_url" class="col-lg-3 o_light_label" attrs="{'invisible': [('l10n_pe_edi_multishop','=', True)]}"/>
+                                    <field name="l10n_pe_edi_ose_url" attrs="{'invisible': [('l10n_pe_edi_multishop','=', True)]}"/>
+                                    <label for="l10n_pe_edi_ose_token" class="col-lg-3 o_light_label" attrs="{'invisible': [('l10n_pe_edi_multishop','=', True)]}"/>
+                                    <field name="l10n_pe_edi_ose_token" attrs="{'invisible': [('l10n_pe_edi_multishop','=', True)]}"/>
+                                </div>
+                            </div>
+                            <div class="content-group" attrs="{'invisible': ['|',('l10n_pe_edi_ose_code','!=', 'odoofact'),('l10n_pe_edi_multishop','=', False)]}" id="odoofact_shops">
+                                <div class="mt16">
+                                    <div>
+                                        <button name="%(l10n_pe_edi_odoofact.l10n_pe_edi_shop_action)d" icon="fa-arrow-right" type="action" string="Configure Shops and Tokens" class="btn-link"/>
+                                    </div>
+                                </div>
+                            </div>  
+                            <div class="content-group" attrs="{'invisible': [('l10n_pe_edi_ose_code','!=', 'odoofact')]}" id="odoofact_journals">
+                                <div class="mt16">
+                                    <div>
+                                        <button name="%(account.action_account_journal_form)d" context="{'search_default_sales': True}" icon="fa-arrow-right" type="action" string="Configure Journals for Electronic invoices" class="btn-link"/>
+                                    </div>
+                                </div>
+                            </div>                              
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-6 o_setting_box">
+                        <div class="o_setting_left_pane">
+                        </div>
+                        <div class="o_setting_right_pane">
+                            <div id="einvoice_send" attrs="{'invisible': [('l10n_pe_edi_send_invoice', '=', False)]}">
+                                <span class="o_form_label">Send invoices automatically</span>
+                                <span class="fa fa-lg fa-building-o" title="Values set here are company-specific." role="img" aria-label="Values set here are company-specific." groups="base.group_multi_company"/>
+                                <div class="text-muted">
+                                    Choose the period to send invoices
+                                </div>
+                                <div class="content-group">
+                                    <div class="row mt16">
+                                        <label string="Interval" for="l10n_pe_edi_send_invoice_interval_unit" class="col-lg-3 o_light_label"/>
+                                        <field name="l10n_pe_edi_send_invoice_interval_unit"/>
+                                    </div>
+                                    <div class="mt8 row">
+                                        <label string="Next Run" for="l10n_pe_edi_send_invoice_next_execution_date" class="col-lg-3 o_light_label"/>
+                                        <field name="l10n_pe_edi_send_invoice_next_execution_date"/>
+                                        <button name="update_l10n_pe_edi_invoice_manually" type="object" class="btn-link">
+                                            <i title="Send now" role="img" aria-label="Send now" class="fa fa-fw fa-cloud-upload"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div attrs="{'invisible': [('l10n_pe_edi_ose_code','!=', 'odoofact')]}" id="odoofact_activation">
+                                <span class="o_form_label">Activation</span>
+                                <div class="content-group" >
+                                    <div class="mt16">
+                                        <div>
+                                            <a  href="https://www.nubefact.com/registro" class="oe-link" target="_blank"><i class="fa fa-fw fa-arrow-right"/>Request an account</a>
+                                        </div>
+                                    </div>
+                                    <div class="mt16">
+                                        <div>
+                                            <a  href="https://www.operu.pe/manuales" class="oe-link" target="_blank"><i class="fa fa-fw fa-arrow-right"/>Follow the instructions</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </xpath>
+        </field>
+    </record>
+    <record id="res_config_settings_view_form_sale_inherit" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit.sale.eivnoice</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="sale.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <field name="deposit_default_product_id" position="attributes">
+                <attribute name="context">{'default_type': 'service', 'default_l10n_pe_edi_is_for_advance': True}</attribute>
+            </field>
+        </field>
+    </record>
+</odoo>

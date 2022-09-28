@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record id="view_invoice_tree" model="ir.ui.view">
+		<field name="name">l10n_pe_edi_account.move.tree.inherit</field>
+		<field name="model">account.move</field>
+		<field name="inherit_id" ref="account.view_invoice_tree"/>
+		<field name="arch" type="xml">  
+            <field name="move_type" position="after">
+                <field name="l10n_pe_edi_ose_accepted" string="PSE/OSE"/>
+                <field name="l10n_pe_edi_sunat_accepted" string="SUNAT"/>
+            </field>
+            <button name="action_register_payment" position="after">
+                <button name="action_document_send" type="object" string="Send to SUNAT" groups="account.group_account_user"/>
+                <button name="action_document_check" type="object" string="Check status" groups="account.group_account_user"/>
+            </button>
+		</field>
+	</record>
+
+	<record id="l10n_pe_edi_account_move" model="ir.ui.view">
+		<field name="name">l10n_pe_edi_account.move.inherit</field>
+		<field name="model">account.move</field>
+		<field name="inherit_id" ref="account.view_move_form"/>
+		<field name="type">form</field>
+		<field name="arch" type="xml">  
+            <xpath expr="//form/sheet" position="before">
+                <div class="alert alert-warning" role="alert" attrs="{'invisible':['|','|',('l10n_pe_edi_response','=',False),('l10n_pe_edi_response','=',''),('l10n_pe_edi_is_einvoice','=',False)]}">
+                   <strong><field style="display:inline" name="l10n_pe_edi_response"/></strong>
+                </div>
+            </xpath>
+            <!-- Cancel -->
+            <button name="button_draft" position="attributes">
+                <attribute name="attrs">{'invisible' : ['|','|', ('restrict_mode_hash_table', '=', True), ('state', 'not in', ('posted', 'cancel')),('l10n_pe_edi_ose_accepted','=',True)]}</attribute>
+            </button>
+            <button name="button_draft" position="after">
+                <button name="%(l10n_pe_edi_move_cancel_action)d" string="Cancel in SUNAT" type="action" class="btn btn-danger" attrs="{'invisible':['|','|',('state','!=','posted'), ('l10n_pe_edi_ose_accepted','=',False),('l10n_pe_edi_is_einvoice','=',False)]}" groups="account.group_account_manager"/>			
+            </button>
+            <xpath expr="//group[@id='header_left_group']" position="inside">
+                <div class="o_td_label" attrs="{'invisible': ['|',('move_type', 'not in', ('out_invoice', 'out_refund', 'out_receipt')),('l10n_pe_edi_is_einvoice','=',False)]}">
+                    <label for="l10n_pe_edi_operation_type" style="font-weight:bold;"/>
+                </div>
+                <field name="l10n_pe_edi_operation_type" nolabel="1" attrs="{'invisible': ['|',('move_type', 'not in', ('out_invoice', 'out_refund', 'out_receipt')),('l10n_pe_edi_is_einvoice','=',False)], 'readonly': [('state', '!=', 'draft')]}"/>
+                <field name="l10n_pe_edi_internal_type" invisible="True"/>
+                <field name="l10n_pe_edi_is_advance" invisible="True"/>
+                <div class="o_td_label" attrs="{'invisible': ['|',('move_type', 'not in', ('out_invoice', 'out_refund')),('l10n_pe_edi_is_einvoice','=',False)]}" readonly="True" force_save="True">
+                    <label for="l10n_latam_document_type_id" style="font-weight:bold;"/>
+                </div>
+                <field name="l10n_latam_document_type_id" nolabel="1"
+                    attrs="{'invisible': ['|',('move_type', 'not in', ('out_invoice', 'out_refund')),('l10n_pe_edi_is_einvoice','=',False)],'required': [('move_type', 'in', ('out_invoice', 'out_refund')),('l10n_pe_edi_is_einvoice','=',True)], 'readonly': [('state', '!=', 'draft')]}"
+                    domain="[('internal_type','in',('invoice','credit_note','debit_note'))]" readonly="True" force_save="True"/>
+                <field name="l10n_pe_edi_reversal_type_id" attrs="{'invisible': [('l10n_pe_edi_internal_type','!=','credit_note')]}"/>
+                <field name="l10n_pe_edi_debit_type_id" attrs="{'invisible': [('l10n_pe_edi_internal_type','!=','debit_note')]}"/>
+                <field name="l10n_pe_edi_cancel_reason" attrs="{'invisible': [('l10n_pe_edi_internal_type','!=','credit_note')]}"/>
+            </xpath>
+            <div class="oe_button_box" position="inside">
+                <button type="object" class="oe_stat_button" name="action_document_send" icon="fa-cloud-upload" attrs="{'invisible':['|','|','|',('l10n_pe_edi_ose_accepted','=',True),('state','not in',['posted']),('move_type', 'not in', ['out_invoice','out_refund']),('l10n_pe_edi_is_einvoice','=',False)]}">
+                    <div class="o_stat_info">
+                        <span class="o_stat_text">Send to</span>
+                        <span class="o_stat_text">SUNAT</span>
+                    </div>
+                </button>
+                <button type="object" class="text-danger" name="action_document_check" icon="fa-refresh" attrs="{'invisible':['|','|',('l10n_pe_edi_ose_accepted','=',False),('l10n_pe_edi_sunat_accepted','=',True),('l10n_pe_edi_is_einvoice','=',False)]}">
+                    <div class="o_stat_info">
+                        <span class="o_stat_text">Check</span>
+                        <span class="o_stat_text">Status</span>
+                    </div>
+                </button>
+                <button class="text-success" icon="fa-check" attrs="{'invisible':['|',('l10n_pe_edi_sunat_accepted','=',False),('l10n_pe_edi_is_einvoice','=',False)]}">
+                    <div class="o_stat_info">
+                        <span class="o_stat_text">Accepted by</span>
+                        <span class="o_stat_text">SUNAT</span>
+                    </div>
+                </button>
+                <button type="object" class="oe_stat_button" name="action_open_edi_request" icon="fa-server" attrs="{'invisible':[('l10n_pe_edi_request_id','=',False)]}">
+                    <div class="o_field_widget o_stat_info">
+                        <span class="o_stat_text"><field name="l10n_pe_edi_request_id" readonly="True"/></span>
+                        <span class="o_stat_text">EDI Request</span>
+                    </div>
+                </button>
+            </div>
+            <xpath expr="//div[@name='journal_div']" position="after">
+                <field name="l10n_pe_edi_service_order" attrs="{'invisible': ['|',('move_type', 'not in', ('out_invoice', 'out_refund', 'out_receipt')),('l10n_pe_edi_is_einvoice','=',False)], 'readonly': [('state', '!=', 'draft')]}"/>
+                <field name="l10n_pe_edi_ose_accepted" invisible="True"/>
+                <field name="l10n_pe_edi_sunat_accepted" invisible="True"/>
+                <field name="l10n_pe_edi_multishop" invisible="True"/>
+                <field name="l10n_pe_edi_shop_id" domain="[('company_id','=',company_id)]" options="{'no_create': True,'no_open': True}" attrs="{'invisible': [('l10n_pe_edi_multishop','=',False)]}"/>
+                <field name="l10n_pe_edi_picking_number_ids" widget="many2many_tags" context="{'default_invoice_id': id}" domain="[('invoice_id','=',id)]" attrs="{'invisible': ['|',('move_type', 'not in', ('out_invoice', 'out_refund', 'out_receipt')),('l10n_pe_edi_is_einvoice','=',False)], 'readonly': [('l10n_pe_edi_ose_accepted', '=', True)]}"/>
+            </xpath>
+            <group name="accounting_info_group" position="after">
+                <group string="Extra data" name="invoice_extra_group">
+                    <label for="l10n_pe_edi_serie" string="E-invoice Number" attrs="{'invisible': [('move_type', 'not in', ('out_invoice', 'out_refund', 'in_invoice', 'in_refund', 'out_receipt', 'in_receipt'))]}"/>
+                    <div class="d-flex" attrs="{'invisible': [('move_type', 'not in', ('out_invoice', 'out_refund', 'in_invoice', 'in_refund', 'out_receipt', 'in_receipt'))]}">
+                        <field name="l10n_pe_edi_serie" placeholder="E-invoice Serie"/>
+                        <span class="o_form_label mx-3">-</span>
+                        <field name="l10n_pe_edi_number" placeholder="Number"/>
+                    </div>
+                    <field name="l10n_pe_edi_igv_percent"/>
+                    <field name="l10n_pe_edi_amount_advance"/>
+                    <field name="l10n_pe_edi_amount_base"/>
+                    <field name="l10n_pe_edi_amount_exonerated"/>
+                    <field name="l10n_pe_edi_amount_unaffected"/>
+                    <field name="l10n_pe_edi_amount_igv"/>
+                    <field name="l10n_pe_edi_amount_isc"/>
+                    <field name="l10n_pe_edi_amount_icbper"/>
+                    <field name="l10n_pe_edi_amount_others"/>
+                </group>
+                <group string="Credit/Debit note origin data" name="reversal_extra_group">
+                    <field name="reversed_entry_id"/>
+                    <field name="l10n_pe_edi_reversal_serie"/>
+                    <field name="l10n_pe_edi_reversal_number"/>
+                    <field name="l10n_pe_edi_reversal_date"/>
+                </group>
+            </group>
+            <field name="qr_code_method" position="after">
+                <field name="l10n_pe_edi_is_einvoice"/>
+                <field name="l10n_pe_edi_is_sale_credit"/>
+            </field>
+            <xpath expr="//page[@id='aml_tab']" position="after">
+                <page id="dues" string="Dues" attrs="{'invisible': [('l10n_pe_edi_is_sale_credit','=',False)]}">
+                    <field name="l10n_pe_edi_dues_ids" nolabel="1" context="{'default_move_id': id}" force_save="1" attrs="{'readonly': [('state','=','posted'),('l10n_pe_edi_operation_type','!=','4')]}">
+                        <tree editable="bottom">
+                            <field name="dues_number"/>
+                            <field name="paid_date"/>
+                            <field name="amount" sum="Total"/>
+                        </tree>
+                    </field>
+                </page>
+            </xpath>
+            <xpath expr="//field[@name='invoice_line_ids']//tree/field[@name='tax_ids']" position="before">
+                <field name="l10n_pe_edi_igv_type" optional="hide" options="{'no_create_edit': True,'no_open':True}" force_save="1"/>
+            </xpath>
+            <xpath expr="//field[@name='invoice_line_ids']//tree/field[@name='tax_ids']" position="after">
+                <field name="l10n_pe_edi_igv_amount" optional="show"/>
+                <field name="l10n_pe_edi_isc_type" optional="hide"/>
+                <field name="l10n_pe_edi_isc_amount" optional="hide"/>
+                <field name="l10n_pe_edi_icbper_amount" optional="hide"/>
+                <field name="l10n_pe_edi_price_unit_excluded" optional="hide"/>
+                <field name="l10n_pe_edi_price_unit_included" optional="hide"/>
+            </xpath>
+            <xpath expr="//field[@name='invoice_line_ids']//tree/field[@name='price_subtotal']" position="before">
+                <field name="l10n_pe_edi_price_base" optional="hide"/>
+                <field name="l10n_pe_edi_free_product" optional="hide"/>
+            </xpath>
+            <xpath expr="//field[@name='invoice_line_ids']//tree/field[@name='account_internal_group']" position="before">
+                <field name="l10n_pe_edi_regularization_advance" optional="hide"/>
+                <field name="l10n_pe_edi_advance_serie" optional="hide"/>
+                <field name="l10n_pe_edi_advance_number" optional="hide"/>
+            </xpath>
+            <xpath expr="//field[@name='invoice_line_ids']//tree" position="attributes">
+                <attribute name="decoration-success">l10n_pe_edi_free_product==True</attribute>
+                <attribute name="decoration-it">l10n_pe_edi_free_product==True</attribute>
+            </xpath>
+            <!-- <xpath expr="//field[@name='amount_untaxed']" position="attributes">
+                <attribute name="invisible">True</attribute>
+            </xpath> -->
+            <xpath expr="//field[@name='amount_untaxed']" position="after">
+                <field name="l10n_pe_edi_amount_free"/>
+                <field name="l10n_pe_edi_global_discount"/>
+                <field name="l10n_pe_edi_amount_discount"/>
+            </xpath>
+		</field>
+	</record>
+
+    <record id="view_move_line_inherit_form" model="ir.ui.view">
+        <field name="name">account.move.line.form.inherit</field>
+        <field name="model">account.move.line</field>
+        <field name="inherit_id" ref="account.view_move_line_form"/>
+        <field name="arch" type="xml">
+            <field name="account_id" position="after">
+                <field name="l10n_pe_edi_igv_type"/>                        
+            </field>
+            <field name="tax_ids" position="after">
+                <field name="l10n_pe_edi_igv_amount"/>
+                <field name="l10n_pe_edi_isc_amount"/>
+                <field name="l10n_pe_edi_icbper_amount"/>
+                <field name="l10n_pe_edi_amount_discount"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="action_l10n_pe_edi_send_multi" model="ir.actions.server">
+        <field name="name">Send to PSE/OSE/SUNAT</field>
+        <field name="type">ir.actions.server</field>
+        <field name="state">code</field>
+        <field name="model_id" ref="account.model_account_move"/>
+        <field name="binding_model_id" ref="account.model_account_move"/>
+        <field name="binding_view_types">list</field>
+        <field name="code">
+            records.action_document_send()
+        </field>
+    </record>
+
+    <record id="action_l10n_pe_edi_send_check_multi" model="ir.actions.server">
+        <field name="name">Check status at SUNAT</field>
+        <field name="type">ir.actions.server</field>
+        <field name="state">code</field>
+        <field name="model_id" ref="account.model_account_move"/>
+        <field name="binding_model_id" ref="account.model_account_move"/>
+        <field name="binding_view_types">list</field>
+        <field name="code">
+            records.action_document_check()
+        </field>
+    </record>
+</odoo>
