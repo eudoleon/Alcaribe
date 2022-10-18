@@ -68,9 +68,9 @@ odoo.define("3mit_inv_printer.options", function (require) {
     print_facturas() {
       const startParam = $('input[name="numFacturaInicio"]').val();
       const endParam = $('input[name="numFacturaFin"]').val();
-      this.print_3mit("/api/imprimir/facturas", {
-        startParam,
-        endParam,
+      this.print_3mit("/api/imprimir/factura", {
+        numDesde: startParam,
+        numHasta: endParam,
       });
     },
     print_3mit(endpoint, data) {
