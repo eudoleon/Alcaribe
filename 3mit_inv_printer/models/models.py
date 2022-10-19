@@ -58,7 +58,7 @@ class AccountMove(models.Model):
         ticket['idFiscal'] = cliente.vat #cliente.rif or cliente.identification_id
 
         ticket['razonSocial'] = cliente.name  # self.commercial_partner_id.commercial_company_name
-        # ticket['direccion']=cliente.contact_address_complete # self.commercial_partner_id.contact_address or self.commercial_partner_id.city
+        ticket['direccion']=cliente.contact_address_complete # self.commercial_partner_id.contact_address or self.commercial_partner_id.city
         ticket['telefono'] = cliente.phone  # self.commercial_partner_id.phone
 
         items = []
