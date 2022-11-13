@@ -1,0 +1,13 @@
+.pos .product .currency {
+    position: absolute;
+    top: 20px;
+    right: 2px;
+    vertical-align: top;
+    color: red;
+    line-height: 13px;
+    background: #affcd6;
+    padding: 2px 5px;
+    border-radius: 2px;
+    font-weight: bold;
+    font-size: x-small;
+}
