@@ -1,0 +1,101 @@
+<odoo>
+  <data>
+
+    <record model="ir.ui.view" id="view_tax_form_inherited">
+      <field name="name">account.tax.form.inherited</field>
+      <field name="model">account.tax</field>
+      <field name="inherit_id" ref="account.view_tax_form" />
+      <field name="arch" type="xml">
+
+        <xpath expr="//group/field[@name='tax_scope']" position="after">
+          <field name="withholding_type" attrs="{'invisible':[('amount_type', 'not in', ('fixed', 'percent', 'division'))]}" />
+        </xpath>
+
+      </field>
+    </record>
+
+    <record id="view_move_form_inherit" model="ir.ui.view">
+      <field name="name">account.move.form.inherit</field>
+      <field name="model">account.move</field>
+      <field name="inherit_id" ref="account.view_move_form" />
+      <field name="arch" type="xml">
+         <xpath expr="//group/field[@name='date']" position="after">
+            <field name="tsc_tax_withholding_date" string="Fecha de retención de impuestos"
+              attrs="{
+                  'invisible': [('move_type', 'in', ('out_invoice', 'out_refund', 'out_receipt'))],
+                  'readonly': [('state', '!=', 'draft')],
+              }"/>
+        </xpath>
+
+        <field name="invoice_vendor_bill_id" position="after">
+          <field name="invoice_tax_id" attrs="{'invisible': [('move_type', 'not in', ('in_invoice', 'in_refund', 'in_receipt'))], 'readonly': [('state', '!=', 'draft')]}" />
+        </field>
+
+        <div name="journal_div" position="after">
+          <field name="reference_number" attrs="{'invisible': [('move_type', 'not in', ('in_invoice', 'in_refund', 'in_receipt'))]}" />
+          <field name="invoice_control_number" attrs="{'invisible': [('move_type', 'not in', ('in_invoice', 'in_refund', 'in_receipt'))]}" />
+        </div>
+
+        <xpath expr="//sheet/notebook/page/field/tree/field[@name='tax_ids']" position="attributes">
+          <attribute name="domain">[('type_tax_use', '=?', parent.invoice_filter_type_domain), ('company_id', '=', parent.company_id), ('country_id', '=', parent.tax_country_id), ('withholding_type', '!=', 'iva')]</attribute>
+        </xpath>
+
+        <field name="tax_totals" position="before">
+          <field name="subtracting" widget='monetary' colspan="2" attrs="{'invisible': [('move_type', 'not in', ('in_invoice', 'in_refund', 'in_receipt'))], 'readonly': [('state', '!=', 'draft')]}" />
+        </field>
+
+      </field>
+    </record>
+
+    <record id="purchase_order_form_inherit" model="ir.ui.view">
+      <field name="name">purchase.order.form.inherit</field>
+      <field name="model">purchase.order</field>
+      <field name="inherit_id" ref="purchase.purchase_order_form" />
+      <field name="arch" type="xml">
+
+        <xpath expr="//sheet/notebook/page/field/tree/field[@name='taxes_id']" position="attributes">
+          <attribute name="domain">[('type_tax_use','=','purchase'), ('company_id', '=', parent.company_id), ('country_id', '=', parent.tax_country_id), ('withholding_type', '!=', 'iva')]</attribute>
+        </xpath>
+
+      </field>
+    </record>
+
+    <record id="view_invoice_tree_inherit" model="ir.ui.view">
+      <field name="name">account.invoice.tree.inherit</field>
+      <field name="model">account.move</field>
+      <field name="inherit_id" ref="account.view_invoice_tree" />
+      <field name="arch" type="xml">
+        <field name="name" position="after">
+          <field name="reference_number" optional="show" invisible="context.get('default_move_type') not in ('in_invoice', 'in_refund','in_receipt')" groups="base.group_user"/>
+          <field name="invoice_control_number" optional="show" invisible="context.get('default_move_type') not in ('in_invoice', 'in_refund','in_receipt')" groups="base.group_user"/>
+        </field>
+
+        <field name="ref" position="after">
+          <field name="withholding_iva" optional="show" invisible="context.get('default_move_type') not in ('in_invoice', 'in_refund','in_receipt')" groups="base.group_user" sum="Total de Retención del IVA"/>
+          <field name="sequence_withholding_iva" optional="show" invisible="context.get('default_move_type') not in ('in_invoice', 'in_refund','in_receipt')" groups="base.group_user"/>
+          <field name="withholding_islr" optional="show" invisible="context.get('default_move_type') not in ('in_invoice', 'in_refund','in_receipt')" groups="base.group_user" sum="Total de Retención del ISLR"/>
+          <field name="sequence_withholding_islr" optional="show" invisible="context.get('default_move_type') not in ('in_invoice', 'in_refund','in_receipt')" groups="base.group_user"/>
+        </field>
+
+      </field>
+    </record>
+
+  </data>
+
+  <data noupdate="1">
+    <record id="secuence_move_withholding_iva" model="ir.sequence">
+      <field name="name">Secuencia de la retención del IVA</field>
+      <field name="code">account.move.withholding.iva</field>
+      <field name="number_next_actual">1</field>
+      <field name="padding">1</field>
+    </record>
+
+    <record id="secuence_move_withholding_islr" model="ir.sequence">
+      <field name="name">Secuencia de la retención del ISLR</field>
+      <field name="code">account.move.withholding.islr</field>
+      <field name="number_next_actual">1</field>
+      <field name="padding">1</field>
+    </record>
+  </data>
+
+</odoo>

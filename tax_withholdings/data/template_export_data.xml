@@ -1,0 +1,126 @@
+<?xml version="1.0" ?>
+<odoo>
+    <!--data noupdate="1"-->
+    <data>
+
+        <!-- Tax withholding IVA -->
+
+        <record id="withholding_iva_export" model="ir.exports">
+            <field name="name">Datos para retenciones IVA</field>
+            <field name="resource">account.move</field>
+        </record>
+
+        <record id="wiva_withholding_agent_vat" model="ir.exports.line">
+            <field name="name">withholding_agent_vat</field>
+            <field name="export_id" ref="withholding_iva_export" />
+        </record>
+
+        <record id="wiva_invoice_date" model="ir.exports.line">
+            <field name="name">invoice_date</field>
+            <field name="export_id" ref="withholding_iva_export" />
+        </record>
+
+        <record id="wiva_retained_subject_vat" model="ir.exports.line">
+            <field name="name">retained_subject_vat</field>
+            <field name="export_id" ref="withholding_iva_export" />
+        </record>
+
+        <record id="wiva_reference_number" model="ir.exports.line">
+            <field name="name">reference_number</field>
+            <field name="export_id" ref="withholding_iva_export" />
+        </record>
+
+        <record id="wiva_invoice_control_number" model="ir.exports.line">
+            <field name="name">invoice_control_number</field>
+            <field name="export_id" ref="withholding_iva_export" />
+        </record>
+
+        <record id="wiva_amount_total_purchase" model="ir.exports.line">
+            <field name="name">amount_total_purchase</field>
+            <field name="export_id" ref="withholding_iva_export" />
+        </record>
+
+        <record id="wiva_amount_untaxed" model="ir.exports.line">
+            <field name="name">amount_untaxed</field>
+            <field name="export_id" ref="withholding_iva_export" />
+        </record>
+
+        <record id="wiva_withholding_iva" model="ir.exports.line">
+            <field name="name">withholding_opp_iva</field>
+            <field name="export_id" ref="withholding_iva_export" />
+        </record>
+
+        <record id="wiva_withholding_number" model="ir.exports.line">
+            <field name="name">withholding_number</field>
+            <field name="export_id" ref="withholding_iva_export" />
+        </record>
+
+        <record id="wiva_vat_exempt_amount" model="ir.exports.line">
+            <field name="name">vat_exempt_amount_iva</field>
+            <field name="export_id" ref="withholding_iva_export" />
+        </record>
+
+        <record id="wiva_aliquot_iva" model="ir.exports.line">
+            <field name="name">aliquot_iva</field>
+            <field name="export_id" ref="withholding_iva_export" />
+        </record>
+
+        <!-- Tax withholding ISLR -->
+
+        <record id="withholding_islr_export" model="ir.exports">
+            <field name="name">Datos para retenciones ISLR</field>
+            <field name="resource">account.move</field>
+        </record>
+
+        <record id="wislr_withholding_agent_vat" model="ir.exports.line">
+            <field name="name">withholding_agent_vat</field>
+            <field name="export_id" ref="withholding_islr_export" />
+        </record>
+
+        <record id="wislr_retained_subject_vat" model="ir.exports.line">
+            <field name="name">retained_subject_vat</field>
+            <field name="export_id" ref="withholding_islr_export" />
+        </record>
+
+        <record id="wislr_reference_number" model="ir.exports.line">
+            <field name="name">reference_number</field>
+            <field name="export_id" ref="withholding_islr_export" />
+        </record>
+
+        <record id="wislr_invoice_control_number" model="ir.exports.line">
+            <field name="name">invoice_control_number</field>
+            <field name="export_id" ref="withholding_islr_export" />
+        </record>
+
+        <record id="wislr_invoice_date" model="ir.exports.line">
+            <field name="name">invoice_date</field>
+            <field name="export_id" ref="withholding_islr_export" />
+        </record>
+
+        <record id="wislr_sequence_withholding_islr" model="ir.exports.line">
+            <field name="name">sequence_withholding_islr</field>
+            <field name="export_id" ref="withholding_islr_export" />
+        </record>
+
+        <record id="wislr_withholding_islr" model="ir.exports.line">
+            <field name="name">withholding_opp_islr</field>
+            <field name="export_id" ref="withholding_islr_export" />
+        </record>
+
+        <record id="wislr_withholding_percentage_islr" model="ir.exports.line">
+            <field name="name">withholding_percentage_islr</field>
+            <field name="export_id" ref="withholding_islr_export" />
+        </record>
+
+        <record id="wislr_subtracting" model="ir.exports.line">
+            <field name="name">subtracting</field>
+            <field name="export_id" ref="withholding_islr_export" />
+        </record>
+
+        <record id="wislr_total_withheld" model="ir.exports.line">
+            <field name="name">total_withheld</field>
+            <field name="export_id" ref="withholding_islr_export" />
+        </record>
+
+    </data>
+</odoo>

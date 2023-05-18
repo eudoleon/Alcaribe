@@ -1,0 +1,438 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <template id="template_tax_withholding_iva">
+        <t t-call="web.html_container">
+            <t t-foreach="data" t-as="r">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <style>
+                                table, td, th {
+                                    border-collapse: collapse;
+                                    margin-left: auto;
+                                    margin-right: auto;
+                                    line-height: 1.5;
+                                }
+
+                                .full-borders td {
+                                    border: 1px solid black;
+                                }
+                        </style>
+                        <table style="width: 100%;" class="table-borderless">
+                            <tbody>
+                                <tr style="border-top: 1px solid black; border-right: 1px solid black; border-left: 1px solid black;">
+                                    <td colspan="15">
+                                        <u>
+                                            <b>COMPROBANTE DE RETENCION DEL IMPUESTO AL VALOR AGREGADO (I.V.A.):</b>
+                                        </u>
+                                    </td>
+                                </tr>
+                                <tr style="border-right: 1px solid black; border-left: 1px solid black;">
+                                    <td colspan="15" style="text-align: center; font-size: small;">
+                                            (Decreto con Rango, Valor y Fuerza de Ley que establece el Impuesto al Valor Agregado. Art.11.
+                                            "La Administración Tributaria podrá designar como responsables del pago del impuesto, en calidad
+                                            de agentes de retención, a quienes por sus funciones públicas o por razón de sus actividades
+                                            privadas intervengan en operaciones gravadas con el impuesto establecido en este Decreto con
+                                            Rango, Valor y Fuerza de Ley ...") (Gaceta oficial N° 6152 Extraordinario del 18 de noviembre
+                                            de 2014, Decreto 1.436)
+                                    </td>
+                                </tr>
+                                <tr style="border-right: 1px solid black; border-left: 1px solid black;">
+                                    <td colspan="15" style="text-align: center; font-size: small;">
+                                        Providencia Administrativa Nº SNAT-2015-0049 del 10-08-2015
+                                    </td>
+                                </tr>
+                                <tr style="border-right: 1px solid black; border-left: 1px solid black;">
+                                    <td colspan="5"></td>
+                                    <td colspan="3">Nro de Comprobante de</td>
+                                    <td colspan="2">
+                                        <b t-out="r.number_withholding" />
+                                    </td>
+                                    <td></td>
+                                    <td colspan="2">Fecha de Emisión:</td>
+                                    <td colspan="2">
+                                        <b t-out="r.tsc_tax_withholding_date.strftime('%d/%m/%Y')" />
+                                    </td>
+                                </tr>
+                                <tr style="border-right: 1px solid black; border-left: 1px solid black;">
+                                    <td colspan="5">Nombre o Razón Social del Agente de Retención:</td>
+                                    <td colspan="5" style="text-align: center;">Registro de Información Físcal del Agente de Retención:</td>
+                                    <td></td>
+                                    <td colspan="3" style="text-align: center;">Período Físcal:</td>
+                                    <td></td>
+                                </tr>
+                                <tr style="border-right: 1px solid black; border-left: 1px solid black;">
+                                    <td colspan="5">
+                                        <b t-out="r.company_name" />
+                                    </td>
+                                    <td colspan="5" style="text-align: center;">
+                                        <b t-out="r.company_vat" />
+                                    </td>
+                                    <td></td>
+                                    <td style="text-align: center;">Año:</td>
+                                    <td></td>
+                                    <td style="text-align: center;">Mes:</td>
+                                    <td></td>
+                                </tr>
+                                <tr style="border-right: 1px solid black; border-left: 1px solid black;">
+                                    <td colspan="11"></td>
+                                    <td style="text-align: center;">
+                                        <b t-out="r.accounting_date.year" />
+                                    </td>
+                                    <td></td>
+                                    <td style="text-align: center;">
+                                        <b t-out="r.accounting_date.strftime('%m')" />
+                                    </td>
+                                    <td></td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid black; border-right: 1px solid black; border-left: 1px solid black;">
+                                    <td colspan="15">
+                                        <span>Domicilio Fiscal del Agente de Retención:</span>
+                                        <br />
+                                        <b t-out="r.company_street" />
+                                    </td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid black; border-right: 1px solid black; border-left: 1px solid black;">
+                                    <td colspan="8">
+                                        <span>Nombre o Razón Social del Sujeto Retenido:</span>
+                                        <br />
+                                        <b t-out="r.vendor_name" />
+                                    </td>
+                                    <td colspan="7" style="text-align: center;">
+                                        <span>Número de RIF del Proveedor:</span>
+                                        <br />
+                                        <b t-out="r.vendor_vat" />
+                                    </td>
+                                </tr>
+                                <tr class="full-borders">
+                                    <td>Oper. Nro.</td>
+                                    <td>Fecha de la Factura ND/NC</td>
+                                    <td>Nro.de Retención:</td>
+                                    <td>Nro de Factura:</td>
+                                    <td>Nro de Control de Factura:</td>
+                                    <td>Nro de Nota de Crédito:</td>
+                                    <td>Nro de Nota de Débito:</td>
+                                    <td>Tipo de Transacción</td>
+                                    <td>Factura Afectada</td>
+                                    <td>Total Compras Incluyendo IVA</td>
+                                    <td>Compras sin derecho a Crédito</td>
+                                    <td>Base Imponible</td>
+                                    <td>% Alicuota</td>
+                                    <td>Impuesto I.V.A.</td>
+                                    <td>I.V.A. Retenido</td>
+                                </tr>
+                                <tr class="full-borders">
+                                    <td>
+                                        <t t-out="1" />
+                                    </td>
+                                    <td>
+                                        <t t-out="r.invoice_date.strftime('%d/%m/%Y')"/>
+                                    </td>
+                                    <td>
+                                        <t t-out="r.number_withholding" />
+                                    </td>
+                                    <td>
+                                        <t t-out="r.reference_number" />
+                                    </td>
+                                    <td>
+                                        <t t-out="r.invoice_control_number" />
+                                    </td>
+                                    <td></td>
+                                    <td></td>
+                                    <td>RET</td>
+                                    <td></td>
+                                    <td>
+                                        <t t-out="r.total_purchase" />
+                                    </td>
+                                    <td>
+                                        <t t-out="r.vat_exempt_amount" />
+                                    </td>
+                                    <td>
+                                        <t t-out="r.amount_base" />
+                                    </td>
+                                    <td>
+                                        <t t-out="r.aliquot" />
+                                    </td>
+                                    <td>
+                                        <t t-out="r.amount_tax" />
+                                    </td>
+                                    <td>
+                                        <t t-out="r.amount_withholding" />
+                                    </td>
+                                </tr>
+                                <tr class="full-borders">
+                                    <td colspan="8"></td>
+                                    <td>
+                                        <u>
+                                            <b>Totales</b>
+                                        </u>
+                                    </td>
+                                    <td>
+                                        <span t-out="r.total_purchase" />
+                                    </td>
+                                    <td>
+                                        <t t-out="r.vat_exempt_amount" />
+                                    </td>
+                                    <td>
+                                        <t t-out="r.amount_base" />
+                                    </td>
+                                    <td>
+                                        <t t-out="r.aliquot" />
+                                    </td>
+                                    <td>
+                                        <t t-out="r.amount_tax" />
+                                    </td>
+                                    <td>
+                                        <t t-out="r.amount_withholding" />
+                                    </td>
+                                </tr>
+                                <tr class="full-borders">
+                                    <td colspan="11"></td>
+                                    <td colspan="3">
+                                        <u>
+                                            <b>Total Menos Retenciones:</b>
+                                        </u>
+                                    </td>
+                                    <td>
+                                        <b t-out="r.amount_total"/>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <br />
+                        <div style="text-align: center;  align-content: center;">
+                            <p>
+                                Este comprobante se emite en función a lo establecido en el artículo 16 de
+                                la Providencia Administrativa Nº SNAT-2015-0049 de fecha 10/08/2015
+                            </p>
+                            <br />
+                            <br />
+                            <table class="table-borderless">
+                                <tbody>
+                                    <tr style="text-align: center;">
+                                        <td style="width: 30%; border-top: 1px solid black; border-collapse: separate;">
+                                            <b>Firma del Agente de Retención:</b>
+                                        </td>
+                                        <td style="width: 30%;"></td>
+                                        <td style="width: 30%; border-top: 1px solid black; border-collapse: separate;">
+                                            <b>Fecha de Recibo y Firma del Receptor:</b>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <template id="template_tax_withholding_islr">
+        <t t-call="web.html_container">
+            <t t-foreach="data" t-as="r">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <style>
+                                table, td, th {
+                                    border-collapse: collapse;
+                                    margin-left: auto;
+                                    margin-right: auto;
+                                    line-height: 1.5;
+                                }
+
+                                .full-borders td {
+                                    border: 1px solid black;
+                                }
+                        </style>
+                        <table style="width: 100%;" class="table-borderless">
+                            <tbody>
+                                <tr>
+                                    <td colspan="12">
+                                        <i t-out="r.company_name" />
+                                        <br />
+                                        <i t-out="r.company_vat" />
+                                    </td>
+                                </tr>
+                                <tr style="text-align: right;">
+                                    <td colspan="12">
+                                        <b>
+                                            <span>Periodo: </span>
+                                            <span t-out="r.accounting_date.strftime('%Y%m')" />
+                                        </b>
+                                    </td>
+                                </tr>
+                                <tr style="text-align: right;">
+                                    <td colspan="12">
+                                        <b t-out="r.number_withholding" />
+                                    </td>
+                                </tr>
+                                <tr style="text-align: center; font-size: large;">
+                                    <td colspan="12">
+                                        <b>Comprobante de Retención de Impuesto Sobre La Renta</b>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="12">
+                                        Para dar cumplimiento a lo establecido en el Articulo Nº 9 del reglamento parcial de
+                                        la Ley de Impuesto sobre la Renta en materia de retenciones publicado en gaceta
+                                        oficial Nº 36.206 decreto Nº 1.808 de fecha 12-05-1997
+                                    </td>
+                                </tr>
+                                <tr style="height: 1em;">
+                                    <td colspan="12"></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td colspan="3" style="border: 1px solid black; border-collapse: separate;">
+                                        <span style="font-size: small;">
+                                            <i>Nombre o Razón Social Agente de Retención:</i>
+                                        </span>
+                                        <br />
+                                        <span t-out="r.company_name" />
+                                    </td>
+                                    <td colspan="2"></td>
+                                    <td colspan="4" style="border: 1px solid black; border-collapse: separate;">
+                                        <span style="font-size: small;">
+                                            <i>R.I.F Agente de Retención</i>
+                                        </span>
+                                        <br />
+                                        <span t-out="r.company_vat" />
+                                    </td>
+                                    <td colspan="2"></td>
+                                </tr>
+                                <tr style="height: 1em;">
+                                    <td colspan="12"></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td colspan="3" style="border: 1px solid black;">
+                                        <span style="font-size: small;">
+                                            <i>Nombre o Razón Social del Sujeto Retenido:</i>
+                                        </span>
+                                        <br />
+                                        <span t-out="r.vendor_name"/>
+                                    </td>
+                                    <td colspan="2"></td>
+                                    <td colspan="4" style="border: 1px solid black;">
+                                        <span style="font-size: small;">
+                                            <i>R.I.F sujeto Retenido</i>
+                                        </span>
+                                        <br />
+                                        <span t-out="r.vendor_vat" />
+                                    </td>
+                                    <td colspan="2"></td>
+                                </tr>
+                                <tr style="height: 1em;">
+                                    <td colspan="12"></td>
+                                </tr>
+                                <tr class="full-borders">
+                                    <td>Operación Nº</td>
+                                    <td>Fecha Factura</td>
+                                    <td>Número Control</td>
+                                    <td>Número de Factura</td>
+                                    <td>Cod. Retención</td>
+                                    <td>Base Legal Decreto 1808</td>
+                                    <td>%</td>
+                                    <td>Monto Total</td>
+                                    <td>Base</td>
+                                    <td>Impuesto Retenido</td>
+                                    <td>Sustraendo</td>
+                                    <td>Total Retenido</td>
+                                </tr>
+                                <tr class="full-borders">
+                                    <td t-out="1" />
+                                    <td>
+                                        <t t-out="r.invoice_date.strftime('%d/%m/%Y')" />
+                                    </td>
+                                    <td>
+                                        <t t-out="r.invoice_control_number" />
+                                    </td>
+                                    <td>
+                                        <t t-out="r.reference_number" />
+                                    </td>
+                                    <td>071</td>
+                                    <td>Art 9º Nº15</td>
+                                    <td>
+                                        <t t-out="r.percentage" />
+                                        <span>%</span>
+                                    </td>
+                                    <td>
+                                        <t t-out="r.total_purchase" />
+                                    </td>
+                                    <td>
+                                        <t t-out="r.amount_base" />
+                                    </td>
+                                    <td>
+                                        <t t-out="r.total_withheld" />
+                                    </td>
+                                    <td>
+                                        <t t-out="r.subtracting" />
+                                    </td>
+                                    <td>
+                                        <t t-out="r.amount_withholding" />
+                                    </td>
+                                </tr>
+                                <tr class="full-borders">
+                                    <td colspan="7" style="text-align: center;">
+                                        <b>Totales</b>
+                                    </td>
+                                    <td>
+                                        <t t-out="r.total_purchase" />
+                                    </td>
+                                    <td>
+                                        <t t-out="r.amount_base" />
+                                    </td>
+                                    <td>
+                                        <t t-out="r.total_withheld" />
+                                    </td>
+                                    <td>
+                                        <t t-out="r.subtracting" />
+                                    </td>
+                                    <td>
+                                        <t t-out="r.amount_withholding" />
+                                    </td>
+                                </tr>
+                                <tr style="height: 1em;">
+                                    <td colspan="12" style="padding-left: 1rem;">
+                                            Tipo de Retención de Impuesto: ISLR
+                                    </td>
+                                </tr>
+                                <tr style="height: 1em;">
+                                    <td colspan="12" style="text-align: right;">
+                                        <span>Monto a pagar a sujeto retenido: </span>
+                                        <span t-out="r.amount_total" />
+                                    </td>
+                                </tr>
+                                <tr style="text-align: center;">
+                                    <td colspan="6"></td>
+                                    <td colspan="4" style="word-spacing: 5em;">/ /</td>
+                                    <td colspan="2"></td>
+                                </tr>
+                                <tr style="text-align: center; vertical-align: top; height: 5em;">
+                                    <td></td>
+                                    <td colspan="3" style="border-top: 1px solid black;">
+                                        <span>Sello y Firma Agente de Retención</span>
+                                        <br />
+                                        <span>Fecha</span>
+                                        <span t-out="r.tsc_tax_withholding_date.strftime('%d/%m/%Y')" />
+                                    </td>
+                                    <td colspan="2"></td>
+                                    <td colspan="4" style="border-top: 1px solid black;">
+                                            Fecha Recepción Sujeto Retenido
+                                    </td>
+                                    <td colspan="2"></td>
+                                </tr>
+                                <tr style="text-align: center; vertical-align: top;">
+                                    <td colspan="6"></td>
+                                    <td colspan="4" style="border-top: 1px solid black;">
+                                            Sello o Firma del sujeto Retenido
+                                    </td>
+                                    <td colspan="2"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>
