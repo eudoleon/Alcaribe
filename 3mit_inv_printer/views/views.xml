@@ -37,7 +37,7 @@
 
 
 								<button id="print_FF" name="printFactura" type="object" string="Imp. Ticket Fiscal"
-									attrs="{'invisible': ['|',('canPrintFF','=',False),('payment_state','!=','in_payment')]}">
+									attrs="{'invisible': ['|', '|', ('canPrintFF', '=', False), ('payment_state', '!=', 'in_payment'), ('payment_state', '!=', 'paid')]}">
 								</button>
 
 								<!-- <button id="print_NC" name="%(action_print_NC)d" type="action" string="Imp. NC Fiscal"
