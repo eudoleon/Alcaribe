@@ -20,7 +20,7 @@ class AccountMove(models.Model):
             if self.ticket_fiscal:
                 self.canPrintFF = False
             else:
-                if self.state == 'posted' and self.payment_state in ['reversed', 'in_payment']:
+                if self.state == 'posted' and self.payment_state in ['reversed', 'in_payment', 'paid']:
                     self.canPrintFF = True
 
     @api.depends('ticket_fiscal')
@@ -32,7 +32,7 @@ class AccountMove(models.Model):
             else:
                 origen = self.reversed_entry_id
 
-                if origen.ticket_fiscal and self.state == 'posted' and self.payment_state in ['reversed', 'in_payment']:
+                if origen.ticket_fiscal and self.state == 'posted' and self.payment_state in ['reversed', 'in_payment', 'paid']:
                     self.canPrintNC = True
 
     canPrintFF = fields.Boolean(compute=_compute_canPrintFF)
