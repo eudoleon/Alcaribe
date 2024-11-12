@@ -16,12 +16,9 @@ class AccountMove(models.Model):
     @api.depends('ticket_fiscal')
     def _compute_canPrintFF(self):
         self.canPrintFF = False
-        if self.move_type == 'out_invoice':
-            if self.ticket_fiscal:
-                self.canPrintFF = False
-            else:
-                if self.state == 'posted' and self.payment_state in ['reversed', 'in_payment']:
-                    self.canPrintFF = True
+        if self.move_type == 'out_invoice' and self.state == 'posted':
+            # Permitir impresión fiscal independientemente del estado de pago
+            self.canPrintFF = not bool(self.ticket_fiscal)
 
     @api.depends('ticket_fiscal')
     def _compute_canPrintNC(self):
