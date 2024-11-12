@@ -85,7 +85,7 @@ class AccountMove(models.Model):
         payment = dict()
         payment['codigo'] = '01'
         payment['nombre'] = 'EFECTIVO 1'  # Nombre predeterminado del método de pago
-        payment['monto'] = self.amount_total_bs
+        payment['monto'] = self.amount_residual_signed
 
         payments.append(payment)
         ticket['pagos'] = payments
