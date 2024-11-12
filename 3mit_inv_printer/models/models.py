@@ -12,13 +12,10 @@ class AccountMove(models.Model):
     fecha_fiscal = fields.Char()
     ticket_fiscal = fields.Char()
 
-    #
-    @api.depends('ticket_fiscal')
+    @api.depends('state', 'move_type')
     def _compute_canPrintFF(self):
-        self.canPrintFF = False
-        if self.move_type == 'out_invoice' and self.state == 'posted':
-            # Permitir impresión fiscal independientemente del estado de pago
-            self.canPrintFF = not bool(self.ticket_fiscal)
+        for record in self:
+            record.canPrintFF = record.move_type == 'out_invoice' and record.state == 'posted'
 
     @api.depends('ticket_fiscal')
     def _compute_canPrintNC(self):
@@ -77,9 +74,7 @@ class AccountMove(models.Model):
 
         ticket['items'] = items
 
-        # Agregar un pago genérico o los pagos actuales
-        payments = [{'codigo': '01', 'nombre': 'EFECTIVO', 'monto': self.amount_residual_signed}]
-        ticket['pagos'] = payments
+        ticket['pagos'] = [{'codigo': '01', 'nombre': 'EFECTIVO', 'monto': self.amount_total}]
 
         return {
             'res_model': 'account.move',
