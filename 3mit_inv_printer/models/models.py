@@ -80,34 +80,15 @@ class AccountMove(models.Model):
 
         ticket['items'] = items
 
-        # Conversion a diccionario informacion de pagos
-        str_payment_ids = self.invoice_payments_widget
-        str_payment_ids = str_payment_ids.replace("'", "\"")
-        payment_ids = json.loads(str_payment_ids)
-
+        # Verificar si existen pagos asociados a la factura
         payments = []
-        for line in payment_ids.get('content'):
-            payment_id = self.env['account.payment'].search([('move_id', '=', line.get('move_id'))])
+        payment = dict()
+        payment['codigo'] = '01'
+        payment['nombre'] = 'EFECTIVO 1'  # Nombre predeterminado del método de pago
+        payment['monto'] = self.amount_total_bs
 
-            payment_method = payment_id.payment_method_id
-            currency_id = payment_id.currency_id
-            dict_payment = payment_method.read()[0]
-            tasa_payment = currency_id._get_conversion_rate(currency_id, self.company_id.currency_id,
-                                self.company_id, self.invoice_date) if (currency_id.symbol == '$' and currency_id.name == 'USD') else 1
-
-            item = dict()
-            # item['codigo'] = dict_payment.get('fiscal_print_code') or ('20' if payment_method.dolar_active else '01')
-            item['codigo'] = dict_payment.get('fiscal_print_code') or (
-                '20' if (currency_id.symbol == '$' and currency_id.name == 'USD') else '01')
-            item['nombre'] = dict_payment.get('fiscal_print_name') or payment_method.name
-            item['monto'] = payment_id.amount * tasa_payment if (currency_id.symbol == '$' and currency_id.name == 'USD') else payment_id.amount
-
-            payments.append(item)
-
-        # result_payments = sorted(payments, key=lambda i: (i['codigo'], i['monto']))
-        result_payments = sorted(payments, key=lambda i: (i['codigo'], i['monto']), reverse=True)
-
-        ticket['pagos'] = result_payments
+        payments.append(payment)
+        ticket['pagos'] = payments
 
         return {
             'res_model': 'account.move',
