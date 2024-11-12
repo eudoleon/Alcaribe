@@ -80,6 +80,16 @@ class AccountMove(models.Model):
 
         ticket['items'] = items
 
+        # Verificar si existen pagos asociados a la factura
+        payments = []
+        payment = dict()
+        payment['codigo'] = '01'
+        payment['nombre'] = 'EFECTIVO 1'  # Nombre predeterminado del método de pago
+        payment['monto'] = self.amount_residual_signed
+
+        payments.append(payment)
+        ticket['pagos'] = payments
+
         return {
             'res_model': 'account.move',
             'type': 'ir.actions.client',
