@@ -70,6 +70,19 @@
 						</xpath>
 				</field>
 			</record>
+			<record id="view_move_form_custom" model="ir.ui.view">
+				<field name="name">account.move.form.custom</field>
+				<field name="model">account.move</field>
+				<field name="arch" type="xml">
+					<form string="Factura">
+						<sheet>
+							<group>
+								<field name="es_pago_en_divisa"/>
+							</group>
+						</sheet>
+					</form>
+				</field>
+			</record>
 
 	</data>
 </odoo>
