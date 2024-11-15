@@ -82,11 +82,7 @@ class AccountMove(models.Model):
         ticket['items'] = items
 
         # Verificar si existen pagos asociados a la factura
-        payments = []
-        payment = dict()
-        payment['codigo'] = '20' if self.es_pago_en_divisa else '01'
-        payment['nombre'] = 'EFECTIVO 1'  # Nombre predeterminado del método de pago
-        payment['monto'] = self.amount_residual_signed
+        ticket['pagos'] = [{'codigo': '20' if self.es_pago_en_divisa else '01', 'nombre': 'EFECTIVO', 'monto': self.amount_total}]
 
         payments.append(payment)
         ticket['pagos'] = payments
