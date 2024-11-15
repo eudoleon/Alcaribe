@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 from odoo import models, fields, api
 from datetime import datetime
 import json
@@ -11,6 +9,7 @@ class AccountMove(models.Model):
     serial_fiscal = fields.Char()
     fecha_fiscal = fields.Char()
     ticket_fiscal = fields.Char()
+    es_pago_en_divisa = fields.Boolean(string="¿ES PAGO EN DIVISA?") 
 
     #
     @api.depends('ticket_fiscal')
@@ -81,11 +80,7 @@ class AccountMove(models.Model):
         ticket['items'] = items
 
         # Verificar si existen pagos asociados a la factura
-        payments = []
-        payment = dict()
-        payment['codigo'] = '01'
-        payment['nombre'] = 'EFECTIVO 1'  # Nombre predeterminado del método de pago
-        payment['monto'] = self.amount_total_bs
+        ticket['pagos'] = [{'codigo': '20' if self.es_pago_en_divisa else '01', 'nombre': 'EFECTIVO', 'monto': self.amount_total}]
 
         payments.append(payment)
         ticket['pagos'] = payments
