@@ -19,9 +19,9 @@
                     <div class="row">
                         <div class="col-12">
                             <group>
-                                <field name="numFactura" required="1" readonly="0"/>
-                                <field name="fechaFactura" required="1" readonly="0" />
-                                <field name="serialImpresora" required="1" readonly="0"/>
+                                <field name="numFactura" required="1" readonly="1"/>
+                                <field name="fechaFactura" required="1" readonly="1" />
+                                <field name="serialImpresora" required="1" readonly="1"/>
                             </group>
                         </div>
 

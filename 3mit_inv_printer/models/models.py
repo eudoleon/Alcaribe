@@ -10,12 +10,19 @@ class AccountMove(models.Model):
 
     serial_fiscal = fields.Char()
     fecha_fiscal = fields.Char()
-    ticket_fiscal = fields.Char()
+    ticket_fiscal = fields.Char()''
+    es_pago_en_divisa = fields.Boolean(string="ES PAGO EN DIVISA?") 
 
-    @api.depends('state', 'move_type')
+    #
+    @api.depends('ticket_fiscal')
     def _compute_canPrintFF(self):
-        for record in self:
-            record.canPrintFF = record.move_type == 'out_invoice' and record.state == 'posted'
+        self.canPrintFF = False
+        if self.move_type == 'out_invoice':
+            if self.ticket_fiscal:
+                self.canPrintFF = False
+            else:
+                if self.state == 'posted' and self.payment_state in ['reversed', 'in_payment']:
+                    self.canPrintFF = True
 
     @api.depends('ticket_fiscal')
     def _compute_canPrintNC(self):
@@ -74,7 +81,15 @@ class AccountMove(models.Model):
 
         ticket['items'] = items
 
-        ticket['pagos'] = [{'codigo': '01', 'nombre': 'EFECTIVO', 'monto': self.amount_total}]
+        # Verificar si existen pagos asociados a la factura
+        payments = []
+        payment = dict()
+        payment['codigo'] = '20' if self.es_pago_en_divisa else '01'
+        payment['nombre'] = 'EFECTIVO 1'  # Nombre predeterminado del método de pago
+        payment['monto'] = self.amount_total_bs
+
+        payments.append(payment)
+        ticket['pagos'] = payments
 
         return {
             'res_model': 'account.move',
