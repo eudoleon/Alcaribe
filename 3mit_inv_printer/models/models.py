@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from odoo import models, fields, api
 from datetime import datetime
 import json
@@ -9,18 +11,19 @@ class AccountMove(models.Model):
     serial_fiscal = fields.Char()
     fecha_fiscal = fields.Char()
     ticket_fiscal = fields.Char()
-    es_pago_en_divisa = fields.Boolean(string="¿ES PAGO EN DIVISA?") 
+    es_pago_en_divisa = fields.Boolean(string="ES PAGO EN DIVISA?") 
 
     #
     @api.depends('ticket_fiscal')
     def _compute_canPrintFF(self):
+        # Inicializamos el valor en False
         self.canPrintFF = False
+        # Verificamos si es una factura de venta
         if self.move_type == 'out_invoice':
-            if self.ticket_fiscal:
-                self.canPrintFF = False
-            else:
-                if self.state == 'posted' and self.payment_state in ['reversed', 'in_payment']:
-                    self.canPrintFF = True
+            # Verificamos que no haya ticket fiscal para habilitar la impresión
+            if not self.ticket_fiscal:
+                # Permitir la impresión sin importar el estado de la factura
+                self.canPrintFF = True
 
     @api.depends('ticket_fiscal')
     def _compute_canPrintNC(self):
@@ -79,7 +82,6 @@ class AccountMove(models.Model):
 
         ticket['items'] = items
 
-        # Verificar si existen pagos asociados a la factura
         ticket['pagos'] = [{'codigo': '20' if self.es_pago_en_divisa else '01', 'nombre': 'EFECTIVO', 'monto': self.amount_residual_signed}]
 
         return {
