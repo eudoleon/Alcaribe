@@ -17,7 +17,7 @@ class AccountMove(models.Model):
     @api.depends('ticket_fiscal')
     def _compute_canPrintFF(self):
         # Inicializamos el valor en False
-        self.canPrintFF = True
+        pass
         # # Verificamos si es una factura de venta
         # if self.move_type == 'out_invoice':
         #     # Verificamos que no haya ticket fiscal para habilitar la impresión
@@ -27,15 +27,7 @@ class AccountMove(models.Model):
 
     @api.depends('ticket_fiscal')
     def _compute_canPrintNC(self):
-        self.canPrintNC = False
-        if self.move_type == 'out_refund':
-            if self.ticket_fiscal:
-                self.canPrintNC = False
-            else:
-                origen = self.reversed_entry_id
-
-                if origen.ticket_fiscal and self.state == 'posted' and self.payment_state in ['reversed', 'in_payment']:
-                    self.canPrintNC = True
+        pass
 
     canPrintFF = fields.Boolean(compute=_compute_canPrintFF)
     canPrintNC = fields.Boolean(compute=_compute_canPrintNC)
