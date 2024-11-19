@@ -48,15 +48,14 @@ class inv_nota_credito(models.TransientModel):
 
         ticket['items'] = items
 
-        # Verificar si existen pagos asociados a la factura
-        payments = []
-        payment = dict()
-        payment['codigo'] = '01'
-        payment['nombre'] = 'EFECTIVO 1'  # Nombre predeterminado del método de pago
-        payment['monto'] = 'monto': self.amount_total * tasa,
-
-        payments.append(payment)
-        ticket['pagos'] = payments
+        # Calcula el monto basado en el total de la factura y la tasa
+        pagos = []
+        pagos.append({
+            'codigo': '20' if self.es_pago_en_divisa else '01',
+            'nombre': 'EFECTIVO',
+            'monto': self.amount_total * tasa,  # Usando el total de la factura multiplicado por la tasa
+        })
+        ticket['pagos'] = pagos
 
         return {
             'ticket': json.dumps(ticket)
