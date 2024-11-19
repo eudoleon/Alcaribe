@@ -18,12 +18,12 @@ class AccountMove(models.Model):
     def _compute_canPrintFF(self):
         # Inicializamos el valor en False
         self.canPrintFF = False
-        # Verificamos si es una factura de venta
-        if self.move_type == 'out_invoice':
-            # Verificamos que no haya ticket fiscal para habilitar la impresión
-            if not self.ticket_fiscal:
-                # Permitir la impresión sin importar el estado de la factura
-                self.canPrintFF = True
+        # # Verificamos si es una factura de venta
+        # if self.move_type == 'out_invoice':
+        #     # Verificamos que no haya ticket fiscal para habilitar la impresión
+        #     if not self.ticket_fiscal:
+        #         # Permitir la impresión sin importar el estado de la factura
+        #         self.canPrintFF = True
 
     @api.depends('ticket_fiscal')
     def _compute_canPrintNC(self):
