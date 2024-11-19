@@ -1,6 +1,7 @@
 from odoo import models, fields, api
 from datetime import datetime
 
+
 class AccountMove(models.Model):
     _inherit = 'account.move'
 
@@ -28,6 +29,7 @@ class AccountMove(models.Model):
     canPrintNC = fields.Boolean(compute=_compute_canPrintNC)
 
     def printFactura(self):
+        # Calcula la tasa
         tasa = self.currency_id._get_conversion_rate(
             self.currency_id, 
             self.company_id.currency_id, 
@@ -46,6 +48,7 @@ class AccountMove(models.Model):
             'items': [],
         }
 
+        # Construir los ítems de la factura
         for line in self.invoice_line_ids:
             taxes = line.tax_ids[:1]  # Toma solo el primer impuesto
             item = {
@@ -58,13 +61,12 @@ class AccountMove(models.Model):
             }
             ticket['items'].append(item)
 
-        # Determina los pagos asociados
+        # Calcula el monto basado en el total de la factura y la tasa
         pagos = []
-        total_pagado = sum(self.payment_ids.mapped('amount')) if self.payment_ids else self.amount_residual_signed
         pagos.append({
             'codigo': '20' if self.es_pago_en_divisa else '01',
             'nombre': 'EFECTIVO',
-            'monto': total_pagado,
+            'monto': self.amount_total * tasa,  # Usando el total de la factura multiplicado por la tasa
         })
         ticket['pagos'] = pagos
 
