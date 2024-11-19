@@ -17,7 +17,7 @@ class AccountMove(models.Model):
     @api.depends('ticket_fiscal')
     def _compute_canPrintFF(self):
         # Inicializamos el valor en False
-        self.canPrintFF = False
+        self.canPrintFF = True
         # # Verificamos si es una factura de venta
         # if self.move_type == 'out_invoice':
         #     # Verificamos que no haya ticket fiscal para habilitar la impresión
