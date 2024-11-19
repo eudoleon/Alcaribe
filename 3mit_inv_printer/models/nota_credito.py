@@ -14,15 +14,22 @@ class inv_nota_credito(models.TransientModel):
 
     @api.model
     def getTicket(self, *args):
+        # Obtenemos la factura desde el contexto
         invoice = self.env['account.move'].browse(self.env.context.get('active_id', False))
 
-        # Calcula la tasa
-        tasa = self.currency_id._get_conversion_rate(
-            self.currency_id, 
-            self.company_id.currency_id, 
-            self.company_id, 
-            self.invoice_date
-        ) if self.currency_id != self.company_id.currency_id else 1
+        if not invoice:
+            raise ValueError("Factura no encontrada")
+
+        # Calcula la tasa desde el modelo de factura
+        if invoice.currency_id != invoice.company_id.currency_id:
+            tasa = invoice.currency_id._get_conversion_rate(
+                invoice.currency_id,
+                invoice.company_id.currency_id,
+                invoice.company_id,
+                invoice.invoice_date
+            )
+        else:
+            tasa = 1  # Si la moneda es igual a la de la compañía, la tasa es 1
 
         cliente = invoice.partner_id
         ticket = {
