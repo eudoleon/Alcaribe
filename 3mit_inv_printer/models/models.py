@@ -1,8 +1,5 @@
-# -*- coding: utf-8 -*-
-
 from odoo import models, fields, api
 from datetime import datetime
-import json
 
 
 class AccountMove(models.Model):
@@ -11,78 +8,67 @@ class AccountMove(models.Model):
     serial_fiscal = fields.Char()
     fecha_fiscal = fields.Char()
     ticket_fiscal = fields.Char()
-    es_pago_en_divisa = fields.Boolean(string="ES PAGO EN DIVISA?") 
+    es_pago_en_divisa = fields.Boolean(string="¿Es Pago en Divisa?")
 
-    #
-    @api.depends('ticket_fiscal')
+    @api.depends('ticket_fiscal', 'state', 'payment_state')
     def _compute_canPrintFF(self):
-        # Inicializamos el valor en False
-        self.canPrintFF = False
-        # Verificamos si es una factura de venta
-        if self.move_type == 'out_invoice':
-            # Verificamos que no haya ticket fiscal para habilitar la impresión
-            if not self.ticket_fiscal:
-                # Permitir la impresión sin importar el estado de la factura
-                self.canPrintFF = True
+        for record in self:
+            record.canPrintFF = False
+            if record.move_type == 'out_invoice' and record.state == 'posted' and not record.ticket_fiscal:
+                record.canPrintFF = True
 
-    @api.depends('ticket_fiscal')
+    @api.depends('ticket_fiscal', 'state', 'payment_state', 'reversed_entry_id')
     def _compute_canPrintNC(self):
-        self.canPrintNC = False
-        if self.move_type == 'out_refund':
-            if self.ticket_fiscal:
-                self.canPrintNC = False
-            else:
-                origen = self.reversed_entry_id
-
-                if origen.ticket_fiscal and self.state == 'posted' and self.payment_state in ['reversed', 'in_payment']:
-                    self.canPrintNC = True
+        for record in self:
+            record.canPrintNC = False
+            if record.move_type == 'out_refund' and record.state == 'posted' and not record.ticket_fiscal:
+                if record.reversed_entry_id and record.reversed_entry_id.ticket_fiscal:
+                    record.canPrintNC = True
 
     canPrintFF = fields.Boolean(compute=_compute_canPrintFF)
     canPrintNC = fields.Boolean(compute=_compute_canPrintNC)
 
     def printFactura(self):
-
-        tasa = 0#self.currency_bs_rate
-        # date = self.currency_bs_date or self.currency_id.date
-        if self.company_id.currency_id == self.currency_id:
-            tasa = 1
-        else:
-            if tasa == 0:
-                tasa = self.currency_id._get_conversion_rate(self.currency_id, self.company_id.currency_id,
-                                                             self.company_id, self.invoice_date)
-
+        # Calcula la tasa
+        tasa = self.currency_id._get_conversion_rate(
+            self.currency_id, 
+            self.company_id.currency_id, 
+            self.company_id, 
+            self.invoice_date
+        ) if self.currency_id != self.company_id.currency_id else 1
 
         cliente = self.partner_id
-        ticket = dict()
-        ticket['fechaFactura'] = datetime.now().strftime('%Y-%m-%d %H:%S')
+        ticket = {
+            'fechaFactura': datetime.now().strftime('%Y-%m-%d %H:%S'),
+            'backendRef': self.name,
+            'idFiscal': cliente.vat or "",
+            'razonSocial': cliente.name,
+            'direccion': cliente.contact_address_complete,
+            'telefono': cliente.phone or "",
+            'items': [],
+        }
 
-        ticket['backendRef'] = self.name
-        ticket['idFiscal'] = cliente.vat #cliente.rif or cliente.identification_id
-
-        ticket['razonSocial'] = cliente.name  # self.commercial_partner_id.commercial_company_name
-        ticket['direccion']=cliente.contact_address_complete # self.commercial_partner_id.contact_address or self.commercial_partner_id.city
-        ticket['telefono'] = cliente.phone  # self.commercial_partner_id.phone
-
-        items = []
+        # Construir los ítems de la factura
         for line in self.invoice_line_ids:
-            item = dict()
-            item['nombre'] = line.name  # line.name.splitlines()[0]
-            item['cantidad'] = line.quantity
-            item['precio'] = line.price_unit * tasa
-            # taxes=line.tax_ids.read()
-            taxes = line.tax_ids
-            if len(taxes) == 0:
-                item['impuesto'] = 0
-            else:
-                item['impuesto'] = taxes[0].amount
-            item['descuento'] = line.discount
-            item['tipoDescuento'] = 'p'
+            taxes = line.tax_ids[:1]  # Toma solo el primer impuesto
+            item = {
+                'nombre': line.name,
+                'cantidad': line.quantity,
+                'precio': line.price_unit * tasa,
+                'impuesto': taxes.amount if taxes else 0,
+                'descuento': line.discount,
+                'tipoDescuento': 'p',
+            }
+            ticket['items'].append(item)
 
-            items.append(item)
-
-        ticket['items'] = items
-
-        ticket['pagos'] = [{'codigo': '20' if self.es_pago_en_divisa else '01', 'nombre': 'EFECTIVO', 'monto': self.amount_residual_signed}]
+        # Calcula el monto basado en el total de la factura y la tasa
+        pagos = []
+        pagos.append({
+            'codigo': '20' if self.es_pago_en_divisa else '01',
+            'nombre': 'EFECTIVO',
+            'monto': self.amount_total * tasa,  # Usando el total de la factura multiplicado por la tasa
+        })
+        ticket['pagos'] = pagos
 
         return {
             'res_model': 'account.move',
@@ -92,40 +78,22 @@ class AccountMove(models.Model):
             'data': ticket
         }
 
-    def print_NC(self):
-        invoice = self.reversed_entry_id
-        fecha = invoice.fecha_fiscal
-        return {
-            'name': 'nota de crédito',
-            'type': 'ir.actions.act_window',
-            'view_type': 'form',
-            'view_mode': 'form',
-            'res_model': 'invoice.print.notacredito',
-            'view_id': self.env.ref('3mit_inv_printer.view_print_nc').id,
-            'target': 'new',
-            'context': {
-                'default_numFactura': invoice.ticket_fiscal,
-                'default_serialImpresora': invoice.serial_fiscal,
-                'default_fechaFactura': fecha
-            }
-        }
-
     def setTicket(self, data):
-        info = data.get('data')
+        info = data.get('data', {})
         self.write({
             'ticket_fiscal': info.get('nroFiscal'),
             'serial_fiscal': info.get('serial'),
-            'fecha_fiscal': info.get('fecha')
+            'fecha_fiscal': info.get('fecha'),
         })
         return data
 
     @api.model_create_multi
     def create(self, values):
-        # out_refund es una copia, entonces aquí se inicializan valores de impresora fiscal
         for m in values:
             if m.get('move_type') == 'out_refund':
-                m['ticket_fiscal'] = False
-                m['serial_fiscal'] = False
-                m['fecha_fiscal'] = False
-
+                m.update({
+                    'ticket_fiscal': False,
+                    'serial_fiscal': False,
+                    'fecha_fiscal': False,
+                })
         return super(AccountMove, self).create(values)
