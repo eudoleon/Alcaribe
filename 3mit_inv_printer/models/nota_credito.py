@@ -16,15 +16,13 @@ class inv_nota_credito(models.TransientModel):
     def getTicket(self, *args):
         invoice = self.env['account.move'].browse(self.env.context.get('active_id', False))
 
-        tasa = 0
-        if invoice.company_id.currency_id == invoice.currency_id:
-            tasa = 1
-        else:
-            if tasa == 0:
-                tasa = invoice.currency_id._get_conversion_rate(
-                    invoice.currency_id, invoice.company_id.currency_id,
-                    invoice.company_id, invoice.invoice_date
-                )
+        # Calcula la tasa
+        tasa = self.currency_id._get_conversion_rate(
+            self.currency_id, 
+            self.company_id.currency_id, 
+            self.company_id, 
+            self.invoice_date
+        ) if self.currency_id != self.company_id.currency_id else 1
 
         cliente = invoice.partner_id
         ticket = {
@@ -55,7 +53,7 @@ class inv_nota_credito(models.TransientModel):
         payment = dict()
         payment['codigo'] = '01'
         payment['nombre'] = 'EFECTIVO 1'  # Nombre predeterminado del método de pago
-        payment['monto'] = invoice.amount_total_bs
+        payment['monto'] = 'monto': self.amount_total * tasa,
 
         payments.append(payment)
         ticket['pagos'] = payments
