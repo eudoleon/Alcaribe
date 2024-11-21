@@ -17,13 +17,10 @@ class AccountMove(models.Model):
             if record.move_type == 'out_invoice' and record.state == 'posted' and not record.ticket_fiscal:
                 record.canPrintFF = True
 
-    @api.depends('ticket_fiscal', 'state', 'payment_state', 'reversed_entry_id')
+    @api.depends('ticket_fiscal', 'reversed_entry_id')
     def _compute_canPrintNC(self):
         for record in self:
-            record.canPrintNC = False
-            if record.move_type == 'out_refund' and record.state == 'posted' and not record.ticket_fiscal:
-                if record.reversed_entry_id and record.reversed_entry_id.ticket_fiscal:
-                    record.canPrintNC = True
+            record.canPrintNC = record.move_type == 'out_refund' and not record.ticket_fiscal
 
     canPrintFF = fields.Boolean(compute=_compute_canPrintFF)
     canPrintNC = fields.Boolean(compute=_compute_canPrintNC)
