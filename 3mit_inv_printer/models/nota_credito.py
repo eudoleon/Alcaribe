@@ -17,8 +17,8 @@ class InvoicePrintNotaCredito(models.TransientModel):
         if active_id:
             invoice = self.env['account.move'].browse(active_id)
             res.update({
-                'numFactura': invoice.name,
-                'fechaFactura': invoice.invoice_date.strftime('%Y-%m-%d') if invoice.invoice_date else '',
+                'numFactura': invoice.ticket_fiscal or '',
+                'fechaFactura': invoice.fecha_fiscal or '',
                 'serialImpresora': invoice.serial_fiscal or '',
             })
         return res
