@@ -78,6 +78,24 @@ class AccountMove(models.Model):
             'data': ticket
         }
 
+    def print_NC(self):
+        invoice = self.reversed_entry_id
+        fecha = invoice.fecha_fiscal
+        return {
+            'name': 'nota de crédito',
+            'type': 'ir.actions.act_window',
+            'view_type': 'form',
+            'view_mode': 'form',
+            'res_model': 'invoice.print.notacredito',
+            'view_id': self.env.ref('3mit_inv_printer.view_print_nc').id,
+            'target': 'new',
+            'context': {
+                'default_numFactura': invoice.ticket_fiscal,
+                'default_serialImpresora': invoice.serial_fiscal,
+                'default_fechaFactura': fecha
+            }
+        }
+
     def setTicket(self, data):
         info = data.get('data', {})
         self.write({
