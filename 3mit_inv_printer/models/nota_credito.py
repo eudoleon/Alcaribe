@@ -27,8 +27,14 @@ class InvoicePrintNotaCredito(models.TransientModel):
 
     @api.model
     def getTicket(self, *args):
+        # Obtener la factura asociada desde el contexto
         invoice = self.env['account.move'].browse(self.env.context.get('active_id', False))
 
+        # Verificar si existe la factura
+        if not invoice:
+            raise ValueError("No se encontró la factura asociada.")
+
+        # Calcular la tasa de conversión
         tasa = 1
         if invoice.company_id.currency_id != invoice.currency_id:
             tasa = invoice.currency_id._get_conversion_rate(
@@ -36,6 +42,7 @@ class InvoicePrintNotaCredito(models.TransientModel):
                 invoice.company_id, invoice.invoice_date
             )
 
+        # Construir el ticket
         cliente = invoice.partner_id
         ticket = {
             'fechaFactura': args[0].get('fechaFactura'),
@@ -48,6 +55,7 @@ class InvoicePrintNotaCredito(models.TransientModel):
             'telefono': cliente.phone
         }
 
+        # Agregar los ítems de la factura
         items = []
         for line in invoice.invoice_line_ids:
             item = {
@@ -60,12 +68,12 @@ class InvoicePrintNotaCredito(models.TransientModel):
 
         ticket['items'] = items
 
-        # Verificar si existen pagos asociados a la factura
+        # Agregar los pagos asociados a la factura
         pagos = []
         pagos.append({
-            'codigo': '20' if self.es_pago_en_divisa else '01',
+            'codigo': '20' if invoice.es_pago_en_divisa else '01',
             'nombre': 'EFECTIVO',
-            'monto': self.amount_total * tasa,  # Usando el total de la factura multiplicado por la tasa
+            'monto': invoice.amount_total * tasa,  # Usando el total de la factura multiplicado por la tasa
         })
         ticket['pagos'] = pagos
 
