@@ -1,31 +1,48 @@
 # -*- coding: utf-8 -*-
-
 from odoo import models, fields, api
 import json
 
-class inv_nota_credito(models.TransientModel):
+class InvoicePrintNotaCredito(models.TransientModel):
     _name = 'invoice.print.notacredito'
 
     numFactura = fields.Char('Número de Factura', default='', required=True)
     fechaFactura = fields.Char('Fecha de la Factura', required=True)
-
     serialImpresora = fields.Char('Serial de Impresora', required=True)
-    printer_host = fields.Char('printer host', required=True, default='localhost:5000')
+    printer_host = fields.Char('Printer Host', required=True, default='localhost:5000')
+    es_pago_en_divisa = fields.Boolean(string="¿Es Pago en Divisa?")
+
+    @api.model
+    def default_get(self, fields):
+        res = super(InvoicePrintNotaCredito, self).default_get(fields)
+        context = self.env.context
+
+        # Obtener valores del contexto
+        res.update({
+            'numFactura': context.get('default_numFactura', ''),
+            'fechaFactura': context.get('default_fechaFactura', ''),
+            'serialImpresora': context.get('default_serialImpresora', ''),
+        })
+
+        return res
 
     @api.model
     def getTicket(self, *args):
+        # Obtener la factura asociada desde el contexto
         invoice = self.env['account.move'].browse(self.env.context.get('active_id', False))
 
-        tasa = 0
-        if invoice.company_id.currency_id == invoice.currency_id:
-            tasa = 1
-        else:
-            if tasa == 0:
-                tasa = invoice.currency_id._get_conversion_rate(
-                    invoice.currency_id, invoice.company_id.currency_id,
-                    invoice.company_id, invoice.invoice_date
-                )
+        # Verificar si existe la factura
+        if not invoice:
+            raise ValueError("No se encontró la factura asociada.")
 
+        # Calcular la tasa de conversión
+        tasa = 1
+        if invoice.company_id.currency_id != invoice.currency_id:
+            tasa = invoice.currency_id._get_conversion_rate(
+                invoice.currency_id, invoice.company_id.currency_id,
+                invoice.company_id, invoice.invoice_date
+            )
+
+        # Construir el ticket
         cliente = invoice.partner_id
         ticket = {
             'fechaFactura': args[0].get('fechaFactura'),
@@ -38,6 +55,7 @@ class inv_nota_credito(models.TransientModel):
             'telefono': cliente.phone
         }
 
+        # Agregar los ítems de la factura
         items = []
         for line in invoice.invoice_line_ids:
             item = {
@@ -50,15 +68,14 @@ class inv_nota_credito(models.TransientModel):
 
         ticket['items'] = items
 
-        # Verificar si existen pagos asociados a la factura
-        payments = []
-        payment = dict()
-        payment['codigo'] = '01'
-        payment['nombre'] = 'EFECTIVO 1'  # Nombre predeterminado del método de pago
-        payment['monto'] = invoice.amount_total_bs
-
-        payments.append(payment)
-        ticket['pagos'] = payments
+        # Agregar los pagos asociados a la factura
+        pagos = []
+        pagos.append({
+            'codigo': '20' if invoice.es_pago_en_divisa else '01',
+            'nombre': 'EFECTIVO',
+            'monto': invoice.amount_total * tasa,  # Usando el total de la factura multiplicado por la tasa
+        })
+        ticket['pagos'] = pagos
 
         return {
             'ticket': json.dumps(ticket)

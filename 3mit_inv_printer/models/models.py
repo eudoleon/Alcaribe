@@ -17,13 +17,10 @@ class AccountMove(models.Model):
             if record.move_type == 'out_invoice' and record.state == 'posted' and not record.ticket_fiscal:
                 record.canPrintFF = True
 
-    @api.depends('ticket_fiscal', 'state', 'payment_state', 'reversed_entry_id')
+    @api.depends('ticket_fiscal', 'reversed_entry_id')
     def _compute_canPrintNC(self):
         for record in self:
-            record.canPrintNC = False
-            if record.move_type == 'out_refund' and record.state == 'posted' and not record.ticket_fiscal:
-                if record.reversed_entry_id and record.reversed_entry_id.ticket_fiscal:
-                    record.canPrintNC = True
+            record.canPrintNC = record.move_type == 'out_refund' and not record.ticket_fiscal
 
     canPrintFF = fields.Boolean(compute=_compute_canPrintFF)
     canPrintNC = fields.Boolean(compute=_compute_canPrintNC)
@@ -76,6 +73,24 @@ class AccountMove(models.Model):
             'tag': 'printFactura',
             'target': 'new',
             'data': ticket
+        }
+
+    def print_NC(self):
+        invoice = self.reversed_entry_id
+        fecha = invoice.fecha_fiscal
+        return {
+            'name': 'nota de crédito',
+            'type': 'ir.actions.act_window',
+            'view_type': 'form',
+            'view_mode': 'form',
+            'res_model': 'invoice.print.notacredito',
+            'view_id': self.env.ref('3mit_inv_printer.view_print_nc').id,
+            'target': 'new',
+            'context': {
+                'default_numFactura': invoice.ticket_fiscal,
+                'default_serialImpresora': invoice.serial_fiscal,
+                'default_fechaFactura': fecha
+            }
         }
 
     def setTicket(self, data):
