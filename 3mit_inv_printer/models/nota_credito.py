@@ -1,30 +1,38 @@
 # -*- coding: utf-8 -*-
-
 from odoo import models, fields, api
 import json
 
-class inv_nota_credito(models.TransientModel):
+class InvoicePrintNotaCredito(models.TransientModel):
     _name = 'invoice.print.notacredito'
 
     numFactura = fields.Char('Número de Factura', default='', required=True)
     fechaFactura = fields.Char('Fecha de la Factura', required=True)
-
     serialImpresora = fields.Char('Serial de Impresora', required=True)
-    printer_host = fields.Char('printer host', required=True, default='localhost:5000')
+    printer_host = fields.Char('Printer Host', required=True, default='localhost:5000')
+
+    @api.model
+    def default_get(self, fields):
+        res = super(InvoicePrintNotaCredito, self).default_get(fields)
+        active_id = self.env.context.get('default_numFactura') or self.env.context.get('active_id')
+        if active_id:
+            invoice = self.env['account.move'].browse(active_id)
+            res.update({
+                'numFactura': invoice.name,
+                'fechaFactura': invoice.invoice_date.strftime('%Y-%m-%d') if invoice.invoice_date else '',
+                'serialImpresora': invoice.serial_fiscal or '',
+            })
+        return res
 
     @api.model
     def getTicket(self, *args):
         invoice = self.env['account.move'].browse(self.env.context.get('active_id', False))
 
-        tasa = 0
-        if invoice.company_id.currency_id == invoice.currency_id:
-            tasa = 1
-        else:
-            if tasa == 0:
-                tasa = invoice.currency_id._get_conversion_rate(
-                    invoice.currency_id, invoice.company_id.currency_id,
-                    invoice.company_id, invoice.invoice_date
-                )
+        tasa = 1
+        if invoice.company_id.currency_id != invoice.currency_id:
+            tasa = invoice.currency_id._get_conversion_rate(
+                invoice.currency_id, invoice.company_id.currency_id,
+                invoice.company_id, invoice.invoice_date
+            )
 
         cliente = invoice.partner_id
         ticket = {
@@ -52,11 +60,11 @@ class inv_nota_credito(models.TransientModel):
 
         # Verificar si existen pagos asociados a la factura
         payments = []
-        payment = dict()
-        payment['codigo'] = '01'
-        payment['nombre'] = 'EFECTIVO 1'  # Nombre predeterminado del método de pago
-        payment['monto'] = invoice.amount_total_bs
-
+        payment = {
+            'codigo': '01',
+            'nombre': 'EFECTIVO 1',  # Nombre predeterminado del método de pago
+            'monto': invoice.amount_total_signed,  # Ajustado para usar el monto firmado
+        }
         payments.append(payment)
         ticket['pagos'] = payments
 
