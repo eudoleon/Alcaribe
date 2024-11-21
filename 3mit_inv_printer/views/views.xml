@@ -41,8 +41,8 @@
 								<!-- <button id="print_NC" name="492" type="action" string="Imp. NC Fiscal"
 									attrs="{'invisible': [('canPrintNC','=',False)]}">
 								</button> -->
-								<button id="print_NC" name="print_NC" type="object" string="Imp. NC Fiscal" attrs="{'invisible': ['|',('canPrintNC','=',False),('payment_state','!=','in_payment ')]}">
-								</button>
+								<button id="print_NC" name="getTicket" type="object" string="Imp. NC Fiscal" attrs="{}">
+					</button>
 						</xpath>
 
 						<xpath expr="//div[hasclass('oe_title')]" position="inside">
