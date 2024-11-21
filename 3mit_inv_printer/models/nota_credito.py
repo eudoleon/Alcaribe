@@ -60,14 +60,13 @@ class InvoicePrintNotaCredito(models.TransientModel):
         ticket['items'] = items
 
         # Verificar si existen pagos asociados a la factura
-        payments = []
-        payment = {
-            'codigo': '01',
-            'nombre': 'EFECTIVO 1',  # Nombre predeterminado del método de pago
-            'monto': invoice.amount_total_signed,  # Ajustado para usar el monto firmado
-        }
-        payments.append(payment)
-        ticket['pagos'] = payments
+        pagos = []
+        pagos.append({
+            'codigo': '20' if self.es_pago_en_divisa else '01',
+            'nombre': 'EFECTIVO',
+            'monto': self.amount_total * tasa,  # Usando el total de la factura multiplicado por la tasa
+        })
+        ticket['pagos'] = pagos
 
         return {
             'ticket': json.dumps(ticket)
