@@ -13,14 +13,15 @@ class InvoicePrintNotaCredito(models.TransientModel):
     @api.model
     def default_get(self, fields):
         res = super(InvoicePrintNotaCredito, self).default_get(fields)
-        active_id = self.env.context.get('default_numFactura') or self.env.context.get('active_id')
-        if active_id:
-            invoice = self.env['account.move'].browse(active_id)
-            res.update({
-                'numFactura': invoice.ticket_fiscal or '',
-                'fechaFactura': invoice.fecha_fiscal or '',
-                'serialImpresora': invoice.serial_fiscal or '',
-            })
+        context = self.env.context
+
+        # Obtener valores del contexto
+        res.update({
+            'numFactura': context.get('default_numFactura', ''),
+            'fechaFactura': context.get('default_fechaFactura', ''),
+            'serialImpresora': context.get('default_serialImpresora', ''),
+        })
+
         return res
 
     @api.model
