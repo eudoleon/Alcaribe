@@ -9,6 +9,7 @@ class InvoicePrintNotaCredito(models.TransientModel):
     fechaFactura = fields.Char('Fecha de la Factura', required=True)
     serialImpresora = fields.Char('Serial de Impresora', required=True)
     printer_host = fields.Char('Printer Host', required=True, default='localhost:5000')
+    es_pago_en_divisa = fields.Boolean(string="¿Es Pago en Divisa?")
 
     @api.model
     def default_get(self, fields):
