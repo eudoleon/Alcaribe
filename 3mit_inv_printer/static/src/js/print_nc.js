@@ -30,16 +30,22 @@ odoo.define("3mit_inv_printer.nota_credito", function (require) {
     printNC: function () {
       const record = this.model.get(this.handle);
       const numFactura = record.data.numFactura;
-      const fechaFactura = moment(record.data.fechaFactura._i).format(
-        "YYYY-MM-DD HH:mm"
-      );
+      const fechaFactura = record.data.fechaFactura;
+      // Si necesitas formatear la fecha, asegúrate de que esté en el formato correcto
+      const fechaFacturaFormatted = moment(fechaFactura).format("YYYY-MM-DD HH:mm");
       const serialImpresora = record.data.serialImpresora;
+
+      console.log("Datos a enviar al servidor de impresión:", {
+        numFactura,
+        fechaFactura,
+        serialImpresora
+      });
+      console.log("Fecha de la Factura enviada:", fechaFactura);
 
       return this.validate_3mitServer(printer_host).then(() => {
         return this._rpc({
           model: "invoice.print.notacredito",
           method: "getTicket",
-          //args: [record.res_id],
           args: [{ numFactura, fechaFactura, serialImpresora }],
           context: this.initialState.context,
         })
@@ -50,7 +56,6 @@ odoo.define("3mit_inv_printer.nota_credito", function (require) {
               method: "setTicket",
               args: [this.initialState.context.active_id, rs],
             });
-            //return this.do_action({ type: "ir.actions.act_window_close" });
           })
           .catch((err) => {
             this.displayNotification({
@@ -63,6 +68,8 @@ odoo.define("3mit_inv_printer.nota_credito", function (require) {
       });
     },
     print_3mit({ ticket }) {
+      console.log("JSON de ticket enviado a la impresora:", ticket);
+
       return $.post({
         url: `http://${printer_host}/api/imprimir/nota-credito`,
         data: ticket,
@@ -71,6 +78,7 @@ odoo.define("3mit_inv_printer.nota_credito", function (require) {
       })
         .then((data) => {
           console.log("3mit_send_to_printer: Ok", data);
+          console.log("Datos enviados a la impresora fiscal:", data);
           return data;
         })
         .catch((err) => {
@@ -78,7 +86,6 @@ odoo.define("3mit_inv_printer.nota_credito", function (require) {
           Promise.reject("No se pudo imprimir en " + printer_host);
         });
     },
-    // solo verifica si el print_server está on-line
     validate_3mitServer(printer_host) {
       if (window._debug) return Promise.resolve(true);
 
