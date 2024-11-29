@@ -28,13 +28,14 @@
         'security/ir.model.access.csv',
         'views/views.xml',
         'views/nota_credito.xml',
-        # 'views/options.xml'
+        'views/options.xml'
     ],
     'assets': {
         'web.assets_backend': [
-            "3mit_inv_printer/static/src/js/print_nc.js",
-            # "3mit_inv_printer/static/src/js/print_options.js",
-            "3mit_inv_printer/static/src/js/printer.js",
+            #"3mit_print_server/static/src/js/dialog.js",
+            "3mit_print_server/static/src/js/print_nc.js",
+            "3mit_print_server/static/src/js/print_factura.js",
+            "3mit_print_server/static/src/js/print_options.js",
         ],
     },
     # only loaded in demonstration mode
