@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates xml:space="preserve">
+    <t t-name="10n_ve_dual_currency_bs.AmountTaxBsField" owl="1">
+        <div t-on-click="_onStepClick" style = "border: thick double #32a1ce;">
+            <h3 class = "amount_bs" t-esc="vals.value">
+        </div>
+    </t>
+</templates>

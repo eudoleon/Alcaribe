@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+  <record id="dual_account_payment_register_form_inherit" model="ir.ui.view">
+        <field name="name">dual.account.payment.register.form.inherit</field>
+        <field name="model">account.payment.register</field>
+        <field name="inherit_id" ref="account.view_account_payment_register_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@class='alert alert-info']" position="after">
+                <div class="alert alert-success mb-0 mt-2 text-center" role="alert" >
+                    <div class="oe_center">
+                        <h2>
+                            <i class="fa fa-money fa-sm"></i>  Tasa del Día : <field name="tax_day" />
+                        </h2>
+                     
+                    </div>
+                </div>
+                
+            </xpath>
+            <xpath expr="//field[@name='payment_date']" position="before">
+            <field name="currency_ref_id" invisible = "1" />
+                <field name="amount_total_bs" />   
+            </xpath>
+
+        </field>
+  </record>
+</odoo>
+

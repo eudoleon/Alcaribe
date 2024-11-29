@@ -1,0 +1,84 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+
+    
+    <record id="ve_view_tree_product_product" model="ir.ui.view">
+        <field name="name">ve.product.product.inherit.view.tree</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="product.product_product_tree_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='lst_price']" position="before">
+                <field name="price_bs"/>
+            </xpath>
+            
+        </field>
+    </record>
+
+
+    <record id="ve_view_tree_product_template" model="ir.ui.view">
+        <field name="name">ve.product.template.inherit.view.tree</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="account.product_template_view_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='list_price']" position="before">
+                <field name="price_bs"/>
+            </xpath>
+            
+        </field>
+    </record>
+
+    <!-- model.name inherit kanban view -->
+    <record id="dualm_product_template" model="ir.ui.view">
+        <field name="name">product.template.dualm.inherit.view.kanban</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_kanban_view"/>
+        <field name="arch" type="xml">
+           <xpath expr="//kanban" position="inside">
+                <field name="price_bs"/>
+                 
+            </xpath>
+            <xpath expr="//div[@name='product_lst_price']" position="after">
+                <div name="price_bs" class="mt-1">
+                    Precio Bolivares: <field name="price_bs" widget="monetary" options="{'currency_field': 'currency_ref_id', 'field_digits': True}"/>
+                </div>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="ve_product_template_form_inherit" model="ir.ui.view">
+        <field name="name">ve.product.template.form.inherit</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_form_view"/>
+        <field name="arch" type="xml">
+                <xpath expr="//label[@for='list_price']" position="before">
+                    <field name="currency_ref_id" invisible = "1" />
+                    <label for="price_bs" class="mt-1"/>
+                    <div name="price_bs">
+                        <field name="price_bs" class="oe_inline" widget="monetary" options="{'currency_field': 'currency_ref_id', 'field_digits': True}"/>
+                    </div>
+                </xpath>
+
+                <xpath expr="//div[@name='button_box']" position="inside">
+                    <button class="oe_stat_button" name="show_tax" icon="fa-usd" groups="product.group_product_pricelist" type="object">
+                        <div class="o_field_widget o_stat_info">
+                            <span class="o_stat_value">
+                                <field name="tax_day"/> Bs.
+                            </span>
+                            <span >
+                                Tasa de Día
+                            </span>
+                        </div>
+                    </button>
+                </xpath>
+
+                <xpath expr="//sheet" position="before">
+                    <header>
+                        <button name="action_update_price" icon="fa-refresh" string="Actualizar Precio" type="object" />
+                    </header>
+                </xpath>
+
+
+        </field>
+    </record>
+
+</odoo>

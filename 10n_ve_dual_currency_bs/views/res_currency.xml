@@ -1,0 +1,22 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+  <record id="sud_res_currency_form_inherit" model="ir.ui.view">
+      <field name="name">sud.res.currency.form.inherit</field>
+      <field name="model">res.currency</field>
+      <field name="inherit_id" ref="base.view_currency_form"/>
+      <field name="arch" type="xml">
+            
+            <xpath expr="//field[@name='currency_subunit_label']" position="after">
+                <field name="server_tax"/>
+   
+            </xpath>
+            <xpath expr="//sheet" position="before">
+                <header>
+                    <button name="action_get_tax_BCV" icon="fa-refresh" string="Agregar Tasa BCV" type="object" />
+                    <button name="action_update_prices" icon="fa-usd" string="Actualizar Precios" type="object" class = "btn-primary"/>
+                </header>
+            </xpath>
+      </field>
+  </record>
+
+</odoo>

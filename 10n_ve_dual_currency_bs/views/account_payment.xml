@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <record id="dual_account_payment_form_inherit" model="ir.ui.view">
+            <field name="name">dual.account.payment.form.inherit</field>
+            <field name="model">account.payment</field>
+            <field name="inherit_id" ref="account.view_account_payment_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='date']" position="before">
+
+                    <field name="currency_ref_id" invisible = "1"/>
+                    <field name="rel_code_currency_id" invisible = "1"/>
+                    <field name="amount_total_bs" attrs = "{'invisible':[('rel_code_currency_id','!=','USD')]}"/>    
+                </xpath>
+
+
+                <xpath expr="//sheet" position="before">
+                    <div class="alert alert-success mb-0 text-center" role="alert" >
+                        <div class="oe_center">
+                            <h2>
+                            <i class="fa fa-money fa-sm"></i>  Tasa del Día : <field name="tax_day" attrs = "{'readonly':[('state','!=','draft')]}" />
+                            </h2>
+                            <p>La tasa no podra ser modificada despues de agregar lineas de productos y solo se editara en estado Borrador <strong>Factura Borrador.</strong></p>
+                        </div>
+                    </div>
+                
+                </xpath>
+
+            </field>
+    </record>
+
+
+    <record id="dual_view_account_payment_from_group_tree_inherit" model="ir.ui.view">
+        <field name="name">dual.account.payment.from.group_tree.form.inherit</field>
+        <field name="model">account.payment</field>
+        <field name="inherit_id" ref="account_payment_group.view_account_payment_from_group_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='currency_id']" position="before">
+
+                <field name="tax_day"/>
+            </xpath>
+        </field>
+    </record>
+
+
+
+</odoo>

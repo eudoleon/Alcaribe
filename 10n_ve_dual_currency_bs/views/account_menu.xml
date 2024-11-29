@@ -1,0 +1,9 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <record id="account.account_reports_management_menu" model="ir.ui.menu">
+        <field name="sequence" eval="40"/>
+    </record>
+    <menuitem id="dual_fiance_menu_categ" name="Dual Moneda" parent="account.menu_finance_reports" sequence="90"/>
+
+    
+</odoo>
