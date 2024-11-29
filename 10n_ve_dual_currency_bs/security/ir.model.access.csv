@@ -1,3 +1,0 @@
-id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_account_invoice_report.cxc,account.invoice.report.cxc,model_account_invoice_report_cxc,,1,1,1,1
-access_account_invoice_report.cxp,account.invoice.report.cxp,model_account_invoice_report_cxp,,1,1,1,1

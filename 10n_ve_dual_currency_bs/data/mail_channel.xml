@@ -1,8 +1,0 @@
-<?xml version='1.0' encoding='utf-8'?>
-<odoo>
-    <record model="mail.channel" id="channel_tasa_cambio">
-        <field name="name">Tasa de Cambio</field>
-        <field name="group_public_id" ref="base.group_user"/>
-        <field name="group_ids" eval="[(6, 0, [ref('base.group_user')])]"/>
-    </record>
-</odoo>
