@@ -33,7 +33,7 @@
     'assets': {
         'web.assets_backend': [
             "3mit_inv_printer/static/src/js/print_nc.js",
-            "3mit_inv_printer/static/src/js/print_options.js",
+            # "3mit_inv_printer/static/src/js/print_options.js",
             "3mit_inv_printer/static/src/js/printer.js",
         ],
     },
