@@ -21,7 +21,7 @@
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['account','10n_ve_dual_currency_bs'],
+    'depends': ['account'],
 
     # always loaded
     'data': [

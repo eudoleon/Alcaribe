@@ -59,7 +59,7 @@ class inv_nota_credito(models.TransientModel):
         payment = dict()
         payment['codigo'] = '01'
         payment['nombre'] = 'EFECTIVO 1'  # Nombre predeterminado del método de pago
-        payment['monto'] = invoice.amount_total_bs
+        payment['monto'] = invoice.amount_total
 
         payments.append(payment)
         ticket['pagos'] = payments
