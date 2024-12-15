@@ -42,11 +42,11 @@ class AccountMove(models.Model):
     def printFactura(self):
 
         # Obtener la tasa de conversión de la moneda VEF
-        vef_currency = self.env['res.currency'].search([('name', '=', 'VEF')], limit=1)
+        vef_currency = self.env['res.currency'].search([('name', '=', 'USD')], limit=1)
         tasa = 1.0
         
         if vef_currency:
-            tasa = vef_currency.rate or 1.0
+            tasa = vef_currency.inverse_company_rate or 1.0
 
 
         cliente = self.partner_id
@@ -65,7 +65,7 @@ class AccountMove(models.Model):
             item = dict()
             item['nombre'] = line.name  # line.name.splitlines()[0]
             item['cantidad'] = line.quantity
-            item['precio'] = line.price_unit
+            item['precio'] = line.price_unit * tasa,
             # taxes=line.tax_ids.read()
             taxes = line.tax_ids
             if len(taxes) == 0:
