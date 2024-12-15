@@ -40,13 +40,9 @@ class AccountMove(models.Model):
     canPrintNC = fields.Boolean(compute=_compute_canPrintNC)
 
     def printFactura(self):
-
-        # Obtener la tasa de conversión de la moneda VEF
-        vef_currency = self.env['res.currency'].search([('name', '=', 'USD')], limit=1)
-        tasa = 1.0
-        
-        if vef_currency:
-            tasa = vef_currency.inverse_company_rate or 1.0
+        # Obtener la tasa inversa directamente del campo inverse_company_rate de la moneda USD
+        usd_currency = self.env['res.currency'].search([('name', '=', 'USD')], limit=1)
+        tasa = usd_currency.inverse_company_rate if usd_currency else 1.0
 
 
         cliente = self.partner_id
