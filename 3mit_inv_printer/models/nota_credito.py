@@ -6,6 +6,9 @@ import json
 class inv_nota_credito(models.TransientModel):
     _name = 'invoice.print.notacredito'
 
+    es_pago_en_divisa = fields.Boolean(string="¿Es Pago en Divisa?")
+
+
     numFactura = fields.Char('Número de Factura', default='', required=True)
     fechaFactura = fields.Date('Fecha de la Factura', required=True)
     serialImpresora = fields.Char('Serial de Impresora', required=True)
