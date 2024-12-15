@@ -4,11 +4,11 @@
 
 {
     'name': "Product App",
-    'version': '14.0.1.0',
+    'version': '16.0.2.0',
     'category': 'Sales/Sales',
-    'summary': 'Product App.This module provide seperate menu in main of product.Product Menu|Product|Main Menu Product|Menu Product.',
+    'summary': 'Product App.This module provide separate menu in main of product.Product Menu|Product|Main Menu Product|Menu Product.',
     'description': """Product App
-    This module provides seprate product app.""",
+    This module provides separate product app.""",
     'author': "Kanak Infosystems LLP.",
     'website': 'https://www.kanakinfosystems.com',
     'images': ['static/description/banner.gif'],
