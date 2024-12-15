@@ -45,7 +45,7 @@ class inv_nota_credito(models.TransientModel):
             item = {
                 'nombre': line.name,
                 'cantidad': line.quantity,
-                'precio': line.price_unit_bs,
+                'precio': line.price_unit,
                 'impuesto': line.tax_ids[0].amount if line.tax_ids else 0,
                 'descuento': line.discount,
                 'tipoDescuento': 'p'

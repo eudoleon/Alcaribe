@@ -64,7 +64,7 @@ class AccountMove(models.Model):
             item = dict()
             item['nombre'] = line.name  # line.name.splitlines()[0]
             item['cantidad'] = line.quantity
-            item['precio'] = line.price_unit_bs
+            item['precio'] = line.price_unit
             # taxes=line.tax_ids.read()
             taxes = line.tax_ids
             if len(taxes) == 0:
