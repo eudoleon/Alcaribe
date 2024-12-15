@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 {
-    'name': "Impresora Fiscal - Backendd",
+    'name': "Impresora Fiscal - Backenddd",
 
     'summary': """
         Emite factura a rest-api de impresora fiscal""",
