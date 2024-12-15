@@ -5,19 +5,20 @@ import { _t } from "@web/core/l10n/translation";
 
 export async function PrintFacturaAction(env, action) {
     try {
-        const result = await doPrintFactura(env, action.data);
-        // Enviar directamente result.data a setTicket
+        // Obtener los datos desde el contexto
+        const result = await doPrintFactura(env, action.context.data);
+
         const ticket_result = await env.services.orm.call(
             "account.move",
             "setTicket",
-            [action.context.active_id, {data: result.data}]
+            [action.context.active_id, { data: result }]
         );
         if (ticket_result) {
-            await env.services.action.doAction({type: 'ir.actions.act_window_close'});
+            await env.services.action.doAction({ type: 'ir.actions.act_window_close' });
         }
     } catch (err) {
         console.error("Error en PrintFacturaAction:", err);
-        await env.services.action.doAction({type: 'ir.actions.act_window_close'});
+        await env.services.action.doAction({ type: 'ir.actions.act_window_close' });
     }
 }
 
