@@ -1,144 +1,105 @@
-/** @odoo-module **/
+"use strict";
 
-import { formView } from "@web/views/form/form_view";
-import { registry } from "@web/core/registry";
-import { FormController } from "@web/views/form/form_controller";
-import { useService } from "@web/core/utils/hooks";
-import { _t } from "@web/core/l10n/translation";
-import { Dialog } from '@web/core/dialog/dialog';
+console.log("***** print_options");
+odoo.define("3mit_inv_printer.options", function (require) {
+  console.log("******** print_options define");
 
-export class CustomInvFormController extends FormController {
+  var FormView = require("web.FormView");
+  var FormController = require("web.FormController");
+  var view_registry = require("web.view_registry");
 
-    setup() {
-        super.setup();
-        this.orm = useService("orm");
-        this.notificationService = useService("notification");
-    }
+  var CustomFormController = FormController.extend({
+    on_attach_callback: function () {
+      this._super.apply(this, arguments);
 
-    on_attach_callback() {
-        super.on_attach_callback();
-
-        this.printer_host = this.el.querySelector("input[name=printer_host]").value;
-
-        this.el.querySelector("button#reporteX").addEventListener("click", this.print_reportX.bind(this));
-        this.el.querySelector("button#reporteZ").addEventListener("click", this.print_reportZ.bind(this));
-        this.el.querySelector("button#reporteZporNumero").addEventListener(
-            "click",
-            this.print_reportZporNumero.bind(this)
-        );
-        this.el.querySelector("button#reporteZporFecha").addEventListener(
-            "click",
-            this.print_reportZporFecha.bind(this)
-        );
-        this.el.querySelector("button#reporteFacturas").addEventListener("click", this.print_facturas.bind(this));
-        this.el.querySelector("button#reporteNC").addEventListener("click", this.print_notas_credito.bind(this));
-        this.el.querySelector("button#numeroDocs").addEventListener("click", this.ultimos_numeros.bind(this));
-    }
-
+      this.printer_host = $("input[name=printer_host]").val();
+      $("button#reporteX", this.$el).on("click", this.print_reportX.bind(this));
+      $("button#reporteZ", this.$el).on("click", this.print_reportZ.bind(this));
+      $("button#reporteZporNumero", this.$el).on(
+        "click",
+        this.print_reportZporNumero.bind(this)
+      );
+      $("button#reporteZporFecha", this.$el).on(
+        "click",
+        this.print_reportZporFecha.bind(this)
+      );
+      $("button#reporteFacturas", this.$el).on(
+        "click",
+        this.print_facturas.bind(this)
+      );
+    },
     print_reportX() {
-        this.print_3mit("/api/imprimir/reporte_x");
-    }
-
+      this.print_3mit("/api/imprimir/reporte_x");
+    },
     print_reportZ() {
-        this.print_3mit("/api/imprimir/reporte_z")
-            .then(() => {
-                return this.print_3mit("/api/data_z");
-            })
-            .then((rs) => {
-                return this.orm.call(
-                    "datos.zeta.diario",
-                    "create",
-                    [[], rs],
-                    this.initialState.context
-                );
-            });
-    }
-
+      this.print_3mit("/api/imprimir/reporte_z")
+        .then((rs) => {
+          return this.print_3mit("/api/data_z");
+        })
+        .then((rs) => {
+          return this._rpc({
+            model: "datos.zeta.diario",
+            method: "create",
+            args: [rs],
+            context: this.initialState.context,
+          });
+        });
+    },
     print_reportZporNumero() {
-        const startParam = this.el.querySelector('input[name="numZInicio"]').value;
-        const endParam = this.el.querySelector('input[name="numZFin"]').value;
-        this.print_3mit("/api/imprimir/reporte_z_por_numero", {
-            numDesde: startParam,
-            numHasta: endParam,
-        });
-    }
-
+      const startParam = $('input[name="numZInicio"]').val();
+      const endParam = $('input[name="numZFin"]').val();
+      this.print_3mit("/api/imprimir/reporte_z/por_numero", {
+        startParam,
+        endParam,
+      });
+    },
     print_reportZporFecha() {
-        const isoDate = (sf) => {
-            const s = sf.split("-");
-            return `${s[0]}-${s[1]}-${s[2]}`;
-        };
-        const startParam = this.el.querySelector('input[name="fechaZInicio"]').value;
-        const endParam = this.el.querySelector('input[name="fechaZFin"]').value;
-        this.print_3mit("/api/imprimir/reporte_z_por_fecha", {
-            fechaDesde: isoDate(startParam),
-            fechaHasta: isoDate(endParam),
-        });
-    }
-
+      const isoDate = function (sf) {
+        const s = sf.split("/");
+        return `${s[2]}-${s[1]}-${s[0]}`;
+      };
+      const startParam = $('input[name="fechaZInicio"]').val();
+      const endParam = $('input[name="fechaZFin"]').val();
+      this.print_3mit("/api/imprimir/reporte_z/por_fecha", {
+        startParam: isoDate(startParam),
+        endParam: isoDate(endParam),
+      });
+    },
     print_facturas() {
-        const startParam = this.el.querySelector('input[name="numFacturaInicio"]').value;
-        const endParam = this.el.querySelector('input[name="numFacturaFin"]').value;
-        this.print_3mit("/api/imprimir/factura", {
-            numDesde: startParam,
-            numHasta: endParam,
-        });
-    }
+      const startParam = $('input[name="numFacturaInicio"]').val();
+      const endParam = $('input[name="numFacturaFin"]').val();
+      this.print_3mit("/api/imprimir/factura", {
+        numDesde: startParam,
+        numHasta: endParam,
+      });
+    },
+    print_3mit(endpoint, data) {
+      const json = data;
+      const host = $("[name=printer_host]").val();
+      const printer_host = "http://" + host + endpoint;
 
-    print_notas_credito() {
-        const startParam = this.el.querySelector('input[name="numFacturaInicio"]').value;
-        const endParam = this.el.querySelector('input[name="numFacturaFin"]').value;
-        this.print_3mit("/api/imprimir/nota-credito", {
-            numDesde: startParam,
-            numHasta: endParam,
-        });
-    }
-
-    ultimos_numeros() {
-        this.print_3mit("/api/data_numeracion", {}).then((rs) => {
-            Dialog.alert(this, {
-                title: _t("Últimos números impresos"),
-                body: `
-                    <br>Última factura: ${rs.ultimaFactura}
-                    <br>Última nota de crédito: ${rs.ultimaNotaCredito}
-                    <br>Último documento no fiscal: ${rs.ultimoDocumentoNoFiscal}
-                `,
+      return new Promise((resolve, reject) => {
+        $.get(printer_host, json)
+          .then((data) => {
+            console.log("3mit_send_to_printer: Ok", data);
+            resolve(data);
+          })
+          .catch((err) => {
+            this.displayNotification({
+              type: "alert",
+              title: "Impresora Fiscal",
+              message: "No se pudo imprimir en " + host,
             });
-        });
-    }
+            reject(err);
+          });
+      });
+    },
+  });
 
-    async print_3mit(endpoint, data = {}) {
-        const json = JSON.stringify(data);
-        const host = this.printer_host;
-        const printer_host = `http://${host}${endpoint}`;
-
-        try {
-            const response = await fetch(printer_host, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: json
-            });
-            if (response.ok) {
-                const result = await response.json();
-                console.log("3mit_send_to_printer: Ok", result);
-                return result.data;
-            } else {
-                throw new Error('Network response was not ok');
-            }
-        } catch (err) {
-            this.notificationService.add(
-                _t("No se detectó el servicio de impresión"),
-                { type: "danger" }
-            );
-            console.error("Error en print_3mit:", err);
-            throw err;
-        }
-    }
-}
-
-registry.category("views").add("printer_options", {
-    ...formView,
-    Controller: CustomInvFormController,
+  var printer_options = FormView.extend({
+    config: _.extend({}, FormView.prototype.config, {
+      Controller: CustomFormController,
+    }),
+  });
+  view_registry.add("printer_options", printer_options);
 });
