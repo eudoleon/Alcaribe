@@ -11,6 +11,7 @@ class AccountMove(models.Model):
     serial_fiscal = fields.Char()
     fecha_fiscal = fields.Char()
     ticket_fiscal = fields.Char()
+    es_pago_en_divisa = fields.Boolean(string="¿Es Pago en Divisa?")
 
     #
     @api.depends('ticket_fiscal')
