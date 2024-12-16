@@ -18,18 +18,13 @@ class inv_nota_credito(models.TransientModel):
     def getTicket(self, *args):
         invoice = self.env['account.move'].browse(self.env.context.get('active_id', False))
 
-        # Obtener la tasa de conversión de la moneda VEF
-        vef_currency = self.env['res.currency'].search([('name', '=', 'VEF')], limit=1)
-        tasa = 1.0
-        
-        if vef_currency:
-            tasa = vef_currency.rate or 1.0
-        else:
-            if tasa == 0:
-                tasa = invoice.currency_id._get_conversion_rate(
-                    invoice.currency_id, invoice.company_id.currency_id,
-                    invoice.company_id, invoice.invoice_date
-                )
+        # Calcula la tasa
+        tasa = self.currency_id._get_conversion_rate(
+            self.currency_id, 
+            self.company_id.currency_id, 
+            self.company_id, 
+            self.invoice_date
+        ) if self.currency_id != self.company_id.currency_id else 1
 
         cliente = invoice.partner_id
         ticket = {
@@ -48,7 +43,7 @@ class inv_nota_credito(models.TransientModel):
             item = {
                 'nombre': line.name,
                 'cantidad': line.quantity,
-                'precio': line.price_unit,
+                'precio': line.price_unit * tasa,
                 'impuesto': line.tax_ids[0].amount if line.tax_ids else 0,
                 'descuento': line.discount,
                 'tipoDescuento': 'p'
@@ -57,15 +52,13 @@ class inv_nota_credito(models.TransientModel):
 
         ticket['items'] = items
 
-        # Verificar si existen pagos asociados a la factura
-        payments = []
-        payment = dict()
-        payment['codigo'] = '20' if self.es_pago_en_divisa else '01'
-        payment['nombre'] = 'EFECTIVO 1'  # Nombre predeterminado del método de pago
-        payment['monto'] = invoice.amount_total
-
-        payments.append(payment)
-        ticket['pagos'] = payments
+        pagos = []
+        pagos.append({
+            'codigo': '20' if self.es_pago_en_divisa else '01',
+            'nombre': 'EFECTIVO',
+            'monto': self.amount_total * tasa,
+        })
+        ticket['pagos'] = pagos
 
         return {
             'ticket': json.dumps(ticket)  # Ajuste aquí, regresamos el JSON del ticket

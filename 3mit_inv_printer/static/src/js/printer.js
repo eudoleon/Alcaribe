@@ -5,21 +5,32 @@ import { _t } from "@web/core/l10n/translation";
 
 export async function PrintFacturaAction(env, action) {
     try {
-        // Obtener los datos desde el contexto
+        // Enviar datos al servicio de impresión
         const result = await doPrintFactura(env, action.context.data);
 
-        const ticket_result = await env.services.orm.call(
-            "account.move",
-            "setTicket",
-            [action.context.active_id, { data: result }]
-        );
-        if (ticket_result) {
-            await env.services.action.doAction({ type: 'ir.actions.act_window_close' });
+        console.log("Respuesta del servicio de impresión:", result);
+
+        // Verificar que la respuesta contenga los campos esperados
+        if (result.nroFiscal && result.serial && result.fecha) {
+            // Actualizar los campos en account.move
+            await env.services.orm.call("account.move", "setTicket", [
+                action.context.active_id,
+                { data: result },
+            ]);
+        } else {
+            throw new Error(
+                "Faltan datos en la respuesta del servicio de impresión: " +
+                    JSON.stringify(result)
+            );
         }
+
+        await env.services.action.doAction({ type: "ir.actions.act_window_close" });
     } catch (err) {
         console.error("Error en PrintFacturaAction:", err);
-        await env.services.action.doAction({ type: 'ir.actions.act_window_close' });
-    }
+        env.services.notification.add("Error al imprimir la factura.", {
+            type: "danger",
+   });
+}
 }
 
 const doPrintFactura = async (env, data) => {
