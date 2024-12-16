@@ -10,17 +10,21 @@ export async function PrintFacturaAction(env, action) {
 
         console.log("Respuesta del servicio de impresión:", result);
 
+        // Extraer los datos fiscales del objeto data
+        const fiscalData = result.data;
+
         // Verificar que la respuesta contenga los campos esperados
-        if (result.nroFiscal && result.serial && result.fecha) {
+        if (fiscalData.nroFiscal && fiscalData.serial && fiscalData.fecha) {
             // Actualizar los campos en account.move
             await env.services.orm.call("account.move", "setTicket", [
                 action.context.active_id,
-                { data: result },
+                { data: fiscalData },
             ]);
+            console.log("Datos fiscales enviados a setTicket:", fiscalData);
         } else {
             throw new Error(
                 "Faltan datos en la respuesta del servicio de impresión: " +
-                    JSON.stringify(result)
+                JSON.stringify(result)
             );
         }
 
