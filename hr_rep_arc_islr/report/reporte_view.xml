@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <data>    
+    <record id="paperformat_resumen_arc" model="report.paperformat">
+
+      <field name="default" eval="True"/>
+        <field name="name">A4 Resumen ARC</field>
+        <field name="default" eval="True"/>
+        <field name="format">custom</field>
+        <field name="page_height">297</field>
+        <field name="page_width">210</field>
+        <field name="orientation">Portrait</field>
+        <field name="margin_top">35</field>
+        <field name="margin_bottom">15</field>
+        <field name="margin_left">5</field>
+        <field name="margin_right">5</field>
+        <field name="header_line" eval="False"/>
+        <field name="header_spacing">30</field>
+        <field name="dpi">110</field>
+    </record>
+
+    <report id="report_arc"
+        model="wizard.rep.arc"
+        name="hr_rep_arc_islr.reporte_arc"
+        file="hr_rep_arc_islr.reporte_arc"
+        string="Reporte Comprobante ARC"
+        report_type="qweb-html"
+        paperformat="hr_rep_arc_islr.paperformat_resumen_arc"
+        /><!-- paperformat="hr_infor_resumen_nom.paperformat_resumen_nomina"-->
+
+    <template id="reporte_arc">
+
+       <t t-call="web.html_container" ><!-- realiza llamados a template propio de odoo -->
+         <t t-call="web.basic_layout" ><!-- realiza llamados a template propio de odoo -->
+          <t t-foreach="docs" t-as="o">
+
+            <div class="header">
+              <div align="center"><samp style="font-weight: bolder;font-size:20px;">COMPROBANTE DE RETENCIONES</samp></div>
+              <br/>
+              <div align="center">Período: Desde <t t-esc="o.formato_fecha(o.date_from)"/> Hasta <t t-esc="o.formato_fecha(o.date_to)"/></div>
+            </div>
+
+            <div class="page">
+              <t t-set="cont_item" t-value="0"/>
+              <t t-foreach="o.line_employee" t-as="employee"> <!-- for 1 -->
+                <t t-set="cont_item" t-value="cont_item+1"/>
+                <t t-if="cont_item>1">
+                  <br/><br/><br/><br/><br/><br/> <br/><br/><br/><br/><br/><br/><br/>
+                </t>
+                <table width="100%"  border="1">
+                  <tr>
+                    <td width="30%" style="font-size:14px;">
+                      <div>&amp;nbsp;</div>
+                      <div><samp style="font-weight: bolder">DATOS DEL AGENTE DE RETENCION</samp></div>
+                      <div>Nombre Agente</div>
+                      <div>Número RIF.</div>
+                      <div>Dirección</div>
+                      <div>Ciudad</div>
+                      <div>Zona Postal</div>
+                      <div>Teléfono</div>
+                      <div><samp style="font-weight: bolder">DATOS DEL TRABAJADOR</samp></div>
+                      <div>Cédula de Identidad</div>
+                      <div>Apellidos y Nombres</div>
+                      <div>Nacionalidad</div>
+                    </td>
+                    <td style="font-size:14px;">
+                      <div align="right">Pág. <t t-esc="cont_item"/></div>
+                      <div>&amp;nbsp;</div>
+                      <div><t t-esc="docs.company_id.name" /></div>
+                      <div><t t-esc="docs.company_id.doc_type" />-<t t-esc="docs.company_id.vat" /></div>
+                      <div ><t t-esc="docs.company_id.street" />&amp;nbsp;<t t-esc="docs.company_id.street2" /></div>
+                      <div><t t-esc="docs.company_id.city" /></div>
+                      <div><t t-esc="docs.company_id.zip" /></div>
+                      <div><t t-esc="docs.company_id.phone" />&amp;nbsp;</div>
+                      <div>&amp;nbsp;</div>
+                      <div><t t-esc="employee.employee_id.tipo_contribuyente" />-<t t-esc="employee.employee_id.cedula" /></div>
+                      <div><t t-esc="employee.employee_id.name" /></div>
+                       <div><t t-esc="employee.employee_id.country_id.name" /></div>
+                    </td>
+                  </tr>
+                </table>
+                <table width="100%"  border="1" class="table table-bordered">
+                  <tr align="center">
+                    <td>Mes</td>
+                    <td>Remuneraciones Pagadas</td>
+                    <td>Porcentaje de Retención</td>
+                    <td>Impuesto Retenido</td>
+                    <td>Remuneraciones Acumuladas</td>
+                    <td>Impuestos Retenidos Acumulado</td>
+                  </tr>
+                  <t t-set="acum_remuneraciones" t-value="0"/>
+                  <t t-set="acum_reten" t-value="0"/>
+                  <t t-foreach="employee.line_arc" t-as="line_arc"><!-- for 2 -->
+                    <tr>
+                      <td align="center"><t t-esc="line_arc.mes"/></td>
+                      <td align="right"><t t-esc="o.float_format(line_arc.valor_remuneracion)"/> Bs.</td><t t-set="acum_remuneraciones" t-value="acum_remuneraciones+line_arc.valor_remuneracion"/>
+                      <td align="right"><t t-esc="o.float_format(line_arc.porcentaje)"/> Bs.</td>
+                      <td align="right"><t t-esc="o.float_format(line_arc.impuesto_ret)"/> Bs.</td>
+                      <t t-set="acum_reten" t-value="acum_reten+line_arc.impuesto_ret"/>
+                      <td align="right"><t t-esc="o.float_format(acum_remuneraciones)"/> Bs.</td>
+                      <td align="right"><t t-esc="o.float_format(acum_reten)"/> Bs.</td>
+                    </tr>
+                  </t> <!-- fin for 2 -->
+                  <tr>
+                    <td><samp style="font-weight: bolder;font-size:16px;">Totales:</samp></td>
+                    <td align="right"><samp style="font-weight: bolder;font-size:16px;"><t t-esc="o.float_format(acum_remuneraciones)"/> Bs.</samp></td>
+                    <td></td>
+                    <td align="right"><samp style="font-weight: bolder;font-size:16px;"><t t-esc="o.float_format(acum_reten)"/> Bs.</samp></td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                </table>
+                <div><samp style="font-weight: bolder;font-size:16px;">Total Retenido I.V.S.S.</samp> </div>
+              </t><!-- fin for 1 -->
+            </div>
+
+          </t>
+         </t>
+       </t>
+
+     </template>
+  
+  </data>
+</odoo>

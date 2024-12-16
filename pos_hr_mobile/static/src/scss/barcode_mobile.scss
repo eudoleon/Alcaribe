@@ -1,0 +1,15 @@
+.o_barcode_mobile_container {
+    .btn-primary {
+        color: #FFF;
+        background-color: #00A09D;
+        border-color: #00A09D;
+    }
+}
+
+.d-grid {
+    display: grid !important;
+}
+
+.btn-close::after {
+    content: "Close";
+}

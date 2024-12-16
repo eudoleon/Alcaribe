@@ -1,0 +1,34 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <data>
+
+        <record id="product_template_currency_rate_form_view" model="ir.ui.view">
+            <field name="name">product.template.currency.rate.view.form</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//label[@for='list_price']" position="before">
+                    <field name="list_price_usd" widget="monetary" options="{'currency_field': 'currency_usd_id', 'field_digits': True}" />
+                    <field name="currency_usd_id" invisible="1"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="product_template_currency_rate_kanban_view" model="ir.ui.view">
+            <field name="name">product.template.currency.rate.view.kanban</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_kanban_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='currency_id']" position="before">
+                    <field name="currency_usd_id"/>
+                </xpath>
+                <xpath expr="//div[@name='product_lst_price']" position="before">
+                    <ul>
+                        <li>Price: <field name="list_price_usd" widget="monetary" options="{'currency_field': 'currency_usd_id', 'field_digits': True}"/>
+                        </li>
+                    </ul>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

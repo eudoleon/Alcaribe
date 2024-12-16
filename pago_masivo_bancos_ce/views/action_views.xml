@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+		<record id="account_payment_detail_massive_form" model="ir.ui.view">
+			<field name="name">account.payment.detail.massive.form</field>
+			<field name="model">account.payment.detail.massive</field>
+			<field name="priority" eval="20" />
+			<field name="arch" type="xml">
+				<form string="account payment detail massive Line" create="false" duplicate="false">
+					<header>
+						<field name="state" widget="statusbar" />
+					</header>
+					<sheet>
+						<h1>
+							<field name="name" />
+						</h1>
+						<group>
+							<field name="partner_id" widget="many2many_tags"
+								context="{'default_is_company': True}"
+								attrs="{'readonly': [('state', '!=', 'draft')]}" />
+							<field name="type" invisible="1" />
+							<field name="partner_type" invisible="1" />
+							<field name="partner_id" required="1"
+								options="{'no_create':True, 'no_edit':True}" />
+							<field name="move_line_id" readonly="False"
+								force_save="True"
+								options="{'no_create':True, 'no_open':True, 'always_reload': True}"
+								context="{'show_number': True}"
+								domain="['|',('amount_residual','!=', 0),('amount_residual_currency','!=', 0), ('partner_id','=', partner_id), ('account_id.reconcile','=',True)]" />
+							<field name="account_id"
+								domain="[('company_id', '=', company_id)]"
+								options="{'no_create':True, 'no_open':True}"
+								attrs="{'readonly':[('move_line_id','!=',False)]}"
+								force_save="1" />
+							<field name="tax_ids" widget="many2many_tags"
+								optional="show" invisible="1"
+								options="{'no_create' : 1}" />
+							<field name="analytic_account_id"
+								domain="['|', ('company_id', '=', False), ('company_id', '=', parent.company_id)]"
+								groups="analytic.group_analytic_accounting"
+								optional="show" />
+							<field name="name"
+								attrs="{'readonly':[('move_line_id','!=',False)]}"
+								force_save="1" />
+							<field name="ref" invisible="1" />
+							<field name="invoice_id" readonly="True" force_save="True"
+								domain="['|', ('move_type','=','out_invoice'),('move_type','=','in_invoice')]" />
+							<field name="number" invisible="1" />
+							<field name="payment_id" invisible="1" />
+							<field name="balance" invisible="1" />
+							<field name="amount_residual" />
+							<field name="company_currency_id" invisible="1"
+								attrs="{'readonly':[('move_line_id','!=',False)]}"
+								force_save="1"
+								options="{'no_create':True, 'no_open':True}" />
+							<field name="amount_residual_currency"
+								groups="base.group_multi_currency" />
+							<field name="currency_id" invisible="1"
+								attrs="{'readonly':[('move_line_id','!=',False)]}"
+								force_save="1"
+								options="{'no_create':True, 'no_open':True}" />
+							<field name="date_maturity" invisible="1" />
+							<field name="payment_amount" sum="Total actual pago" />
+							<field name="payment_currency_id" attrs="{'readonly': True}"
+								force_save="1"
+								options="{'no_create': True, 'no_open': True}" />
+							<field name="company_id" invisible="1" />
+							<field name="journal_id" invisible="1" />
+							<field name="amount_currency" invisible="1" />
+							<field name="debit" invisible="1" />
+							<field name="credit" invisible="1" />
+							<field name="date" invisible="1" />
+							<field name="is_account_line" invisible="1" />
+							<field name="is_transfer" invisible="1" />
+							<field name="is_manual_currency" invisible="1" />
+							<field name="is_diff" invisible="1" />
+							<field name="is_counterpart" invisible="1" />
+							<field name="exclude_from_payment_detail" invisible="1" />
+							<field name="move_id" invisible="1" />
+							<field name="to_pay"
+								attrs="{'readonly':[('move_line_id','=',False)]}" />
+							<field name="payment_difference" invisible="1" />
+							<field name="payment_difference_handling" invisible="1" />
+							<field name="writeoff_account_id" invisible="1" />
+							<field name="auto_tax_line" invisible="1" />
+							<field name="tax_tag_ids" widget="many2many_tags"
+								invisible="1" />
+							<field name="tax_repartition_line_id" invisible="1" />
+							<field name="tax_line_id" invisible="1" />
+							<field name="tax_line_id2" invisible="1" />
+							<field name="tax_base_amount" invisible="1" />
+							<field name="tag_ids" widget="many2many_tags"
+								options="{'color_field': 'color'}" />
+
+						</group>
+					</sheet>
+				</form>
+			</field>
+		</record>
+		<record id="account_payment_detail_massive_action" model="ir.actions.act_window">
+			<field name="name">Pago masivo lineas</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">account.payment.detail.massive</field>
+			<field name="view_mode">tree,form</field>
+			<!-- <field name="search_view_id" ref="purchase_request_line_search" /> -->
+		</record>
+	</data>
+</odoo>

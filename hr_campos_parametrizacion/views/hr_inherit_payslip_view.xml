@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="hr_payslip_especial_days_form" model="ir.ui.view">
+            <field name="name">hr.payslip.holidays</field>
+            <field name="model">hr.payslip</field>
+            <field name="inherit_id" ref="hr_payroll.view_hr_payslip_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='struct_id']" position="after">
+                    <field name="custom_rate_gene" string="Tasa Personalizada"/>
+                    <field name="os_currecy_rate_gene" string="Tasa" attrs="{'readonly': [('custom_rate_gene', '!=', True)]}"/>
+                    <field name="sueldo" string="Sueldo a este Periodo(Bs)"/> <!-- nuevo2 -->
+                    <field name="fecha_hoy"/>
+                    <field name="os_currecy_rate_gene_aux" invisible="1"/>
+
+                </xpath>
+
+                <xpath expr="//form/sheet/notebook" position="attributes">
+                    <attribute name="name">identification_employee</attribute>
+                </xpath>
+
+                <xpath expr="//form/sheet/notebook[@name='identification_employee']" position="before">
+
+                     <h3><a><b>Pagos adicionales y descuentos</b></a></h3>
+                    <newline/>
+                    <group col="2">
+                        <group>
+                            <label for="abono_check"/>
+                                <div>
+                                    <div class="address_format">
+                                        <field name="abono_check" style="width: 15%%"/>
+                                        <field name="abono_value" string="Monto" attrs="{'invisible': [('abono_check', '!=', True)]}" nolabel="1"/>
+                                            <!--span>/ month</span-->
+                                    </div>
+                                </div>
+                            <label for="dias_pend_check"/>
+                                <div>
+                                    <div class="address_format">
+                                        <field name="dias_pend_check" style="width: 15%%"/>
+                                        <field name="dias_pen_d_value" string="Dias" attrs="{'invisible': [('dias_pend_check', '!=', True)]}" nolabel="1"/>
+                                            <!--span>/ month</span-->
+                                    </div>
+                                </div>
+                        </group>
+                        <group>
+                            <label for= "salary_deduction_check" string="Otras Deducciones"/>
+                                <div>
+                                    <div class="address_format">
+                                        <field name="salary_deduction_check" style="width: 15%%"/>
+                                        <field name="salary_deduction_value" class="oe_no_button" style="width: 65%%" attrs="{'invisible': [('salary_deduction_check', '!=', True)]}"/>
+                                    </div>
+                                </div>
+
+                            <label for= "deduction_sc_check" string="Deducciones sin cobrar"/>
+                                <div>
+                                    <div class="address_format">
+                                        <field name="deduction_sc_check" style="width: 15%%"/>
+                                        <field name="deduction_sc_value" class="oe_no_button" style="width: 65%%" attrs="{'invisible': [('deduction_sc_check', '!=', True)]}"/>
+                                    </div>
+                                </div>
+
+
+                            <label for= "anticipo_vac_check" string="Anticipo Vacaciones"/>
+                                <div>
+                                    <div class="address_format">
+                                        <field name="anticipo_vac_check" style="width: 15%%"/>
+                                        <field name="anticipo_vac_value" class="oe_no_button" style="width: 65%%" attrs="{'invisible': [('anticipo_vac_check', '!=', True)]}"/>
+                                    </div>
+                                </div>
+                        </group>
+
+                    </group>
+
+                    <h3><a><b>Descuentos por prestamos</b></a></h3>
+                    <newline/>
+                    <group col="4">
+                        <group>
+                            <field name="habilitar_des_pres" string="Usar?"/>
+                        </group>
+                        <group>
+                            <field name="custom_rate" readonly="1"/>
+                            <field name="os_currecy_rate" attrs="{'readonly': [('custom_rate', '!=', True)],'invisible': [('habilitar_des_pres', '!=', True)]}" string="Tasa" />
+                        </group>
+                        
+                        <group col="2">
+                            <field name="monto" string="Monto a descontar" attrs="{'invisible': [('habilitar_des_pres', '!=', True)]}" />
+                            <field name="currency_pres_id" string="Moneda" attrs="{'invisible': [('habilitar_des_pres', '!=', True)]}"/>
+                            <field name="monto_bs" string="Equivalente en (Bs)" readonly="0" attrs="{'invisible': [('habilitar_des_pres', '!=', True)]}"/>
+                        </group>
+                    </group>
+
+                    <h3><a><b>Dias Especiales</b></a></h3>
+                    <newline/>
+                    <group col="4">
+                        <group col="2">
+                        <field name="mondays"/>
+                        <field name="mondays_activo"/> <!-- nuevo2 -->
+                        <field name="holydays"/>
+                        <field name="workdays" invisible="0"/>
+                        <field name="workdays_periodo" invisible="1"/><!-- nuevo2 -->
+                        <field name="workdays_periodo2" invisible="0"/><!-- nuevo2 -->
+                        <field name="saturdays_sundays_act" string="Sabados/Domingos Activos" invisible="0"/><!-- nuevo2 -->
+                        <field name="hollydays_str" nolabel="1" readonly="1" invisible="1 "/>
+                        </group>
+                        <group col="2">
+                        <field name="saturdays"/>
+                        <field name="sundays"/>
+                        <field name="days_attended" readonly="1" invisible="0"/>
+                        <field name="days_inasisti" readonly="1" invisible="0"/>
+                        <field name="monto_bono_alimenticio" invisible="1"/>
+                        <field name="dif_dias_ingreso" string="Dif. dias Ingreso"/>
+                        <field name="dif_dias_egreso" string="Dif. dias Egreso"/>
+                        </group>
+                        
+                    </group>
+
+                    <h3><a><b>Ausencias y Permisos (dias)</b></a></h3>
+                    <newline/>
+                    <group col="4">
+                        <group col="2">
+                            <field name="dias_permiso_remunerado" string="Aus. Remunerada"/>
+                            <field name="dias_no_remunerado" string="Aus. no Remunerada"/>
+                            <field name="dias_ausencia_injus" string="Aus. Injustificada"/>
+                            <field name="dias_vacaciones_pedidas" string="Aus. por Vacaciones"/>
+
+                        </group>
+                        <group col="2">
+                            <field name="dias_reposo_medico" string="Reposo Medico"/>
+                            <field name="dias_reposo_medico_lab" string="Reposo Médico Laboral"/>
+                            <field name="dias_pos_natal" string="Permiso Pre/Pos Natas"/>
+                            <field name="dias_peternidad" string="Licencia Paternidad"/>
+
+                        </group>
+                    </group>
+
+
+                    <h3><a><b>Tiempo de Vacaciones Para este periodo de Nómina</b></a></h3>
+                    <newline/>
+                    <group col="4">
+                        <group col="2">
+                            <field name="tiempo_antiguedad" string="Antiguedad (años)" readonly="1"/>
+                            <field name="dias_vacaciones" string="Dias a Disfrutar" readonly="1"/>
+                            <field name="dias_vacaciones_pedidas" string="Dias solicitados"/>
+                        </group>
+                        <group col="2">
+                           <field name="dias_vacaciones_en_nomina" string="Dias en Vac. de este Periódo de Nóm."/>
+                           <field name="saturdays_sundays_vac" string="Sabados y Domingos"/>
+                        </group>
+                    </group>
+
+                    <h3><a><b>Tiempo Laborados</b></a></h3>
+                    <newline/>
+                    <group col="4">
+                        <group col="2">
+                            <field name="horas_extras_diurnas" string="Total Horas Extras Diurnas" readonly="1"/>
+                            <field name="hollydays_str" string="Dias de Descanso Laborados" readonly="1"/> 
+                        </group>
+                        <group col="2">
+                            <field name="horas_extras_nocturnas" string="Total Horas Extras Nocturnas" readonly="1"/>
+                            <field name="hollydays_ftr" string="Dias Feriados Laborados" readonly="1"/>
+                        </group>
+                    </group>
+
+
+                    <h3><a><b>Otros</b></a></h3>
+                    <newline/>
+                    <group col="4">
+                        <group col="2">
+                            <field name="sueldo_anterior_mes" string="Sueldo Mensual mes pasado" readonly="1"/>
+                            <field name="sueldo_minimo_actual" string="Sueldo Minimo Actual" readonly="1"/>
+                        </group>
+                        <group col="2">
+                            <field name="dias_utilidades" string="Dias de Utilidades" readonly="1"/>
+                            <field name="dias_por_antiguedad" string="Dias por Año de Antiguedad" readonly="1"/>
+                        </group>
+                    </group>
+                </xpath>
+
+                <xpath expr="//form[1]/sheet[1]/notebook[@name='identification_employee']/page[2]/field[@name='line_ids']/tree[1]/field[@name='rate']" position="after">
+                    <field name="dias" string="Nro días"/>
+                </xpath>
+
+                <xpath expr="//form[1]/sheet[1]/notebook[@name='identification_employee']/page[2]/field[@name='line_ids']/tree[1]/field[@name='total']" position="after">
+                    <field name="total_uds" string="Total $"/>
+                </xpath>
+                
+            </field>
+        </record>
+
+    </data>
+</odoo>

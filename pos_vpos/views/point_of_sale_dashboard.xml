@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_pos_config_kanban_vpos" model="ir.ui.view">
+        <field name="name">pos.config.kanban.view.vpos</field>
+        <field name="model">pos.config</field>
+        <field name="inherit_id" ref="point_of_sale.view_pos_config_kanban"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[contains(@class, 'o_kanban_card_manage_pane')]/div[contains(@class, 'row')][1]" position="after">
+                <div class="row" attrs="{'invisible': [('vpos', '=', False)]}">
+                    <div class="col-12 o_kanban_card_manage_section o_kanban_manage_view">
+                        <div role="menuitem" class="o_kanban_card_manage_title">
+                            <span>VPOS</span>
+                        </div>
+                        <div role="menuitem">
+                            <a vpos_action="anulacion" class="vpos_action" href="">Anulación</a>
+                        </div>
+                        <div role="menuitem">
+                            <a vpos_action="imprimeUltimoVoucher" href="">Impresión de última transacción aprobada </a>
+                        </div>
+                        <div role="menuitem">
+                            <a vpos_action="imprimeUltimoVoucherP"  href="">Impresión de última transacción procesada </a>
+                        </div>
+                        <div role="menuitem">
+                            <a vpos_action="precierre"  href="">Pre-cierre </a>
+                        </div>
+                        <div role="menuitem">
+                            <a vpos_action="cierre"  href="">Cierre</a>
+                        </div>
+                        <div role="menuitem">
+                            <a vpos_action="ultimoCierre" href="">Último cierre </a>
+                        </div>
+                    </div>
+                </div>
+            </xpath>
+            
+            <xpath expr="//templates" position="before">
+                <field name="vpos"/>
+                <field name="vpos_restApi"/>
+            </xpath>            
+             <!-- <xpath expr="//kanban/templates/t[@t-name='kanban-box']" position="inside">
+                <xpath expr="//div[contains(@class, 'o_kanban_card_manage_settings')]" position="after">
+                    <t t-component="pos_vpos.PosConfigKanbanOptions"/>
+                </xpath>
+            </xpath> -->
+
+
+
+            <!-- <xpath expr="//kanban" position="attributes">
+                <attribute name="js_class">vpos_kanban</attribute>
+            </xpath> -->
+            
+        </field>
+    </record>
+</odoo>

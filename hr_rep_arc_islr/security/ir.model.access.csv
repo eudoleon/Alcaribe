@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+wizard_rep_arc,wizard.rep.arc,model_wizard_rep_arc,base.group_user,1,1,1,1
+hr_employee_arc,hr.employee.arc,model_hr_employee_arc,base.group_user,1,1,1,1
+hr_employee_arc_line,hr.employee.arc_line,model_hr_employee_arc_line,base.group_user,1,1,1,1

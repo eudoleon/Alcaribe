@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="login_session_res_users_inherit_form_view_ah" model="ir.ui.view">
+        <field name="name">login.session.res.users.inherit.form.view.ah</field>
+        <field name="model">res.users</field>
+<!--		<field name="groups_id" eval="[(4, ref('group_login_log_admin_ah'))]"/>-->
+        <field name="inherit_id" ref="base.view_users_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button name="action_kill_all_session" groups="advanced_session_management.group_login_log_admin_ah" type="object" class="oe_stat_button" icon="fa-times-circle" style="color:red;">
+                    Kill All Session
+                </button>
+            </xpath>
+            <xpath expr="//notebook" position="inside">
+                <page string='Sessions' groups="advanced_session_management.group_login_log_admin_ah" >
+                    <field name="login_log_ids" readonly='1'/>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<template xml:space="preserve">
+   <t t-name="PriceCheckerKioskModesp">
+       <div class="modal" tabindex="-1" role="dialog">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">Artículo no encontrado</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                </button>
+              </div>
+              <div class="modal-body">
+                <p>El producto <t t-esc="widget.text_field"/> no se encuentra registrado.</p>
+              </div>
+            </div>
+          </div>
+       </div>
+      <div class="o_hr_attendance_kiosk_mode_container o_home_menu_background">
+      <span class="o_hr_attendance_kiosk_backdrop"/>
+          <div class="o_hr_attendance_clock text-center"/>
+          <div class="o_hr_attendance_kiosk_mode" style="max-width: 70%">
+            <style>
+               @media (max-width: 1200px) {
+                  .o_hr_attendance_kiosk_mode{
+               max-width: 90% !important;
+               }
+               }
+            </style>
+              <t>
+               <div class="row mx-auto">
+                  <img class="mx-auto" src='/web/binary/company_logo' style="max-height: 65px; margin-top:10px;"
+                       alt="Logo"/>
+               </div>
+                  <br></br>
+                  <div class="row">
+                  <div class="col-md-6" style="display:inline-block;">
+                     <div style="border: 2px solid #000000;border-radius: 1px;float: left; width:100%;" class="h-100">
+                        <table cellpadding="12" align="center" style="float: left;">
+                           <tr>
+                              <th>
+                                 <h3 class="panel-title" style="float: left;">Nombre del producto: </h3>
+                              </th>
+                               <th>
+                                 <b style="float: left;">
+                                    <t t-esc="widget.product_name"/>
+                                 </b>
+                              </th>
+                           </tr>
+                            <tr>
+                              <th style="font-weight: bold;">
+                                 <h3 class="panel-title"
+                                     style="float: left; font-weight: bold; text-shadow: .5px .5px black;">Precio regular:  </h3>
+                              </th>
+                                <th>
+                                 <b style="float: left; text-shadow: .2px .2px black;">
+                                     <t t-esc="widget.currency_id"/>
+                                     <t t-esc="widget.product_price" t-options='{"widget"}'/>
+                                 </b>
+                              </th>
+                           </tr>
+                            <tr>
+                              <th>
+                                 <h3 class="panel-title"
+                                     style="float: left; font-weight: bold; text-shadow: .5px .5px black;">Precio con oferta: </h3>
+                              </th>
+                                <th>
+                                 <b style="float: left; text-shadow: .2px .2px black;">
+                                     <t t-esc="widget.currency_id"/>
+                                     <t t-esc="widget.special_price" t-options='{"widget"}'/>
+                                 </b>
+                              </th>
+                           </tr>
+
+                            <tr>
+                              <th>
+                                 <h3 class="panel-title"
+                                     style="float: left; font-weight: bold; text-shadow: .5px .5px black;">Cant. min. para la oferta: </h3>
+                              </th>
+                                <th>
+                                 <b style="float: left; text-shadow: .2px .2px black;">
+                                    <t t-esc="widget.uom_id" t-options='{"widget"}'/>
+                                     <!--                                     <t-->
+                                     <!--                                             t-esc="widget.uom_id"/>-->
+                                 </b>
+                              </th>
+                           </tr>
+
+                            <tr>
+                              <th>
+                                 <h3 class="panel-title" style="float: left;">Referencia interna:  </h3>
+                              </th>
+                                <th>
+                                 <b style="float: left;">
+                                    <t t-esc="widget.default_code"/>
+                                 </b>
+                              </th>
+                           </tr>
+                            <tr>
+                              <th>
+                                 <h3 class="panel-title" style="float: left;">Código de barras:  </h3>
+                              </th>
+                                <th>
+                                 <b style="float: left;">
+                                    <t t-esc="widget.product_barcode"/>
+                                 </b>
+                              </th>
+                           </tr>
+                        </table>
+                     </div>
+                  </div>
+                      <div class="col-md-6" style="display:inline-block;">
+                     <div style="border: 2px solid #000000;border-radius: 1px;float: left; width:100%;">
+                        <div class="row mx-auto" style="margin-top:10px;">
+                           <br></br>
+                            <h3 class="mx-auto">Por favor ingrese el código de barras</h3>
+                        </div>
+                         <br></br>
+                         <div class="offset-md-2; mx-auto;">
+                           <div style="float: center; border: transparent;">
+                              <input class="o_hr_attendance_PINbox text-center"
+                                     t-attf-value="{{widget.text_field}}"/>
+                           </div>
+                        </div>
+                         <div class="row col mx-auto">
+                           <div class="col-md-8 offset-md-2 o_hr_attendance_pin_pad mx-auto">
+                              <div class="row col-md-12 mx-auto">
+                                 <t t-foreach="['1', '2', '3', '4', '5', '6', '7', '8', '9', ['C', 'btn-warning'], '0', ['ok', 'btn-primary']]"
+                                    t-as="btn_name">
+                                    <div class="col-4 mb4">
+                                       <a t-attf-class="btn {{btn_name[1]? btn_name[1] : 'btn-secondary'}} btn-block btn-lg {{ 'o_hr_attendance_pin_pad_button_' + btn_name[0] }}">
+                                          <t t-esc="btn_name[0]"/>
+                                       </a>
+                                    </div>
+                                 </t>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </t>
+         </div>
+      </div>
+   </t>
+</template>

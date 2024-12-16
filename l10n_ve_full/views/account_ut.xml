@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <menuitem id="menu_finance_fiscal_settings" name="Configuración Fiscal de Venezuela" parent="account.menu_finance_configuration" sequence="21"/>
+
+        <record id="view_account_ut_filter" model="ir.ui.view">
+            <field name="name">account.ut.search</field>
+            <field name="model">account.ut</field>
+            <field name="arch" type="xml">
+                <search string="Search Tax Unit">
+                        <field name="name"/>
+                        <field name="date"/>
+                        <field name="amount"/>
+                    <separator/>
+               </search>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_account_ut_form">
+            <field name="name">account.ut.form</field>
+            <field name="model">account.ut</field>
+            <field name="arch" type="xml">
+                <form string="Tax Unit">
+                    <group col="6" colspan="4">
+                        <field name="name" select="1" colspan="4"/>
+                        <separator/>
+                        <field name="date" select="1"/>
+                        <field name="amount" select="1"/>
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_account_ut_tree">
+            <field name="name">account.ut.tree</field>
+            <field name="model">account.ut</field>
+            <field name="arch" type="xml">
+                <tree editable="top">
+                    <field name="name"/>
+                    <field name="date"/>
+                    <field name="amount"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="act_account_ut_2" model="ir.actions.act_window">
+            <field name="name">Unidad tributaria</field>
+            <field name="res_model">account.ut</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="view_account_ut_filter"/>
+            <field name="help">
+                Unidad tributaria de acuerdo al SENIAT
+            </field>
+        </record>
+
+        <menuitem parent="menu_finance_fiscal_settings" id="menu_action_account_ut" action="act_account_ut_2"/>
+
+    </data>
+</odoo>

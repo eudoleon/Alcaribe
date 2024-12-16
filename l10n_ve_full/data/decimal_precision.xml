@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<odoo>
+    <data noupdate="1">
+        <record forcecreate="True" id="decimal_withhold_islr" model="decimal.precision">
+            <field name="name">Withhold ISLR</field>
+            <field name="digits">2</field>
+        </record>
+        <record forcecreate="True" id="decimal_withhold_igtf" model="decimal.precision">
+            <field name="name">Withhold_IGTF</field>
+            <field name="digits">2</field>
+        </record>
+    </data>
+</odoo>

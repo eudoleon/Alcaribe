@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<templates xml:space="preserve">
+
+    <t t-name="reconciliation.line.mv_line.amount">
+        <span t-att-class="((line.is_move_line || line.is_liquidity_line) &amp;&amp; proposition == true) ? 'cell' : ''">
+            <span class="line_amount">
+                <span t-if="line.amount_currency_str"
+                      t-attf-class="o_multi_currency o_multi_currency_color_#{line.currency_id%8} line_info_button fa fa-money"
+                      t-att-data-content="line.amount_currency_str"/>
+                <span t-if="line.partial_amount &amp;&amp; line.partial_amount != line.amount" class="strike_amount text-muted">
+                    <t t-out="line.amount_str"/>
+                    <br/>
+                </span>
+            </span>
+            <t t-if="(line.is_move_line || line.is_liquidity_line) &amp;&amp; proposition == true">
+                <i class="fa fa-pencil edit_amount"></i>
+                <input class="edit_amount_input text-end d-none"/>
+            </t>
+            <span class="line_amount">
+                <t t-if="!line.partial_amount_str" t-out="line.amount_str"/>
+                <t t-if="line.partial_amount_str &amp;&amp; line.partial_amount != line.amount" t-out="line.partial_amount_str"/>
+            </span>
+            /
+            <span class="line_amount" style="color:red;">
+
+                <t t-out="line.amount_usd_str"/>
+            </span>
+        </span>
+    </t>
+
+    <t t-name="reconciliation.line.mv_line">
+        <tr t-if="line.display !== false" t-attf-class="mv_line #{line.is_liquidity_line ? ' already_reconciled' : ''} #{line.__invalid ? 'invalid' : ''} #{line.is_tax ? 'is_tax' : ''}" t-att-data-line-id="line.id" t-att-data-selected="selected">
+            <td class="cell_account_code"><t t-esc="line.account_code"/>&#8203;</td> <!-- zero width space to make empty lines the height of the text -->
+            <td class="cell_due_date">
+                <t t-if="typeof(line.id) != 'number' &amp;&amp; line.id">
+                    <span class="badge text-bg-secondary">New</span>
+                </t>
+                <t t-else="" t-esc="line.date || line.date_maturity"/>
+            </td>
+            <td class="cell_label">
+                <t t-if="line.partner_id &amp;&amp; line.partner_id !== state.st_line.partner_id">
+                    <t t-if="line.partner_name &amp;&amp; line.partner_name.length">
+                        <span class="fw-bold" t-esc="line.partner_name"/>:
+                    </t>
+                </t>
+                <span class="o_form_uri entry_view" t-if="line.name" t-att-data-line_id="line.id" t-esc="line.name.move_name"/>
+                <t t-if="line.name" t-esc="line.name.line_name"/>
+                <t t-if="line.ref &amp;&amp; line.ref.length"> : </t>
+                <t t-esc="line.ref"/>
+            </td>
+            <td class="cell_left" style="width: 190px;font-size: 12px;">
+                <t t-if="line.amount &lt; 0">
+                    <t t-call="reconciliation.line.mv_line.amount"/>
+                </t>
+            </td>
+            <td class="cell_right" style="width: 190px;font-size: 12px;">
+                <t t-if="line.amount &gt; 0">
+                    <t t-call="reconciliation.line.mv_line.amount"/>
+                </t>
+            </td>
+            <td class="cell_info_popover"></td>
+        </tr>
+    </t>
+
+</templates>

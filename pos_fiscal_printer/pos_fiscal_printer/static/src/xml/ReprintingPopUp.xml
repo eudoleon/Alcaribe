@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="reprinting_popup" xml:space="preserve">
+    <t t-name="ReprintingPopUp" owl="1">
+        <div class="popup popup-med">
+            <header class="title">
+                Reimpresión
+            </header>
+            <main>
+                <form 
+                    t-on-submit="onSubmit"
+                    name="reprinting" 
+                    id="reprinting" 
+                    action="#" 
+                    autocomplete="off"
+                >
+                    <fieldset>
+                        <legend>Configuración</legend>
+                        <label>
+                            Modo
+                            <select 
+                                name="printingMode" 
+                                id="printingMode" 
+                                t-model="fields.printingMode"
+                                required=""
+                            >
+                                <option value="numero">Número</option>
+                                <option value="fecha">Fecha</option>
+                                <option value="ultimo">Último</option>
+                                <option value="cedula">Cédula</option>
+                            </select>
+                        </label>
+                        <label>
+                            Tipo de documento
+                            <select 
+                                name="document" 
+                                id="document"
+                                required=""
+                                t-model="fields.document"
+                            > 
+                                <option value="f">Facturas</option>
+                                <option value="c">Notas de Crédito</option>
+                                <option value="d">Notas de Débito</option>
+                                <option value="t">Todos los documentos no fiscales</option>
+                                <option value="x">Reportes X</option>
+                                <option value="z">Reportes Z</option>
+                                <option value="r">Reportes de lectura de memoria fiscal</option>
+                                <option value="y">RAM CLEAR</option>
+                                <option value="e">Copias</option>
+                                <option value="s">Facturas, Notas de Crédito y Notas de Débito</option>
+                                <option value="a">Todos los documentos excepto copias y errores de bloqueo</option>
+                                <option value="n">Documentos no Fiscales excepto RAM CLEAR, copias y Reportes X</option>
+                                <option value="*">Todos los documentos</option>
+                            </select>
+                        </label>
+                    </fieldset>
+                    <fieldset t-if="fields.printingMode === 'cedula'">
+                        <legend>Cédula</legend>
+                        <label>
+                            Cédula
+                            <input 
+                                name="cedula"
+                                id="cedula"
+                                t-model="fields.cedula"
+                                pattern="[1234567890.]+"
+                                placeholder="00.00.00.00"
+                                required=""
+                                type="text"
+                            />
+                        </label>
+                    </fieldset>
+                    <fieldset t-elif="fields.printingMode === 'fecha'">
+                        <legend>Fechas (se pueden repetir)</legend>
+                        <label>
+                            Desde
+                            <input 
+                                type="date" 
+                                name="fromDate" 
+                                id="fromDate"
+                                required="" 
+                                t-model="fields.fromDate"
+                            />
+                        </label>
+                        <label>
+                            Hasta
+                            <input 
+                                type="date" 
+                                name="toDate" 
+                                id="toDate" 
+                                required=""
+                                t-model="fields.toDate"
+                            />
+                        </label>
+                    </fieldset>
+                    <fieldset t-elif="fields.printingMode === 'numero'">
+                        <legend>Números (se pueden repetir)</legend>
+                        <label>
+                            Número desde
+                            <input 
+                                id="from"
+                                name="from"
+                                maxlength="7"
+                                pattern="\\d+"
+                                required=""
+                                t-model="fields.fromNumber"
+                                type="text"
+                            />
+                        </label>
+                        <label>
+                            Número hasta
+                            <input 
+                                id="to"
+                                name="to"
+                                maxlength="7"
+                                pattern="\\d+"
+                                required=""
+                                t-model="fields.toNumber"
+                                type="text"
+                            />
+                        </label>
+                    </fieldset>
+                </form>
+            </main>
+            <footer class="footer">
+                <button class="button confirm highlight" form="reprinting">
+                    Ok
+                </button>
+                <div class="button cancel" t-on-click="cancel">
+                    Cancel
+                </div>
+            </footer>
+        </div>
+    </t>
+    <t t-name="ReprintingButton" owl="1">
+        <div class="reprinting-button" t-on-click="doReprinting">
+            <i class="fa fa-print" aria-hidden="true"></i>
+            <strong t-if="!env.isMobile">Reimprimir</strong>
+        </div>
+    </t>
+    <t t-name="ReprintingChrome" t-inherit="point_of_sale.Chrome" t-inherit-mode="extension" owl="1">
+        <TicketButton position="after">
+            <ReprintingButton />
+        </TicketButton>
+    </t>
+</templates>

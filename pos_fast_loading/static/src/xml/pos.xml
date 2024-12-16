@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- License URL : <https://store.webkul.com/license.html/> -->
+<templates id="template" xml:space="preserve">
+    <t t-name="SynchNotificationWidget" owl="1">
+        <div class="oe_status session_update current" style="display:none;float:right" t-on-click="_onClickSessionUpdate">
+            <div class="oe_icon oe_black">
+                <i class="fa fa fa-refresh"></i>
+            </div>
+        </div>
+    </t>
+
+    <t t-name="Chrome" t-inherit="point_of_sale.Chrome" t-inherit-mode="extension" owl="1">
+        <xpath expr="//div[hasclass('status-buttons')]//SyncNotification" position="before">
+            <!-- <t t-if="!env.pos.config.enable_pos_longpolling"> -->
+            <!-- <t t-debug="pdb"/> -->
+                <SynchNotificationWidget/>
+            <!-- </t> -->
+        </xpath>
+    </t>
+</templates>

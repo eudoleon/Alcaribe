@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+       <record id="res_config_settings_view_inherit_form" model="ir.ui.view">
+            <field name="name">res.config.settings.view.form.inherit2.hr.payroll</field>
+            <field name="model">res.config.settings</field>
+            <!--field name="priority" eval="45"/-->
+            <field name="inherit_id" ref="hr_payroll.res_config_settings_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[hasclass('settings')]" position="inside">
+                    <div class="app_settings_block" data-string="Payroll" string="Payroll" data-key="hr_payroll" groups="hr_payroll.group_hr_payroll_manager">
+                        <h2>Metodo de Calculo de Prestaciones</h2>  
+                            <div class="col-lg-6 col-12 o_setting_box" attrs="{'invisible': [('module_hr_payroll_account', '=', False)]}">   
+                                <div class="o_setting_left_pane">           
+                                    <field name="tipo_metodo" string="Tipo de Método"/>
+                                </div>
+                            </div>
+                    </div>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="company_inherit_view_form_metodo_tipo" model="ir.ui.view">
+        <field name="name">company.inherit.view.form.metodo</field>
+        <field name="model">res.company</field>
+        <field name="inherit_id" ref="base.view_company_form"/>
+        <field name="arch" type="xml">
+      
+
+            <xpath expr="//group[@name='social_media']" position="after">
+                    <group string="Configuracion RRHH y Pagos Nómina" name="tipo_metodo_prestaciones" aling="center">
+                        <field name="tipo_metodo" string="Calculo de Prestaciones:" widget="radio"/>
+                        <field name="tipo_dif_dias" string="Modo de dias a pagar" widget="radio"/>
+                    </group>
+            </xpath>
+
+        </field>
+    </record>
+    </data>
+</odoo>

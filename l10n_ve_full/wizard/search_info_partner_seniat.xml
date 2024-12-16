@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<openerp>
+  <data>
+        <record model="ir.ui.view" id="view_vat_search">
+            <field name="name">search.info.partner.seniat.form</field>
+            <field name="model">search.info.partner.seniat</field>
+            <field name="arch" type="xml">
+                <form string="Wizard to search partner on SENIAT">
+                    <a href="http://contribuyente.seniat.gob.ve/BuscaRif/BuscaRif.jsp?p_rif=" target="_blank">Seniat</a>
+                    <footer>
+                        <button class="oe_highlight" special="cancel" string="Cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="wizard_vat_search_action" model="ir.actions.act_window">
+            <field name="name">Asistente de búsqueda IVA</field>
+            <field name="res_model">search.info.partner.seniat</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_vat_search"/>
+            <field name="target">new</field>
+        </record>
+
+        <menuitem name="Buscar RIF" id="wizard_vat_search_action_menu" parent="account.menu_finance_receivables" action="wizard_vat_search_action" />
+  </data>
+</openerp>

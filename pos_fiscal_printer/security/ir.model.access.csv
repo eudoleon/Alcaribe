@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_x_pos_fiscal_printer,pos_fiscal_printer.x_pos_fiscal_printer,model_x_pos_fiscal_printer,base.group_system,1,1,1,1
+access_pos_report_z,pos_fiscal_printer.pos_report_z,model_pos_report_z,base.group_system,1,1,1,1
+
+

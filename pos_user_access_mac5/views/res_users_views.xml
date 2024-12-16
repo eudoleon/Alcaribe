@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_res_users_pos_access_form" model="ir.ui.view">
+        <field name="name">view.res.users.pos.access.form</field>
+        <field name="model">res.users</field>
+        <field name="inherit_id" ref="base.view_users_form"/>
+        <field name="arch" type="xml">
+            <notebook position="inside">
+                <page string="POS User Access">
+                    <group>
+                        <group name="user_access1">
+                            <field name="pos_access_close"/>
+                            <field name="pos_access_delete_orderline"/>
+                            <field name="pos_access_payment"/>
+                            <field name="pos_access_decrease_quantity"/>
+                        </group>
+                        <group name="user_access2">
+                            <field name="pos_access_delete_order"/>
+                            <field name="pos_access_discount"/>
+                            <field name="pos_access_price"/>
+                        </group>
+                    </group>
+                </page>
+            </notebook>
+        </field>
+    </record>
+
+</odoo>

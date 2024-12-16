@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="group_localizacion" model="res.groups">
+            <field name="name">Localizacion</field>
+            <field name="comment">modulos permanecientes a la localizacion venezolana</field>
+        </record>
+    </data>
+</odoo>

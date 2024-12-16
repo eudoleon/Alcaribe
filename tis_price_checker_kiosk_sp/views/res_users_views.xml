@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+        <record id="view_users_kiosk_form" model="ir.ui.view">
+            <field name="name">res.users.form.inherit</field>
+            <field name="model">res.users</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="base.view_users_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//group[@name='messaging']" position="after">
+                    <group name="kiosk_price_checker" string="Kiosk Price Checker" groups="tis_price_checker_kiosk_sp.group_price_checker_sp">
+                        <field name="kiosk_pricelist_id"  groups="tis_price_checker_kiosk_sp.group_price_checker_sp"
+                               options="{'no_open': True, 'no_create': True}"/>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+</odoo>

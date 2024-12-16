@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="vista_from_pago_employee" model="ir.ui.view">
+        <field name="name">vista.from.pago_cli</field>
+        <field name="model">hr.ext.pago_nom</field>
+        <field name="arch" type="xml">
+            <form string="Registro de Pago ">
+               
+                <sheet>
+                    <group name="central">
+                        <group> 
+                            <field name="leave_id" string="Nro de Transacción" readonly="1" invisible="1"/>
+                            <field name="tasa" string="Tasa de pago" readonly="0"/>
+                               
+                        </group>
+                        <group>
+                            <field name="struct_id" string="Proceso Nómina" readonly="0" required="1" domain="[('tipo_struct', '=', 'vac')]"/>
+                        </group>
+                    </group>
+                </sheet>
+                <footer>
+                        
+                        <button name="pagar_nom" string="Registrar Pago" type="object" class="oe_highlight"/>
+                        <!--button name="cancel" string="Cancelar" type="object"/-->
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    </data>
+</odoo>

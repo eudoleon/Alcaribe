@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record forcecreate="True" id="decimal_dual_currency" model="decimal.precision">
+                <field name="name">Dual_Currency</field>
+                <field name="digits">3</field>
+        </record>
+        <record forcecreate="True" id="decimal_dual_currency_rate" model="decimal.precision">
+                <field name="name">Dual_Currency_rate</field>
+                <field name="digits">4</field>
+        </record>
+    </data>
+</odoo>

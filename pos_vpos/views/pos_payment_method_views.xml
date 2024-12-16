@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="pos_payment_method_view_form_vpos" model="ir.ui.view">
+        <field name="name">pos.payment.method.form.vpos</field>
+        <field name="model">pos.payment.method</field>
+        <field name="inherit_id" ref="point_of_sale.pos_payment_method_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='use_payment_terminal']" position="after">
+                <field name="vpos_methodType" widget="selection" attrs="{'invisible': [('use_payment_terminal', '!=', 'vpos')], 'required': [('use_payment_terminal', '=', 'vpos')]}"/>
+                <field name="valid_to_change" />
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

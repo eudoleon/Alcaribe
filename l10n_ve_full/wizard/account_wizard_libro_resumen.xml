@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<data>
+    	<record id="account_wizard_libro_resumen" model="ir.ui.view">
+       	    <field name="name">Resumen de Libro de Compras y Libro de Ventas</field>
+            <field name="model">account.wizard.libro.resumen</field>
+    	    <field name="arch" type="xml">
+    	    	 <form string="Resumen de Iva, compras y ventas">
+                    <field invisible="1" name="state"/>
+                    <div states="choose">
+                        <group >
+                            <group>
+                                <field name="date_from" string="Fecha Inicio" required="1"/>
+                                <field name="date_to"  string="Fecha Fin" required="1"/>
+                            </group>
+                            <group>
+                                <field name="company_id" groups="base.group_multi_company" readonly="1" force_save="1" options="{'no_open': True, 'no_quick_create': True, 'no_create_edit' : True}"/>
+                            </group>
+                        </group>
+                    </div>
+                    <div states="get">
+                        <group>
+
+                            <field name="name" colspan="4" invisible="1"/>
+                            <field name="report" filename="name" colspan="4"/>
+                        </group>
+                    </div>
+                    <footer states="choose">
+                        <button name="generate_xls_report" string="Reporte en Excel" type="object" class="oe_highlight" />
+                        <button special="cancel" string="Cancel" class="oe_highlight" />
+                    </footer>
+                    <footer states="get">
+                        <button special="cancel" string="Cancel" class="oe_highlight" />
+                    </footer>
+                </form>
+    	    </field>
+    	</record>
+        <record id="action_account_common_menu_resumen" model="ir.actions.act_window">
+        	<field name="name">Resumen iva libro compras y ventas</field>
+        	<field name="res_model">account.wizard.libro.resumen</field>
+        	<field name="view_mode">form</field>
+        	<field name="view_id" ref="account_wizard_libro_resumen"/>
+        	<field name="target">new</field>
+    	</record>
+
+		<menuitem name="Resumen de ventas y compras" parent="l10n_ve_full.menu_venezuela_reporting" id="libro_resumen" action="action_account_common_menu_resumen" sequence="70"/>
+
+        <record forcecreate="True" id="decimal_payroll" model="decimal.precision">
+            <field name="name">Resumen iva y libros</field>
+            <field name="digits">2</field>
+        </record>
+</data>
+</odoo>

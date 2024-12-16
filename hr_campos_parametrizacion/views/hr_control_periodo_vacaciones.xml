@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+
+        <record id="vista_listado_vaca_from" model="ir.ui.view">
+            <field name="name">vista.listado.vaca.from</field>
+            <field name="model">hr.control.vacaciones</field>
+            <field name="arch" type="xml">
+                <form string="Configuración listado vacaciones">
+                    <header>
+
+                        <button name="calcular" string="Re calcular" type="object"/>
+                        <!-- attrs="{'invisible': [('manual', '=',False)]}"-->
+                    </header>
+
+                    <sheet>
+                        <group name="central">
+                            <group name="izq">
+                                <field name="employee_id" string="Empleado"/> 
+                                <field name="fecha_ingreso" string="Ingreso"/>
+                                <field name="date_actual" string="Fecha actual"/>
+                            </group>
+                            <group name="der">
+                                <field name="tiempo_antiguedad" string="Años de antiguedad"/>
+                                <field name="company_id" string="Compañia" /><!-- nuevo2 -->
+                            </group>
+                        </group>
+                        <notebook>
+
+                        <page string="Periodos de vacaciones">
+                            <field name="periodos_ids" nolabel="1" readonly="False" colspan="2">
+                                <tree string="Periodos" editable="buttom">
+                                    <field name="control_id" string="Control" invisible="1"/>
+                                    <field name="periodo" string="Periodo"/>
+                                    <field name="desde"/>
+                                    <field name="hasta"/>
+                                    <field name="ano_antiguedad" string="Años antiguedad"/>
+                                    <field name="dias_disfrute_ley" string="Dias por ley"/>
+                                    <field name="dias_adicionales" string="Dias adicionales"/>
+                                    <field name="dias_disfrute" string="Difrute Total"/>
+                                    <field name="dias_disfrutados"/>
+                                    <field name="dias_pendientes"/>
+                                    <field name="leave_allocation_id" string="Asignación"/><!-- nuevo2 -->
+                                    <field name="calc_aut" string="Cal Aut" attribute="upgrade_radio"/><!-- nuevo2 -->
+                                </tree>
+                            </field>
+                        </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+
+        <record id="vista_listado_vaca_tree" model="ir.ui.view">
+        <field name="name">vista.listado.vaca.tree</field>
+        <field name="model">hr.control.vacaciones</field>
+        <field name="arch" type="xml">
+            <tree string="Listado" >
+                <field name="employee_id" string="Empleado"></field> 
+                <field name="fecha_ingreso" string="Ingreso"/>
+                <field name="date_actual" string="Fecha actual"/>
+                <field name="company_id" string="Compañia" /><!-- nuevo2 -->
+
+            </tree>
+        </field>
+        </record>
+
+       
+
+        <record id="act_hr_list_vaca_tree" model="ir.actions.act_window">
+            <field name="name">Listado de vacaciones</field>
+            <field name="res_model">hr.control.vacaciones</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="vista_listado_vaca_tree"></field>
+        </record>
+
+       
+
+        <menuitem
+            id="view_control_vaca_menu"
+            parent="hr_holidays.menu_hr_holidays_approvals"
+            name="Listado de vacaciones"
+            sequence="22"
+            action="act_hr_list_vaca_tree"/>
+    </data>
+</odoo>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates>
+    <t t-name="odoo14.CurrencyRate">
+        <li class="dropdown dropdown-menu-left">
+            <a class="dropdown-item">
+                <i class="fa" role="img" aria-label="Demo Days"/> <span class="o_exchange_rate badge badge-pill" style="color: white;"/>
+                <i class="fa" role="img" aria-label="Demo Days"/> <span class="o_exchange_rate_euro badge badge-pill" style="color: white;"/>
+            </a>
+        </li>
+    </t>
+</templates>

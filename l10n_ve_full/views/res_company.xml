@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="extra_company_venezuela" model="ir.ui.view">
+            <field name="name">Extra company Venezuela</field>
+            <field name="model">res.company</field>
+            <field name="inherit_id" ref="base.view_company_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='vat']" position="replace">
+                    <field name="rif" placeholder="Ej.: J-01234567-8" string="RIF" required="1"/>
+                </xpath>
+                <xpath expr="//field[@name='phone']" position="after">
+                    <field name="fax"/>
+                </xpath>
+                <xpath expr="//group[@name='social_media']" position="after">
+                    <group string="Retención de IVA" aling="center">
+                        <field name="allow_vat_wh_outdated"/>
+                        <field name="propagate_invoice_date_to_vat_withholding" invisible="1"/>
+                    </group>
+                    <group string="Retención de ISLR" aling="center">
+                        <field name="automatic_income_wh"/>
+                        <field name="propagate_invoice_date_to_income_withholding" invisible="1"/>
+                    </group>
+                    <group string="ITF" aling="center">
+                        <field name="calculate_wh_itf"/>
+                        <field name="wh_porcentage"/>
+                        <field name="account_wh_itf_id" attrs="{'required': [('calculate_wh_itf', '=', True)]}"/>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

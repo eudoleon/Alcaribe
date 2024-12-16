@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <menuitem id="menu_treasury"
+        	name="Tesoreria"
+            groups="custom_account_treasury.group_treasury_user,custom_account_treasury.group_treasury_manager"
+            web_icon="custom_account_treasury,static/description/icon.png"
+        	sequence="80"/>
+
+        <menuitem id="menu_treasury_principal" sequence="1" 
+            groups="custom_account_treasury.group_treasury_user,custom_account_treasury.group_treasury_manager"
+        	parent="menu_treasury" name="Tesoreria"/>
+
+        <menuitem id="menu_treasury_reports" 
+        	name="Informes"
+            groups="custom_account_treasury.group_treasury_user"
+        	parent="menu_treasury" sequence="20"/>
+
+        <menuitem id="menu_treasury_setting" 
+            name="Configuración"
+            groups="custom_account_treasury.group_treasury_manager"
+            parent="menu_treasury" sequence="100"/>
+
+
+        <menuitem id="menu_treasury_adminitration"
+            parent="menu_treasury_setting"
+            name="Administración"/>
+
+        <menuitem id="menu_treasury_payment_method"
+            action="custom_account_treasury.account_payment_method_action"
+            parent="menu_treasury_adminitration"/>
+
+        <menuitem id="menu_treasury_action_advance_type" 
+            action="custom_account_treasury.action_advance_type"
+            parent="menu_treasury_adminitration"/>
+
+        <record id="account.action_account_payments" model="ir.actions.act_window">
+<!--            <field name="priority" eval="1"/>-->
+            <field name="name">Cobros</field>
+        </record>
+
+        <menuitem id="menu_action_treasury_payments_receivable"
+            action="account.action_account_payments"
+            name="Cobros"
+            parent="menu_treasury" sequence="5"/>
+
+        <menuitem id="menu_action_treasury_payments_payable"
+            action="account.action_account_payments_payable" 
+            name="Pagos"
+            parent="menu_treasury" sequence="10"/>
+
+        <menuitem id="menu_action_treasury_payments_transfer"
+            action="account.action_account_payments_transfer" 
+            name="Transferencias"
+            parent="menu_treasury" sequence="15"/>
+
+
+
+	</data>
+</odoo>

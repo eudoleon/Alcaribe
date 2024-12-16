@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="hr_employee_inherit" model="ir.ui.view">
+            <field name="name">hr.employee.inherit</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//notebook" position="inside">
+                    <page string="Inf. Personal del Empleado" name="personal_information"  groups="hr.group_hr_user">
+                        <group name="central">
+                            <group name="nro_1" string="Dirección">
+                                <field name="direccion" string="Dirección Domicilio"/>
+                                <field name="ciudad" string="Ciudad" placeholder="Ejm: Caracas"/>
+                                <field name="country_id" string="Pais" placeholder="Pais" />
+                                <field name="state_id" string="Estado" placeholder="Estado o Región" domain="[('country_id','=',country_id)]" />
+                                <field name="cod_post" string="Código Postal" />
+                                <!--field name="municipality_id" string="Municipio" placeholder="Municipio" domain="[('state_id','=',state_id)]"/-->
+                                <!--field name="parish_id" string="Parroquia" placeholder="Parroquia" domain="[('municipality_id','=',municipality_id)]"/-->
+                            </group>
+
+                            <group name="nro_2" string="Datos Personales">
+                                <field name="tipo_contribuyente" string="Tipo"/>
+                                <field name="identification_id" string="Cédula" invisible="1"/>
+                                <field name="cedula" string="Cédula"/>
+                                <field name="rif" string="Rif"/>
+                                <field name="passport_id" />
+                                <field name="gender" />
+                                <field name="birthday" />
+                                <field name="place_of_birth" />
+                                <field name="country_of_birth" />
+                                <field name="marital" string="Estado Civil" />
+
+                            </group>
+
+                            <group name="nro_3" string="Contactos de Emergencias">
+                                <field name="emergency_contact" string="Contácto de Emergencia"/>
+                                <field name="emergency_phone" string="Teléfono de contacto"/>
+                            </group>
+                            <group name="nro_4" string="Educación">
+                                <field name="grado_instruccion" string="Grado de Instrucción"/>
+                                <field name="profesion" string="Profesión"/>
+                            </group>
+                            <group name="nro_5" string="Salario">
+                                <field name="salario" string="Salario Base"/>
+                            </group>
+
+                             <group name="nro_6" string="Información Médica">
+                                <field name="tipo_sangre" string="Tipo de Sangre:"/>
+                                <field name="alergico_descripcion" string="Alergic@ a:"/>
+                                <field name="patologia" string="Patologías:"/>
+                                <field name="tipo_discapacidad" string="Tipo de Discapacidad:"/>
+                            </group>
+                           
+                        </group>
+                    </page>
+                </xpath>
+
+                <xpath expr="//form[1]/sheet[1]/notebook[1]" position="inside">
+                    <page string="Datos del Uniforme" name="page_eALy2">
+                        <group name="group_eALy2">
+                            <group name="group_eALy2_left">
+                                <field name="zapatos" string="Zapatos:"/>
+                                <field name="camisas" string="Camisa:"/>
+                            </group>
+                            <group name="group_eALy2_right">
+                                <field name="pantalon" string="Pantalón">%</field>
+                                <field name="chemise" string="Chemise"/>
+                            </group>
+                        </group>
+                    </page>
+
+                    <page string="Control de días de Vacaciones" name="page_eALy1">
+                        <separator string="Control dias de Vacaciónes"/>
+                        <group name="group_eALy1">
+                            <group name="group_eALy1_left">
+                                <field name="dias_vacaciones" string="Dias de disfrutes por tiempo de servicios"/>
+                                <field name="tiempo_antiguedad" string="Años de antiguedad:"/>
+                            </group>
+                            <group name="group_eALy1_right">
+                                <field name="dias_totales_disfrutados" string="Dias solicitados totales a disfrutar:"/>
+                                <field name="dias_restantes_disfrutar"/>
+                            </group>
+                        </group>
+                    </page>
+
+                    <page string="Información de Prestaciones Sociales" name="page_eALy0">
+                        <group name="group_eALy0">
+                            <group name="group_eALy0_left">
+                                <field name="acumulado" string="Acumulado en prestaciones Sociales:" widget="monetary" options="{'currency_field': 'custom_currency_id'}"/>
+                                <field name="disponible" string="75% Disponible:" widget="monetary" options="{'currency_field': 'custom_currency_id'}"/>
+                                <field name="acumulado_gps" string="Acumulado dias adicionales gps" options="{'currency_field': 'custom_currency_id'}"/>
+                                <field name="salario_integral_diario"/>
+                            </group>
+                            <group name="group_eALy0_right">
+                                <field name="tasa_int" string="Ultima tasa de Interes BCV (%):">%</field>
+                                <field name="acumulado_int" string="Monto Acumulado Intereses:" widget="monetary" options="{'currency_field': 'custom_currency_id'}"/>
+                                <field name="custom_currency_id" invisible="1"/>
+                                <field name="tiempo_antiguedad_dias" string="Timpo antiguedad en dias" readonly="1"/>
+                                <field name="tiempo_fraccion_dias" string="Dias fraccionados del empleado" readonly="1"/>
+                                <field name="tiempo_fraccion_meses" string="Meses fraccionados del empleado" readonly="1"/>
+                            </group>
+                        </group>
+                    </page>
+                    
+                </xpath>
+
+                <xpath expr="//page[@name='personal_information']" position="after">
+                    <page string="Grupo Familiar" name="studio_page_q7DRg">
+                      <group name="studio_group_q7DRg">
+                        <field name="grupo_familiar_ids" nolabel="1" readonly="False" colspan="2">
+                        <tree string="Grupo Familiar" editable="buttom">
+                            <field name="identificador" string="Cédula"/>
+                            <field name="name" string="Nombre"/>
+                            <field name="name2" string="Apellido"/>
+                            <field name="fecha_nac" string="Fecha Nacimiento"/>
+                            <field name="edad" string="Edad"/>
+                            <field name="sexo" string="Género"/>
+                            <field name="parentesco_din" string="Parentesco"/>
+                            <field name="nro_telefono" string="Teléfono contacto"/>
+                        </tree>
+                        </field>
+                        <!--group name="studio_group_q7DRg_left"/>
+                        <group name="studio_group_q7DRg_right"/-->
+                      </group>
+                    </page>
+
+                    <page string="Cursos" name="studio_page_q7DRgg">
+                      <group name="studio_group_q7DRgg">
+                        <field name="cursos_ids" nolabel="1" readonly="False" colspan="2">
+                        <tree string="Cursos" editable="buttom">
+                            <field name="name" string="Curso"/>
+                            <field name="institucion" string="Instituto"/>
+                            <field name="fecha" string="Fecha"/>
+                            <field name="duracion" string="Duración"/>
+                            <field name="contacto" string="Contacto"/>
+                            <field name="nro_telefono" string="Teléfonos"/>  
+                            <field name="tipo" string="Origen"/>
+                        </tree>
+                        </field>
+                        <!--group name="studio_group_q7DRg_left"/>
+                        <group name="studio_group_q7DRg_right"/-->
+                      </group>
+                    </page>
+
+                    <page string="Promoción" name="promociones">
+                      <group name="studio_group_promo">
+                        <field name="promocion_ids" nolabel="1" readonly="False" colspan="2">
+                        <tree string="Promoción" editable="buttom">
+                            <field name="job_id" string="Cargo"/>
+                            <field name="motivo" string="Motivo"/>
+                            <field name="fecha" string="Fecha de la promoción"/>
+                            <field name="autorizor_id" string="Quien Autoriza"/>
+                        </tree>
+                        </field>
+                        <!--group name="studio_group_q7DRg_left"/>
+                        <group name="studio_group_q7DRg_right"/-->
+                      </group>
+                    </page>
+
+                    <page string="Datos MINTRA" name="mintra">
+                        <group name="principal_mintra">
+                            <group name="mintra_izq">
+                                <field name="identification_id" readonly="1"/>
+                                <field name="tipo_trabajador"/>
+                                <field name="fecha_ingreso"/>
+                                <field name="ocupacion"/>
+                                <field name="profesion" string="Especialización"/>
+                                <field name="jornada"/>
+                                <field name="lab_domingo"/>
+                                <field name="prom_hora_noc"/>
+                                <field name="fam_discap"/>
+                                <field name="monto_bene_guar"/>
+                            </group>
+                            <group name="mintra_der">
+                                <field name="tipo_contrato"/>
+                                <field name="job_id" readonly="1" string="Cargo o puesto de trabajo"/>
+                                <field name="salario" string="Salario"/>
+                                <field name="subproceso"/>
+                                <field name="sindicalizado"/>
+                                <field name="prom_hora_lab"/>
+                                <field name="prom_hora_extras"/>
+                                <field name="carga_familiar"/>
+                                <field name="hijo_benf_guard"/>
+                                <field name="mujer_embarazad"/>
+                            </group>
+                        </group>
+                    </page>
+
+                </xpath>
+
+                <xpath expr="//field[@name='address_id']" position="after">
+                    <field name="direccion_trabajo" string="Dirección Trabájo" />
+                </xpath>
+
+                <xpath expr="//field[@name='pin']" position="before">
+                    <div class="o_row">
+                        <field name="constancia_trab" string="Jefe de RRHH" readonly="1" />
+                        <field name="gerente_rrhh_id" string="Jefe de RRHH"/>
+                    </div>
+                </xpath>
+
+                <xpath expr="//field[@name='parent_id']" position="after">
+                    <field name="fecha_hoy" string="Dia actual"/>
+                </xpath>
+                <xpath expr="//field[@name='mobile_phone']" position="before">
+                    <field name="job_id" string="Cargo"/>
+                </xpath>
+
+                <xpath expr="//field[@name='pin']" position="before">
+                    <label for="registration_number"/>
+                    <div class="o_row">
+                        <field name="registration_number" string="Número de Registro del Empleado"/>
+                        <button string="Generar" class="btn btn-link" type="object" name="generate_nro_registro" attrs="{'invisible': [('registration_number', '!=', False)]}"/>
+                    </div>
+                </xpath>
+
+                <xpath expr="//form[1]/sheet[1]/notebook[1]/page[@name='public']" position="before">
+                    <page name="adjuntar" string="Adjuntar Soportes">
+                        <group name="central_doc">
+                        <field name="documentos_ids" nolabel="1" readonly="False" colspan="2">
+                        <tree string="Documentos" editable="buttom">
+                            <field name="name" string="Descripción"/>
+                            <field name="documento" string="Documento" class="fa fa-download"/>
+                        </tree>
+                        </field>
+                      </group>
+                    </page>
+                </xpath>
+
+
+
+            </field>
+        </record>
+    </data>
+</odoo>

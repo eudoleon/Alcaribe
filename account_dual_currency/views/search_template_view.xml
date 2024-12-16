@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+        <template id="search_template_currency_dif_choose">
+
+            <button type="button" class="o-no-caret btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown">
+                <span class="fa fa-money"/> Moneda:
+                <t t-if="options.get('currency_dif') != None">
+                    <span style="color: red;"><t t-esc="options['currency_dif']"/></span>
+                </t>
+                <t t-else="">
+                    <span style="color: red;"><t t-esc="options['currency_id_company_name']"/></span>
+                </t>
+            </button>
+            <div class="dropdown-menu o_filter_menu" role="menu">
+                <a role="menuitem" class="dropdown-item js_account_reports_one_choice_filter" title="Bolívares" data-filter="currency_dif" t-att-data-id="options['currency_id_company_name']"><t t-esc="options['currency_id_company_name']"/></a>
+                <a role="menuitem" class="dropdown-item js_account_reports_one_choice_filter" title="Dólares" data-filter="currency_dif" t-att-data-id="options['currency_id_dif_name']"><t t-esc="options['currency_id_dif_name']"/></a>
+            </div>
+
+
+        </template>
+
+        <template id="search_template_generic_currency_dif" inherit_id="account_reports.search_template" primary="True">
+            <xpath expr="//div[@id='extra_options_dropdown']" position="after">
+                <div id="currency_dif_choose" class="btn-group dropdown o_account_reports_filter_bool">
+                    <t t-call="account_dual_currency.search_template_currency_dif_choose"/>
+                </div>
+            </xpath>
+        </template>
+
+
+</odoo>

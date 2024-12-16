@@ -1,0 +1,52 @@
+<odoo>
+  <data>
+      <record id="view_retention_islr_wizard" model="ir.ui.view">
+            <field name="name">account.wh.islr.list.form</field>
+                <field name="model">account.wh.islr.list</field>
+                <field name="arch" type="xml">
+                    <form string="Solicitud de Reporte de ISLR">
+                        <field invisible="1" name="state"/>
+                        <div states="choose">
+                            <group>
+                                <group>
+                                    <field name="company" string="Compañía" options="{'no_create': True, 'no_open': True}" groups="base.group_multi_company"/>
+                                    <field name="start_date" string="Fecha de inicio"/>
+                                    <field name="end_date" string="Fecha Final"/>
+                                </group>
+                                <group>
+                                    <field name="supplier" string="De Proveedores"/>
+                                    <field name="customer" string="De Clientes"/>
+                                </group>
+                            </group>
+                        </div>
+                        <div states="get">
+                            <group>
+                                <field name="name" colspan="4" invisible="1"/>
+                                <field name="report" filename="name" colspan="4"/>
+                            </group>
+                        </div>
+                        <footer states="choose">
+                            <button name="generate_retention_islr_pdf" string="Imprimir PDF" type="object" class="btn-primary"/>
+                            <button name="generate_retention_islr_xls" string="Imprimir XLS" type="object" class="btn-primary"/>
+                            <button string="Cancel" class="btn-default" special="cancel" />
+                        </footer>
+                        <footer states="get">
+                            <button special="cancel" string="Cancel" class="oe_highlight" />
+                        </footer>
+                    </form>
+                </field>
+        </record>
+
+        <record id="action_retention_islr" model="ir.actions.act_window">
+        	<field name="name">Solicitud de Reporte de ISLR</field>
+        	<field name="res_model">account.wh.islr.list</field>
+        	<field name="binding_view_types">form</field>
+        	<field name="view_mode">form</field>
+        	<field name="view_id" ref="view_retention_islr_wizard"/>
+        	<field name="target">new</field>
+    	</record>
+
+      <menuitem id="retention_islr_details" name="Listado Retención ISLR" parent="l10n_ve_full.menu_venezuela_reporting" action="action_retention_islr" sequence="200"/>
+
+  </data>
+</odoo>

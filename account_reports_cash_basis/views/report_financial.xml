@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="filter_cash_basis_template">
+        <t t-if="report.filter_cash_basis">
+            <t t-if="report.filter_show_draft or options['unreconciled'] or options.get('include_analytic_without_aml') == True">,</t>
+            <t t-if="options['report_cash_basis']"> Cash Basis</t>
+            <t t-else=""> Accrual Basis</t>
+        </t>
+    </template>
+
+    <template id="search_template_extra_options" inherit_id="account_reports.search_template_extra_options">
+        <xpath expr="//button" position="inside">
+            <t t-call="account_reports_cash_basis.filter_cash_basis_template"/>
+        </xpath>
+
+        <xpath expr="//div" position="inside">
+            <a role="menuitem" class="dropdown-item js_account_report_bool_filter" t-if="report.filter_cash_basis" title="Cash Basis Method" data-filter="report_cash_basis" groups="account.group_account_user">Cash Basis Method</a>
+        </xpath>
+    </template>
+
+    <template id="filter_info_template" inherit_id="account_reports.filter_info_template">
+        <xpath expr="//div/div/div[@name='pdf_options_header']" position="inside">
+            <t t-call="account_reports_cash_basis.filter_cash_basis_template"/>
+        </xpath>
+    </template>
+</odoo>

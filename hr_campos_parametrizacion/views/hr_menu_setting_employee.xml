@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="vista_profesion_from" model="ir.ui.view">
+            <field name="name">vista.profesion.from</field>
+            <field name="model">hr.profesion</field>
+            <field name="arch" type="xml">
+                <form string="Profesión">
+                    <sheet>
+                        <group name="central">
+                            <field name="name" string="Profesión"/>
+                            <field name="activo"/> 
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="vista_grado_from" model="ir.ui.view">
+            <field name="name">vista.grado.from</field>
+            <field name="model">hr.grado.instruccion</field>
+            <field name="arch" type="xml">
+                <form string="Grado de Instraucción">
+                    <sheet>
+                        <group name="central">
+                            <field name="name" string="Grado de Instrucción"/>
+                            <field name="activo"/> 
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="vista_parentesco_from" model="ir.ui.view">
+            <field name="name">vista.parentesco.from</field>
+            <field name="model">hr.parentesco</field>
+            <field name="arch" type="xml">
+                <form string="Configuración Parentesco">
+                    <sheet>
+                        <group name="central">
+                            <field name="name" string="Parentesco"/>
+                            <field name="code" string="Código"/> 
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+       
+
+
+        <record id="vista_grado_tree" model="ir.ui.view">
+        <field name="name">vista.grado.tree</field>
+        <field name="model">hr.grado.instruccion</field>
+        <field name="arch" type="xml">
+            <tree string="Grado de Instraucción" >
+                <field name="name" string="Nombre"></field>
+                <field name="activo"></field>     
+            </tree>
+        </field>
+        </record>
+
+        <record id="vista_profesion_tree" model="ir.ui.view">
+        <field name="name">vista.profesion.tree</field>
+        <field name="model">hr.profesion</field>
+        <field name="arch" type="xml">
+            <tree string="Profesión" >
+                <field name="name" string="Nombre"></field>
+                <field name="activo"></field>     
+            </tree>
+        </field>
+        </record>
+
+        <record id="vista_parentesco_tree" model="ir.ui.view">
+        <field name="name">vista.parentesco.tree</field>
+        <field name="model">hr.parentesco</field>
+        <field name="arch" type="xml">
+            <tree string="Parentesco" >
+                <field name="name" string="Nombre"></field>
+                <field name="code" string="Código"></field>     
+            </tree>
+        </field>
+        </record>
+
+        
+
+
+       
+
+        <record id="act_hr_grado_tree" model="ir.actions.act_window">
+            <field name="name">Grado de Instrucción</field>
+            <field name="res_model">hr.grado.instruccion</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="vista_grado_tree"></field>
+        </record>
+
+        <record id="act_hr_profesion_tree" model="ir.actions.act_window">
+            <field name="name">Profesiones</field>
+            <field name="res_model">hr.profesion</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="vista_profesion_tree"></field>
+        </record>
+
+        <record id="act_hr_parentesco_tree" model="ir.actions.act_window">
+            <field name="name">Parentesco</field>
+            <field name="res_model">hr.parentesco</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="vista_parentesco_tree"></field>
+        </record>
+
+        
+
+        <menuitem
+            id="view_grado_instruccion_menu"
+            parent="hr.menu_config_employee"
+            name="Grado de Instraucción"
+            sequence="20"
+            action="act_hr_grado_tree"/>
+
+        <menuitem
+            id="view_profesion_menu"
+            parent="hr.menu_config_employee"
+            name="Profesiónes"
+            sequence="21"
+            action="act_hr_profesion_tree"/>
+
+        <menuitem
+            id="view_parentesco_menu"
+            parent="hr.menu_config_employee"
+            name="Parentesco"
+            sequence="22"
+            action="act_hr_parentesco_tree"/>
+
+       
+    </data>
+</odoo>

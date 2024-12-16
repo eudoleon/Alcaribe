@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+    	<record id="view_hr_faov_from" model="ir.ui.view">
+		<field name="name">view.hr.faov.from</field>
+		<field name="model">hr.config.faov</field>
+		<field name="arch" type="xml">
+			<form string="Config. Ret. FAOV">
+				<sheet name="sheet1">
+				    <group name="group1">
+				    	<group name="group11">
+				    		<field name="grup_nomina_id" />
+                            <field name="tipo_pago_id" string="Tipo de Págos (regulares)" domain="[('type_id', '=', grup_nomina_id)]"/>
+                            
+				    	</group>
+
+				    	<group name="group12">
+                            <field name="regla_sueldo_base" domain="[('struct_id', '=', tipo_pago_id)]"/>
+				    		<field name="activo"/>
+				    	</group>
+
+				    </group>
+
+				    <notebook>
+                        
+                        <page string="Listado conceptos o reglas que conforman sueldo integral del empleado">
+                            <field name="line_reglas" nolabel="1" readonly="False" colspan="2">
+                                <tree string="Reglas" editable="buttom">
+                                    <field name="config_faov_id" string="config" invisible="1"/>
+                                    <field name="tipo_nomina_id" string="Nómina"/>
+                                    <field name="tipo_pago_id" string="Tipo Pago" />
+                                    <field name="regla_id" string="Reglas" domain="[('struct_id', '=', tipo_pago_id)]"/>
+                                </tree>
+                                
+                            </field>
+                        </page>
+                    </notebook>
+				</sheet>
+
+			</form>
+		</field>
+		</record>
+
+    	<record id="view_hr_faov_tree" model="ir.ui.view">
+        <field name="name">view.hr.ince.tree</field>
+        <field name="model">hr.config.faov</field>
+        <field name="arch" type="xml">
+            <tree string="Config. Ret. FAOV">
+                <field name="grup_nomina_id" />
+                <field name="tipo_pago_id" string="Tipo de Págos"/>
+                <field name="activo" string="Activo"/>
+            </tree>
+        </field>
+    	</record>
+
+    	<record id="act_hr_config_faov_tree" model="ir.actions.act_window">
+            <field name="name">Config. Ret. FAOV</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">hr.config.faov</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_hr_faov_tree"></field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+
+              </p><p>
+
+              </p>
+            </field>
+    	</record>
+
+    	<menuitem
+        id="view_hr_config_faov_menu"
+        parent="hr_work_entry_contract_enterprise.menu_hr_payroll_configuration"
+        name="Configuracion Retencion FAOV"
+        sequence="100"
+        action="act_hr_config_faov_tree"/>
+    </data>
+</odoo>

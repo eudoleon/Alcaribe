@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="edit_value_form_view_ah" model="ir.ui.view">
+            <field name="name">edit.value.form.view.ah</field>
+            <field name="groups_id" eval="[(4, ref('group_login_log_user_ah'))]"/>
+            <field name="model">edit.value</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <field name="name" invisible='1' />
+                        <notebook>
+                            <page string='Old Value'>
+                                <field name="old" readonly='1' />
+                            </page>
+                            <page string='New Value'>
+                                <field name="new" readonly='1' />
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <footer>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+        <template id="assets_backend" name="Menu Icon assets" inherit_id="web.assets_backend">
+                <xpath expr="//link[last()]" position="after">
+                        <link rel="stylesheet" type="text/scss" href="/advanced_session_management/static/src/scss/style.scss"/>
+                </xpath>
+        </template>
+        <template id="assets_backend_ah" inherit_id="web.assets_backend" name="Assets backend">
+                <xpath expr="//script[last()]" position="after">
+                        <script type="text/javascript" src="/advanced_session_management/static/src/js/action_manager.js"/>
+                </xpath>
+        </template>
+</odoo>

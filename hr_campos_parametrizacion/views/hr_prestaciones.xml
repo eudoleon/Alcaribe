@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="view_hr_prestaciones_tree" model="ir.ui.view">
+            <field name="name">view.hr.prestaciones.tree</field>
+            <field name="model">hr.payroll.prestaciones</field>
+            <field name="arch" type="xml">
+                <tree string="Indicadores Económicos" editable="bottom">
+                    <field name="employee_id" />
+                    <field name="ano" string="Año"/>
+                    <field name="mes" string="Meses Cumplido"/>
+                    <field name="nro_ano" string="Años Servicios"/>
+                    <field name="nro_mes" string="Nro mes Operacion"/>
+                    <field name="sueldo_int_mensual" string="Sueldo Integral del Mes" />
+
+                    <field name="dias_disfrutes" string="Días de Prestaciones"/>
+                    <field name="alicuota" string="Alicuota"/>
+                    <field name="retiros" string="Retiros"/>
+                    <field name="acumulado" string="Acumulado"/>
+
+                    <field name="dias_add_gps" string="Dias adicionales Gps"/>
+                    <field name="alicuota_add_gps" string="Alicuota GPS"/>
+                    <field name="acumulado_add_gps"/>
+
+
+                    <field name="tasa_int" string="Tasa BCV"/>
+                    <field name="monto_int" string="Monto"/>
+                    <field name="acumulado_int" string="Intereses Acumulados" />
+                </tree>
+            </field>
+        </record>
+
+       <record id="act_hr_prestaciones_tree" model="ir.actions.act_window">
+            <field name="name">RESUMEN PRESTACIONES SOCIALES</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">hr.payroll.prestaciones</field>
+            <!--field name="view_type">form</field-->
+            <field name="view_mode">tree,form</field>
+            <!--field name="act_window_id" ref="view_hr_payroll_hollydays_tree"/-->
+            <!--field name="context">{'readonly_by_pass': True}</field-->
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+
+              </p><p>
+
+              </p>
+            </field>
+        </record>
+
+        <menuitem
+            id="view_hr_payroll_prestaciones_menu"
+            parent="hr_work_entry_contract_enterprise.menu_hr_payroll_configuration"
+            name="Resumen de Prestaciones Sociales"
+            sequence="92"
+            action="act_hr_prestaciones_tree"/>
+    </data>
+</odoo>

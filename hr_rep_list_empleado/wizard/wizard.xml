@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+       <!-- Wizard para imprimir reporte comprobante 1007-->
+      <record id="view_pre_list" model="ir.ui.view">
+       	    <field name="name">Reporte Lista de Empleados</field>
+            <field name="model">wizard.rep.lista_empleados</field>
+    	    <field name="arch" type="xml">
+
+    	    	<form string="Reporte de Empleados">
+                    <group colspan="8" col="4">
+                         
+                        <field name="department_ids" string="Departamentos" widget="many2many_tags" />
+                        <field name="company_id" string="Compañia" readonly="1" />
+                        <field name="state_contract" string="Contrato"  required="1" />                                                 
+                    </group>                   
+                     
+	                <footer>
+	                   <button name="print_rep_list" string="LIstado de Empleados" type="object" class="oe_highlight"/> 
+
+	                   <button special="cancel" string="Cancel" class="oe_highlight" />
+	                </footer>
+                </form>
+
+    	    </field>
+      </record>
+
+      <record id="action_report_list" model="ir.actions.act_window">
+        	<field name="name">wizard Lista Empleados</field>
+        	<field name="res_model">wizard.rep.lista_empleados</field>
+        	<field name="view_mode">form</field>
+        	<field name="view_id" ref="view_pre_list"/>
+        	<field name="target">new</field>
+      </record>
+
+      <menuitem
+        id="menu_rep_list"
+        parent="hr.hr_menu_hr_reports"
+        name="Reporte Lista de Empleados"
+        sequence="11"
+        action="action_report_list"/>
+
+    </data>
+</odoo>

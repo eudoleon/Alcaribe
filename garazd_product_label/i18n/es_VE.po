@@ -1,0 +1,360 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* garazd_product_label
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 17.0-20240126\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-04-20 16:01+0000\n"
+"PO-Revision-Date: 2024-04-20 12:17-0400\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: es_VE\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 3.4.2\n"
+
+#. module: garazd_product_label
+#: model:ir.actions.report,print_report_name:garazd_product_label.action_report_product_label_50x38
+msgid "'Product Labels 50x38mm'"
+msgstr ""
+
+#. module: garazd_product_label
+#: model:ir.actions.report,print_report_name:garazd_product_label.action_report_product_label_60x35
+msgid "'Product Labels 60x35mm'"
+msgstr ""
+
+#. module: garazd_product_label
+#: model:ir.actions.report,print_report_name:garazd_product_label.action_report_product_label_from_template
+msgid "'Product Labels Custom Design'"
+msgstr ""
+
+#. module: garazd_product_label
+#: model_terms:ir.ui.view,arch_db:garazd_product_label.print_product_label_view_form
+msgid "<span class=\"text-muted px-3\">|</span>"
+msgstr ""
+
+#. module: garazd_product_label
+#: model:ir.model.fields,field_description:garazd_product_label.field_print_product_label_line__barcode
+msgid "Barcode"
+msgstr "Código de Barras"
+
+#. module: garazd_product_label
+#: model:ir.model.fields,field_description:garazd_product_label.field_print_product_label__border_width
+msgid "Border"
+msgstr "Borde"
+
+#. module: garazd_product_label
+#: model:ir.model.fields,help:garazd_product_label.field_print_product_label__border_width
+msgid "Border width for labels (in pixels). Set \"0\" for no border."
+msgstr ""
+
+#. module: garazd_product_label
+#: model:ir.model.fields,field_description:garazd_product_label.field_print_product_label__company_id
+#: model:ir.model.fields,field_description:garazd_product_label.field_print_product_label_line__company_id
+msgid "Company"
+msgstr "Compañia"
+
+#. module: garazd_product_label
+#: model:ir.model,name:garazd_product_label.model_res_config_settings
+msgid "Config Settings"
+msgstr "Configuración"
+
+#. module: garazd_product_label
+#: model:ir.model.fields,field_description:garazd_product_label.field_print_product_label__create_uid
+#: model:ir.model.fields,field_description:garazd_product_label.field_print_product_label_line__create_uid
+msgid "Created by"
+msgstr "Creado por"
+
+#. module: garazd_product_label
+#: model:ir.model.fields,field_description:garazd_product_label.field_print_product_label__create_date
+#: model:ir.model.fields,field_description:garazd_product_label.field_print_product_label_line__create_date
+msgid "Created on"
+msgstr "Creado en"
+
+#. module: garazd_product_label
+#: model:ir.actions.act_window,name:garazd_product_label.action_print_label_from_product
+#: model:ir.actions.act_window,name:garazd_product_label.action_print_label_from_template
+msgid "Custom Product Labels"
+msgstr "Etiquetas personalizadas"
+
+#. module: garazd_product_label
+#: model_terms:ir.ui.view,arch_db:garazd_product_label.print_product_label_view_form
+msgid "Decrease Qty"
+msgstr "Reducir Cantidad"
+
+#. module: garazd_product_label
+#: model:ir.model.fields,field_description:garazd_product_label.field_print_product_label__display_name
+#: model:ir.model.fields,field_description:garazd_product_label.field_print_product_label_line__display_name
+msgid "Display Name"
+msgstr "Nombre"
+
+#. module: garazd_product_label
+#: model:ir.model.fields,field_description:garazd_product_label.field_print_product_label__humanreadable
+msgid "Human readable barcode"
+msgstr "Código de Barras Visualización para humanos"
+
+#. module: garazd_product_label
+#: model:ir.model.fields,field_description:garazd_product_label.field_print_product_label__id
+#: model:ir.model.fields,field_description:garazd_product_label.field_print_product_label_line__id
+msgid "ID"
+msgstr "ID"
+
+#. module: garazd_product_label
+#: model_terms:ir.ui.view,arch_db:garazd_product_label.print_product_label_view_form
+msgid "Increase Qty"
+msgstr "Incrementar Cantidad"
+
+#. module: garazd_product_label
+#: model:ir.model.fields,field_description:garazd_product_label.field_print_product_label_line__qty_initial
+msgid "Initial Qty"
+msgstr "Cantidad Inicial"
+
+#. module: garazd_product_label
+#: model:ir.model.fields,field_description:garazd_product_label.field_print_product_label__is_template_report
+msgid "Is Template Report"
+msgstr "Es Plantilla"
+
+#. module: garazd_product_label
+#: model:ir.model.fields,field_description:garazd_product_label.field_print_product_label__report_id
+#: model_terms:ir.ui.view,arch_db:garazd_product_label.print_product_label_view_form
+msgid "Label"
+msgstr "Etiqueta"
+
+#. module: garazd_product_label
+#: model:ir.model.fields,field_description:garazd_product_label.field_print_product_label_line__qty
+msgid "Label Qty"
+msgstr "Cantidad de Etiquetas"
+
+#. module: garazd_product_label
+#: model:ir.model.fields,field_description:garazd_product_label.field_print_product_label__qty_per_product
+#: model_terms:ir.ui.view,arch_db:garazd_product_label.print_product_label_view_form
+msgid "Label quantity per product"
+msgstr "Etiquetas por productos"
+
+#. module: garazd_product_label
+#: model_terms:ir.ui.view,arch_db:garazd_product_label.print_product_label_view_form
+msgid "Labels"
+msgstr "Etiquetas personalizadas"
+
+#. module: garazd_product_label
+#: model:ir.model.fields,field_description:garazd_product_label.field_print_product_label__label_ids
+msgid "Labels for Products"
+msgstr "Etiquetas por Productos"
+
+#. module: garazd_product_label
+#: model:ir.model.fields,field_description:garazd_product_label.field_print_product_label__lang
+msgid "Language"
+msgstr "Lenguaje"
+
+#. module: garazd_product_label
+#: model:ir.model.fields,field_description:garazd_product_label.field_print_product_label__write_uid
+#: model:ir.model.fields,field_description:garazd_product_label.field_print_product_label_line__write_uid
+msgid "Last Updated by"
+msgstr "Última Actualización"
+
+#. module: garazd_product_label
+#: model:ir.model.fields,field_description:garazd_product_label.field_print_product_label__write_date
+#: model:ir.model.fields,field_description:garazd_product_label.field_print_product_label_line__write_date
+msgid "Last Updated on"
+msgstr "Fecha de última actualización"
+
+#. module: garazd_product_label
+#: model:ir.model,name:garazd_product_label.model_print_product_label_line
+msgid "Line with a Product Label Data"
+msgstr ""
+
+#. module: garazd_product_label
+#: model:ir.model.fields,field_description:garazd_product_label.field_print_product_label__message
+msgid "Message"
+msgstr "Mensaje"
+
+#. module: garazd_product_label
+#: model:ir.model.fields,field_description:garazd_product_label.field_print_product_label__mode
+msgid "Mode"
+msgstr "Modo"
+
+#. module: garazd_product_label
+#: model:ir.model.fields,field_description:garazd_product_label.field_print_product_label__name
+msgid "Name"
+msgstr "Nombre"
+
+#. module: garazd_product_label
+#. odoo-python
+#: code:addons/garazd_product_label/wizard/print_product_label.py:0
+#, python-format
+msgid "Nothing to print, set the quantity of labels in the table."
+msgstr "Nada por imprimir, coloque la cantidad de etiquetas a imprimir"
+
+#. module: garazd_product_label
+#: model_terms:ir.ui.view,arch_db:garazd_product_label.print_product_label_view_form
+msgid "Options"
+msgstr "Opciones"
+
+#. module: garazd_product_label
+#: model:ir.model.fields.selection,name:garazd_product_label.selection__print_product_label__output__pdf
+#, fuzzy
+msgid "PDF"
+msgstr "Imprimir (PDF)"
+
+#. module: garazd_product_label
+#. odoo-python
+#: code:addons/garazd_product_label/wizard/print_product_label.py:0
+#, python-format
+msgid "Please select a label type."
+msgstr "Porfavor seleccione el tipo de etiqueta"
+
+#. module: garazd_product_label
+#: model_terms:ir.ui.view,arch_db:garazd_product_label.print_product_label_view_form
+msgid "Preview"
+msgstr "Previsualizar"
+
+#. module: garazd_product_label
+#: model_terms:ir.ui.view,arch_db:garazd_product_label.print_product_label_view_form
+msgid "Preview product labels"
+msgstr "Previsualizar"
+
+#. module: garazd_product_label
+#: model:ir.model.fields,field_description:garazd_product_label.field_print_product_label_line__selected
+#: model_terms:ir.ui.view,arch_db:garazd_product_label.print_product_label_view_form
+#, fuzzy
+msgid "Print"
+msgstr "Imprimir (PDF)"
+
+#. module: garazd_product_label
+#: model_terms:ir.ui.view,arch_db:garazd_product_label.print_product_label_view_form
+msgid "Print Product Labels"
+msgstr "Imprimir etiquetas"
+
+#. module: garazd_product_label
+#: model:ir.model.fields,help:garazd_product_label.field_print_product_label__humanreadable
+msgid "Print digital code of barcode."
+msgstr "Imprimir código de barras"
+
+#. module: garazd_product_label
+#: model_terms:ir.ui.view,arch_db:garazd_product_label.print_product_label_view_form
+msgid "Print product labels"
+msgstr "Imprimir etiquetas"
+
+#. module: garazd_product_label
+#: model:ir.model.fields,field_description:garazd_product_label.field_print_product_label__output
+msgid "Print to"
+msgstr "Imprimir a"
+
+#. module: garazd_product_label
+#: model_terms:ir.ui.view,arch_db:garazd_product_label.res_config_settings_view_form
+msgid "Print with the alternative wizard"
+msgstr ""
+
+#. module: garazd_product_label
+#: model:ir.model,name:garazd_product_label.model_product_template
+#: model:ir.model.fields,field_description:garazd_product_label.field_print_product_label_line__product_id
+msgid "Product"
+msgstr "Producto"
+
+#. module: garazd_product_label
+#: model:ir.actions.report,name:garazd_product_label.action_report_product_label_from_template
+msgid "Product Label from your own template"
+msgstr ""
+
+#. module: garazd_product_label
+#: model_terms:ir.ui.view,arch_db:garazd_product_label.res_config_settings_view_form
+#, fuzzy
+msgid "Product Labels"
+msgstr "Etiquetas personalizadas"
+
+#. module: garazd_product_label
+#: model:ir.actions.report,name:garazd_product_label.action_report_product_label_50x38
+msgid "Product Labels 50x38mm"
+msgstr "Etiqueta 50x38mm"
+
+#. module: garazd_product_label
+#: model:ir.actions.report,name:garazd_product_label.action_report_product_label_60x35
+msgid "Product Labels 60x35mm"
+msgstr "Etiqueta 60x35mm"
+
+#. module: garazd_product_label
+#: model:ir.model,name:garazd_product_label.model_product_product
+msgid "Product Variant"
+msgstr ""
+
+#. module: garazd_product_label
+#: model_terms:ir.ui.view,arch_db:garazd_product_label.label_57x35
+msgid "Ref:"
+msgstr ""
+
+#. module: garazd_product_label
+#: model:ir.model.fields,field_description:garazd_product_label.field_res_config_settings__replace_standard_wizard
+msgid "Replace Standard Wizard"
+msgstr ""
+
+#. module: garazd_product_label
+#: model_terms:ir.ui.view,arch_db:garazd_product_label.print_product_label_view_form
+msgid "Restore initial quantity"
+msgstr ""
+
+#. module: garazd_product_label
+#: model:ir.model.fields,field_description:garazd_product_label.field_print_product_label_line__sequence
+msgid "Sequence"
+msgstr ""
+
+#. module: garazd_product_label
+#: model_terms:ir.ui.view,arch_db:garazd_product_label.print_product_label_view_form
+msgid "Set a certain quantity for each line."
+msgstr ""
+
+#. module: garazd_product_label
+#: model_terms:ir.ui.view,arch_db:garazd_product_label.print_product_label_view_form
+msgid "Set quantity"
+msgstr ""
+
+#. module: garazd_product_label
+#: model_terms:ir.ui.view,arch_db:garazd_product_label.print_product_label_view_form
+msgid "Sort labels by a product"
+msgstr ""
+
+#. module: garazd_product_label
+#: model:ir.model.fields,help:garazd_product_label.field_print_product_label__company_id
+msgid "Specify a company for product labels."
+msgstr ""
+
+#. module: garazd_product_label
+#: model:ir.model.fields,help:garazd_product_label.field_print_product_label__mode
+msgid "Technical field"
+msgstr ""
+
+#. module: garazd_product_label
+#: model_terms:ir.ui.view,arch_db:garazd_product_label.print_product_label_view_form
+msgid "Template"
+msgstr ""
+
+#. module: garazd_product_label
+#: model:ir.model.fields,help:garazd_product_label.field_print_product_label__lang
+msgid "The language that will be used to translate label names."
+msgstr ""
+
+#. module: garazd_product_label
+#: model_terms:ir.ui.view,arch_db:garazd_product_label.print_product_label_view_form
+#, fuzzy
+msgid "Total"
+msgstr "Total Cantidad"
+
+#. module: garazd_product_label
+#: model_terms:ir.ui.view,arch_db:garazd_product_label.res_config_settings_view_form
+msgid ""
+"Use the custom print wizard by clicking on the 'Print Labels' button "
+"instead of standard"
+msgstr ""
+
+#. module: garazd_product_label
+#: model:ir.model.fields,field_description:garazd_product_label.field_print_product_label_line__wizard_id
+msgid "Wizard"
+msgstr ""
+
+#. module: garazd_product_label
+#: model:ir.model,name:garazd_product_label.model_print_product_label
+msgid "Wizard to print Product Labels"
+msgstr ""

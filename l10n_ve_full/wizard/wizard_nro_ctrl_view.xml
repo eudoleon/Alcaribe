@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="wizard_nro_ctrl_form">
+            <field name="name">wizard.nro.ctrl.form</field>
+            <field name="model">wiz.nroctrl</field>
+            <field name="arch" type="xml">
+                <form string="Cambiar el número de control">
+                    <group col="4">
+                        <field name="name" string="Nuevo Número de Control"/>
+                    </group>
+                    <separator string="¿Seguro que quieres hacer esto?" colspan="4"/>
+                    <label for="sure" string="SI" style="font-weight:bold;"/>
+                    <field name="sure" nolabel="1"/>
+                    <footer>
+                        <button special="cancel" string="Cancelar"  class="oe_highlight"/>
+                        <button name="set_noctrl" string="Confirmar" type="object" class="oe_highlight"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_wiz_nroctrl" model="ir.actions.act_window">
+                <field name="name">Cambiar el Numero de control</field>
+                <field name="res_model">wiz.nroctrl</field>
+        <!--            <field name="view_type">form</field>-->
+                <field name="view_mode">form</field>
+                <field name="view_id" ref="wizard_nro_ctrl_form"/>
+                <field name="target">new</field>
+        </record>
+    </data>
+</odoo>

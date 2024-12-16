@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <!-- Scrap Reason Form View -->
+  <record id="stock_scrap_reason_form_view" model="ir.ui.view">
+    <field name="name">stock.scrap.reason.form</field>
+    <field name="model">stock.scrap.reason</field>
+    <field name="arch" type="xml">
+        <form string="Scrap Reason">
+          <sheet>
+            <div class="oe_button_box" name="button_box">
+                <button class="oe_stat_button"
+                        name="action_see_scrap_orders"
+                        icon="fa-arrows-v"
+                        groups="stock.group_stock_manager"
+                        type="object">
+                        <div class="o_field_widget o_stat_info">
+                            <span class="o_stat_value">
+                                <field name="scrap_order_count"/>
+                            </span>
+                            <span class="o_stat_text" attrs="{'invisible': [('scrap_order_count', '=', 1)]}">
+                                Scrap Orders
+                            </span>
+                            <span class="o_stat_text" attrs="{'invisible': [('scrap_order_count', '!=', 1)]}">
+                                Scrap Order
+                            </span>
+                        </div>
+                </button>
+            </div>
+            <group>
+              <field name="name"/>
+            </group>
+          </sheet>
+        </form> 
+    </field>
+</record>
+    <!-- Scrap Reason Tree View -->
+    <record id="stock_scrap_reason_tree_view" model="ir.ui.view">
+        <field name="name">stock.scrap.reason.tree</field>
+        <field name="model">stock.scrap.reason</field>
+        <field name="arch" type="xml">
+            <tree string="Scrap Reasons" default_order="sequence, id">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+            </tree> 
+        </field>
+    </record>
+
+    <!-- Window Action -->
+    <record model="ir.actions.act_window" id="action_stock_scrap_reason">
+        <field name="name">Scrap Reasons</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">stock.scrap.reason</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+          <p class="o_view_nocontent_smiling_face">
+            Scrap Reasons
+          </p><p>
+            Defining a reason can give more information on the scrap order.
+          </p>
+        </field>
+    </record>
+
+    <!-- Menu -->
+    <menuitem
+        id="menu_stock_scrap_reason"
+        name="Scrap Reasons"
+        parent="stock.menu_warehouse_config"
+        action="action_stock_scrap_reason"
+        groups="stock.group_stock_manager"
+        sequence="99"/>
+</odoo>

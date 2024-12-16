@@ -1,0 +1,31 @@
+<odoo>
+    <data>
+        <record id="view_move_line_tree_payment" model="ir.ui.view">
+            <field name="name">account.move.line.payment.tree</field>
+            <field name="model">account.move.line</field>
+            <field eval="100" name="priority"/>
+            <field name="arch" type="xml">
+                <tree string="Journal Items" create="false" edit="false" sample="1" expand="context.get('expand', True)">
+                    <field name="date" optional="hide"/>
+                    <field name="company_id" groups="base.group_multi_company"/>
+                    <field name="journal_id" invisible="1" options="{&quot;no_open&quot;:True}"/>
+                    <field name="move_id" optional="show"/>
+                    <field name="account_id" options="{'no_open': True}" groups="account.group_account_readonly"/>
+                    <field name="partner_id" optional="hide"/>
+                    <field name="statement_id" invisible="1"/>
+                    <field name="ref" optional="hide"/>
+                    <field name="name" invisible="1" optional="show"/>
+                    <field name="debit" invisible="1" sum="Total Debit"/>
+                    <field name="credit" invisible="1" sum="Total Credit"/>
+                    <field name="balance" sum="Total Balance"/>
+                    <field name="amount_residual" sum="Total Residual"/>
+                    <field name="amount_currency" groups="base.group_multi_currency" optional="hide"/>
+                    <field name="currency_id" readonly="1" groups="base.group_multi_currency" optional="hide" string="Original Currency"/>
+                    <field name="date_maturity"/>
+                    <field name="company_currency_id" invisible="1"/>
+                    <field name="parent_state" invisible="1"/>
+                </tree>
+            </field>
+        </record>
+    </data>
+</odoo>

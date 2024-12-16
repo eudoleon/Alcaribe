@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id='view_stock_landed_cost_form' model='ir.ui.view'>
+        <field name="name">stock.landed.cost.form</field>
+        <field name="model">stock.landed.cost</field>
+        <field name="inherit_id" ref="stock_landed_costs.view_stock_landed_cost_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//group[@class='oe_subtotal_footer oe_right']" position="replace">
+                <group class="oe_subtotal_footer oe_right">
+                    <field name="company_currency_id" invisible="1"/>
+                    <field name="amount_total"/>
+                    <button colspan="2" name="compute_landed_cost" string="Compute" type="object" class="oe_right btn-secondary" states="draft"/>
+                </group>
+            </xpath>
+            <xpath expr="//field[@name='account_journal_id']" position="after">
+                <field
+                    name="currency_id"
+                    attrs="{'readonly': [('state', '=', 'done')]}"
+                    groups="base.group_multi_currency"
+                />
+            </xpath>
+            <xpath expr="//tree/field[@name='price_unit']" position="before">
+                <field name="tax_today" />
+                <field name="company_currency_id" invisible="1"/>
+                <field name="currency_price_unit" />
+                <field name="currency_id" invisible="1" />
+            </xpath>
+            <xpath expr="//tree/field[@name='price_unit']" position="attributes">
+                <attribute name="readonly">1</attribute>
+                <attribute name="force_save">1</attribute>
+                <attribute name="groups">base.group_multi_currency</attribute>
+            </xpath>
+            <xpath expr="//page[@name='valuation_adjustments']" position="after">
+                <page string="Asientos Contables" name="page_move_ids">
+
+                        <field name="move_ids" nolabel="1"/>
+
+                </page>
+            </xpath>
+            <xpath expr="//field[@name='valuation_adjustment_lines']/tree/field[@name='former_cost']" position="after">
+                <field name="currency_id_dif" invisible="1"/>
+                <field name="former_cost_usd" />
+            </xpath>
+            <xpath expr="//field[@name='valuation_adjustment_lines']/tree/field[@name='final_cost']" position="after">
+                <field name="final_cost_usd" />
+            </xpath>
+            <xpath expr="//field[@name='valuation_adjustment_lines']/tree/field[@name='additional_landed_cost']" position="after">
+                <field name="additional_landed_cost_usd" />
+            </xpath>
+        </field>
+    </record>
+</odoo>

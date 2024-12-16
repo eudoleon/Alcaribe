@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="account_journal_dashboard_kanban_view_dual" model="ir.ui.view">
+            <field name="name">account.journal.dashboard.kanban_dual</field>
+            <field name="model">account.journal</field>
+            <field name="inherit_id" ref="account.account_journal_dashboard_kanban_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//t[@t-esc='dashboard.sum_draft']" position="before">
+                   <t t-esc="dashboard.sum_draft_usd"/> /
+                </xpath>
+                <xpath expr="//t[@t-esc='dashboard.sum_waiting']" position="before">
+                   <t t-esc="dashboard.sum_waiting_usd"/> /
+                </xpath>
+                <xpath expr="//t[@t-esc='dashboard.sum_late']" position="before">
+                   <t t-esc="dashboard.sum_late_usd"/> /
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

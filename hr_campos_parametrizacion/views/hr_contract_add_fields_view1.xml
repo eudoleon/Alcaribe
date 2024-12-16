@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="hr_contract_view_inherit" model="ir.ui.view">
+            <field name="name">hr.contract.view.inherit</field>
+            <field name="model">hr.contract</field>
+            <field name="inherit_id" ref="hr_contract.hr_contract_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='date_end']" position="after">
+                    <field name="fecha_egreso" string="Fecha de Egreso"/>
+                    <field name="motivo_egreso" string="Motivo del Egreso"/>
+                </xpath>
+
+                <xpath expr="//notebook/page[@name='information']" position="after">
+                    <page string="Asignaciones y Deducciones" name="asignaciones_deducciones">
+                        <group>
+                            <!---################ASIGNACIONES###########################-->
+                            <group name="assignments" string="Asignaciones">
+                                <label for="diurnal_extra_hours_check" string="Horas extras diurnas"/>
+                                    <div>
+                                        <div class="address_format">
+                                            <field name="diurnal_extra_hours_check" style="width: 15%%"/>
+                                        </div>
+                                    </div>
+                                <label for="nocturnal_extra_hours_check" string="Horas extras Nocturnas"/>
+                                    <div>
+                                        <div class="address_format">
+                                            <field name="nocturnal_extra_hours_check" style="width: 15%%"/>
+                                        </div>
+                                    </div>
+                                <label for="night_bonus_check" string="Bono Nocturno (Nro de horas)"/>
+                                    <div>
+                                        <div class="address_format">
+                                            <field name="night_bonus_check" style="width: 15%%"/>
+                                            <field name="night_bonus_value" string="Monto" attrs="{'invisible': [('night_bonus_check', '!=', True)]}"/>
+                                        </div>
+                                    </div>
+
+                                <label for="night_bonus_comple_check" string="Bono Nocturno (%)"/>
+                                    <div>
+                                        <div class="address_format">
+                                            <field name="night_bonus_comple_check" style="width: 15%%"/>
+                                            <field name="night_bonus_comple_value" string="Monto" attrs="{'invisible': [('night_bonus_comple_check', '!=', True)]}"/>
+                                        </div>
+                                    </div>
+
+                                <label for="holidays_check" string="Dias Feriados"/>
+                                    <div>
+                                        <div class="address_format">
+                                            <field name="holidays_check" style="width: 15%%"/>
+                                        </div>
+                                    </div>
+                                <!-- darrell -->
+                                <label for="cesta_ticket_check"/>
+                                    <div>
+                                        <div class="address_format">
+                                            <field name="cesta_ticket_check" style="width: 15%%"/>
+                                            <field name="cesta_ticket_value" string="Monto" attrs="{'invisible': [('cesta_ticket_check', '!=', True)]}" nolabel="1"/>
+                                            <!--span>/ month</span-->
+                                        </div>
+                                    </div>
+                                <label for="bono_alimenticio_check" string="Bono Alimenticio"/>
+                                    <div>
+                                        <div class="address_format">
+                                            <field name="bono_alimenticio_check" style="width: 15%%"/>
+                                            <field name="bono_alimenticio_value" string="Monto" attrs="{'invisible': [('bono_alimenticio_check', '!=', True)]}"/>
+                                            <field name="bono_alimenticio_currency" attrs="{'invisible': [('bono_alimenticio_check', '!=', True)]}"/>
+                                        </div>
+                                    </div>
+                                <label for="bono_alimenticio_dia_tasa" string="Dia de pago de tasa" attrs="{'invisible': [('bono_alimenticio_check', '!=', True)]}"/>
+                                    <div>
+                                        <div class="address_format">
+                                            <field name="bono_alimenticio_dia_tasa" attrs="{'invisible': [('bono_alimenticio_check', '!=', True)]}"/>
+                                        </div>
+                                    </div>
+
+                                <label for="abono_check"/>
+                                    <div>
+                                        <div class="address_format">
+                                            <field name="abono_check" style="width: 15%%"/>
+                                            <field name="abono_value" string="Monto" attrs="{'invisible': [('abono_check', '!=', True)]}" nolabel="1"/>
+                                            <!--span>/ month</span-->
+                                        </div>
+                                    </div>
+
+
+                            </group>
+                            <!---################DEDUCCIONES###########################-->
+                            <group name="deducciones" string="Deducciones">
+                                <label for= "ausencias_ded_check" string="Inasistencias Injustificadas"/>
+                                <div>
+                                    <div class="address_format">
+                                        <field name="ausencias_ded_check" style="width: 15%%"/>
+                                        <!--field name="ausencias_ded_value" class="oe_no_button" style="width: 65%%" attrs="{'invisible': [('ausencias_ded_check', '!=', True)]}"/-->
+                                    </div>
+                                </div>
+                                <label for= "dcto_sso_check" string="Descuento Seguro Social Obligatorio"/>
+                                <div invisible="0">
+                                    <div class="address_format">
+                                        <field name="dcto_sso_check" style="width: 15%%"/>
+                                    </div>
+                                </div>
+                                <label for= "dcto_reg_prest_empleo_check" string="Regimen Prestacional de Empleo o Paro Forzoso"/>
+                                <div invisible="0">
+                                    <div class="address_format">
+                                        <field name="dcto_reg_prest_empleo_check" style="width: 15%%"/>
+                                    </div>
+                                </div>
+                                 <label for= "retencion_faov_check" string="Retencion F.A.O.V."/>
+                                <div invisible="0">
+                                    <div class="address_format">
+                                        <field name="retencion_faov_check" style="width: 15%%"/>
+                                    </div>
+                                </div>
+
+                                <label for= "islr_withholding_check" string="Retenciones I.S.L.R. (%)"/>
+                                <div>
+                                    <div class="address_format">
+                                        <field name="islr_withholding_check" style="width: 15%%"/>
+                                        <field name="islr_withholding_value" class="oe_no_button" style="width: 65%%" attrs="{'invisible': [('islr_withholding_check', '!=', True)]}"/>
+                                    </div>
+                                </div>
+                                <label for= "salary_deduction_check" string="Otras Deducciones o Abonos"/>
+                                <div>
+                                    <div class="address_format">
+                                        <field name="salary_deduction_check" style="width: 15%%"/>
+                                        <field name="salary_deduction_value" class="oe_no_button" style="width: 65%%" attrs="{'invisible': [('salary_deduction_check', '!=', True)]}"/>
+                                    </div>
+                                </div>
+                                <label for="hc_check"/>
+                                    <div>
+                                        <div class="address_format">
+                                            <field name="hc_check" style="width: 15%%"/>
+                                            <field name="hc_value" string="Monto" attrs="{'invisible': [('hc_check', '!=', True)]}" nolabel="1"/>
+                                            <!--span>/ month</span-->
+                                        </div>
+                                    </div>
+                                <label for="pag_ind_check"/>
+                                    <div>
+                                        <div class="address_format">
+                                            <field name="pag_ind_check" style="width: 15%%"/>
+                                            <field name="pag_ind_value" string="Monto" attrs="{'invisible': [('pag_ind_check', '!=', True)]}" nolabel="1"/>
+                                            <!--span>/ month</span-->
+                                        </div>
+                                    </div>
+                              
+                            </group>
+                        </group>
+                    </page>
+
+                    <page string="Configuración de Liquidaciones" name="confg_liquidacion">
+                        <group name="general">
+                            <group name="assignments_liq" string="Asignaciones para Liquidación">
+                                <label for="check_gps" string="Garantia de prestaciones sociales"/>
+                                    <div>
+                                        <div class="address_format">
+                                            <field name="check_gps" style="width: 15%%"/>
+                                        </div>
+                                    </div>
+
+                                <label for="check_gpsadd" string="Días adicionales de la Garantia de prestaciones Sociales"/>
+                                    <div>
+                                        <div class="address_format">
+                                            <field name="check_gpsadd" style="width: 15%%"/>
+                                        </div>
+                                    </div>
+                                <label for="check_igps" string="Intereses sobre la Garantía de Prestaciones Sociales"/>
+                                    <div>
+                                        <div class="address_format">
+                                            <field name="check_igps" style="width: 15%%"/>
+                                        </div>
+                                    </div>
+
+                                <label for="check_IAT92" string="Indemnización Art.92"/>
+                                    <div>
+                                        <div class="address_format">
+                                            <field name="check_IAT92" style="width: 15%%"/>
+                                        </div>
+                                    </div>
+
+                                <label for="check_RAT142" string="Retroactivo Art.142"/>
+                                    <div>
+                                        <div class="address_format">
+                                            <field name="check_RAT142" style="width: 15%%"/>
+                                        </div>
+                                    </div>
+
+                                <label for="check_DIAFE" string="Dias Feriados"/>
+                                    <div>
+                                        <div class="address_format">
+                                            <field name="check_DIAFE" style="width: 15%%"/>
+                                        </div>
+                                    </div>
+                            </group>
+
+                            <group name="assignments_liq2" string="Asignaciones para Liquidación">
+                                <label for="check_FINSEL" string="Sab/Dom/Fer Vac. Anual"/>
+                                    <div>
+                                        <div class="address_format">
+                                            <field name="check_FINSEL" style="width: 15%%"/>
+                                        </div>
+                                    </div>
+                                    
+                                <label for="check_DIVAL" string="VACACIONES"/>
+                                    <div>
+                                        <div class="address_format">
+                                            <field name="check_DIVAL" style="width: 15%%"/>
+                                        </div>
+                                    </div>
+
+                                <label for="check_VACFRAC" string="Vacaciones Fraccionadas"/>
+                                    <div>
+                                        <div class="address_format">
+                                            <field name="check_VACFRAC" style="width: 15%%"/>
+                                        </div>
+                                    </div>
+
+                                <label for="check_BONVACL" string="Bono Vacacional"/>
+                                    <div>
+                                        <div class="address_format">
+                                            <field name="check_BONVACL" style="width: 15%%"/>
+                                        </div>
+                                    </div>
+
+                                <label for="check_BOVAFRA" string="Bono Vacacional Fraccionadas"/>
+                                    <div>
+                                        <div class="address_format">
+                                            <field name="check_BOVAFRA" style="width: 15%%"/>
+                                        </div>
+                                    </div>
+
+                                <label for="check_BOFAFRA" string="Bono Fin de Año Fraccionado"/>
+                                    <div>
+                                        <div class="address_format">
+                                            <field name="check_BOFAFRA" style="width: 15%%"/>
+                                        </div>
+                                    </div>
+                            </group>
+                        </group>
+                    </page>
+
+                </xpath>
+
+                <xpath expr="//field[@name='wage_type']" position="after">
+                    <field name="nr_cuenta"/>
+                    <field name="wage_div" string="Sueldo ($)/mes"/>
+                </xpath>
+
+
+
+            </field>
+        </record>
+    </data>
+</odoo>

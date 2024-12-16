@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <data> 
+    <record id="paperformat_constancia" model="report.paperformat">
+
+      <field name="default" eval="True"/>
+        <field name="name">Formato constancia trabajo</field>
+        <field name="default" eval="True"/>
+        <field name="format">custom</field>
+        <field name="page_height">279</field>
+        <field name="page_width">216</field>
+        <field name="orientation">Portrait</field>
+        <field name="margin_top">40</field>
+        <field name="margin_bottom">20</field>
+        <field name="margin_left">7</field>
+        <field name="margin_right">7</field>
+        <field name="header_line" eval="False"/>
+        <field name="header_spacing">35</field>
+        <field name="dpi">96</field>
+    </record>
+  
+  <template id="report_constancia_trabajo">
+            <t t-call="web.html_container">
+              <t t-foreach="docs" t-as="o">
+                <t t-call="web.basic_layout" >
+                  <div class="header">
+                    <table width="100%">
+                      <tr>
+                        <td align="left">
+                          <t t-if="o.company_id.logo">  
+                              <img t-attf-src="data:image/*;base64,{{o.company_id.logo}}" style="width:350px; height:auto;"/>
+                          </t>
+                        </td>
+                      </tr>
+                    </table>
+                  </div>
+                  <div class="page">
+                    <table width="100%" ><!-- class="table table-sm table-bordered" -->
+                      <tr>
+                        <td align="center"><samp style="font-size:22px; text-decoration: underline;font-weight: bolder">CONSTANCIA DE TRABAJO</samp></td>
+                      </tr>
+                      <tr height="10"><td>.</td></tr>
+                      <tr style="font-size:22px;" align="justify">
+                        <td>
+                          <br/><br/>
+                          &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;Quien suscribe, <samp style="font-weight: bolder"><t t-esc="docs.gerente_rrhh_id.name"/></samp>, titular de la cédula de identidad, <samp style="font-weight: bolder"><t t-esc="docs.gerente_rrhh_id.tipo_contribuyente"/>-<t t-esc="docs.gerente_rrhh_id.identification_id"/></samp>, en calidad de <samp style="font-weight: bolder"><t t-esc="docs.gerente_rrhh_id.job_id.name"/></samp>, de la entidad de trabajo <t t-esc="docs.company_id.name" />, registrada bajo el RIF: <!--t t-esc="docs.company_id.partner_id.doc_type" /-->-<t t-esc="docs.company_id.partner_id.vat" />, hago constar que el ciudadano (a): <samp style="text-decoration: underline;"><t t-esc="docs.name"/></samp>, titular de la Cédula de Identidad Nro: <samp style="text-decoration: underline;"><t t-esc="docs.tipo_contribuyente" />-<t t-esc="docs.cedula"/></samp>, <t t-if="docs.contract_id.state == 'open' ">presta</t><t t-if="docs.contract_id.state != 'open' ">prestó</t> servicio en esta empresa desde el  <samp style="text-decoration: underline;"><t t-esc="docs.formato_fecha(docs.contract_id.date_start)" /></samp> <t t-if="docs.contract_id.state != 'open' ">hasta el <samp style="text-decoration: underline;"><t t-esc="docs.formato_fecha(docs.contract_id.date_end)" /></samp></t>, desempeñandose en el cargo de: <samp style="text-decoration: underline;"><t t-esc="docs.job_id.name"/></samp>, perteneciente al departamento de <samp style="text-decoration: underline;"><t t-esc="docs.department_id.name"/></samp>, último Sueldo Básico Mensual devengado de Bs. <samp style="text-decoration: underline;"><t t-esc="docs.get_literal_amount(docs.contract_id.wage)"/>.</samp> (Bs. <samp style="text-decoration: underline;"><t t-esc="docs.float_format(docs.contract_id.wage)"/></samp>).
+                          <p/><p/><br/>
+                          &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;Constancia que se expide a solicitud de la parte Interesada a los <samp style="text-decoration: underline;"><t t-esc="docs.dia(docs.fecha_hoy)"/></samp> dias del mes de <samp style="text-decoration: underline;"><t t-esc="docs.mes(docs.fecha_hoy)"/></samp> de <samp style="text-decoration: underline;"><t t-esc="docs.ano(docs.fecha_hoy)"/>.</samp>
+                          <p/><br/><br/>
+                          Atentamente:
+
+
+                        </td>
+                      </tr>
+                      <tr style="font-size:22px;">
+                        <td align="center"><p/><br/><br/>
+                          ____________________________________________________
+                          <p/><p/>
+                          <samp style="font-weight: bolder"><t t-esc="docs.gerente_rrhh_id.name"/></samp>
+                          <br/>
+                            <samp style="font-weight: bolder"><t t-esc="docs.gerente_rrhh_id.job_id.name"/></samp>
+                          <br/>
+                            <samp style="font-weight: bolder">Correo: <t t-esc="docs.gerente_rrhh_id.work_email"/></samp>
+                          <br/>
+                            <samp style="font-weight: bolder">Teléfono: <t t-esc="docs.gerente_rrhh_id.mobile_phone"/>/<t t-esc="docs.gerente_rrhh_id.work_phone"/></samp>
+                        </td>
+                      </tr>
+                    </table>
+                  </div>
+                </t> 
+              </t>
+            </t>
+    </template>
+
+    <!--t t-set="lang" t-value="o.invoice_user_id.sudo().lang if o.type in ('in_invoice', 'in_refund') else o.partner_id.lang"/>
+                    <t t-call="account.report_invoice_document_with_payments" t-lang="lang"/-->
+
+    <report
+            id="constancia_vacaciones"
+            model="hr.employee"
+            string="Constancia de Trabajo"
+            report_type="qweb-pdf"
+            name="hr_campos_parametrizacion.report_constancia_trabajo"
+            file="hr_campos_parametrizacion.report_constancia_trabajo"
+            paperformat="paperformat_constancia"
+        /> <!-- paperformat="paperformat_recibo_nomina" -->
+  
+  </data>
+</odoo>

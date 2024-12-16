@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="extra_dual_currency_setting" model="ir.ui.view">
+            <field name="name">Extra dual currency setting</field>
+            <field name="model">res.config.settings</field>
+            <field name="inherit_id" ref="account.res_config_settings_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[@name='main_currency_setting_container']" position="inside">
+                            <div class="col-12 col-lg-6 o_setting_box" id="dual_currency">
+                                <div class="o_setting_left_pane"/>
+                                <div class="o_setting_right_pane">
+                                    <span class="o_form_label">Dualidad de Moneda</span>
+                                    <span class="fa fa-lg fa-building-o" title="Values set here are company-specific." aria-label="Values set here are company-specific." groups="base.group_multi_company" role="img"/>
+                                    <div class="text-muted">
+                                        Moneda en Dualidad
+                                    </div>
+                                    <div class="content-group">
+                                        <div class="row mt16">
+                                            <label for="currency_id_dif" class="col-lg-3 o_light_label"/>
+                                            <field name="currency_id_dif" options="{'no_create_edit': True, 'no_open': True}" context="{'active_test': False}"/>
+                                            <field name="group_multi_currency" invisible="1"/>
+                                        </div>
+                                        <div class="mt8">
+                                            <button type="action" name="%(base.action_currency_form)d" string="Monedas" class="btn-link" icon="fa-arrow-right"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

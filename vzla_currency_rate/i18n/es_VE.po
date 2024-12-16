@@ -1,0 +1,378 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* vzla_currency_rate
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 15.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-08-31 19:03+0000\n"
+"PO-Revision-Date: 2022-08-31 15:06-0400\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: ve\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+"X-Generator: Poedit 3.1\n"
+
+#. module: vzla_currency_rate
+#: model_terms:ir.ui.view,arch_db:vzla_currency_rate.purchase_order_form
+#: model_terms:ir.ui.view,arch_db:vzla_currency_rate.view_order_form
+msgid "<span class=\"oe_read_only\"> - </span>"
+msgstr ""
+
+#. module: vzla_currency_rate
+#: model:ir.actions.server,name:vzla_currency_rate.update_sale_price_product_ir_actions_server
+#: model:ir.cron,cron_name:vzla_currency_rate.update_sale_price_product
+#: model:ir.cron,name:vzla_currency_rate.update_sale_price_product
+msgid "Actualizar Producto "
+msgstr ""
+
+#. module: vzla_currency_rate
+#: model:ir.model.fields.selection,name:vzla_currency_rate.selection__res_currency_rate_server__server__bcv
+msgid "Banco Central de Venezuela"
+msgstr ""
+
+#. module: vzla_currency_rate
+#: model:ir.model.fields,field_description:vzla_currency_rate.field_purchase_order__amount_untaxed_signed_rate
+#: model:ir.model.fields,field_description:vzla_currency_rate.field_sale_order__amount_untaxed_signed_rate
+msgid "Base Imponible"
+msgstr ""
+
+#. module: vzla_currency_rate
+#: model:ir.model.fields,field_description:vzla_currency_rate.field_res_currency_rate_server__create_uid
+msgid "Created by"
+msgstr "Creado por"
+
+#. module: vzla_currency_rate
+#: model:ir.model.fields,field_description:vzla_currency_rate.field_res_currency_rate_server__create_date
+msgid "Created on"
+msgstr "Creado en"
+
+#. module: vzla_currency_rate
+#: model:ir.model,name:vzla_currency_rate.model_res_currency
+msgid "Currency"
+msgstr "Moneda"
+
+#. module: vzla_currency_rate
+#: model:ir.model,name:vzla_currency_rate.model_res_currency_rate
+msgid "Currency Rate"
+msgstr "Tasa monetaria"
+
+#. module: vzla_currency_rate
+#. openerp-web
+#: code:addons/vzla_currency_rate/static/src/js/systray_theme_menu.js:0
+#, python-format
+msgid "Currency rates"
+msgstr "Tipos de cambio"
+
+#. module: vzla_currency_rate
+#: model:ir.model.fields,field_description:vzla_currency_rate.field_res_currency__rate
+msgid "Current Rate"
+msgstr "Tasa actual"
+
+#. module: vzla_currency_rate
+#: code:addons/vzla_currency_rate/models/account_move.py:0
+#, python-format
+msgid "Customer Credit Note"
+msgstr "Nota de crédito del cliente"
+
+#. module: vzla_currency_rate
+#: code:addons/vzla_currency_rate/models/account_move.py:0
+#, python-format
+msgid "Customer Payment"
+msgstr "Pago del Cliente"
+
+#. module: vzla_currency_rate
+#. openerp-web
+#: code:addons/vzla_currency_rate/static/src/xml/systray.xml:0
+#, python-format
+msgid "Demo Days"
+msgstr ""
+
+#. module: vzla_currency_rate
+#: model:ir.model.fields,field_description:vzla_currency_rate.field_res_currency_rate_server__display_name
+msgid "Display Name"
+msgstr "Nombre para mostrar"
+
+#. module: vzla_currency_rate
+#: model:ir.model.fields,field_description:vzla_currency_rate.field_purchase_order__doc_type
+#: model:ir.model.fields,field_description:vzla_currency_rate.field_sale_order__doc_type
+msgid "Doc Type"
+msgstr "Tipo Doc"
+
+#. module: vzla_currency_rate
+#: model:ir.model.fields.selection,name:vzla_currency_rate.selection__res_currency_rate_server__server__dolar-today
+msgid "DolarToday"
+msgstr ""
+
+#. module: vzla_currency_rate
+#: model:ir.actions.act_window,name:vzla_currency_rate.res_currency_rate_server_type_action
+#: model:ir.ui.menu,name:vzla_currency_rate.order_scheduling_report_menu
+msgid "Exchange Rate Server"
+msgstr "Tipo de Cambio Venezuela"
+
+#. module: vzla_currency_rate
+#: model_terms:ir.ui.view,arch_db:vzla_currency_rate.purchase_order_form
+#: model_terms:ir.ui.view,arch_db:vzla_currency_rate.view_order_form
+msgid "Grupo Contribuyente"
+msgstr ""
+
+#. module: vzla_currency_rate
+#: model:ir.model.fields,field_description:vzla_currency_rate.field_res_currency_rate_server__id
+msgid "ID"
+msgstr ""
+
+#. module: vzla_currency_rate
+#: model:ir.model,name:vzla_currency_rate.model_account_move
+msgid "Journal Entry"
+msgstr "Asiento contable"
+
+#. module: vzla_currency_rate
+#: model:ir.model,name:vzla_currency_rate.model_account_move_line
+msgid "Journal Item"
+msgstr "Apunte contable"
+
+#. module: vzla_currency_rate
+#: model:ir.model.fields,field_description:vzla_currency_rate.field_res_currency_rate_server____last_update
+msgid "Last Modified on"
+msgstr ""
+
+#. module: vzla_currency_rate
+#: model:ir.model.fields,field_description:vzla_currency_rate.field_res_currency_rate_server__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: vzla_currency_rate
+#: model:ir.model.fields,field_description:vzla_currency_rate.field_res_currency_rate_server__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: vzla_currency_rate
+#: model:ir.model.fields,field_description:vzla_currency_rate.field_res_currency_rate_server__name
+msgid "Moneda"
+msgstr ""
+
+#. module: vzla_currency_rate
+#: model:ir.model.fields,field_description:vzla_currency_rate.field_purchase_order__currency_id2
+#: model:ir.model.fields,field_description:vzla_currency_rate.field_purchase_order_line__currency_id2
+#: model:ir.model.fields,field_description:vzla_currency_rate.field_sale_order__currency_id2
+#: model:ir.model.fields,field_description:vzla_currency_rate.field_sale_order_line__currency_id2
+msgid "Moneda Secundaria"
+msgstr ""
+
+#. module: vzla_currency_rate
+#: model:ir.model,name:vzla_currency_rate.model_account_payment
+msgid "Payments"
+msgstr "Pagos"
+
+#. module: vzla_currency_rate
+#: model:ir.model.fields,field_description:vzla_currency_rate.field_res_currency_rate_server__server
+msgid "Plataforma"
+msgstr ""
+
+#. module: vzla_currency_rate
+#: model:ir.model.fields,field_description:vzla_currency_rate.field_purchase_order_line__price_unit_rate
+#: model:ir.model.fields,field_description:vzla_currency_rate.field_sale_order_line__price_unit_rate
+msgid "Precio unidad"
+msgstr ""
+
+#. module: vzla_currency_rate
+#: model_terms:ir.ui.view,arch_db:vzla_currency_rate.product_template_currency_rate_kanban_view
+msgid "Price:"
+msgstr ""
+
+#. module: vzla_currency_rate
+#: model:ir.model,name:vzla_currency_rate.model_product_pricelist
+msgid "Pricelist"
+msgstr "Tarifa"
+
+#. module: vzla_currency_rate
+#: model:ir.model,name:vzla_currency_rate.model_product_template
+msgid "Product Template"
+msgstr "Plantilla de producto"
+
+#. module: vzla_currency_rate
+#: model:ir.model,name:vzla_currency_rate.model_product_template_attribute_value
+msgid "Product Template Attribute Value"
+msgstr "Valor de Atributo del Modelo de Producto"
+
+#. module: vzla_currency_rate
+#: model:ir.model,name:vzla_currency_rate.model_purchase_order
+msgid "Purchase Order"
+msgstr "Pedido de compra"
+
+#. module: vzla_currency_rate
+#: model:ir.model,name:vzla_currency_rate.model_purchase_order_line
+msgid "Purchase Order Line"
+msgstr "Línea pedido de compra"
+
+#. module: vzla_currency_rate
+#: model:ir.model.fields,field_description:vzla_currency_rate.field_res_currency_rate_server__res_currency
+msgid "Rate"
+msgstr "Tasa"
+
+#. module: vzla_currency_rate
+#: model:ir.model.fields,field_description:vzla_currency_rate.field_res_currency__rate_rounding
+msgid "Rate Rounding"
+msgstr ""
+
+#. module: vzla_currency_rate
+#: model_terms:ir.ui.view,arch_db:vzla_currency_rate.res_currency_rate_server_view_form
+msgid "Rate exchange day"
+msgstr "Tasa de Cambio del dia"
+
+#. module: vzla_currency_rate
+#: model_terms:ir.ui.view,arch_db:vzla_currency_rate.res_currency_rate_server_view_form
+msgid "Rates"
+msgstr "Tasas"
+
+#. module: vzla_currency_rate
+#: model:ir.model.fields.selection,name:vzla_currency_rate.selection__res_currency_rate_server__server__sunacrip
+msgid "SUNACRIP"
+msgstr ""
+
+#. module: vzla_currency_rate
+#: model:ir.model.fields,field_description:vzla_currency_rate.field_product_product__list_price_usd
+#: model:ir.model.fields,field_description:vzla_currency_rate.field_product_template__list_price_usd
+msgid "Sale Price USD"
+msgstr "Precio de Venta $"
+
+#. module: vzla_currency_rate
+#: model:ir.model,name:vzla_currency_rate.model_sale_order
+msgid "Sales Order"
+msgstr "Pedido de venta"
+
+#. module: vzla_currency_rate
+#: model:ir.model,name:vzla_currency_rate.model_sale_order_line
+msgid "Sales Order Line"
+msgstr "Línea pedido de venta"
+
+#. module: vzla_currency_rate
+#: model:ir.model.fields,field_description:vzla_currency_rate.field_res_currency__sell_rate
+msgid "Sell Rate"
+msgstr ""
+
+#. module: vzla_currency_rate
+#: model:ir.model.fields,field_description:vzla_currency_rate.field_purchase_order_line__price_subtotal_rate
+#: model:ir.model.fields,field_description:vzla_currency_rate.field_sale_order_line__price_subtotal_rate
+msgid "Subtotal"
+msgstr ""
+
+#. module: vzla_currency_rate
+#: model:ir.model.fields,field_description:vzla_currency_rate.field_product_pricelist__rate
+#: model:ir.model.fields,field_description:vzla_currency_rate.field_purchase_order__rate
+#: model:ir.model.fields,field_description:vzla_currency_rate.field_sale_order__rate
+msgid "Tasa"
+msgstr ""
+
+#. module: vzla_currency_rate
+#: model:ir.model.fields,field_description:vzla_currency_rate.field_res_currency_rate_server__tasa_euro
+msgid "Tasa Euro"
+msgstr ""
+
+#. module: vzla_currency_rate
+#: model:ir.model,name:vzla_currency_rate.model_res_currency_rate_server
+#: model:ir.model.fields,field_description:vzla_currency_rate.field_res_currency_rate__sell_rate
+msgid "Tasa de Cambio"
+msgstr ""
+
+#. module: vzla_currency_rate
+#: model:ir.model.fields,field_description:vzla_currency_rate.field_purchase_order__vat
+#: model:ir.model.fields,field_description:vzla_currency_rate.field_sale_order__vat
+msgid "Tax ID"
+msgstr ""
+
+#. module: vzla_currency_rate
+#: model:ir.model.fields,help:vzla_currency_rate.field_purchase_order__vat
+#: model:ir.model.fields,help:vzla_currency_rate.field_sale_order__vat
+msgid ""
+"The Tax Identification Number. Complete it if the contact is subjected to "
+"government taxes. Used in some legal statements."
+msgstr ""
+
+#. module: vzla_currency_rate
+#: model:ir.model.fields,help:vzla_currency_rate.field_res_currency__rate
+msgid "The rate of the currency to the currency of rate 1."
+msgstr "La tasa de cambio de la moneda respecto a la moneda de tasa 1"
+
+#. module: vzla_currency_rate
+#: model:ir.model.fields,field_description:vzla_currency_rate.field_account_bank_statement_line__os_currency_rate
+#: model:ir.model.fields,field_description:vzla_currency_rate.field_account_move__os_currency_rate
+#: model:ir.model.fields,field_description:vzla_currency_rate.field_account_payment__os_currency_rate
+msgid "Tipo de Cambio"
+msgstr ""
+
+#. module: vzla_currency_rate
+#: model:ir.model.fields,field_description:vzla_currency_rate.field_purchase_order__amount_total_signed_rate
+#: model:ir.model.fields,field_description:vzla_currency_rate.field_sale_order__amount_total_signed_rate
+#: model_terms:ir.ui.view,arch_db:vzla_currency_rate.view_quotation_tree
+msgid "Total"
+msgstr ""
+
+#. module: vzla_currency_rate
+#: code:addons/vzla_currency_rate/models/account_move.py:0
+#, python-format
+msgid "Transfer from %s"
+msgstr ""
+
+#. module: vzla_currency_rate
+#: code:addons/vzla_currency_rate/models/account_move.py:0
+#, python-format
+msgid "Transfer to %s"
+msgstr ""
+
+#. module: vzla_currency_rate
+#: model:ir.model.fields,field_description:vzla_currency_rate.field_product_product__currency_usd_id
+#: model:ir.model.fields,field_description:vzla_currency_rate.field_product_template__currency_usd_id
+#: model:ir.model.fields,field_description:vzla_currency_rate.field_product_template_attribute_value__currency_usd_id
+msgid "USD"
+msgstr "Dolares"
+
+#. module: vzla_currency_rate
+#: model:ir.model.fields,field_description:vzla_currency_rate.field_product_template_attribute_value__list_price_usd
+msgid "Valor Precio Extra $"
+msgstr ""
+
+#. module: vzla_currency_rate
+#: code:addons/vzla_currency_rate/models/account_move.py:0
+#, python-format
+msgid "Vendor Credit Note"
+msgstr ""
+
+#. module: vzla_currency_rate
+#: code:addons/vzla_currency_rate/models/account_move.py:0
+#, python-format
+msgid "Vendor Payment"
+msgstr ""
+
+#. module: vzla_currency_rate
+#: model:ir.model.fields,field_description:vzla_currency_rate.field_purchase_order__amount_tax_rate
+#: model:ir.model.fields,field_description:vzla_currency_rate.field_sale_order__amount_tax_rate
+msgid "impuestos"
+msgstr ""
+
+#. module: vzla_currency_rate
+#: model:ir.model.fields,help:vzla_currency_rate.field_res_currency__rate_rounding
+msgid "la tasa inversa del mercado"
+msgstr ""
+
+#. module: vzla_currency_rate
+#: model:ir.model.fields,help:vzla_currency_rate.field_res_currency__sell_rate
+msgid "se introduce la tasa real del mercado"
+msgstr ""
+
+#. module: vzla_currency_rate
+#: model:ir.model.fields,field_description:vzla_currency_rate.field_account_bank_statement_line__custom_rate
+#: model:ir.model.fields,field_description:vzla_currency_rate.field_account_move__custom_rate
+#: model:ir.model.fields,field_description:vzla_currency_rate.field_account_payment__custom_rate
+msgid "¿Usar Tasa de Cambio Personalizada?"
+msgstr ""
+
+#. module: vzla_currency_rate
+#: model:ir.model.fields,field_description:vzla_currency_rate.field_purchase_order__custom_rate
+#: model:ir.model.fields,field_description:vzla_currency_rate.field_sale_order__custom_rate
+msgid "¿Usar tasa de cambio personalizada?"
+msgstr ""

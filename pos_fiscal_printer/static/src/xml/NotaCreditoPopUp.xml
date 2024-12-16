@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="nota_credito_popup" xml:space="preserve">
+    <t t-name="NotaCreditoPopUp" owl="1">
+        <div class="popup popup-med">
+            <header class="title">
+                Nota de crédito
+            </header>
+            <main>
+                <form 
+                    name="nota-credito" 
+                    id="nota-credito" 
+                    action="#" 
+                    autocomplete="off"
+                    t-on-submit="onSubmit"
+                >
+                    <fieldset>
+                        <label>
+                            Código de impresora
+                            <input 
+                                type="text"
+                                name="printerCode"
+                                t-model="fields.printerCode"
+                                maxlength="10" 
+                                minlength="10" 
+                                required="" 
+                            />
+                        </label>
+                        <label>
+                            N° de factura
+                            <input 
+                                type="text"
+                                name="invoiceNumber"
+                                t-model="fields.invoiceNumber"
+                                maxlength="11"
+                                required="" 
+                            />
+                        </label>
+                        <label>
+                            Fecha de factura
+                            <input type="date"
+                                   name="date"
+                                   t-model="fields.date"
+                                   required="" />
+                        </label>
+                    </fieldset>
+                </form>
+            </main>
+            <footer class="footer">
+                <button class="button confirm highlight" form="nota-credito">
+                    Ok
+                </button>
+                <div class="button cancel" t-on-click="cancel">
+                    Cancel
+                </div>
+            </footer>
+        </div>
+    </t>
+</templates>

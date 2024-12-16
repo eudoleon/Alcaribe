@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Payment sequences -->
+        <record id="sequence_withholding_iva_in_invoice" model="ir.sequence">
+            <field name="name">sequence withholding iva proveedor</field>
+            <field name="code">account.wh.iva.in_invoice</field>
+            <field name="prefix">%(year)s%(month)s</field>
+            <field eval="1" name="number_next"/>
+            <field eval="1" name="number_increment"/>
+            <field eval="False" name="use_date_range"/>
+            <field eval="True" name="company_id"/>
+            <field name="padding">8</field>
+        </record>
+
+
+        <record id="tax_group_iva_16" model="account.tax.group">
+            <field name="name">IVA 16%</field>
+            <field name="country_id" ref="base.ve"/>
+        </record>
+    </data>
+</odoo>

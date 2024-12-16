@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    <t t-name="BillScreenPosBlackBox" t-inherit="pos_restaurant.BillScreen" t-inherit-mode="extension" owl="1">
+        <xpath expr="//div[hasclass('print')]" position="attributes">
+            <attribute name="t-if">!env.pos.useBlackBoxBe()</attribute>
+        </xpath>
+    </t>
+</templates>

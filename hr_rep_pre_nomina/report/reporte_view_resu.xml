@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <data>    
+    <record id="paperformat_pre_nomina" model="report.paperformat">
+
+      <field name="default" eval="True"/>
+        <field name="name">A4 Resumen Pre nomina</field>
+        <field name="default" eval="True"/>
+        <field name="format">custom</field>
+        <field name="page_height">297</field>
+        <field name="page_width">210</field>
+        <field name="orientation">Portrait</field>
+        <field name="margin_top">35</field>
+        <field name="margin_bottom">15</field>
+        <field name="margin_left">5</field>
+        <field name="margin_right">5</field>
+        <field name="header_line" eval="False"/>
+        <field name="header_spacing">30</field>
+        <field name="dpi">110</field>
+    </record>
+
+    <report id="report_pre_nomina_resu"
+        model="wizard.pre.nomina"
+        name="hr_rep_pre_nomina.reporte_pre_nomina_resu"
+        file="hr_rep_pre_nomina.reporte_pre_nomina_resu"
+        string="Reporte Pre Nómina"
+        report_type="qweb-html"
+        paperformat="hr_rep_pre_nomina.paperformat_pre_nomina"
+        /><!-- paperformat="hr_infor_resumen_nom.paperformat_resumen_nomina"-->
+
+    <template id="reporte_pre_nomina_resu">
+
+       <t t-call="web.html_container" ><!-- realiza llamados a template propio de odoo -->
+         <t t-call="web.basic_layout" ><!-- realiza llamados a template propio de odoo -->
+          <t t-foreach="docs" t-as="o">
+
+            <div class="header">
+              <table width="100%"  border="1">
+                <tr>
+                  <td align="left">
+                      <t t-if="o.company_id.logo">  
+                          <img t-attf-src="data:image/*;base64,{{o.company_id.logo}}" style="width:300px; height:auto;"/>
+                      </t>
+                  </td>
+                </tr>
+                <tr>
+                  <td>EMPRESA: <samp style="font-size:18px;font-weight: bolder"><t t-esc="docs.company_id.name" /></samp></td>
+                </tr>
+                <tr><td>NOMBRE: <t t-esc="docs.company_id.name" /></td></tr>
+              </table>
+
+            </div>
+
+            <div class="page">
+              <!-- AREA DE TRABAJO -->
+              <t t-foreach="o.line_lote" t-as="lote" > <!-- 1 -->
+              <table width="100%"  border="1">
+                  <tr>
+                    <td></td>
+                    <td align="center">NOMINA / PLANILLA DE PAGO</td>
+                    <td>Fécha: <t t-esc="o.formato_fecha_normal(o.fecha)" /></td>
+                  </tr>
+                  <tr>
+                    <td><t t-esc="lote.payslip_run_id.name" /></td>
+                    <td align="center">***DEFINITIVA***</td>
+                    <td>Hora: <t t-esc="o.formato_hora_normal(o.fecha)" /></td>
+                  </tr>
+                  <tr>
+                    <td>Del: <t t-esc="o.formato_fecha_normal(lote.payslip_run_id.date_start)" /> al <t t-esc="o.formato_fecha_normal(lote.payslip_run_id.date_end)" />:</td>
+                    <td align="center"> </td>
+                    <td></td>
+                  </tr>
+                </table>
+                <t t-foreach="lote.line_departamento" t-as="departamento"> <!-- 2 -->
+                    <div style="background-color:#6B6B6B; color: #FFFFFF;">
+                    Departamentos: <t t-esc="departamento.department_id.name" />
+                    </div>
+                    <table class="table table-sm table-bordered">
+                      <tr style="background-color:#CCCCCC">
+                        <td>
+                          Concepto
+                        </td>
+                        
+                        <td>
+                          Asignaciones
+                        </td>
+                        <td>
+                          Deducciones
+                        </td>
+                        <td>
+                          Neto
+                        </td>
+                        <td>
+                          Patronales
+                        </td>
+                      </tr>
+                    
+                      <t t-set="asignado" t-value="0"/>
+                      <t t-set="deducido" t-value="0"/>
+                      <t t-set="neto" t-value="0"/>
+                    <t t-foreach="departamento.line_rule" t-as="concepto"> <!-- 3 -->
+                      <tr>
+                        <td><t t-esc="concepto.salary_rule_id.name" /></td>
+                         
+                         <td align="right">
+                          <t t-if="concepto.salary_rule_id.category_id.code in ('ALW','BASIC')"><t t-esc="o.float_format(concepto.total)" /><t t-set="asignado" t-value="asignado+concepto.total"/></t>
+                        </td>
+                         <td align="right"><t t-if="concepto.salary_rule_id.category_id.code == 'DED'"><t t-esc="o.float_format(concepto.total)" />
+                         <t t-set="deducido" t-value="deducido+concepto.total"/></t>
+                        </td>
+
+                         <td></td>
+                         <td></td>
+                      </tr>
+                        
+                    </t><!-- fin 3 -->
+                    <tr style="background-color:#000000; color: #ffffff;">
+                      <td colspan="1">Total: <t t-esc="departamento.department_id.name" /></td>
+                      <td align="right"><samp style="font-weight: bolder">
+                     <t t-esc="o.float_format(asignado)"/>
+                    </samp></td>
+                      <td align="right"><samp style="font-weight: bolder">
+                      <t t-esc="o.float_format(deducido)"/>
+                    </samp></td>
+                      <td align="right"><t t-set="neto" t-value="asignado-deducido"/><t t-esc="o.float_format(neto)"/></td>
+                      <td></td>
+                    </tr>
+                    </table>
+                </t> <!-- fin 2 -->
+              </t> <!-- fin 1 -->
+              <!-- FIN AREA DE TRABAJO -->
+            </div>
+
+          </t>
+         </t>
+       </t>
+
+     </template>
+  
+  </data>
+</odoo>

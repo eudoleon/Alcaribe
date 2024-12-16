@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="accounting_report_enhancement.aged_receivable_report" model="account.report">
+        <field name="column_ids">
+
+            <record id="aged_receivable_report_move_invoice_date_due" model="account.report.column">
+                <field name="name">Invoice Due Date</field>
+                <field name="expression_label">move_invoice_date_due</field>
+                <field name="figure_type">none</field>
+                <field name="sortable" eval="True"/>
+            </record>
+
+            <record id="aged_receivable_report_partner" model="account.report.column">
+                <field name="name">Partner</field>
+                <field name="expression_label">partner_name</field>
+                <field name="figure_type">none</field>
+                <field name="sortable" eval="True"/>
+                <field name="sequence">0</field>
+            </record>
+            <record id="aged_receivable_report_move_date" model="account.report.column">
+                <field name="name">Invoice Date</field>
+                <field name="expression_label">move_date</field>
+                <field name="figure_type">date</field>
+                <field name="sortable" eval="True"/>
+                <field name="sequence">1</field>
+            </record>
+            <record id="aged_receivable_report_move_invoice_user_id" model="account.report.column">
+                <field name="name">Invoice User</field>
+                <field name="expression_label">move_invoice_user_id</field>
+                <field name="figure_type">none</field>
+                <field name="sortable" eval="True"/>
+                <field name="sequence">2</field>
+            </record>
+        </field>
+        <field name="line_ids">
+          <record id="accounting_report_enhancement.aged_receivable_line" model="account.report.line">
+              <field name="expression_ids">
+
+                  <record id="aged_receivable_line_move_invoice_date_due" model="account.report.expression">
+                      <field name="label">move_invoice_date_due</field>
+                      <field name="engine">custom</field>
+                      <field name="formula">_report_custom_engine_aged_receivable</field>
+                      <field name="subformula">move_invoice_date_due</field>
+                      <field name="auditable" eval="False"/>
+                  </record>
+
+                  <record id="aged_receivable_line_partner_name" model="account.report.expression">
+                      <field name="label">partner_name</field>
+                      <field name="engine">custom</field>
+                      <field name="formula">_report_custom_engine_aged_receivable</field>
+                      <field name="subformula">partner_name</field>
+                      <field name="auditable" eval="False"/>
+                  </record>
+
+                  <record id="aged_receivable_line_move_date" model="account.report.expression">
+                      <field name="label">move_date</field>
+                      <field name="engine">custom</field>
+                      <field name="formula">_report_custom_engine_aged_receivable</field>
+                      <field name="subformula">move_date</field>
+                      <field name="auditable" eval="False"/>
+                  </record>
+
+                  <record id="aged_receivable_line_move_invoice_user_id" model="account.report.expression">
+                      <field name="label">move_invoice_user_id</field>
+                      <field name="engine">custom</field>
+                      <field name="formula">_report_custom_engine_aged_receivable</field>
+                      <field name="subformula">move_invoice_user_id</field>
+                      <field name="auditable" eval="False"/>
+                  </record>
+
+                <record id="aged_receivable_line_total" model="account.report.expression">
+                    <field name="label">total</field>
+                    <field name="engine">custom</field>
+                    <field name="formula">_report_custom_engine_aged_receivable</field>
+                    <field name="subformula">total</field>
+                </record>
+              </field>
+          </record>
+        </field>
+    </record>
+
+    <record id="accounting_report_enhancement.aged_payable_report" model="account.report">
+        <field name="column_ids">
+
+            <record id="aged_payable_report_move_invoice_date_due" model="account.report.column">
+                <field name="name">Invoice Due Date</field>
+                <field name="expression_label">move_invoice_custom_date_due</field>
+                <field name="figure_type">none</field>
+                <field name="sortable" eval="True"/>
+            </record>
+
+            <record id="aged_payable_report_partner" model="account.report.column">
+                <field name="name">Partner</field>
+                <field name="expression_label">partner_name</field>
+                <field name="figure_type">none</field>
+                <field name="sortable" eval="True"/>
+                <field name="sequence">0</field>
+            </record>
+            <record id="aged_payable_report_move_date" model="account.report.column">
+                <field name="name">Invoice Date</field>
+                <field name="expression_label">move_date</field>
+                <field name="figure_type">date</field>
+                <field name="sortable" eval="True"/>
+                <field name="sequence">1</field>
+            </record>
+            <record id="aged_payable_report_move_invoice_user_id" model="account.report.column">
+                <field name="name">Invoice User</field>
+                <field name="expression_label">move_invoice_user_id</field>
+                <field name="figure_type">none</field>
+                <field name="sortable" eval="True"/>
+                <field name="sequence">2</field>
+            </record>
+        </field>
+        <field name="line_ids">
+            <record id="accounting_report_enhancement.aged_payable_line" model="account.report.line">
+                <field name="expression_ids">
+
+                    <record id="aged_payable_line_move_invoice_date_due" model="account.report.expression">
+                        <field name="label">move_invoice_custom_date_due</field>
+                        <field name="engine">custom</field>
+                        <field name="formula">_report_custom_engine_aged_payable</field>
+                        <field name="subformula">move_invoice_custom_date_due</field>
+                        <field name="auditable" eval="False"/>
+                    </record>
+
+                    <record id="aged_payable_line_partner_name" model="account.report.expression">
+                        <field name="label">partner_name</field>
+                        <field name="engine">custom</field>
+                        <field name="formula">_report_custom_engine_aged_payable</field>
+                        <field name="subformula">partner_name</field>
+                        <field name="auditable" eval="False"/>
+                    </record>
+                    <record id="aged_payable_line_move_date" model="account.report.expression">
+                        <field name="label">move_date</field>
+                        <field name="engine">custom</field>
+                        <field name="formula">_report_custom_engine_aged_payable</field>
+                        <field name="subformula">move_date</field>
+                        <field name="auditable" eval="False"/>
+                    </record>
+                    <record id="aged_payable_line_move_invoice_user_id" model="account.report.expression">
+                        <field name="label">move_invoice_user_id</field>
+                        <field name="engine">custom</field>
+                        <field name="formula">_report_custom_engine_aged_payable</field>
+                        <field name="subformula">move_invoice_user_id</field>
+                        <field name="auditable" eval="False"/>
+                    </record>
+                </field>
+            </record>
+        </field>
+    </record>
+
+</odoo>

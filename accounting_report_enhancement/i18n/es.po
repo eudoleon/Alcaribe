@@ -1,0 +1,329 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* accounting_report_enhancement
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 16.0+e-20230920\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-09-29 00:31+0000\n"
+"PO-Revision-Date: 2023-09-29 00:31+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: accounting_report_enhancement
+#: model:account.report,name:accounting_report_enhancement.withholding_assistant_report_filter_2
+msgid "\tRetencion de ICA"
+msgstr ""
+
+#. module: accounting_report_enhancement
+#: model:account.report,name:accounting_report_enhancement.withholding_assistant_report_filter_3
+msgid "\tRetencion de IVA"
+msgstr ""
+
+#. module: accounting_report_enhancement
+#: model:account.report.column,name:accounting_report_enhancement.aged_payable_report_period1
+#: model:account.report.column,name:accounting_report_enhancement.aged_receivable_report_period1
+msgid "1-30"
+msgstr ""
+
+#. module: accounting_report_enhancement
+#: model:account.report.column,name:accounting_report_enhancement.aged_payable_report_period2
+#: model:account.report.column,name:accounting_report_enhancement.aged_receivable_report_period2
+msgid "31-60"
+msgstr ""
+
+#. module: accounting_report_enhancement
+#: model:account.report.column,name:accounting_report_enhancement.aged_payable_report_period3
+#: model:account.report.column,name:accounting_report_enhancement.aged_receivable_report_period3
+msgid "61-90"
+msgstr ""
+
+#. module: accounting_report_enhancement
+#: model:account.report.column,name:accounting_report_enhancement.aged_payable_report_period4
+#: model:account.report.column,name:accounting_report_enhancement.aged_receivable_report_period4
+msgid "91-120"
+msgstr ""
+
+#. module: accounting_report_enhancement
+#: model:account.report.line,name:accounting_report_enhancement.aged_payable_report_tp_gl
+#: model:account.report.line,name:accounting_report_enhancement.aged_receivable_report_tp_gl
+#: model:account.report.line,name:accounting_report_enhancement.aya_trial_balance_report_filter_1_line_0
+#: model:account.report.line,name:accounting_report_enhancement.aya_trial_balance_report_filter_2_line_0
+#: model:account.report.line,name:accounting_report_enhancement.aya_trial_balance_report_filter_3_line_0
+#: model:account.report.line,name:accounting_report_enhancement.aya_trial_balance_report_line_0
+#: model:account.report.line,name:accounting_report_enhancement.trial_balance_report_tp_gl
+#: model:account.report.line,name:accounting_report_enhancement.trial_balance_report_tp_line
+msgid "ACCESORIOS Y ACABADOS S.A.S."
+msgstr ""
+
+#. module: accounting_report_enhancement
+#: model:account.report,name:accounting_report_enhancement.trial_balance_report_aya
+#: model:ir.actions.client,name:accounting_report_enhancement.action_account_report_coa_b
+#: model:ir.ui.menu,name:accounting_report_enhancement.menu_action_account_report_b
+msgid "AYA - General Balance"
+msgstr "Balance de Prueba"
+
+#. module: accounting_report_enhancement
+#: model:account.report.column,name:accounting_report_enhancement.aged_payable_report_account_name
+#: model:account.report.column,name:accounting_report_enhancement.aged_receivable_report_account_name
+msgid "Account"
+msgstr "Cuenta"
+
+#. module: accounting_report_enhancement
+#: model:ir.model,name:accounting_report_enhancement.model_account_aged_partner_balance_report_handler
+msgid "Aged Partner Balance Custom Handler"
+msgstr ""
+
+#. module: accounting_report_enhancement
+#: model:account.report,name:accounting_report_enhancement.aged_payable_report
+#: model:account.report.line,name:accounting_report_enhancement.aged_payable_line
+msgid "Aged Payable"
+msgstr "Vencidas por Pagar"
+
+#. module: accounting_report_enhancement
+#: model:account.report,name:accounting_report_enhancement.aged_receivable_report
+#: model:account.report.line,name:accounting_report_enhancement.aged_receivable_line
+msgid "Aged Receivable"
+msgstr "Vencidas por Cobrar"
+
+#. module: accounting_report_enhancement
+#: model:account.report.column,name:accounting_report_enhancement.aged_payable_report_amount_currency
+#: model:account.report.column,name:accounting_report_enhancement.aged_receivable_report_amount_currency
+msgid "Amount Currency"
+msgstr "Importe en moneda"
+
+#. module: accounting_report_enhancement
+#: model:account.report.column,name:accounting_report_enhancement.aged_payable_report_period0
+#: model:account.report.column,name:accounting_report_enhancement.aged_receivable_report_period0
+msgid "At Date"
+msgstr "En fecha"
+
+#. module: accounting_report_enhancement
+#: model:account.report.column,name:accounting_report_enhancement.aya_trial_balance_report_balance
+#: model:account.report.column,name:accounting_report_enhancement.general_ledger_report_balance_tp_gl
+#: model:account.report.column,name:accounting_report_enhancement.trial_balance_report_tp_balance
+msgid "Balance"
+msgstr ""
+
+#. module: accounting_report_enhancement
+#: model:account.report,name:accounting_report_enhancement.trial_balance_report_tp
+#: model:ir.actions.client,name:accounting_report_enhancement.action_account_report_coa_tp
+#: model:ir.ui.menu,name:accounting_report_enhancement.menu_action_account_report_tp
+msgid "Balance by Third Party"
+msgstr "Libro Auxiliar"
+
+#. module: accounting_report_enhancement
+#: model:account.report.column,name:accounting_report_enhancement.withholding_assistant_report_column_net
+#: model:account.report.column,name:accounting_report_enhancement.withholding_assistant_report_filter_1_column_net
+#: model:account.report.column,name:accounting_report_enhancement.withholding_assistant_report_filter_2_column_net
+#: model:account.report.column,name:accounting_report_enhancement.withholding_assistant_report_filter_3_column_net
+msgid "Base"
+msgstr ""
+
+#. module: accounting_report_enhancement
+#: model:account.report.column,name:accounting_report_enhancement.general_ledger_report_check_tp_gl
+msgid "Check"
+msgstr "Cheque"
+
+#. module: accounting_report_enhancement
+#: model:account.report.column,name:accounting_report_enhancement.aya_trial_balance_report_credit
+#: model:account.report.column,name:accounting_report_enhancement.general_ledger_report_credit_tp_gl
+#: model:account.report.column,name:accounting_report_enhancement.trial_balance_report_tp_credit
+msgid "Credit"
+msgstr "Crédito"
+
+#. module: accounting_report_enhancement
+#: model:account.report.column,name:accounting_report_enhancement.aged_payable_report_currency
+#: model:account.report.column,name:accounting_report_enhancement.aged_receivable_report_currency
+msgid "Currency"
+msgstr "Moneda"
+
+#. module: accounting_report_enhancement
+#: model:account.report.column,name:accounting_report_enhancement.general_ledger_report_date
+#: model:account.report.column,name:accounting_report_enhancement.withholding_assistant_report_date
+#: model:account.report.column,name:accounting_report_enhancement.withholding_assistant_report_filter_1_date
+#: model:account.report.column,name:accounting_report_enhancement.withholding_assistant_report_filter_2_date
+#: model:account.report.column,name:accounting_report_enhancement.withholding_assistant_report_filter_3_date
+msgid "Date"
+msgstr "Fecha"
+
+#. module: accounting_report_enhancement
+#: model:account.report.column,name:accounting_report_enhancement.aya_trial_balance_report_debit
+#: model:account.report.column,name:accounting_report_enhancement.general_ledger_report_debit_tp_gl
+#: model:account.report.column,name:accounting_report_enhancement.trial_balance_report_tp_debit
+msgid "Debit"
+msgstr "Débito"
+
+#. module: accounting_report_enhancement
+#: model:account.report.column,name:accounting_report_enhancement.general_ledger_report_partner_name_tp_gl
+msgid "Doc#."
+msgstr "Tercero"
+
+#. module: accounting_report_enhancement
+#: model:account.report.column,name:accounting_report_enhancement.aged_payable_report_due_date
+#: model:account.report.column,name:accounting_report_enhancement.aged_receivable_report_due_date
+msgid "Due Date"
+msgstr "Fecha vencimiento"
+
+#. module: accounting_report_enhancement
+#: model:account.report.line,name:accounting_report_enhancement.aged_payable_report_tp_gl_line_2
+#: model:account.report.line,name:accounting_report_enhancement.aged_receivable_report_tp_gl_line_2
+#: model:account.report.line,name:accounting_report_enhancement.aya_trial_balance_report_filter_1_line_2
+#: model:account.report.line,name:accounting_report_enhancement.aya_trial_balance_report_filter_2_line_2
+#: model:account.report.line,name:accounting_report_enhancement.aya_trial_balance_report_filter_3_line_2
+#: model:account.report.line,name:accounting_report_enhancement.aya_trial_balance_report_line_2
+#: model:account.report.line,name:accounting_report_enhancement.trial_balance_report_tp_gl_line_2
+#: model:account.report.line,name:accounting_report_enhancement.trial_balance_report_tp_line_2
+msgid "Elaborado Bajo Normas Internacionales de Informacion Financiera."
+msgstr "Elaborado Bajo Normas Internacionales de Información Financiera."
+
+#. module: accounting_report_enhancement
+#: model:account.report,name:accounting_report_enhancement.general_ledger_report_tp_gl
+#: model:ir.actions.client,name:accounting_report_enhancement.action_third_party_report_general_ledger
+#: model:ir.ui.menu,name:accounting_report_enhancement.menu_action_account_report_tp_gl
+msgid "General Ledger by Third Party"
+msgstr "Libro Auxiliar por Tercero"
+
+#. module: accounting_report_enhancement
+#: model:account.report.column,name:accounting_report_enhancement.aged_payable_report_move_date
+#: model:account.report.column,name:accounting_report_enhancement.aged_receivable_report_move_date
+msgid "Invoice Date"
+msgstr "Fecha de la factura"
+
+#. module: accounting_report_enhancement
+#: model:account.report.column,name:accounting_report_enhancement.aged_payable_report_move_invoice_date_due
+#: model:account.report.column,name:accounting_report_enhancement.aged_receivable_report_move_invoice_date_due
+msgid "Invoice Due Date"
+msgstr "Dias"
+
+#. module: accounting_report_enhancement
+#: model:account.report.column,name:accounting_report_enhancement.aged_payable_report_move_invoice_user_id
+#: model:account.report.column,name:accounting_report_enhancement.aged_receivable_report_move_invoice_user_id
+msgid "Invoice User"
+msgstr "Vendedor"
+
+#. module: accounting_report_enhancement
+#: model:account.report.line,name:accounting_report_enhancement.aged_payable_report_tp_gl_1
+#: model:account.report.line,name:accounting_report_enhancement.aged_receivable_report_tp_gl_1
+#: model:account.report.line,name:accounting_report_enhancement.aya_trial_balance_report_filter_1_line_1
+#: model:account.report.line,name:accounting_report_enhancement.aya_trial_balance_report_filter_2_line_1
+#: model:account.report.line,name:accounting_report_enhancement.aya_trial_balance_report_filter_3_line_1
+#: model:account.report.line,name:accounting_report_enhancement.aya_trial_balance_report_line_1
+#: model:account.report.line,name:accounting_report_enhancement.trial_balance_report_tp_gl_1
+#: model:account.report.line,name:accounting_report_enhancement.trial_balance_report_tp_line_1
+msgid "NIT: 860536345-7."
+msgstr ""
+
+#. module: accounting_report_enhancement
+#: model:account.report.column,name:accounting_report_enhancement.general_ledger_report_narration_tp_gl
+msgid "Note"
+msgstr "Nota"
+
+#. module: accounting_report_enhancement
+#: model:account.report.column,name:accounting_report_enhancement.aged_payable_report_period5
+#: model:account.report.column,name:accounting_report_enhancement.aged_receivable_report_period5
+msgid "Older"
+msgstr "Más antiguos"
+
+#. module: accounting_report_enhancement
+#: model:account.report.column,name:accounting_report_enhancement.aged_payable_report_partner
+#: model:account.report.column,name:accounting_report_enhancement.aged_receivable_report_partner
+msgid "Partner"
+msgstr "Cliente"
+
+#. module: accounting_report_enhancement
+#: model:account.report,name:accounting_report_enhancement.withholding_assistant_report_filter_1
+msgid "Retencion de Fuente"
+msgstr ""
+
+#. module: accounting_report_enhancement
+#: model:account.report.column,name:accounting_report_enhancement.trial_balance_report_tp_nit
+msgid "TERCERO"
+msgstr ""
+
+#. module: accounting_report_enhancement
+#: model:account.report.column,name:accounting_report_enhancement.withholding_assistant_report_filter_1_partner_name
+#: model:account.report.column,name:accounting_report_enhancement.withholding_assistant_report_filter_2_partner_name
+#: model:account.report.column,name:accounting_report_enhancement.withholding_assistant_report_filter_3_partner_name
+#: model:account.report.column,name:accounting_report_enhancement.withholding_assistant_report_partner_name
+msgid "Third"
+msgstr "Tercero"
+
+#. module: accounting_report_enhancement
+#: model:ir.model,name:accounting_report_enhancement.model_account_tp_trial_balance_report_handler
+msgid "Third Party Trial Balance Custom Handler"
+msgstr ""
+
+#. module: accounting_report_enhancement
+#: model:account.report.column,name:accounting_report_enhancement.aged_payable_report_total
+#: model:account.report.column,name:accounting_report_enhancement.aged_receivable_report_total
+msgid "Total"
+msgstr ""
+
+#. module: accounting_report_enhancement
+#: model:account.report.column,name:accounting_report_enhancement.withholding_assistant_report_column_tax
+#: model:account.report.column,name:accounting_report_enhancement.withholding_assistant_report_filter_1_column_tax
+#: model:account.report.column,name:accounting_report_enhancement.withholding_assistant_report_filter_2_column_tax
+#: model:account.report.column,name:accounting_report_enhancement.withholding_assistant_report_filter_3_column_tax
+msgid "Value"
+msgstr "Valor"
+
+#. module: accounting_report_enhancement
+#: model:ir.actions.client,name:accounting_report_enhancement.action_account_report_wa
+#: model:ir.ui.menu,name:accounting_report_enhancement.menu_action_account_report_wa
+msgid "Withholding Assistant"
+msgstr "Auxiliar de Retenciones"
+
+#. module: accounting_report_enhancement
+#: model:ir.model,name:accounting_report_enhancement.model_account_withholding_assistant_report_handler
+msgid "Withholding Assistant Report Custom Handler"
+msgstr "Auxiliar de Retenciones"
+
+#. module: accounting_report_enhancement
+#: model:account.report,name:accounting_report_enhancement.withholding_assistant_report
+msgid "Withholding Assistant report"
+msgstr "Auxiliar de Retenciones"
+
+#. module: accounting_report_enhancement
+#. odoo-python
+#: code:addons/accounting_report_enhancement/models/account_tp_general_ledger.py:0
+#: code:addons/accounting_report_enhancement/models/account_tp_trial_balance_report.py:0
+#: code:addons/accounting_report_enhancement/models/account_withholding_assistant.py:0
+#, python-format
+msgid "Wrong ID for general ledger line to expand: %s"
+msgstr ""
+
+#. module: accounting_report_enhancement
+#: model:ir.model,name:accounting_report_enhancement.model_account_aya_trial_balance_report_handler
+msgid "account.aya.trial.balance.report.handler"
+msgstr ""
+
+#. module: accounting_report_enhancement
+#: model:ir.model,name:accounting_report_enhancement.model_account_general_ledger_report_handler_tp
+msgid "account.general.ledger.report.handler.tp"
+msgstr ""
+
+#. module: accounting_report_enhancement
+#: model:ir.model,name:accounting_report_enhancement.model_account_general_ledger_report_handler_tp_gl
+msgid "account.general.ledger.report.handler.tp.gl"
+msgstr ""
+
+#. module: accounting_report_enhancement
+#: model:ir.model,name:accounting_report_enhancement.model_account_withholding_assistant_rte_fuente_report_handler
+msgid "account.withholding.assistant.rte_fuente.report.handler"
+msgstr ""
+
+#. module: accounting_report_enhancement
+#: model:ir.model,name:accounting_report_enhancement.model_account_withholding_assistant_rte_ica_report_handler
+msgid "account.withholding.assistant.rte_ica.report.handler"
+msgstr ""
+
+#. module: accounting_report_enhancement
+#: model:ir.model,name:accounting_report_enhancement.model_account_withholding_assistant_rte_iva_report_handler
+msgid "account.withholding.assistant.rte_iva.report.handler"
+msgstr ""

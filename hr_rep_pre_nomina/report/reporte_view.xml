@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <data>    
+    <record id="paperformat_pre_nomina" model="report.paperformat">
+
+      <field name="default" eval="True"/>
+        <field name="name">A4 Resumen Pre nomina</field>
+        <field name="default" eval="True"/>
+        <field name="format">custom</field>
+        <field name="page_height">297</field>
+        <field name="page_width">210</field>
+        <field name="orientation">Portrait</field>
+        <field name="margin_top">35</field>
+        <field name="margin_bottom">15</field>
+        <field name="margin_left">5</field>
+        <field name="margin_right">5</field>
+        <field name="header_line" eval="False"/>
+        <field name="header_spacing">30</field>
+        <field name="dpi">110</field>
+    </record>
+
+    <report id="report_pre_nomina"
+        model="wizard.pre.nomina"
+        name="hr_rep_pre_nomina.reporte_pre_nomina"
+        file="hr_rep_pre_nomina.reporte_pre_nomina"
+        string="Reporte Pre Nómina"
+        report_type="qweb-html"
+        paperformat="hr_rep_pre_nomina.paperformat_pre_nomina"
+        /><!-- paperformat="hr_infor_resumen_nom.paperformat_resumen_nomina"-->
+
+    <template id="reporte_pre_nomina">
+
+       <t t-call="web.html_container" ><!-- realiza llamados a template propio de odoo -->
+         <t t-call="web.basic_layout" ><!-- realiza llamados a template propio de odoo -->
+          <t t-foreach="docs" t-as="o">
+
+            <div class="header">
+              <table width="100%"  border="1">
+                <tr>
+                  <td align="left">
+                      <t t-if="o.company_id.logo">  
+                          <img t-attf-src="data:image/*;base64,{{o.company_id.logo}}" style="width:300px; height:auto;"/>
+                      </t>
+                  </td>
+                </tr>
+                <tr>
+                  <td>EMPRESA: <samp style="font-size:18px;font-weight: bolder"><t t-esc="docs.company_id.name" /></samp></td>
+                </tr>
+                <tr><td>NOMBRE: <t t-esc="docs.company_id.name" /></td></tr>
+              </table>
+            </div>
+
+            <div class="page">
+              <t t-foreach="o.lote_ids" t-as="lote" > <!-- 1 -->
+                <table width="100%"  border="1">
+                  <tr>
+                    <td></td>
+                    <td align="center">NOMINA / PLANILLA DE PAGO</td>
+                    <td>Fécha: <t t-esc="o.formato_fecha_normal(o.fecha)" /></td>
+                  </tr>
+                  <tr>
+                    <td><t t-esc="lote.name" /></td>
+                    <td align="center">***DEFINITIVA***</td>
+                    <td>Hora: <t t-esc="o.formato_hora_normal(o.fecha)" /></td>
+                  </tr>
+                  <tr>
+                    <td>Del: <t t-esc="o.formato_fecha_normal(lote.date_start)" /> al :<t t-esc="o.formato_fecha_normal(lote.date_end)" /></td>
+                    <td align="center"> </td>
+                    <td></td>
+                  </tr>
+                </table>
+
+                
+
+                <t t-foreach="o.departamento" t-as="departamento" > <!-- 5 -->
+
+                  <t t-set="total_asignado" t-value="0"/>
+                  <t t-set="total_deducido" t-value="0"/>
+                  <div style="background-color:#6B6B6B; color: #FFFFFF;">
+                    Departamentos: <t t-esc="departamento.name" />
+                  </div>
+
+                <t t-foreach="o.line" t-as="line" ><!-- 2 -->
+                  <t t-if="line.employee_id.department_id.id == departamento.id"> <!-- 6 -->
+                <table class="table table-sm table-bordered">
+                  <tr>
+                    <td colspan="2">Ficha: <t t-esc="line.employee_id.name" /></td>
+                    <td align="center"><t t-esc="line.employee_id.tipo_contribuyente" /><t t-esc="line.employee_id.rif" /></td>
+                    <td colspan="2" align="center">Cta:<t t-esc="line.employee_id.contract_id.nr_cuenta" /></td>
+                  </tr>
+                  <tr style="background-color:#CCCCCC">
+                    <td>
+                      Concepto
+                    </td>
+                    <td>
+                      Referencia
+                    </td>
+                    <td>
+                      Asignaciones
+                    </td>
+                    <td>
+                      Deducciones
+                    </td>
+                    <td>
+                      Saldo Prestamo
+                    </td>
+                  </tr>
+                  <t t-set="asignado" t-value="0"/>
+                  <t t-set="deducido" t-value="0"/>
+                  <t t-foreach="line.payslip_id.line_ids" t-as="concepto" ><!-- 3 -->
+                    <t t-if="concepto.category_id.code not in ('GROSS','NET')"> <!-- 4 -->                       
+                        
+                      <tr>
+                        <td><t t-esc="concepto.name" /></td>
+                        <td align="right"><t t-esc="concepto.dias" /> dias</td>
+                        <td align="right"><t t-if="concepto.category_id.code in ('ALW','BASIC')"><t t-esc="o.float_format(concepto.total)" /><t t-set="asignado" t-value="asignado+concepto.total"/></t></td>
+
+                        <td align="right"><t t-if="concepto.category_id.code == 'DED'"><t t-esc="o.float_format(concepto.total)" /><t t-set="deducido" t-value="deducido+concepto.total"/></t></td>
+                        
+
+                        <td></td>
+                      </tr>
+
+                    </t><!-- fin 4 -->
+                  </t> <!-- fin 3 -->
+                    <tr>
+                      <td colspan="2" align="right">Total Empleado</td>
+                      <td align="right"><t t-esc="o.float_format(asignado)" /></td><t t-set="total_asignado" t-value="total_asignado+asignado"/>
+                      <td align="right"><t t-esc="o.float_format(deducido)" /></td><t t-set="total_deducido" t-value="total_deducido+deducido"/>
+                      <td></td>
+                    </tr>
+                    <tr>
+                      <td colspan="3" align="right">Neto</td>
+                      <td align="right"><t t-esc="o.float_format(asignado-deducido)" /></td>
+                      <td></td>
+                    </tr>
+                </table>
+               </t> <!-- fin 6 -->
+              </t> <!-- fin 2 -->
+              <table class="table table-sm table-bordered">
+                <tr style="background-color:#000000; color: #ffffff;">
+                  <td colspan="2">
+                    <samp style="font-weight: bolder">TOTAL: <t t-esc="departamento.name" /></samp>
+                  </td>
+                  <td>
+                    <samp style="font-weight: bolder">
+                     <t t-esc="o.float_format(total_asignado)"/>
+                    </samp>
+                  </td>
+                  <td>
+                    <samp style="font-weight: bolder">
+                      <t t-esc="o.float_format(total_deducido)"/>
+                    </samp>
+                  </td>
+                </tr>
+                <tr style="background-color:#000000; color: #ffffff;">
+                  <td colspan="3" align="right">
+                    <samp style="font-weight: bolder">
+                    NETO: 
+                    </samp>
+                  </td>
+                  <td colspan="2">
+                    <samp style="font-weight: bolder">
+                      <t t-esc="o.float_format(total_asignado-total_deducido)"/>
+                    </samp>
+                  </td>
+                </tr>
+              </table>
+              </t> <!-- fin 5 -->
+              </t> <!-- fin 1 -->
+            </div>
+
+          </t>
+         </t>
+       </t>
+
+     </template>
+  
+  </data>
+</odoo>

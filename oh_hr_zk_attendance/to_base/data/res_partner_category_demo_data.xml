@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="res_partner_category_erp_vendor" model="res.partner.category">
+        <field name="name">ERP Vendor</field>
+        <field name="parent_id" ref="base.res_partner_category_0"/>
+    </record>
+    <record id="res_partner_category_viindoo_consulting" model="res.partner.category">
+        <field name="name">Viindoo Consulting Services</field>
+        <field name="parent_id" ref="base.res_partner_category_0"/>
+    </record>
+</odoo>

@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="extra_partner_venezuela" model="ir.ui.view">
+            <field name="name">Extra partner Venezuela</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='same_vat_partner_id']/.." position="replace">
+                    <div class="alert alert-warning oe_edit_only" role="alert" attrs="{'invisible': [('same_vat_partner_id', '=', False)]}">
+                        Ya existe un contacto con el mismo <span><span class="o_vat_label">RIF</span></span>(<field name="same_vat_partner_id"/>). No puede crear contactos con el mismo RIF.
+                    </div>
+                </xpath>
+                <field name="country_id" position="before">
+                    <field name="parish_id" placeholder="Parish" options='{"no_open": True}' domain="[('municipality_id','=',city_id)]"/>
+                </field>  
+                <xpath expr="//field[@name='type']/.." position="before">
+                    <field name="people_type_individual"
+                           attrs="{'required': [('company_type', '=', 'person')],'invisible':[('company_type', '=', 'company')]}"/>
+                    <field name="people_type_company"
+                           attrs="{'required': [('company_type', '=', 'company')],'invisible':[('company_type', '=', 'person')]}"/>
+                    <field name="value_parent" invisible="1"/>
+                    <field name="nationality" string="Tipo de Documento"
+                           attrs="{'required': [('company_type', '=', 'person')],'invisible':[('company_type', '=', 'company')]}"/>
+                    <field name="identification_id" placeholder="Ej. 19763505"
+                           attrs="{'required': [('company_type', '=', 'person')],'invisible':[('company_type', '=', 'company')]}"/>
+                </xpath>
+                <xpath expr="//sheet/group/group[1]/field[@name='vat']" position="replace">
+                    <field name="vat" invisible="1" force_save="1"/>
+                    <field name="rif" placeholder="Ej.: J-01234567-8" string="RIF" attrs="{'readonly': [('parent_id','!=',False)],'invisible': [('people_type_company','=','pjnd')],'required': [('company_type', '=', 'company'),('people_type_company','=','pjdo')]}"/>
+                </xpath>
+                <xpath expr="//label[@for='street']" position="replace">
+                    <label for="street" string="Dirección Fiscal"/>
+                </xpath>
+                <xpath expr="//field[@name='street']" position="attributes">
+                    <attribute name="attrs">{'required': [('value_parent','=', False)]}</attribute>
+                </xpath>
+                <xpath expr="//field[@name='city']" position="attributes">
+                    <attribute name="attrs">{'required': [('company_type','=','company')]}</attribute>
+                </xpath>
+                <xpath expr="//field[@name='state_id']" position="attributes">
+                    <attribute name="attrs">{'required': [('company_type','=','company')]}</attribute>
+                </xpath>
+                <xpath expr="//field[@name='country_id']" position="attributes">
+                    <attribute name="required">1</attribute>
+                </xpath>
+
+                <xpath expr="//page[@name='internal_notes']" position="after">
+                   <page string="Retenciones">
+                        <group>
+                            <group string="Retención IVA">
+                                <field name="vat_subjected"/>
+                                <field name="wh_iva_agent"/>
+                                <field name="wh_iva_rate"/>
+                            </group>
+                            <group string="Retención ISLR">
+                                <field name="islr_withholding_agent"/>
+                                <field name="spn"/>
+                                <field name="islr_exempt"/>
+                            </group>
+                        </group>
+                       <group>
+                           <group string="Tipo de Contribuyente(SENIAT)">
+                                 <field name="contribuyente_seniat" widget="radio"/>
+                           </group>
+                       </group>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="extra_partner_account_venezuela" model="ir.ui.view">
+            <field name="name">Extra partner account Venezuela</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="account.view_partner_property_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//group[@name='accounting_entries']" position="before">
+                    <group string="Diarios de Retención de IVA">
+                        <field name="purchase_journal_id" domain="[('is_iva_journal','=', True)]"/>
+                        <field name="purchase_sales_id" domain="[('is_iva_journal','=', True)]"/>
+                    </group>
+                    <group string="Diarios de Retención de ISLR">
+                        <field name="purchase_islr_journal_id" domain="[('is_islr_journal','=', True)]"/>
+                        <field name="sale_islr_journal_id" domain="[('is_islr_journal','=', True)]"/>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="extra_partner_filter_venezuela" model="ir.ui.view">
+            <field name="name">Extra partnet filter Venezuela</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_res_partner_filter"/>
+            <field name="arch" type="xml">
+                <xpath expr="//search/field[@name='name']" position="after">
+                     <field name="identification_id" string="Cedula Identidad" filter_domain="[('identification_id', 'ilike', self)]"/>
+                     <field name="rif" string="RIF" filter_domain="[('rif', 'ilike', self)]"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

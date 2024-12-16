@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="account_analytic_line_dual_currency_form" model="ir.ui.view">
+            <field name="name">account.analytic.line.dual_currency form</field>
+            <field name="model">account.analytic.line</field>
+            <field name="inherit_id" ref="analytic.view_account_analytic_line_form"/>
+            <field name="arch" type="xml">
+                 <xpath expr="//field[@name='amount']" position="after">
+                     <field name="amount_usd" />
+                     <field name="currency_id_dif" invisible="1" />
+                 </xpath>
+            </field>
+    </record>
+
+    <record id="account_analytic_line_dual_currency_tree" model="ir.ui.view">
+            <field name="name">account.analytic.line.dual_currency tree</field>
+            <field name="model">account.analytic.line</field>
+            <field name="inherit_id" ref="analytic.view_account_analytic_line_tree"/>
+            <field name="arch" type="xml">
+                 <xpath expr="//field[@name='amount']" position="after">
+                     <field name="amount_usd" sum="Total $"/>
+                     <field name="currency_id_dif" invisible="1" />
+                 </xpath>
+            </field>
+    </record>
+
+</odoo>

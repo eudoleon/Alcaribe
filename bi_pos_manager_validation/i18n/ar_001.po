@@ -1,0 +1,188 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* bi_pos_manager_validation
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 16.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-05-09 10:00+0000\n"
+"PO-Revision-Date: 2023-05-09 10:00+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: bi_pos_manager_validation
+#: model:ir.model.fields,help:bi_pos_manager_validation.field_res_users__pos_security_pin
+msgid ""
+"A Security PIN used to protect sensible functionality in the Point of Sale"
+msgstr ""
+"رقم التعريف الشخصي للأمان يُستخدم لحماية الوظائف المعقولة في نقاط البيع"
+
+#. module: bi_pos_manager_validation
+#: model:ir.model.fields,field_description:bi_pos_manager_validation.field_pos_config__qty_detail
+#: model:ir.model.fields,field_description:bi_pos_manager_validation.field_res_config_settings__pos_qty_detail
+msgid "Add/Remove Quantity"
+msgstr "إضافة / إزالة الكمية"
+
+#. module: bi_pos_manager_validation
+#: model_terms:ir.ui.view,arch_db:bi_pos_manager_validation.res_config_settings_view_form
+msgid "Allow manager to validate closing pos."
+msgstr "السماح للمدير بالتحقق من صحة نقاط البيع المغلقة."
+
+#. module: bi_pos_manager_validation
+#: model_terms:ir.ui.view,arch_db:bi_pos_manager_validation.res_config_settings_view_form
+msgid ""
+"Allow manager to validate if Add or remove quantity is valid on order lines."
+msgstr ""
+"اسمح للمدير بالتحقق مما إذا كانت إضافة الكمية أو إزالتها صالحة في سطور الأمر."
+
+#. module: bi_pos_manager_validation
+#: model_terms:ir.ui.view,arch_db:bi_pos_manager_validation.res_config_settings_view_form
+msgid "Allow manager to validate if discount is applicable to orderline."
+msgstr "اسمح للمدير بالتحقق مما إذا كان الخصم قابلاً للتطبيق على سطر الطلب."
+
+#. module: bi_pos_manager_validation
+#: model_terms:ir.ui.view,arch_db:bi_pos_manager_validation.res_config_settings_view_form
+msgid "Allow manager to validate if order for payment."
+msgstr "السماح للمدير بالتحقق من صحة أمر الدفع."
+
+#. module: bi_pos_manager_validation
+#: model_terms:ir.ui.view,arch_db:bi_pos_manager_validation.res_config_settings_view_form
+msgid "Allow manager to validate if price change is need to be order line."
+msgstr "اسمح للمدير بالتحقق مما إذا كان تغيير السعر بحاجة إلى أن يكون سطر أمر."
+
+#. module: bi_pos_manager_validation
+#: model_terms:ir.ui.view,arch_db:bi_pos_manager_validation.res_config_settings_view_form
+msgid "Allow manager to validate order lines need to be delete."
+msgstr "السماح للمدير بالتحقق من سطور الأمر التي يجب حذفها."
+
+#. module: bi_pos_manager_validation
+#: model_terms:ir.ui.view,arch_db:bi_pos_manager_validation.res_config_settings_view_form
+msgid "Allow manager to validate order need to be delete."
+msgstr "السماح للمدير بالتحقق من صحة الأمر يجب حذفه."
+
+#. module: bi_pos_manager_validation
+#: model:ir.model.fields,field_description:bi_pos_manager_validation.field_pos_config__discount_app
+#: model:ir.model.fields,field_description:bi_pos_manager_validation.field_res_config_settings__pos_discount_app
+msgid "Apply Discount"
+msgstr "تطبيق الخصم"
+
+#. module: bi_pos_manager_validation
+#: model:ir.model.fields,field_description:bi_pos_manager_validation.field_pos_config__close_pos
+#: model:ir.model.fields,field_description:bi_pos_manager_validation.field_res_config_settings__pos_close_pos
+msgid "Closing Of POS"
+msgstr "إغلاق نقاط البيع"
+
+#. module: bi_pos_manager_validation
+#: model:ir.model,name:bi_pos_manager_validation.model_res_config_settings
+msgid "Config Settings"
+msgstr "إعدادات التكوين"
+
+#. module: bi_pos_manager_validation
+#: model_terms:ir.ui.view,arch_db:bi_pos_manager_validation.res_config_settings_view_form
+msgid "If user want to added password only once for every functionality."
+msgstr "إذا كان المستخدم يريد إضافة كلمة المرور مرة واحدة فقط لكل وظيفة."
+
+#. module: bi_pos_manager_validation
+#. odoo-javascript
+#: code:addons/bi_pos_manager_validation/static/src/js/models.js:0
+#, python-format
+msgid "Invalid Password"
+msgstr "رمز مرور خاطئ"
+
+#. module: bi_pos_manager_validation
+#: model:ir.model.fields,field_description:bi_pos_manager_validation.field_pos_config__user_id
+#: model:ir.model.fields,field_description:bi_pos_manager_validation.field_res_config_settings__pos_user_id
+#: model_terms:ir.ui.view,arch_db:bi_pos_manager_validation.res_config_settings_view_form
+msgid "Manager"
+msgstr "مدير"
+
+#. module: bi_pos_manager_validation
+#. odoo-javascript
+#: code:addons/bi_pos_manager_validation/static/src/js/models.js:0
+#, python-format
+msgid "Manager Password"
+msgstr "كلمة مرور المدير"
+
+#. module: bi_pos_manager_validation
+#: model_terms:ir.ui.view,arch_db:bi_pos_manager_validation.res_config_settings_view_form
+msgid "Manager Validation"
+msgstr "التحقق من صحة المدير"
+
+#. module: bi_pos_manager_validation
+#: model:ir.model.fields,field_description:bi_pos_manager_validation.field_pos_config__one_time_valid
+#: model:ir.model.fields,field_description:bi_pos_manager_validation.field_res_config_settings__pos_one_time_valid
+msgid "One Time Password for an Order"
+msgstr "كلمة مرور لمرة واحدة لطلب"
+
+#. module: bi_pos_manager_validation
+#: model:ir.model.fields,field_description:bi_pos_manager_validation.field_pos_config__order_delete
+#: model:ir.model.fields,field_description:bi_pos_manager_validation.field_res_config_settings__pos_order_delete
+msgid "Order Deletion"
+msgstr "طلب حذف"
+
+#. module: bi_pos_manager_validation
+#: model:ir.model.fields,field_description:bi_pos_manager_validation.field_pos_config__order_line_delete
+#: model:ir.model.fields,field_description:bi_pos_manager_validation.field_res_config_settings__pos_order_line_delete
+msgid "Order Line Deletion"
+msgstr "طلب حذف سطر"
+
+#. module: bi_pos_manager_validation
+#: model:ir.model.fields,field_description:bi_pos_manager_validation.field_pos_config__payment_perm
+#: model:ir.model.fields,field_description:bi_pos_manager_validation.field_res_config_settings__pos_payment_perm
+msgid "Payment"
+msgstr "قسط"
+
+#. module: bi_pos_manager_validation
+#: model_terms:ir.ui.view,arch_db:bi_pos_manager_validation.res_users_view_form
+msgid "Point of Sale"
+msgstr "نقطة البيع"
+
+#. module: bi_pos_manager_validation
+#: model:ir.model,name:bi_pos_manager_validation.model_pos_config
+msgid "Point of Sale Configuration"
+msgstr "تكوين نقطة البيع"
+
+#. module: bi_pos_manager_validation
+#: model:ir.model,name:bi_pos_manager_validation.model_pos_session
+msgid "Point of Sale Session"
+msgstr "جلسة نقاط البيع"
+
+#. module: bi_pos_manager_validation
+#: model:ir.model.fields,field_description:bi_pos_manager_validation.field_pos_config__price_change
+#: model:ir.model.fields,field_description:bi_pos_manager_validation.field_res_config_settings__pos_price_change
+msgid "Price Change"
+msgstr "تغيير الأسعار"
+
+#. module: bi_pos_manager_validation
+#: model:ir.model.fields,field_description:bi_pos_manager_validation.field_res_users__pos_security_pin
+msgid "Security PIN"
+msgstr "رقم التعريف الشخصي للأمان"
+
+#. module: bi_pos_manager_validation
+#. odoo-python
+#: code:addons/bi_pos_manager_validation/models/pos_config.py:0
+#, python-format
+msgid "Security PIN can only contain digits"
+msgstr "يمكن أن يحتوي رقم التعريف الشخصي للأمان على أرقام فقط"
+
+#. module: bi_pos_manager_validation
+#: model_terms:ir.ui.view,arch_db:bi_pos_manager_validation.res_config_settings_view_form
+msgid "Set up managers for this point of sale."
+msgstr "قم بإعداد مديرين لنقطة البيع هذه."
+
+#. module: bi_pos_manager_validation
+#: model:ir.model,name:bi_pos_manager_validation.model_res_users
+msgid "User"
+msgstr "مستخدم"
+
+#. module: bi_pos_manager_validation
+#. odoo-javascript
+#: code:addons/bi_pos_manager_validation/static/src/js/models.js:0
+#, python-format
+msgid "Wrong Password"
+msgstr "كلمة مرور خاطئة"

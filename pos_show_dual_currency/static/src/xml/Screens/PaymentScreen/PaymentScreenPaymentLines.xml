@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    <t t-name="PaymentScreenPaymentLinesDual" t-inherit="point_of_sale.PaymentScreenPaymentLines" t-inherit-mode="extension">
+        <xpath expr="//t[@t-if='line.selected']/div[@class='paymentline selected']/div[@class='payment-amount']/t[@t-else='']" position="inside">
+
+            / <span style="color: red;">$ </span>
+                <span style="color: red;" t-esc="formatLineAmountUsd(line)"/>
+        </xpath>
+        <xpath expr="//t[@t-else='']/div[@class='paymentline']/div[@class='payment-amount']/t[@t-else='']" position="inside">
+
+                / <span style="color: red;">$ </span>
+                    <span style="color: red;" t-esc="formatLineAmountUsd(line)"/>
+        </xpath>
+    </t>
+</templates>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="account_payment_register_dual_currency" model="ir.ui.view">
+            <field name="name">Dual Currency: account.payment.register.form</field>
+            <field name="model">account.payment.register</field>
+            <field name="inherit_id" ref="account.view_account_payment_register_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//label[@for='amount']" position="before">
+                     <field name="currency_id_dif" invisible="1"/>
+                     <field name="amount_residual_usd" readonly="1"/>
+                     <field name="tax_invoice" readonly="1"/>
+                     <field name="tax_today"/>
+                </xpath>
+                <!--<xpath expr="//field[@name='payment_date']" position="before">
+                     <field name="currency_id_name" invisible="1"/>
+                     <field name="amount_usd" readonly="1" attrs="{'invisible': [('currency_id_name','=','USD')]}"/>
+                </xpath>-->
+                <xpath expr="//field[@name='payment_difference_handling']" position="after">
+                    <label for="journal_id_dif" attrs="{'invisible': [('payment_difference_handling','=','open')]}"/>
+                    <field name="journal_id_dif" attrs="{'invisible': [('payment_difference_handling','=','open')]}"/>
+                </xpath>
+                <xpath expr="//field[@name='payment_date']" position="before">
+                    <field name="currency_id_name" invisible="1"/>
+                    <field name="aplicar_igtf_divisa" attrs="{'invisible': [('currency_id_name','=','VEF')]}"/>
+                    <field name="journal_igtf_id" widget="selection"  domain="[('type', 'in', ('bank', 'cash'))]"  attrs="{'invisible': ['|',('aplicar_igtf_divisa','=',False),('currency_id_name','=','VEF')]}"/>
+                    <field name="igtf_divisa_porcentage" attrs="{'invisible': ['|',('aplicar_igtf_divisa','=',False),('currency_id_name','=','VEF')]}"/>
+                    <field name="mount_igtf" attrs="{'invisible': ['|',('aplicar_igtf_divisa','=',False),('currency_id_name','=','VEF')]}"/>
+                    <field name="amount_total_pagar" style="color: red;" attrs="{'invisible': ['|',('aplicar_igtf_divisa','=',False),('currency_id_name','=','VEF')]}"/>
+                </xpath>
+                <xpath expr="//group[@name='group3']" position="attributes">
+                    <attribute name="attrs">{'invisible': [('payment_difference', '=', 0.0), ('payment_difference_bs', '=', 0.0)]}</attribute>
+                </xpath>
+                <xpath expr="//field[@name='payment_difference']" position="attributes">
+                    <attribute name="attrs">{'invisible': [('payment_difference', '=', 0.0)]}</attribute>
+                    <attribute name="style">color: red;</attribute>
+                </xpath>
+                <xpath expr="//field[@name='payment_difference']" position="before">
+                      <field name="payment_difference_bs" readonly="1" force_save="1" attrs="{'invisible': ['|',('payment_difference', '!=', 0.0),('currency_id_name','=','VEF'),('payment_difference_bs','=',0.0)]}"/>
+                </xpath>
+                <xpath expr="//field[@name='payment_difference']" position="after">
+                      <field name="currency_id_dif" invisible="1"/>
+                      <field name="payment_difference_usd" readonly="1" force_save="1" attrs="{'invisible': [('currency_id_name','=','VEF'),('payment_difference','&lt;',0.0)]}"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

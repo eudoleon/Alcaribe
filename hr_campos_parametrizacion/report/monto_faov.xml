@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <data> 
+  
+  <template id="reporte_monto_faov">
+            <t t-call="web.html_container">
+              <t t-foreach="docs" t-as="o">
+                <t t-call="web.basic_layout" >
+                  <div class="header">
+                    <table width="100%">
+                      <tr>
+                        <td>
+                          CUADRO BASICO DE APORTE DE TRABAJADOR Y EMPLEADOR  MENSUAL  FAOV
+                        </td>
+                      </tr>
+                      <tr>
+                        <td align="right">
+                          <span t-esc="o.ret_empleado"/>% TRABAJADOR
+                          <br/>
+                          <span t-esc="o.ret_patrono"/>% PATRONO
+                        </td>
+                      </tr>
+                    </table>
+                  </div>
+                  <div class="page">
+                    <table class="table table-sm table-bordered" style="font-size:13px;">
+                      <tr>
+                        <td>EMPLEADO</td>
+                        <td>SUELDO BASE</td>
+                        <td>OTRA ASIG.</td>
+                        <td>UTILIDADES</td>
+                        <td>TOTAL INGRESO</td>
+                        <td >APORTES <span t-esc="o.ret_empleado"/>%</td>
+                        <td >APORTES <span t-esc="o.ret_patrono"/>%</td>
+                        <td>TOTAL</td>
+                      </tr>
+                      <t t-set="total_ingreso" t-value="0"/>
+                      <t t-set="aporte_emple_total" t-value="0"/>
+                      <t t-set="aporte_patro_total" t-value="0"/>
+                      <t t-set="total_aporte" t-value="0"/>
+
+                      <t t-foreach="o.line" t-as="line" >
+
+                        <t t-set="aporte_emple" t-value="0"/>
+                        <t t-set="aporte_patro" t-value="0"/>
+                        <t t-set="total_aporte_fila" t-value="0"/>
+
+                        <tr>
+                          <td>
+                            <span t-esc="line.employee_id.name"/>
+                          </td>
+                          <td>
+                            <span t-esc="line.sueldo_base" t-options='{"widget": "float", "precision": 2}'/>
+                          </td>
+                          <td>
+                            <span t-esc="line.asignaciones_adicionales" t-options='{"widget": "float", "precision": 2}'/>
+                          </td>
+                          <td>
+                            00
+                          </td>
+                          <td>
+                            <span t-esc="line.sueldo_integral" t-options='{"widget": "float", "precision": 2}'/>
+                            <t t-set="total_ingreso" t-value="total_ingreso+line.sueldo_integral"/>
+                          </td>
+                              <t t-set="aporte_emple" t-value="(line.sueldo_integral*o.ret_empleado/100)"/>
+                              <t t-set="aporte_emple_total" t-value="aporte_emple_total+aporte_emple"/>
+                          <td>
+                            <t t-esc="aporte_emple" t-options='{"widget": "float", "precision": 2}'/>
+                          </td>
+                              <t t-set="aporte_patro" t-value="(line.sueldo_integral*o.ret_patrono/100)"/>
+                              <t t-set="aporte_patro_total" t-value="aporte_patro_total+aporte_patro"/>
+                          <td>
+                            <t t-esc="aporte_patro" t-options='{"widget": "float", "precision": 2}'/>
+                          </td>
+                            <t t-set="total_aporte_fila" t-value="aporte_patro+aporte_emple"/>
+                            <t t-set="total_aporte" t-value="total_aporte+total_aporte_fila"/>
+                          <td>
+                            <t t-esc="total_aporte_fila" t-options='{"widget": "float", "precision": 2}'/>
+                          </td>
+                        </tr>
+                      </t>
+                      <tr style="font-size:13px;">
+                        <td colspan="4">
+                        </td>
+                        <td>
+                          <samp style="font-weight: bolder">
+                            <t t-esc="total_ingreso" t-options='{"widget": "float", "precision": 2}'/>
+                          </samp>
+                        </td>
+                        <td>
+                          <samp style="font-weight: bolder">
+                            <t t-esc="aporte_emple_total" t-options='{"widget": "float", "precision": 2}'/>
+                          </samp>
+                        </td>
+                        <td>
+                          <samp style="font-weight: bolder">
+                            <t t-esc="aporte_patro_total" t-options='{"widget": "float", "precision": 2}'/>
+                          </samp>
+                        </td>
+                        <td>
+                          <samp style="font-weight: bolder">
+                            <t t-esc="total_aporte" t-options='{"widget": "float", "precision": 2}'/>
+                          </samp>
+                        </td>
+                      </tr>
+                    </table>
+
+                  </div>
+                </t> 
+              </t>
+            </t>
+    </template>
+
+    <!--t t-set="lang" t-value="o.invoice_user_id.sudo().lang if o.type in ('in_invoice', 'in_refund') else o.partner_id.lang"/>
+                    <t t-call="account.report_invoice_document_with_payments" t-lang="lang"/-->
+
+    <report
+            id="monto_ince"
+            model="snc.wizard.pagar_faov"
+            string="Monto Total FAOV"
+            report_type="qweb-pdf"
+            name="hr_campos_parametrizacion.reporte_monto_faov"
+            file="hr_campos_parametrizacion.reporte_monto_faov"
+        /> 
+  
+  </data>
+</odoo>

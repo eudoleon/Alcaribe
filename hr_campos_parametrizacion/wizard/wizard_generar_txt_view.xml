@@ -1,0 +1,220 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<odoo>
+	<data>
+
+		<record model="ir.ui.view" id="snc_wizard_mintra_form_view">
+			<field name="name">snc.wizard.mintra.form</field>
+			<field name="model">snc.wizard.mintra</field>
+			<field name="arch" type="xml">
+				<form string="TXT MINTRA">
+					<group>
+						<field name="date_from"/>
+						<field name="date_to"/>
+						<field name="company_id"/>
+						<field name = "file_data" filename = "file_name" readonly = "1"/>
+						<field name = "file_name" invisible="1"/>
+					</group>
+					<footer>
+						<div class="oe_left">
+			
+							<button string="Generar TXT" name="action_generate_txt"
+								type="object"  class="oe_highlight"/>
+							<button string="Cerrar" special="cancel" type="object"
+								class="oe_link" />
+						</div>
+					</footer>
+				</form>
+			</field>
+		</record>
+
+		<record model="ir.ui.view" id="snc_wizard_faov_form_view">
+			<field name="name">snc.wizard.faov.form</field>
+			<field name="model">snc.wizard.faov</field>
+			<field name="arch" type="xml">
+				<form string="TXT FAOV">
+					<group>
+						<field name="date_from" string="Fecha o Período"/>
+						<field name="nro_cuenta"/>
+						<field name="company_id"/>
+						<field name = "file_data" filename = "file_name" readonly = "1"/>
+						<field name = "file_name" invisible="1"/>
+					</group>
+					<footer>
+						<div class="oe_left">
+			
+							<button string="Generar TXT" name="action_generate_txt"
+								type="object"  class="oe_highlight"/>
+							<button string="Cerrar" special="cancel" type="object"
+								class="oe_link" />
+						</div>
+					</footer>
+				</form>
+			</field>
+		</record>
+		<record model="ir.ui.view" id="snc_wizard_mercantil_form_view">
+			<field name="name">snc.wizard.mercantil.form</field>
+			<field name="model">snc.wizard.mercantil</field>
+			<field name="arch" type="xml">
+				<form string="TXT BANCO">
+					<group>
+						<field name="date_from" string="Fecha o Período"/>
+						<field name="payslip_run_id" string="Lote de pago"/>
+						<field name="company_id"/>
+						<field name="forma_de_pago" string="Forma de pago"/>
+						<field name="bank_ids" string="Nro de cuenta"/>
+						<field name="file_data" filename="file_name" readonly="1"/>
+						<field name="file_name" invisible="1"/>
+					</group>
+					<footer>
+						<div class="oe_left">
+			
+							<button string="Generar TXT" name="action_generate_txt"
+								type="object"  class="oe_highlight"/>
+							<button string="Cerrar" special="cancel" type="object"
+								class="oe_link" />
+						</div>
+					</footer>
+				</form>
+			</field>
+		</record>
+
+		
+
+		<record model="ir.ui.view" id="snc_wizard_pagar_ince_form_view">
+			<field name="name">snc.wizard.pagar.ince.form.view</field>
+			<field name="model">snc.wizard.pagar_ince</field>
+			<field name="arch" type="xml">
+				<form string="Total a pagar INCE">
+					<group>
+						<field name="date_from" string="Fecha o Período"/>
+						<field name="trimestre" string="Trimestre" required="1"/>
+						<field name="company_id"/>
+						<field name="ret_patrono" string="Retencion INCE patrono (%)"/>
+						<field name="ret_empleado" string="Retencion INCE Empleado (%)"/>
+					</group>
+					<footer>
+						<div class="oe_left">
+			
+							<button string="Generar Reporte" name="action_generate_reporte"
+								type="object"  class="oe_highlight"/>
+							<button string="Cerrar" special="cancel" type="object"
+								class="oe_link" />
+						</div>
+					</footer>
+				</form>
+			</field>
+		</record>
+
+		<record model="ir.ui.view" id="snc_wizard_pagar_faov_form_view">
+			<field name="name">snc.wizard.pagar.faov.form.view</field>
+			<field name="model">snc.wizard.pagar_faov</field>
+			<field name="arch" type="xml">
+				<form string="Total a pagar FAOV">
+					<group>
+						<field name="date_from" string="Fecha Desde"/>
+						<field name="date_to" string="Fecha Hasta" required="1"/>
+						<field name="grupo_nomina"/>
+						<field name="company_id"/>
+						<field name="ret_patrono" string="Retencion FAOV patrono (%)"/>
+						<field name="ret_empleado" string="Retencion FAOV Empleado (%)"/>
+					</group>
+					<footer>
+						<div class="oe_left">
+			
+							<button string="Generar Reporte" name="action_generate_reporte"
+								type="object"  class="oe_highlight"/>
+							<button string="Cerrar" special="cancel" type="object"
+								class="oe_link" />
+						</div>
+					</footer>
+				</form>
+			</field>
+		</record>
+
+        <!-- ACCIONES -->
+
+	    <record id="hr_mintra_menu" model="ir.actions.act_window">
+	        <field name="name">TXT MINTRA</field>
+	        <field name="type">ir.actions.act_window</field>
+	        <field name="res_model">snc.wizard.mintra</field>
+	        <field name="view_mode">form</field>
+	        <field name="view_id" ref="snc_wizard_mintra_form_view"/>
+	        <field name="target">new</field>
+	    </record>
+
+	    <record id="hr_faov_menu" model="ir.actions.act_window">
+	        <field name="name">TXT FAOV</field>
+	        <field name="type">ir.actions.act_window</field>
+	        <field name="res_model">snc.wizard.faov</field>
+	        <field name="view_mode">form</field>
+	        <field name="view_id" ref="snc_wizard_faov_form_view"/>
+	        <field name="target">new</field>
+	    </record>
+
+
+	    <record id="hr_pagar_ince_menu" model="ir.actions.act_window">
+	        <field name="name">TOTAL PAGAR INCE</field>
+	        <field name="type">ir.actions.act_window</field>
+	        <field name="res_model">snc.wizard.pagar_ince</field>
+	        <field name="view_mode">form</field>
+	        <field name="view_id" ref="snc_wizard_pagar_ince_form_view"/>
+	        <field name="target">new</field>
+	    </record>
+
+	    <record id="hr_pagar_faov_menu" model="ir.actions.act_window">
+	        <field name="name">TOTAL PAGAR FAOV</field>
+	        <field name="type">ir.actions.act_window</field>
+	        <field name="res_model">snc.wizard.pagar_faov</field>
+	        <field name="view_mode">form</field>
+	        <field name="view_id" ref="snc_wizard_pagar_faov_form_view"/>
+	        <field name="target">new</field>
+	    </record>
+	    <record id="hr_mercantil_menu" model="ir.actions.act_window">
+	        <field name="name">TXT MERCANTIL</field>
+	        <field name="type">ir.actions.act_window</field>
+	        <field name="res_model">snc.wizard.mercantil</field>
+	        <field name="view_mode">form</field>
+	        <field name="view_id" ref="snc_wizard_mercantil_form_view"/>
+	        <field name="target">new</field>
+	    </record>
+
+        <!-- MENUS -->
+
+        <!-- SUB-MENU-->
+
+        <menuitem
+		id="menu_txt_mintra"
+		name="Reporte MINTRA" 
+		parent="hr_payroll.menu_hr_payroll_payslips"
+		action="hr_mintra_menu"
+		sequence="95"/>
+
+		<menuitem
+		id="menu_txt_faov"
+		name="TXT FAOV" 
+		parent="hr_payroll.menu_hr_payroll_payslips"
+		action="hr_faov_menu"
+		sequence="96"/>
+
+
+		<menuitem
+		id="menu_total_ince"
+		name="Total pagar INCE" 
+		parent="hr_payroll.menu_hr_payroll_payslips"
+		action="hr_pagar_ince_menu"
+		sequence="98"/>
+
+		<menuitem
+		id="menu_total_faov"
+		name="Total pagar FAOV" 
+		parent="hr_payroll.menu_hr_payroll_payslips"
+		action="hr_pagar_faov_menu"
+		sequence="99"/>
+		<menuitem
+		id="menu_txt_mercantil"
+		name="TXT BANCO MERCANTIL" 
+		parent="hr_payroll.menu_hr_payroll_payslips"
+		action="hr_mercantil_menu"
+		sequence="97"/>
+	</data>
+</odoo>

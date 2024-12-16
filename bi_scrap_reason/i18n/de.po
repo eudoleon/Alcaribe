@@ -1,0 +1,126 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* bi_scrap_reason
+#
+# This module was developed by bitigloo GmbH
+#
+# Translators:
+# bitigloo GmbH <apps@bitigloo.com>
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 16.0+e-20230210\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-08-22 09:30+0000\n"
+"PO-Revision-Date: 2023-08-22 09:30+0000\n"
+"Last-Translator: bitigloo GmbH\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Language: de\n"
+"Plural-Forms: \n"
+
+#. module: bi_scrap_reason
+#: model_terms:ir.ui.view,arch_db:bi_scrap_reason.stock_scrap_reason_form_view
+msgid ""
+"<span class=\"o_stat_text\" attrs=\"{'invisible': [('scrap_order_count', '=', 1)]}\">\n"
+"                                Scrap Orders\n"
+"                            </span>\n"
+"                            <span class=\"o_stat_text\" attrs=\"{'invisible': [('scrap_order_count', '!=', 1)]}\">\n"
+"                                Scrap Order\n"
+"                            </span>"
+msgstr ""
+"<span class=\"o_stat_text\" attrs=\"{'invisible': [('scrap_order_count', '=', 1)]}\">\n"
+"                                Ausschüsse\n"
+"                            </span>\n"
+"                            <span class=\"o_stat_text\" attrs=\"{'invisible': [('scrap_order_count', '!=', 1)]}\">\n"
+"                                Ausschuss\n"
+"                            </span>"
+
+#. module: bi_scrap_reason
+#: model:ir.model.fields,field_description:bi_scrap_reason.field_stock_scrap_reason__create_uid
+msgid "Created by"
+msgstr "Erstellt von"
+
+#. module: bi_scrap_reason
+#: model:ir.model.fields,field_description:bi_scrap_reason.field_stock_scrap_reason__create_date
+msgid "Created on"
+msgstr "Erstellt am"
+
+#. module: bi_scrap_reason
+#: model_terms:ir.actions.act_window,help:bi_scrap_reason.action_stock_scrap_reason
+msgid "Defining a reason can give more information on the scrap order."
+msgstr "Angabe eines Grundes kann weitere Informationen zum Ausschussauftrag liefern."
+
+#. module: bi_scrap_reason
+#: model:ir.model.fields,field_description:bi_scrap_reason.field_stock_scrap_reason__display_name
+msgid "Display Name"
+msgstr "Name"
+
+#. module: bi_scrap_reason
+#: model:ir.model.fields,field_description:bi_scrap_reason.field_stock_scrap_reason__id
+msgid "ID"
+msgstr ""
+
+#. module: bi_scrap_reason
+#: model:ir.model.fields,field_description:bi_scrap_reason.field_stock_scrap_reason____last_update
+msgid "Last Modified on"
+msgstr "Letzte Änderung am"
+
+#. module: bi_scrap_reason
+#: model:ir.model.fields,field_description:bi_scrap_reason.field_stock_scrap_reason__write_uid
+msgid "Last Updated by"
+msgstr "Zuletzt aktualisiert von"
+
+#. module: bi_scrap_reason
+#: model:ir.model.fields,field_description:bi_scrap_reason.field_stock_scrap_reason__write_date
+msgid "Last Updated on"
+msgstr "Zuletzt aktualisiert am"
+
+#. module: bi_scrap_reason
+#: model:ir.model.fields,field_description:bi_scrap_reason.field_stock_scrap__note
+msgid "Note"
+msgstr "Notiz"
+
+#. module: bi_scrap_reason
+#. odoo-python
+#: code:addons/bi_scrap_reason/models/stock_scrap_reason.py:0
+#: model:ir.model.fields,field_description:bi_scrap_reason.field_stock_scrap__reason_id
+#: model:ir.model.fields,field_description:bi_scrap_reason.field_stock_scrap_reason__name
+#, python-format
+msgid "Reason"
+msgstr "Grund"
+
+#. module: bi_scrap_reason
+#: model:ir.model,name:bi_scrap_reason.model_stock_scrap
+msgid "Scrap"
+msgstr "Ausschuss"
+
+#. module: bi_scrap_reason
+#: model:ir.model.fields,field_description:bi_scrap_reason.field_stock_scrap_reason__scrap_order_count
+msgid "Scrap Order Count"
+msgstr "# Ausschüsse"
+
+#. module: bi_scrap_reason
+#: model_terms:ir.ui.view,arch_db:bi_scrap_reason.stock_scrap_reason_form_view
+msgid "Scrap Reason"
+msgstr "Ausschussgrund"
+
+#. module: bi_scrap_reason
+#: model:ir.actions.act_window,name:bi_scrap_reason.action_stock_scrap_reason
+#: model:ir.ui.menu,name:bi_scrap_reason.menu_stock_scrap_reason
+#: model_terms:ir.actions.act_window,help:bi_scrap_reason.action_stock_scrap_reason
+#: model_terms:ir.ui.view,arch_db:bi_scrap_reason.stock_scrap_reason_tree_view
+msgid "Scrap Reasons"
+msgstr "Ausschußgründe"
+
+#. module: bi_scrap_reason
+#: model:ir.model.fields,field_description:bi_scrap_reason.field_stock_scrap_reason__sequence
+msgid "Sequence"
+msgstr "Sequenz"
+
+#. module: bi_scrap_reason
+#: model:ir.model,name:bi_scrap_reason.model_stock_scrap_reason
+msgid "stock.scrap.reason"
+msgstr ""

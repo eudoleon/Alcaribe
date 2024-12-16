@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <data>
+        <record id="view_move_form" model="ir.ui.view">
+            <field name="name">account.move.form.inherit</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_move_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[@name='journal_div']" position="after">
+                    <field name="custom_rate" groups="base.group_multi_currency"
+                           readonly="state != 'draft'" invisible="move_type  == 'entry'"/>
+               		<field name="os_currency_rate" groups="base.group_multi_currency"
+                           readonly="custom_rate == False or  state != 'draft' or  move_type == 'entry'"/>
+               </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

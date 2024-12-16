@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+       <!-- Wizard para imprimir reporte comprobante 1007-->
+      <record id="view_pre_nomina" model="ir.ui.view">
+       	    <field name="name">Reporte de Pre Nomina</field>
+            <field name="model">wizard.pre.nomina</field>
+    	    <field name="arch" type="xml">
+
+    	    	<form string="Reporte de Pre Nómina">
+                     <group colspan="8" col="4">
+                         
+                         <!--field name="date_from" string="Fecha Desde" required="1"/>
+                         <field name="date_to"  string="Fecha Hasta" required="1"/-->  
+
+                        <field name="lote_ids" string="Lotes de Nómina" required="1" widget="many2many_tags" domain="[('company_id','=',company_id)]"/> <!-- domain="[('date_start','>=',date_from),('date_end','=',date_to)]" widget="many2many_tags" widget="many2many_tags"-->
+                         <!--field name="lote_bono_id" string="Nómina tipo Ayuda Económica" required="1"/-->
+                        <field name="company_id" string="Compañia" readonly="1" />
+
+                        <field name="tip_report" string="Tipo:" required="1" />
+
+                        <field name="fecha" readonly="1"/> 
+
+                        <field name="departamento" widget="many2many_tags" domain="[('company_id','=',company_id)]" string="Departameto" readonly="0" attrs="{'invisible': [('tip_report', '=', 'c')]}" />
+
+                        
+                                                                          
+                     </group>                   
+                     
+	                <footer>
+	                   <button name="print_pre_nomina" string="Detalle pre Nómina" type="object" class="oe_highlight" attrs="{'invisible': [('tip_report', '!=', 'd')]}"/> 
+
+                     <button name="print_pre_nomina_resumen" string="Resumen pre Nómina" type="object" class="oe_highlight" attrs="{'invisible': [('tip_report', '!=', 'r')]}"/> 
+
+                     <button name="print_pre_nomina_cuenta_analyc" string="Resumen por cta analítica" type="object" class="oe_highlight" attrs="{'invisible': [('tip_report', '!=', 'c')]}"/> 
+
+	                   <button special="cancel" string="Cancel" class="oe_highlight" />
+	                </footer>
+                </form>
+
+    	    </field>
+      </record>
+
+      <record id="action_report_pre_nom" model="ir.actions.act_window">
+        	<field name="name">wizard pre nomina</field>
+        	<field name="res_model">wizard.pre.nomina</field>
+        	<field name="view_mode">form</field>
+        	<field name="view_id" ref="view_pre_nomina"/>
+        	<field name="target">new</field>
+      </record>
+
+      <menuitem
+        id="menu_pre_monina"
+        parent="hr_payroll.menu_hr_payroll_report"
+        name="Reporte Pre-Nómina"
+        sequence="12"
+        action="action_report_pre_nom"/>
+
+    </data>
+</odoo>

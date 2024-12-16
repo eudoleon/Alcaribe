@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+
+    <t t-name="account_accountant.BankRecTutorial" owl="1">
+        <div class="container bank_rec_tutorial mt-5">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <h1 class="" t-out="props.title"/>
+                    <h3 class="" t-out="props.subtitle"/>
+                </div>
+            </div>
+            <div class="row justify-content-center mt-4">
+                <div class="col-md-4">
+                    <t t-call="{{ props.contentTemplate }}"/>
+                </div>
+                <div class="col-md-7">
+                    <t t-call="{{ props.demoTemplate }}"/>
+                </div>
+            </div>
+        </div>
+    </t>
+
+    <t t-name="account_accountant.BankRecTutorialContent" owl="1">
+        <div class="list-group">
+            <a t-foreach="props.steps" t-as="step" t-key="step_index"
+                class="list-group-item d-flex border-0"
+                href="#"
+                t-on-click="() => state.activeStepIndex = step_index">
+                <span class="rounded-circle fs-3 align-items-center justify-content-center d-flex p-4 me-2 mb-2 square-24 border border-odoo"
+                    t-out="step_index + 1"
+                    t-att-class="{
+                        'bg-odoo text-white': step_index === state.activeStepIndex,
+                        'text-odoo': step_index !== state.activeStepIndex,
+                    }"/>
+                <div class="ms-3">
+                    <h5 class="" t-out="step.title"/>
+                    <div t-att-class="step_index !== state.activeStepIndex ? 'text-muted': 'text-dark'" t-out="step.description"/>
+                </div>
+            </a>
+        </div>
+    </t>
+
+    <t t-name="account_accountant.BankRecTutorialDemo" owl="1">
+        <div class="card h-100 bg-white">
+            <!-- Navbar -->
+            <div class="bg-odoo py-3 w-100"/>
+            <!-- Control Panel -->
+            <div class="bg-white py-2 px-3 w-100 border-bottom d-flex align-items-start">
+                <span class="bg-200 py-2 px-5"/>
+                <div class="w-50 ms-auto">
+                    <div class="bg-200 py-2 w-100 mb-2"/>
+                    <div class="d-flex justify-content-between">
+                        <span class="bg-200 px-5"/>
+                        <span class="bg-200 p-2"/>
+                    </div>
+                </div>
+            </div>
+            <div class="d-flex h-100 bg-200">
+                <!-- Kanban View -->
+                <div class="w-25 border-end">
+                    <div class="bg-white border-bottom px-3 py-3">
+                        <span class="d-inline-block bg-200 py-1 px-5"/>
+                    </div>
+                    <div class="bg-white border-bottom px-3 py-3 position-relative border border-primary">
+                        <span class="d-inline-block bg-700 py-1 w-25" />
+                        <span class="bg-primary pe-1 position-absolute top-0 end-0 h-100" />
+                        <span t-att-class="state.activeStepIndex === 0 ? 'show': ''"
+                            class="rounded-circle fs-3 align-items-center justify-content-center d-flex p-4 square-24 bg-odoo text-white position-absolute top-0 end-0 mt-1 me-2 fade">
+                            1
+                        </span>
+                    </div>
+                    <div class="bg-white border-bottom px-3 py-3">
+                        <span class="d-inline-block bg-200 py-1 w-50"/>
+                    </div>
+                    <div class="bg-white border-bottom px-3 py-3">
+                        <span class="d-inline-block bg-200 py-1 px-5"/>
+                    </div>
+                </div>
+                <!-- Form View -->
+                <div class="position-relative w-75 bg-white px-3 py-2">
+                    <div class="position-relative d-flex align-items-center mb-2 small">
+
+                        <span class="py-1 px-2 small fw-bold" t-att-class="state.activeStepIndex gte 3 ? 'btn-primary' : 'btn-secondary text-muted'" >
+                            Validate
+                        </span>
+                        <span class="me-auto">
+                            <span t-att-class="state.activeStepIndex === 3 ? 'show' : ''"
+                                class="rounded-circle fs-3 align-items-center justify-content-center d-flex p-4 ms-1 square-24 bg-odoo text-white position-absolute top-50 translate-middle-y fade">
+                                4
+                            </span>
+                        </span>
+                        <i class="fa fa-cog small ms-2"/>
+                    </div>
+                    <table class="table table-sm small mb-5" >
+                        <thead>
+                            <tr>
+                                <th scope="col">Account</th>
+                                <th scope="col" class="w-50">Partner</th>
+                                <th scope="col" class="text-end ps-5">Debit</th>
+                                <th scope="col" class="text-end">Credit</th>
+                            </tr>
+                        </thead>
+                        <tbody class="">
+                            <tr class="fw-bold">
+                                <td>Bank</td>
+                                <td>Larry Smith</td>
+                                <td></td>
+                                <td class="text-end">$ 2,678.00</td>
+                            </tr>
+                            <tr class="fade" t-att-class="state.activeStepIndex gte 1 ? 'show' : ''" >
+                                <td>Payable</td>
+                                <td>Larry Smith</td>
+                                <td class="text-end">$ 2,678.00</td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="d-flex align-items-end border-start mb-1 small">
+                        <span class="border-top border-2 border-odoo px-3 py-2">
+                            Match Existing Entries
+                        </span>
+                        <span class="border px-3 py-2">
+                            Manual Operations
+                        </span>
+                        <span class="position-relative border-bottom">
+                            <span t-att-class="state.activeStepIndex === 2 ? 'show' : ''"
+                                class="rounded-circle fs-3 align-items-center justify-content-center d-flex p-4 ms-1 square-24 bg-odoo text-white position-absolute bottom-0 translate-middle fade">
+                                3
+                            </span>
+                        </span>
+                        <span class="flex-grow-1 border-bottom"/>
+                    </div>
+
+                    <div class="mb-2">
+                        <div class="d-inline-block border-bottom py-1 small">
+                            <span class="pe-5 me-5 text-muted">Search customer <em>or</em> reference</span>
+                            <i class="fa fa-search small"/>
+                        </div>
+                    </div>
+
+                    <table class="table table-sm small" >
+                        <thead>
+                            <tr>
+                                <th class="border-top-0" scope="col">Journal</th>
+                                <th class="border-top-0" scope="col">Partner</th>
+                                <th scope="col" class="position-relative border-top-0">Label</th>
+                                <th class="border-top-0 text-end" scope="col">Open Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="fw-bold" t-att-class="{'table-info':state.activeStepIndex gte 1}">
+                                <td>Bills</td>
+                                <td>Larry Smith</td>
+                                <td>INV/2032/0012</td>
+                                <td class="position-relative text-end">
+                                    <span t-att-class="state.activeStepIndex === 1 ? 'show' : ''"
+                                        class="rounded-circle fs-3 align-items-center justify-content-center d-flex p-4 square-24 bg-odoo text-white position-absolute top-50 start-0 translate-middle fade">
+                                        2
+                                    </span>
+                                    <span class="text-danger">$ -2,678.00</span>
+                                </td>
+                            </tr>
+                            <tr class="fw-bold">
+                                <td>Bills</td>
+                                <td>Larry Smith</td>
+                                <td>INV/2032/0012 </td>
+                                <td class="text-end text-danger">-1,134.50</td>
+                            </tr>
+                            <tr>
+                                <td>Invoices</td>
+                                <td>Larry Smith</td>
+                                <td>INV/2032/0003</td>
+                                <td class="text-end">$ 678.00</td>
+                            </tr>
+                            <tr>
+                                <td>Invoices</td>
+                                <td>Larry Smith</td>
+                                <td>INV/2032/0003</td>
+                                <td class="text-end">$ 78.00</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </t>
+
+</templates>

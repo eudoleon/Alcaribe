@@ -1,0 +1,131 @@
+<?xml version="1.0"?>
+<odoo>
+
+	 <record id="res_users_view_form" model="ir.ui.view">
+		<field name="name">res.users.form.view</field>
+		<field name="model">res.users</field>
+		<field name="inherit_id" ref="base.view_users_form" />
+		<field name="arch" type="xml">
+			<notebook position="inside">
+				<page string="Point of Sale">
+					<group>
+						<field name="pos_security_pin" />
+					</group>
+				</page>
+			</notebook>
+		</field>
+	</record>
+
+	<record id="res_config_settings_view_form" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="point_of_sale.res_config_settings_view_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//h2[@name='pos_interface']" position="before">
+                <h2 name="pos_interface">Manager Validation</h2>
+                <div class="row mt16 o_settings_container">
+					<div class="col-xs-12 col-md-6 o_setting_box">
+						<div class="o_setting_left_pane">
+							
+						</div>
+						<div class="o_setting_right_pane">
+							<label for="pos_user_id" string="Manager"/>
+							<div class="text-muted">
+								Set up managers for this point of sale.
+							</div>
+							<field name="pos_user_id"/>
+						</div>
+					</div>
+					<div class="col-12 col-lg-6 o_setting_box">
+						<div class="o_setting_left_pane">
+							<field name="pos_one_time_valid"/>
+						</div>
+						<div class="o_setting_right_pane">
+							<label for="pos_one_time_valid"/>
+							<div class="text-muted">
+								If user want to added password only once for every functionality.
+	                        </div>
+						</div>
+					</div>
+					<div class="col-12 col-lg-6 o_setting_box">
+						<div class="o_setting_left_pane">
+							<field name="pos_close_pos"/>
+						</div>
+						<div class="o_setting_right_pane">
+							<label for="pos_close_pos"/>
+							<div class="text-muted">
+								Allow manager to validate closing pos.
+							</div>
+						</div>
+					</div>
+					<div class="col-xs-12 col-md-6 o_setting_box">
+						<div class="o_setting_left_pane">
+							<field name="pos_order_delete"/>
+						</div>
+						<div class="o_setting_right_pane">
+							<label for="pos_order_delete"/>
+							<div class="text-muted">
+								Allow manager to validate order need to be delete.
+							</div>							
+						</div>
+					</div>
+					<div class="col-12 col-lg-6 o_setting_box">
+						<div class="o_setting_left_pane">
+							<field name="pos_order_line_delete"/>
+						</div>
+						<div class="o_setting_right_pane">
+							<label for="pos_order_line_delete"/>
+							<div class="text-muted">
+								Allow manager to validate order lines need to be delete.
+							</div>
+						</div>
+					</div>
+					<div class="col-xs-12 col-md-6 o_setting_box">
+						<div class="o_setting_left_pane">
+							<field name="pos_qty_detail"/>
+						</div>
+						<div class="o_setting_right_pane">
+							<label for="pos_qty_detail"/>
+							<div class="text-muted">
+								Allow manager to validate if Add or remove quantity is valid on order lines.
+							</div>							
+						</div>
+					</div>
+					<div class="col-12 col-lg-6 o_setting_box">
+						<div class="o_setting_left_pane">
+							<field name="pos_discount_app"/>
+						</div>
+						<div class="o_setting_right_pane">
+							<label for="pos_discount_app"/>
+							<div class="text-muted">
+								Allow manager to validate if discount is applicable to orderline.
+							</div>
+						</div>
+					</div>
+					<div class="col-xs-12 col-md-6 o_setting_box">
+						<div class="o_setting_left_pane">
+							<field name="pos_payment_perm"/>
+						</div>
+						<div class="o_setting_right_pane">
+							<label for="pos_payment_perm"/>
+							<div class="text-muted">
+								Allow manager to validate if order for payment.
+							</div>							
+						</div>
+					</div>
+					<div class="col-12 col-lg-6 o_setting_box">
+						<div class="o_setting_left_pane">
+							<field name="pos_price_change"/>
+						</div>
+						<div class="o_setting_right_pane">
+							<label for="pos_price_change"/>
+							<div class="text-muted">
+								Allow manager to validate if price change is need to be order line.
+							</div>
+						</div>
+					</div>
+				</div>  
+            </xpath>
+        </field>
+    </record>
+</odoo>

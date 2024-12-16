@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Payment sequences -->
+        <record id="sequence_withholding_islr_doc" model="ir.sequence">
+            <field name="name">sequence withholding islr doc</field>
+            <field name="code">account.wh.islr.doc</field>
+            <field name="prefix">RE/ISLR/%(year)s/</field>
+            <field eval="1" name="number_next"/>
+            <field eval="1" name="number_increment"/>
+            <field eval="False" name="use_date_range"/>
+            <field eval="True" name="company_id"/>
+            <field name="padding">6</field>
+        </record>
+        <record id="sequence_withholding_islr_doc_in_invoice" model="ir.sequence">
+            <field name="name">sequence withholding islr doc in invoice</field>
+            <field name="code">account.wh.islr.doc.in_invoice</field>
+            <field name="prefix"></field>
+            <field eval="1" name="number_next"/>
+            <field eval="1" name="number_increment"/>
+            <field eval="False" name="use_date_range"/>
+            <field eval="True" name="company_id"/>
+            <field name="padding">8</field>
+        </record>
+        <record id="sequence_withholding_islr_doc_out_invoice" model="ir.sequence">
+            <field name="name">sequence withholding islr doc out invoice</field>
+            <field name="code">account.wh.islr.doc.out_invoice</field>
+            <field name="prefix">RISLRV/%(year)s/%(month)s/</field>
+            <field eval="1" name="number_next"/>
+            <field eval="1" name="number_increment"/>
+            <field eval="False" name="use_date_range"/>
+            <field eval="True" name="company_id"/>
+            <field name="padding">6</field>
+        </record>
+    </data>
+</odoo>

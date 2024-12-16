@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+    <record id="view_hr_incremento_from" model="ir.ui.view">
+		<field name="name">view.hr.incremento.from</field>
+		<field name="model">hr.banda.incremento</field>
+		<field name="arch" type="xml">
+			<form string="Configuracion Banda Salarial">
+				<header>
+                		<field name="state" widget="statusbar" statusbar_visible="draft,actv,inactv" readonly="True"/>
+
+                		<button name="procesar" string="Ejecutar Banda Salarial" class="oe_highlight" type="object" attrs="{'invisible': [('state', '!=','draft')]}"/>
+                		<button name="cancel" string="Cancelar" type="object" attrs="{'invisible': [('state', '=','darft')]}"/>
+                		<!-- attrs="{'invisible': [('manual', '=',False)]}"-->
+                </header>
+                <sheet name="sheet1">
+				    <group name="group1">
+				    	<group name="group11">
+					    	<field name="tipo_aumento" required='1' attrs="{'readonly': [('state', '!=','draft')]}"></field>
+                            <field name="seleccion_aumento" attrs="{'readonly': [('state', '!=','draft')]}"/>					
+					        <field name="motivo" attrs="{'readonly': [('state', '!=','draft')]}"></field>
+					        <!--field name="responsable" string="Responsable" required='1' attrs="{'readonly': [('state', '!=','draft')]}"></field-->
+					        
+				    	</group>
+				    	<group name="group12">
+					    	<field name="fecha_decreto" required='1' attrs="{'readonly': [('state', '!=','draft')]}"></field>
+				        	<field name="fecha_incremento" required='1' attrs="{'readonly': [('state', '!=','draft')]}"></field>
+				        	<field name="sueldo_minimo" required='1' attrs="{'readonly': [('state', '!=','draft')]}"/>
+				    	</group>
+				    </group>
+				    <group name="group2">
+				    	<group name="group21">
+                        
+				    	<field name="monto_fijo" attrs="{'invisible': [('tipo_aumento', '!=','fix')], 'required':[('tipo_aumento', '=','fix')], 'readonly': [('state', '!=','draft')]}"/>
+
+				    	<field name="monto_porcentage_basa" string="Porcentaje basado en" attrs="{'invisible': [('tipo_aumento', '!=','porcentaje')], 'required':[('tipo_aumento', '=','porcentaje')],'readonly': [('state', '!=','draft')]}"/>
+				    	<field name="porcentage" string="Porcentaje (%)" attrs="{'invisible': [('tipo_aumento', '!=','porcentaje')], 'required':[('tipo_aumento', '=','porcentaje')],'readonly': [('state', '!=','draft')]}"/>
+
+				    	<field name="texto" attrs="{'invisible': [('tipo_aumento', '!=','fac')], 'required':[('tipo_aumento', '=','fac')],'readonly': [('state', '!=','draft')]}"/>
+				    	</group>
+				    	<group name="group22">
+
+				    	</group>
+				    </group>
+
+                    <notebook>
+                        
+                        <page string="Listado de incremento de Empleados" attrs="{'invisible': ['|',('seleccion_aumento', '!=','ind'),('state','!=','draft')]}">
+                            <field name="line_ind_empleado" nolabel="1" readonly="False" colspan="2">
+                            <!--field name="retention_line_ids" nolabel="1" readonly="True"-->
+                                <tree string="Banda Salarial Empleados" editable="buttom">
+                                    
+                                    <field name="employee_id" string="Empleados"/>
+                                    
+                                </tree>
+                                
+                            </field>
+                        </page>
+
+                        <page string="Listado de incremento de Empleados" attrs="{'invisible': [('seleccion_aumento', '=','ind'),('state','=','draft')]}">
+                            <field name="line" nolabel="1" readonly="True" colspan="2">
+                            <!--field name="retention_line_ids" nolabel="1" readonly="True"-->
+                                <tree string="Banda Salarial Empleados" editable="buttom">
+                                    <field name="employee_id" string="Empleados"/>
+                                    <field name="sueldo_anterior" string="Sueldo Anterior"/>
+                                    <field name="sueldo_nuevo" string="Sualdo Nuevo"/>
+                                </tree>
+                                
+                            </field>
+                        </page>
+                    </notebook>     
+
+                </sheet>
+                
+			</form>
+		</field>
+	</record>
+
+    <record id="view_hr_incremento_tree" model="ir.ui.view">
+        <field name="name">view.hr.incremento.tree</field>
+        <field name="model">hr.banda.incremento</field>
+        <field name="arch" type="xml">
+            <tree string="Banda Salarial">
+                <field name="fecha_decreto" />
+                <field name="fecha_incremento"/>
+                <field name="tipo_aumento" string="Tipo de Aumento"/>
+                <field name="state" string="Status"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="act_hr_incremento_tree" model="ir.actions.act_window">
+            <field name="name">BANDA INCREMENTO SALARIAL</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">hr.banda.incremento</field>
+            <!--field name="view_type">form</field-->
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_hr_incremento_tree"></field>
+            <!--field name="act_window_id" ref="view_hr_payroll_hollydays_tree"/-->
+            <!--field name="context">{'readonly_by_pass': True}</field-->
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+
+              </p><p>
+
+              </p>
+            </field>
+    </record>
+
+	<menuitem
+        id="view_hr_payroll_incremento_menu"
+        parent="hr_work_entry_contract_enterprise.menu_hr_payroll_configuration"
+        name="Banda de Incremento Salarial"
+        sequence="95"
+        action="act_hr_incremento_tree"/>
+
+    </data>
+</odoo>

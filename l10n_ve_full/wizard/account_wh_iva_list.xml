@@ -1,0 +1,52 @@
+<odoo>
+  <data>
+      <record id="view_retention_iva_wizard" model="ir.ui.view">
+            <field name="name">account.wh.iva.list.form</field>
+                <field name="model">account.wh.iva.list</field>
+                <field name="arch" type="xml">
+                    <form string="Solicitud de Reporte de IVA">
+                        <field invisible="1" name="state"/>
+                        <div states="choose">
+                            <group>
+                                <group>
+                                    <field name="company" string="Compañía" options="{'no_create': True, 'no_open': True}" groups="base.group_multi_company"/>
+                                    <field name="start_date" string="Fecha de inicio"/>
+                                    <field name="end_date" string="Fecha Final"/>
+                                </group>
+                                <group>
+
+                                </group>
+
+                            </group>
+                        </div>
+                        <div states="get">
+                            <group>
+                                <field name="name" colspan="4" invisible="1"/>
+                                <field name="report" filename="name" colspan="4"/>
+                            </group>
+                        </div>
+                        <footer states="choose">
+                            <button name="generate_retention_iva_pdf" string="Imprimir PDF" type="object" class="btn-primary"/>
+<!--                            <button name="generate_retention_iva_xls" string="Imprimir XLS" type="object" class="btn-primary"/>-->
+                            <button string="Cancel" class="btn-default" special="cancel" />
+                        </footer>
+                        <footer states="get">
+                            <button special="cancel" string="Cancel" class="oe_highlight" />
+                        </footer>
+                    </form>
+                </field>
+        </record>
+
+        <record id="action_retention_iva" model="ir.actions.act_window">
+        	<field name="name">Solicitud de Reporte de IVA</field>
+        	<field name="res_model">account.wh.iva.list</field>
+        	<field name="binding_view_types">form</field>
+        	<field name="view_mode">form</field>
+        	<field name="view_id" ref="view_retention_iva_wizard"/>
+        	<field name="target">new</field>
+    	</record>
+
+      <menuitem id="retention_iva_details" name="Listado Retención IVA" parent="l10n_ve_full.menu_venezuela_reporting" action="action_retention_iva" sequence="201"/>
+
+  </data>
+</odoo>

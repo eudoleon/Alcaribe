@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<odoo>
+    <data>
+        <record id="view_account_move_reversal_inherit" model="ir.ui.view">
+            <field name="name">account.move.reversal.form.inherit</field>
+            <field name="model">account.move.reversal</field>
+            <field name="inherit_id" ref="account.view_account_move_reversal"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='refund_method']" position="after">
+                    <group >
+                        <field name="nro_ctrl" attrs="{'invisible':[('refund_method', '=', 'refund')],'required':[('move_type', 'in', ('out_invoice', 'in_invoice')),('refund_method', '!=', 'refund')] }"/>
+                        <field name="supplier_invoice_number" attrs="{'invisible':[('refund_method', '=', 'refund')],'required':[('move_type', 'in', ('out_invoice', 'in_invoice')),('refund_method', '!=', 'refund')]}"/>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

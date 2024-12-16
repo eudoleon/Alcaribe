@@ -1,0 +1,58 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<odoo>
+    <data>
+        <record id="view_wh_islr_rate_form" model="ir.ui.view">
+            <field name="name">tasas_form</field>
+            <field name="model">account.wh.islr.rates</field>
+            <field name="arch" type="xml">
+                <form string="Rates">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="code"/>
+                                <field name="base"/>
+                                <field name="minimum"/>
+                                <field name="residence"/>
+                            </group>
+                            <group>
+                                <field name="wh_perc"/>
+                                <field name="nature"/>
+                                <field name="subtract"/>
+                                <field name="rate2"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_wh_islr_rate_tree" model="ir.ui.view">
+            <field name="name">tasas_tree</field>
+            <field name="model">account.wh.islr.rates</field>
+            <field name="arch" type="xml">
+                <tree string="Rates">
+                    <field name="name"/>
+                    <field name="code"/>
+                    <field name="base"/>
+                    <field name="minimum"/>
+                    <field name="wh_perc"/>
+                    <field name="subtract"/>
+                    <field name="residence"/>
+                    <field name="nature"/>
+                    <field name="rate2"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_wh_islr_rates" model="ir.actions.act_window" >
+            <field name="name">Tasas de retención de ingresos</field>
+            <field name="res_model">account.wh.islr.rates</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id="menu_finance_islr_rates" name="Tasas de retención de ingresos"  sequence="8" parent="l10n_ve_full.menu_finance_fiscal_settings" action="action_wh_islr_rates"/>
+
+    </data>
+</odoo>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="extra_purchase_order_venezuela" model="ir.ui.view">
+            <field name="name">Extra purchase.order Venezuela</field>
+            <field name="model">purchase.order</field>
+            <field name="inherit_id" ref="purchase.purchase_order_form"/>
+            <field name="arch" type="xml">
+                     <xpath expr="//field[@name='partner_id']"  position="attributes">
+                        <attribute name="attrs">
+                                {'invisible': True}
+                        </attribute>
+                    </xpath>
+                    <xpath expr="//field[@name='partner_id']" position="replace">
+                             <field name="partner_id" widget="res_partner_many2one"  options='{"always_reload": True}'/>
+                    </xpath>
+
+                    <xpath expr="//field[@name='partner_ref']" position="before">
+                            <field name="people_type_company" invisible="1"/>
+                            <field name="people_type_individual" invisible="1"/>
+                            <field name="company_type" invisible="1"/>
+                     </xpath>
+                     <xpath expr="//field[@name='partner_id']" position="after">
+                         <field name="rif" string="RIF"
+                                   attrs="{'invisible':['|', ('company_type', '=', 'person'), ('people_type_company','=','pjnd')]}"/>
+                            <field name="nationality" string="Tipo de Documento"  attrs="{'invisible':[('company_type', '=', 'company')]}"/>
+                            <field name="identification_id" string="Documento de Identidad" attrs="{'invisible':[('company_type', '=', 'company')]}"/>
+                     </xpath>
+                    <xpath expr="//field[@name='rif']" position="replace">
+                            <field name="rif" string="RIF"
+                                   attrs="{'invisible':['|', ('company_type', '=', 'person'), ('people_type_company','=','pjnd')]}"/>
+                    </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>
+

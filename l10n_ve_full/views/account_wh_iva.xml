@@ -1,0 +1,286 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<odoo>
+    <data>
+        <record id="view_wh_iva_tree" model="ir.ui.view">
+            <field name="name">account.wh.iva.tree</field>
+            <field name="model">account.wh.iva</field>
+            <field name="arch" type="xml">
+                <tree string="Retención de IVA" create="false" delete="false">
+                    <field name="name"/>
+                    <field name="type" string="Tipo"/>
+                    <field name="number" readonly="1" force_save="1"/>
+                    <field name="partner_id"/>
+                    <field name="amount_base_ret"  readonly="1" force_save="1"/>
+                    <field name="total_tax_ret"  readonly="1" force_save="1"/>
+                    <field name="date_ret"/>
+                    <field name="currency_id"/>
+                    <field name="period_id"/>
+                    <field name="company_id" groups="base.group_multi_company" optional="show"/>
+                    <field name="state" widget="badge" decoration-danger="state == 'cancel'" decoration-info="state == 'draft'" decoration-warning="state == 'confirmed'"  decoration-success="state == 'done'" />
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_wh_iva_form_customer" model="ir.ui.view">
+            <field name="name">account.wh.iva.form.customer</field>
+            <field name="model">account.wh.iva</field>
+            <field name="arch" type="xml">
+                <form string="Retención de IVA clientes" options="{'no_quick_create': True}" create="false">
+                    <header>
+                        <button name="confirm_check" states="draft" type="object" string="Confirmar"/>
+                        <!--button name="wh_iva_done" states="confirmed" string="Done" icon="gtk-execute"/-->
+                        <button name="action_cancel" states="confirmed,draft,done" type="object" string="Cancelar" />
+
+                        <!--button name="set_to_draft" states="cancel" type="object" string="Set to draft" icon="terp-stock_effects-object-colorize"/-->
+                        <field name="state" widget="statusbar" statusbar_visible="draft,confirmed,done" statusbar_colors="{&quot;confirmed&quot;:&quot;blue&quot;}"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="partner_id" domain="[('wh_iva_agent','=',True), ('customer_rank','>', 0), ('parent_id','=',False)]"
+                                readonly="1" force_save="1" />
+                                <field name="journal_id" readonly="1" force_save="1" options="{'no_open': True, 'no_quick_create': True, 'no_create_edit' : True}"/>
+                                <field name="type" select="2" attrs="{'readonly': [('state', 'in', ('done','cancel'))]}" options="{'no_open': True}"/>
+                                <field name="third_party_id" invisible="1" domain="[('is_company','=',False),('id','!=',partner_id)]" attrs="{'readonly': [('state', 'in', ('done','cancel'))]}"/>
+                                <field name="currency_id" readonly="1" force_save="1" options="{'no_open': True}"/>
+                                <field name="company_id"  groups="base.group_multi_company" readonly="1" force_save="1" options="{'no_open': True, 'no_quick_create': True, 'no_create_edit' : True}"/>
+                            </group>
+                            <group>
+                                <field name="date_ret" on_change="on_change_date_ret(date_ret, date)" attrs="{'readonly': [('state', 'in', ('done','cancel'))]}"/>
+                                <field name="account_id" readonly="1" force_save="1" options="{'no_open': True, 'no_quick_create': True, 'no_create_edit' : True}"/>
+                                <field name="name" select="2" attrs="{'readonly': [('state', 'in', ('done','cancel'))]}"/>
+                                <field name="period_id" attrs="{'readonly': [('state', 'in', ('done','cancel'))]}"/>
+                                <field name="number" attrs="{'readonly': [('state', 'in', ('done','cancel'))]}" force_save="1" readonly="0"/>
+                                <field name="date" attrs="{'readonly':[('type','=','out_invoice')],'required':[('type','in',['in_invoice','in_refund'])]}"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Retenciones">
+                                <field name="wh_lines" nolabel="1" attrs="{'readonly': [('state', 'in', ('done','cancel'))]}"/>
+                                <group>
+                                    <group>
+                                        <field name="amount_base_ret"  readonly="1" force_save="1"/>
+                                        <field name="total_tax_ret"  readonly="1" force_save="1"/>
+                                    </group>
+                                    <group>
+                                        <!--                            <field name="amount_base_ret"/>-->
+                                        <!--                            <field name="total_tax_ret"/>-->
+                                        <!--                            <field name="tot_amount_base_wh"/> -->
+                                        <!--                            <field name="tot_amount_tax_wh"/> -->
+                                    </group>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                     <div class="oe_chatter">
+                          <field name="message_follower_ids" widget="mail_followers"/>
+                          <field name="activity_ids" widget="mail_activity"/>
+                          <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_account_wh_iva_customer">
+            <field name="name">Retención IVA Clientes</field>
+            <field name="res_model">account.wh.iva</field>
+            <field name="type">ir.actions.act_window</field>
+<!--            <field name="view_type">form</field>-->
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('type','in',('out_invoice','out_refund','out_debit'))]</field>
+            <field name="context">{'type':'out_invoice' or 'out_refund' or 'out_debit'}</field>
+<!--            <field name="search_view_id" ref="view_wh_iva_filter"/>-->
+            <field name="help">Con el IVA de retención de clientes puede crear y administrar la retención de documentos emitidos a sus clientes. ODOO también puede generar retenciones de documentos automáticamente de las facturas. Para la retención debe agregar las facturas, procesarlas y luego validar el documento.</field>
+        </record>
+        <record model="ir.actions.act_window.view" id="act_wv_account_wh_iva_customer_tree">
+            <field name="sequence" eval="10"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_wh_iva_tree"/>
+            <field name="act_window_id" ref="action_account_wh_iva_customer"/>
+        </record>
+        <record model="ir.actions.act_window.view" id="act_wv_account_wh_iva_customer_form">
+            <field name="sequence" eval="20"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_wh_iva_form_customer"/>
+            <field name="act_window_id" ref="action_account_wh_iva_customer"/>
+        </record>
+
+        <menuitem id="menu_action_account_wh_iva_customer" name="Retención de IVA del Cliente" parent="account.menu_finance_receivables" action="action_account_wh_iva_customer"/>
+
+        <record id="view_wh_iva_form" model="ir.ui.view">
+            <field name="name">account.wh.iva.form</field>
+            <field name="model">account.wh.iva</field>
+            <field name="arch" type="xml">
+                <form string="Retención de IVA Proveedores" options="{'no_quick_create': True}" create="false">
+                    <header>
+                        <!--button colspan="2" name="compute_amount_wh" states="draft" string="Compute Withholding Vat" type="object" icon="terp-stock_format-scientific"/-->
+                        <button name="confirm_check" type="object" states="draft" string="Confirmar"/>
+                        <!--button name="wh_iva_done" states="confirmed" string="Done"/-->
+                        <button name="action_cancel" colspan="2" type="object" states="draft,done" string="Cancelar"/>
+                        <!--button name="set_to_draft" colspan="2" states="cancel" type="object" string="Set to draft"/-->
+                        <field name="state" widget="statusbar" statusbar_visible="draft,done" statusbar_colors="{&quot;confirmed&quot;:&quot;blue&quot;}"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="partner_id" domain="[('wh_iva_agent','=',True), ('supplier_rank','>', 0), ('parent_id','=',False)]"
+                                   string="Empresa" readonly="1" force_save="1" options="{'no_open': True}"/>
+                                <field name="journal_id"  string="Diario" required="1" readonly="1" force_save="1" options="{'no_open': True, 'no_quick_create': True, 'no_create_edit' : True}"/>
+                                <field name="type" string="Tipo"/>
+                                <field name="third_party_id"  invisible="1" attrs="{'readonly': [('state', 'in', ('done','cancel'))]}"/>
+                                <field name="currency_id" readonly="1" force_save="1" options="{'no_open': True}"/>
+                                <field name="date_ret" required="1" attrs="{'readonly': [('state', 'in', ('done','cancel'))]}" />
+                                <field name="account_id" readonly="1" force_save="1" options="{'no_open': True, 'no_quick_create': True, 'no_create_edit' : True}"/>
+                                <field name="company_id" groups="base.group_multi_company" readonly="1" force_save="1" options="{'no_open': True, 'no_quick_create': True, 'no_create_edit' : True}"/>
+                            </group>
+                            <group>
+                                <field name="name" attrs="{'readonly': [('state', 'in', ('done','cancel'))]}"/>
+                                <field name="period_id" attrs="{'readonly': [('state', 'in', ('done','cancel'))]}"/>
+                                <field name="fortnight" attrs="{'readonly': [('state', 'in', ('done','cancel'))]}"/>
+                                <field name="number"  attrs="{'required':[('type','in',['out_invoice','out_refund','out_debit'])], 'readonly': ['|',('type', 'not in', ('out_invoice','out_refund', 'out_debit')), ('state', 'in', ('done','cancel'))]}" force_save="1"/>
+                                <field name="date" attrs="{'readonly': [('state', 'in', ('done','cancel'))]}"/>
+                                <field name="consolidate_vat_wh" invisible="1" attrs="{'readonly': [('state', 'in', ('done','cancel'))]}"/>
+                            </group>
+
+                        </group>
+                        <notebook>
+                            <page string="Retenciones">
+                                <field name="wh_lines" nolabel="1" attrs="{'readonly': [('state', 'in', ('done','cancel'))]}"/>
+                                <group>
+                                    <group>
+                                        <field name="amount_base_ret"  readonly="1" force_save="1"/>
+                                        <field name="total_tax_ret" readonly="1" force_save="1"/>
+                                    </group>
+                                    <group>
+                                        <!--field name="tot_amount_base_wh" groups='l10n_ve_withholding_iva.group_account_wh_iva_manager'/>
+                                        <field name="tot_amount_tax_wh" groups='l10n_ve_withholding_iva.group_account_wh_iva_manager'/-->
+                                    </group>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                     <div class="oe_chatter">
+                          <field name="message_follower_ids" widget="mail_followers"/>
+                          <field name="activity_ids" widget="mail_activity"/>
+                          <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_account_wh_iva_supplier">
+            <field name="name">Retención de IVA Proveedores</field>
+            <field name="res_model">account.wh.iva</field>
+            <field name="type">ir.actions.act_window</field>
+<!--            <field name="view_type">form</field>-->
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('type','in',('in_invoice','in_refund','in_debit'))]</field>
+            <field name="context">{'type':'in_invoice' or 'in_refund' or 'in_debit'}</field>
+<!--            <field name="search_view_id" ref="view_wh_iva_filter"/>-->
+            <field name="help">Con el Proveedor de retención de IVA puede crear y administrar la retención de documentos emitidos a sus clientes. Odoo también puede generar retenciones de documentos automáticamente de las facturas. Para la retención debe agregar las facturas, procesarlas y luego validar el documento.</field>
+        </record>
+        <record model="ir.actions.act_window.view" id="act_wv_account_wh_iva_supplier_tree">
+            <field name="sequence" eval="10"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_wh_iva_tree"/>
+            <field name="act_window_id" ref="action_account_wh_iva_supplier"/>
+        </record>
+        <record model="ir.actions.act_window.view" id="act_wv_account_wh_iva_supplier_form">
+            <field name="sequence" eval="20"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_wh_iva_form"/>
+            <field name="act_window_id" ref="action_account_wh_iva_supplier"/>
+        </record>
+
+        <menuitem id="menu_action_account_wh_iva_supplier" name="Retención de IVA al Proveedor" parent="account.menu_finance_payables" action="action_account_wh_iva_supplier"/>
+
+        <record model="ir.rule" id="iva_company_rule">
+            <field name="name">Retención IVA Doc: multi-company</field>
+            <field name="model_id" ref="model_account_wh_iva"/>
+            <field name="global" eval="True"/>
+            <field name="domain_force">
+                [('company_id', 'in', company_ids)]
+            </field>
+        </record>
+
+        <record id="view_wh_iva_line_tree" model="ir.ui.view">
+            <field name="name">account.wh.iva.line.tree</field>
+            <field name="model">account.wh.iva.line</field>
+            <field name="arch" type="xml">
+                <tree string="Líneas de retención" create="false" delete="false">
+<!--                    <button name="load_taxes" string="Load Taxes" type="object" icon="gtk-ok" colspan="2" help="Click on this button to ensure the invoice related compute correctly taxes for this line of withholding, it is necesary looking to allow manually force if your are not agreed with automatic computation."/>-->
+                    <field name="name"/>
+                    <field
+                        name="invoice_id"
+                        context="{'move_type':'in_invoice' or 'out_invoice' or 'in_refund' or 'out_refund' or 'in_debit' or 'out_debit'}"  options="{'no_quick_create': True, 'no_create_edit' : True}"
+                        />
+                    <field name="type" invisible="1"/>
+                    <field name="supplier_invoice_number" attrs="{'invisible': ['|',('supplier_invoice_number', '=', ' '),('type','in', ('out_invoice','out_refund','out_debit'))]}"/>
+                    <field name="nro_ctrl"/>
+                    <!--<field name="retention_rate" />-->
+                    <field name="amount_tax_ret" sum="Wh total" readonly="1" force_save="1"/>
+                    <field name="wh_iva_rate"/>
+                    <field name="tax_line"/>
+                    <field name="move_id"/>
+
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_wh_iva_line_form" model="ir.ui.view">
+            <field name="name">account.wh.iva.line.form</field>
+            <field name="model">account.wh.iva.line</field>
+            <field name="arch" type="xml">
+                <form string="Líneas de retención">
+                    <notebook>
+                        <page string="Factura retenida">
+                            <group colspan="4">
+                            <field
+                                name="invoice_id" context="{'move_type':'in_invoice' or 'out_invoice' or 'in_refund' or 'out_refund' or 'in_debit' or 'out_debit'}"  options="{'no_quick_create': True, 'no_create_edit' : True}"
+                                 />
+
+                                 <field name="type" />
+                                <field name="supplier_invoice_number" attrs="{'invisible': ['|',('supplier_invoice_number', '=', ' '),('type','in', ('out_invoice','out_refund','out_debit'))]}"/>
+                                <field name="nro_ctrl"/>
+                                <field name="name"/>
+                                <field name="move_id"/>
+                            </group>
+                            <group colspan="4">
+                                <field colspan="2" name="tax_line" nolabel="1">
+                                    <tree string="Impuestos" editable="top" create="false" delete="false">
+                                        <field name="name"/>
+                                        <field name="base" />
+                                        <field name="amount" />
+                                        <field name="amount_ret" />
+                                    </tree>
+                                    <form string="Impuestos">
+                                        <field colspan="4" name="name"/>
+                                        <field name="tax_id"/>
+                                        <field name="base"/>
+                                        <field name="amount"/>
+                                        <field name="amount_ret"/>
+                                        <field name="company_id"/>
+                                    </form>
+                                </field>
+                            </group>
+                            <separator colspan="4"/>
+                            <field name="wh_iva_rate" colspan="2" invisible="True"/>
+                                <group col="2" colspan="2">
+                                    <field name="amount_tax_ret"  readonly="1" force_save="1"/>
+                                    <field name="base_ret"  readonly="1" force_save="1"/>
+                                </group>
+                                <group col="4" colspan="4">
+                                    <field name="state" invisible="1"/>
+                                    <field name="check_false" invisible="1"/>
+                                    <separator string="Por favor, si no hay impuestos cargados, haga clic en Cargar impuestos" colspan="4" attrs="{'invisible': [('check_false', '!=', False)]}"/>
+
+                                    <button name="load_taxes" string="Cargar Impuestos" type="object" colspan="2" attrs="{'invisible': [('check_false', '!=', False)]}"
+                                            help="Haga clic en este botón para asegurarse de que el cálculo relacionado con la factura grava correctamente los impuestos para esta línea de retención; es necesario buscar permitir la fuerza manual si no está de acuerdo con el cálculo automático."/>
+                                </group>
+                        </page>
+                    </notebook>
+                </form>
+            </field>
+        </record>
+    </data>
+</odoo>

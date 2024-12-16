@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_activity_log,access.activity.log,model_activity_log,,1,0,0,1
+access_login_log,access.login.log,model_login_log,,1,0,0,1
+access_edit_value,access.edit.value,model_edit_value,,1,0,0,1

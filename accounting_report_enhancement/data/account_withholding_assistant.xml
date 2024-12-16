@@ -1,0 +1,153 @@
+<odoo>
+    <record id="withholding_assistant_report" model="account.report">
+        <field name="name">Withholding Assistant report</field>
+        <field name="filter_multi_company">tax_units</field>
+        <field name="filter_fiscal_position" eval="1"/>
+        <field name="default_opening_date_filter">last_month</field>
+        <field name="only_tax_exigible" eval="True"/>
+        <field name="custom_handler_model_id" ref="model_account_withholding_assistant_report_handler"/>
+
+        <field name="column_ids">
+            <record id="withholding_assistant_report_date" model="account.report.column">
+                <field name="name">Date</field>
+                <field name="expression_label">date</field>
+                <field name="figure_type">date</field>
+            </record>
+            <record id="withholding_assistant_report_partner_name" model="account.report.column">
+                <field name="name">Third</field>
+                <field name="expression_label">partner_name</field>
+                <field name="figure_type">none</field>
+            </record>
+            <record id="withholding_assistant_report_column_tax" model="account.report.column">
+                <field name="name">Value</field>
+                <field name="expression_label">tax</field>
+            </record>
+            <record id="withholding_assistant_report_column_amount" model="account.report.column">
+                <field name="name">%</field>
+                <field name="expression_label">amount</field>
+            </record>
+            <record id="withholding_assistant_report_column_net" model="account.report.column">
+                <field name="name">Base</field>
+                <field name="expression_label">net</field>
+            </record>
+        </field>
+    </record>
+
+    <record id="withholding_assistant_report_filter_1" model="account.report">
+        <field name="name">Retencion de Fuente</field>
+        <field name="root_report_id" ref="accounting_report_enhancement.withholding_assistant_report"/>
+        <field name="filter_multi_company">tax_units</field>
+        <field name="filter_fiscal_position" eval="1"/>
+        <field name="default_opening_date_filter">last_month</field>
+        <field name="only_tax_exigible" eval="True"/>
+        <field name="custom_handler_model_id" ref="model_account_withholding_assistant_rte_fuente_report_handler"/>
+
+        <field name="column_ids">
+            <record id="withholding_assistant_report_filter_1_date" model="account.report.column">
+                <field name="name">Date</field>
+                <field name="expression_label">date</field>
+                <field name="figure_type">date</field>
+            </record>
+            <record id="withholding_assistant_report_filter_1_partner_name" model="account.report.column">
+                <field name="name">Third</field>
+                <field name="expression_label">partner_name</field>
+                <field name="figure_type">none</field>
+            </record>
+            <record id="withholding_assistant_report_filter_1_column_tax" model="account.report.column">
+                <field name="name">Value</field>
+                <field name="expression_label">tax</field>
+            </record>
+            <record id="withholding_assistant_report_filter_1_column_amount" model="account.report.column">
+                <field name="name">%</field>
+                <field name="expression_label">amount</field>
+            </record>
+            <record id="withholding_assistant_report_filter_1_column_net" model="account.report.column">
+                <field name="name">Base</field>
+                <field name="expression_label">net</field>
+            </record>
+        </field>
+    </record>
+
+    <record id="withholding_assistant_report_filter_2" model="account.report">
+        <field name="name">	Retencion de ICA</field>
+        <field name="root_report_id" ref="accounting_report_enhancement.withholding_assistant_report"/>
+        <field name="filter_multi_company">tax_units</field>
+        <field name="filter_fiscal_position" eval="1"/>
+        <field name="default_opening_date_filter">last_month</field>
+        <field name="only_tax_exigible" eval="True"/>
+        <field name="custom_handler_model_id" ref="model_account_withholding_assistant_rte_ica_report_handler"/>
+
+        <field name="column_ids">
+            <record id="withholding_assistant_report_filter_2_date" model="account.report.column">
+                <field name="name">Date</field>
+                <field name="expression_label">date</field>
+                <field name="figure_type">date</field>
+            </record>
+            <record id="withholding_assistant_report_filter_2_partner_name" model="account.report.column">
+                <field name="name">Third</field>
+                <field name="expression_label">partner_name</field>
+                <field name="figure_type">none</field>
+            </record>
+            <record id="withholding_assistant_report_filter_2_column_tax" model="account.report.column">
+                <field name="name">Value</field>
+                <field name="expression_label">tax</field>
+            </record>
+            <record id="withholding_assistant_report_filter_2_column_amount" model="account.report.column">
+                <field name="name">%</field>
+                <field name="expression_label">amount</field>
+            </record>
+            <record id="withholding_assistant_report_filter_2_column_net" model="account.report.column">
+                <field name="name">Base</field>
+                <field name="expression_label">net</field>
+            </record>
+        </field>
+    </record>
+
+    <record id="withholding_assistant_report_filter_3" model="account.report">
+        <field name="name">	Retencion de IVA</field>
+        <field name="root_report_id" ref="accounting_report_enhancement.withholding_assistant_report"/>
+        <field name="filter_multi_company">tax_units</field>
+        <field name="filter_fiscal_position" eval="1"/>
+        <field name="default_opening_date_filter">last_month</field>
+        <field name="only_tax_exigible" eval="True"/>
+        <field name="custom_handler_model_id" ref="model_account_withholding_assistant_rte_iva_report_handler"/>
+
+        <field name="column_ids">
+            <record id="withholding_assistant_report_filter_3_date" model="account.report.column">
+                <field name="name">Date</field>
+                <field name="expression_label">date</field>
+                <field name="figure_type">date</field>
+            </record>
+            <record id="withholding_assistant_report_filter_3_partner_name" model="account.report.column">
+                <field name="name">Third</field>
+                <field name="expression_label">partner_name</field>
+                <field name="figure_type">none</field>
+            </record>
+            <record id="withholding_assistant_report_filter_3_column_tax" model="account.report.column">
+                <field name="name">Value</field>
+                <field name="expression_label">tax</field>
+            </record>
+            <record id="withholding_assistant_report_filter_3_column_amount" model="account.report.column">
+                <field name="name">%</field>
+                <field name="expression_label">amount</field>
+            </record>
+            <record id="withholding_assistant_report_filter_3_column_net" model="account.report.column">
+                <field name="name">Base</field>
+                <field name="expression_label">net</field>
+            </record>
+        </field>
+    </record>
+
+    <record id="action_account_report_wa" model="ir.actions.client">
+        <field name="name">Withholding Assistant</field>
+        <field name="tag">account_report</field>
+        <field name="context" eval="{'report_id': ref('accounting_report_enhancement.withholding_assistant_report')}"/>
+    </record>
+
+    <menuitem id="menu_action_account_report_wa"
+              name="Withholding Assistant"
+              action="action_account_report_wa"
+              parent="account.account_reports_legal_statements_menu"
+              sequence="51"/>
+
+</odoo>

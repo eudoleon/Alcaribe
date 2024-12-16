@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+    	<record id="view_hr_ad_personal_from" model="ir.ui.view">
+		<field name="name">view.hr.ince.from</field>
+		<field name="model">hr.ad.personal</field>
+		<field name="arch" type="xml">
+			<form string="Config. Ret. INCE">
+                <header>
+                        <field name="state" widget="statusbar" statusbar_visible="hold,action,culminated" readonly="True"/>
+
+                        <button name="activar" string="Activar" type="object" attrs="{'invisible': [('state', '!=','hold')]}"/>
+                        <button name="cancel" string="Cancelar" type="object" attrs="{'invisible': [('state', 'in',('hold','culminated'))]}"/>
+                        <!-- attrs="{'invisible': [('manual', '=',False)]}"-->
+                </header>
+				<sheet name="sheet1">
+				    <group name="group1">
+				    	<group name="group11">
+                            <field name="structur_id" string="Nómina"/>
+				    		<field name="rule_id" string="Conceptos" domain="[('struct_id', '=', structur_id),('condition_select','=','adp')]"/>
+                            <field name="name" string="Descripción"/>
+				    	</group>
+
+				    	<group name="group12">
+                            <field name="currency_id" invisible="1"/>
+                            <field name="modo" invisible="0" required="1"/>
+				    		<field name="employee_id" string="Empleado" domain="[('active','=',True),('contract_id.state','=','open')]" attrs="{'invisible': [('modo', '!=','u')]}"/>
+                            <!--field name="employee2_id" domain="[('structure_id', '=', structur_id)]"/-->
+				    	</group>
+
+				    </group>
+
+                    <group name="group2">
+                        <group name="group21">
+                            <h3><a><b>Condición para la Aplicación del Concepto:</b></a></h3>
+                            <newline/>
+                                <field name="modo_aplicacion"/>
+                                <field name="shedule_pay" attrs="{'invisible': [('modo_aplicacion', '!=','a')]}"/>
+
+                                <field name="shedule_pay_mensual" attrs="{'invisible': ['|',('shedule_pay', '!=','mensual'),('modo_aplicacion','!=','a')]}" widget="radio" string="Periódo de ejecución"/>
+                                
+                                <field name="fecha" attrs="{'invisible': [('modo_aplicacion', 'not in',('b','d'))]}"/>
+                        </group> 
+                        <group name="group22">
+                            <h3><a><b>Detalles del Cálculo:</b></a></h3>
+                            <newline/>
+                                <field name="origen_calculo" widget="radio" string="Origen Confg. del Calculo"/>
+                                <field name="modo_calculo" widget="selection_badge" attrs="{'invisible': [('origen_calculo', '!=','2')]}"/>
+                                <field name="monto_fijo" attrs="{'invisible': ['|',('modo_calculo', '!=','a'),('origen_calculo', '!=','2')]}"/>
+                                <field name="formula" attrs="{'invisible': ['|',('modo_calculo', '!=','b'),('origen_calculo', '!=','2')]}"/>
+                        </group>
+                    </group>
+
+				    
+				</sheet>
+
+			</form>
+		</field>
+		</record>
+
+    	<record id="view_hr_ad_personal_tree" model="ir.ui.view">
+        <field name="name">view.hr.ad.personal.tree</field>
+        <field name="model">hr.ad.personal</field>
+        <field name="arch" type="xml">
+            <tree string="Config. Reglas Ad Personal">
+                <field name="name" string="Descripción"/>
+                <field name="structur_id" string="Nómina"/>
+                <field name="rule_id" string="Conceptos"/>
+                <field name="employee_id" string="Empleado"/>
+                <field name="modo_aplicacion"/>
+                <field name="state"/>
+                <field name="company_id"/>
+            </tree>
+        </field>
+    	</record>
+
+    	<record id="act_hr_ad_personal" model="ir.actions.act_window">
+            <field name="name">Config. AD.Personal</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">hr.ad.personal</field>
+            <!--field name="view_type">form</field-->
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_hr_ad_personal_tree"></field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+
+              </p><p>
+
+              </p>
+            </field>
+    	</record>
+
+    	<menuitem
+        id="view_hr_ad_personal_menu"
+        parent="hr_payroll.menu_hr_salary_configuration"
+        name="Configuracion Reglas Ad personal"
+        sequence="32"
+        action="act_hr_ad_personal"/>
+    </data>
+</odoo>

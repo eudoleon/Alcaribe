@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="hr_leave_type2" model="ir.ui.view">
+            <field name="name">hr.leave.type2</field>
+            <field name="model">hr.leave.type</field>
+            <field name="inherit_id" ref="hr_holidays.edit_holiday_status_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='request_unit']" position="after">
+                         <field name="tipo_vacaciones" string="Ausencia por vacaciones?" required="1"/>
+                </xpath>
+
+            </field>
+
+        </record>
+
+    </data>
+</odoo>

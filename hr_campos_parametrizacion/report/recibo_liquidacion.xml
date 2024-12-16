@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <data> 
+  <record id="paperformat_recibo_liquidacion" model="report.paperformat">
+
+      <field name="default" eval="True"/>
+        <field name="name">Formato Recibo pago liquidacion</field>
+        <field name="default" eval="True"/>
+        <field name="format">custom</field>
+        <field name="page_height">279</field>
+        <field name="page_width">216</field>
+        <field name="orientation">Portrait</field>
+        <field name="margin_top">40</field>
+        <field name="margin_bottom">20</field>
+        <field name="margin_left">7</field>
+        <field name="margin_right">7</field>
+        <field name="header_line" eval="False"/>
+        <field name="header_spacing">35</field>
+        <field name="dpi">96</field>
+    </record>
+
+    <template id="report_recibo_liqui">
+            <t t-call="web.html_container">
+              <t t-foreach="docs" t-as="o">
+                <t t-call="web.basic_layout" >
+                  <div class="header">
+                    <table width="100%">
+                      <tr>
+                        <td align="left">
+                          <t t-if="o.company_id.logo">  
+                              <img t-attf-src="data:image/*;base64,{{o.company_id.logo}}" style="width:auto; height:80px;"/>
+                          </t>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td align="center">
+                          CALCULO DE PRESTACIONES SOCIALES
+                        </td>
+                      </tr>
+                    </table>
+                  </div>
+                  <div class="page">
+                    <table width="100%" class="table table-sm table-bordered">
+                      
+                      <tr>
+                        <td colspan="2">
+                          TRABAJADOR: <span t-field="o.employee_id.name"/>
+                        </td>
+                        <td align="center">C.I:<span t-field="o.employee_id.identification_id"/></td>
+                        <td colspan="2" align="left">CARGO: <span t-field="o.employee_id.job_id"/></td>
+                      </tr>
+                      <tr>
+                        <td align="left" colspan="2">
+                          FECHA INGRESO: <span t-field="o.contract_id.date_start"/>
+                        </td>
+                        
+                        <td align="left" colspan="">FECHA EGRESO: <span t-field="o.contract_id.date_end"/></td>
+                        
+                        <td align="right"> </td>
+                      </tr>
+                      <tr> 
+                        <td colspan="5" align="left">SUELDO MENSUAL: <span t-field="o.employee_id.contract_id.wage"/></td>
+                      </tr>
+                      <tr>
+                        <td colspan="5" align="left">
+                          <t t-set="dias" t-value="o.employee_id.tiempo_fraccion_dias-(o.employee_id.tiempo_fraccion_meses*30)"/>
+                          TIEMPO DE CALCULO:
+                          <t t-if="o.tiempo_antiguedad != 0">
+                            <t t-if="o.tiempo_antiguedad == 1">
+                              <span t-field="o.tiempo_antiguedad"/> Año, 
+                            </t>
+                            <t t-if="o.tiempo_antiguedad != 1">
+                              <span t-field="o.tiempo_antiguedad"/> Años, 
+                            </t>
+                          </t>
+                          <span t-field="o.employee_id.tiempo_fraccion_meses"/> Meses
+                          y <span t-esc="dias"/> días
+                        </td>
+                      </tr>
+                    </table>
+
+                    <table name="inf_concetos" width="100%" class="table table-bordered">
+                      <tbody>
+                        <tr align="center">
+                          <!--td>COD. </td-->
+                          <td>CONCEPTO</td>
+                          <td>ARTICULO</td>
+                          <td>ASIGNACIONES</td>
+                          <td>DEDUCCIONES</td>
+                          
+                        </tr>
+                        <t t-set="acum_asig" t-value="0"/>
+                        <t t-set="acum_dedu" t-value="0"/>
+
+                        <t t-foreach="o.line_ids.filtered(lambda line: line.appears_on_payslip)" t-as="line">
+                        <t t-if="line.category_id.code != 'GROSS'">
+                        <t t-if="line.category_id.code != 'NET'">
+                        <tr>
+                          <!--td><span t-field="line.code"/></td-->
+                          <td><span t-field="line.name"/></td>
+                          <td><span t-esc="line.salary_rule_id.desc_ley"/></td>
+                          <td align="right">
+                            <t t-if="line.category_id.code != 'DED'">
+                            <span t-esc="line.total"
+                                          t-options='{"widget": "monetary", "display_currency": o.company_id.currency_id}'/>
+                                <t t-set="acum_asig" t-value="acum_asig+line.total"/>
+                            </t>
+                          </td>
+                          <td align="right">
+                            <t t-if="line.category_id.code == 'DED'">
+                              <span t-esc="line.total"
+                                            t-options='{"widget": "monetary", "display_currency": o.company_id.currency_id}'/>
+                                  <t t-set="acum_dedu" t-value="acum_dedu+line.total"/>
+                            </t>
+                          </td>
+                          
+                        </tr>
+                        </t>
+                        </t>
+                        </t>
+                        <tr>
+                          <td colspan="2" align="right">
+                            TOTALES:
+                          </td>
+                          <td align="right"><t t-esc="acum_asig" t-options='{"widget": "monetary", "display_currency": o.company_id.currency_id}'/></td>
+                          <td align="right"><t t-esc="acum_dedu" t-options='{"widget": "monetary", "display_currency": o.company_id.currency_id}'/></td>
+                        </tr>
+                      </tbody>
+                      
+                      </table>
+
+                      <table width="100%">
+                        <tr><td colspan="4">
+                          Con la firma del presente documento, doy conformidad de que la empresa nada me adeuda por concepto de Prestacions Sociales, Utilidades y Vacaciones por el tiempo trabajado.
+                          <br/>
+                        </td></tr>
+
+                        <tr><td colspan="4"> .</td></tr>
+
+                        <tr>
+                        <td colspan="2" align="left">
+                          RECIBO CONFIRME
+                        </td>
+                        <td colspan="2">
+                          
+                        </td>
+                      </tr>
+                      <tr>
+                        <td colspan="2" align="left">
+                          
+                        </td>
+                        <t t-set="neto" t-value="acum_asig-acum_dedu"/>
+                        <td colspan="2" align="right">
+                          NETO A PAGAR:  <t t-esc="neto" t-options='{"widget": "monetary", "display_currency": o.company_id.currency_id}'/> 
+                        </td>
+                      </tr>
+                      <tr>
+                        <td colspan="4">
+                          __________________________________________
+                        </td>
+                      </tr>
+                      <tr>
+                        <td colspan="4">
+                          <span t-field="o.employee_id.name"/>
+                        </td>
+                      </tr>
+                    </table>
+                  </div>
+                </t> 
+              </t>
+            </t>
+    </template>
+
+    <!--t t-set="lang" t-value="o.invoice_user_id.sudo().lang if o.type in ('in_invoice', 'in_refund') else o.partner_id.lang"/>
+                    <t t-call="account.report_invoice_document_with_payments" t-lang="lang"/-->
+
+    <report
+            id="payslip_recibo_liq"
+            model="hr.payslip"
+            string="Recibo de Pago de Liquidacion"
+            report_type="qweb-pdf"
+            name="hr_campos_parametrizacion.report_recibo_liqui"
+            file="hr_campos_parametrizacion.report_recibo_liqui"
+            paperformat="paperformat_recibo_liquidacion"
+        /> <!-- paperformat="paperformat_recibo_nomina" -->
+
+        <!--
+          attachment="(object.state == 'posted') and ((object.name or 'INV').replace('/','_')+'.pdf')"
+            print_report_name="(object._get_report_base_filename())"
+            groups="account.group_account_invoice"
+          -->
+  
+  </data>
+</odoo>

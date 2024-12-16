@@ -1,0 +1,341 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+
+    <t t-name="account.BankReconKanbanController" t-inherit="web.KanbanView" t-inherit-mode="primary" owl="1">
+        <xpath expr="//Layout" position="attributes">
+            <attribute name="className">records.length ? 'o_bank_rec_main_div' : ''</attribute>
+        </xpath>
+        <xpath expr="//t[@t-component='props.Renderer']" position="after">
+            <div class="o_bank_rec_right_div">
+                <View t-if="state.selectedStLineId" t-props="this.prepareFormProps()" t-key="state.selectedStLineId"/>
+            </div>
+        </xpath>
+    </t>
+
+    <t t-name="account.BankRecKanbanRecord" t-inherit="web.KanbanRecord" t-inherit-mode="primary" owl="1">
+        <xpath expr="//div[@role='article']" position="attributes">
+            <attribute name="t-att-tabindex"/>
+        </xpath>
+        <xpath expr="//div[@t-ref='root']" position="inside">
+            <span class="position-absolute top-0 end-0 p-2" t-if="stLineState.isLoading">
+                <i class="fa fa-circle-o-notch fa-spin"/>
+            </span>
+        </xpath>
+    </t>
+
+    <t t-name="account.BankRecKanbanRenderer" t-inherit="web.KanbanRenderer" t-inherit-mode="primary" owl="1">
+        <xpath expr="//div[@t-ref='root']" position="attributes">
+            <attribute name="class" add="o_bank_rec_kanban_div" separator=" "/>
+        </xpath>
+        <t t-call="web.ActionHelper" position="replace">
+            <BankRecActionHelper t-if="props.noContentHelp" noContentHelp="props.noContentHelp"/>
+        </t>
+    </t>
+
+    <t t-name="account.BankRecKanbanRenderer.Buttons" t-inherit="web.KanbanView.Buttons" t-inherit-mode="primary" owl="1">
+        <xpath expr="//div" position="inside">
+            <t t-if="state.currentJournalId">
+                <BankRecWidgetGlobalInfo t-key="state.currentJournalId"/>
+            </t>
+        </xpath>
+    </t>
+
+    <t t-name="account_accountant.BankRecActionHelper" owl="1">
+        <div class="o_view_nocontent">
+            <div class="o_nocontent_help">
+                <RainbowMan t-if="showRainbow" t-props="rainbowProps"/>
+                <t t-else="">
+                    <t t-out="props.noContentHelp"/>
+                    <BankRecFinishButtons/>
+                </t>
+            </div>
+        </div>
+    </t>
+
+    <t t-name="account_accountant.bankRecFinishButtons" owl="1">
+        <p t-if="otherFiltersActive" class="btn btn-primary" t-on-click="clearFilters">All Transactions</p>
+        <p>
+            <t t-set="linkName" t-value="breadcrumbs.length > 1 ? breadcrumbs.slice(-2)[0].name : 'Dashboard'"/>
+            <a href="#" t-on-click.stop.prevent="breadcrumbBackOrDashboard">Back to <t t-out="linkName"/></a>
+        </p>
+    </t>
+
+    <t t-name="account_accountant.rainbowMessage" owl="1">
+        <t t-set="summary" t-value="counterSummary"/>
+        <h2>Congrats, you're all done!</h2>
+        <p>You reconciled <strong t-out="summary.reconciledCount"/><t t-if="summary.reconciledCount gt 1"> transactions in </t><t t-else=""> transaction in </t><strong t-out="summary.humanDuration"/>.
+            <t t-if="summary.reconciledCount gt 1">
+                <br/>That's on average <b t-out="summary.secondsPerTransaction"/> seconds per transaction.
+            </t>
+        </p>
+        <BankRecFinishButtons/>
+    </t>
+
+    <t t-name="account_accountant.BankRecWidgetGlobalInfo" owl="1">
+        <div t-if="state.data.balance_amount" class="text-nowrap d-flex ms-2">
+            <span class="text-900"
+                  style="font-size: 18px;">Balance: </span>
+            <span class="btn btn-secondary p-0"
+                  style="font-size: 18px;"
+                  t-on-click.stop="openReport"
+                  t-esc="state.data.balance_amount"/>
+        </div>
+    </t>
+
+    <t t-name="account_accountant.bank_rec_widget_form_reco_models_widget" owl="1">
+        <t t-set="data" t-value="getRenderValues()"/>
+        <t t-set="nb_rendered_buttons" t-value="0"/>
+        <div class="o_bank_rec_reco_models_widget_div">
+            <t t-if="data.display_widget"
+               t-foreach="data.available_reconcile_model_ids"
+               t-as="reco_model"
+               t-key="reco_model.id">
+                <t t-set="is_selected" t-value="reco_model.id === data.selected_reconcile_model_id"/>
+                <t t-if="reco_model_index &lt; 5 or is_selected">
+                    <button
+                        t-on-click="() => this.selectRecoModel(reco_model.id, is_selected)"
+                        class="btn recon_model_button"
+                        t-att-class="{'btn-secondary': !is_selected, 'bg-odoo text-uppercase text-white': is_selected}"
+                        t-out="reco_model.display_name"/>
+                    <t t-set="nb_rendered_buttons" t-value="nb_rendered_buttons + 1"/>
+                </t>
+            </t>
+            <Dropdown t-if="data.display_widget and data.available_reconcile_model_ids.length &gt; nb_rendered_buttons"
+                      togglerClass="'btn btn-light'"
+                      class="'bank_rec_reco_model_dropdown'"
+            >
+                <t t-set-slot="toggler">
+                    More
+                </t>
+                <t t-foreach="data.available_reconcile_model_ids" t-as="reco_model" t-key="reco_model.id">
+                    <t t-set="is_selected" t-value="reco_model.id === data.selected_reconcile_model_id"/>
+                    <DropdownItem t-if="reco_model_index &gt;= 5 and !is_selected"
+                                  onSelected="() => this.selectRecoModel(reco_model.id, is_selected)"
+                                  class="{'btn-secondary': !is_selected, 'bg-odoo text-uppercase text-white': is_selected}">
+                        <t t-out="reco_model.display_name"/>
+                    </DropdownItem>
+                </t>
+            </Dropdown>
+        </div>
+
+        <Dropdown class="'bank_rec_reco_model_dropdown'"
+                  togglerClass="'btn btn-light'"
+                  position="'bottom-end'">
+            <t t-set-slot="toggler">
+                <i class="fa fa-cog"/>
+            </t>
+            <DropdownItem onSelected.bind="_onClickCreateReconciliationModel">
+                Create model
+            </DropdownItem>
+            <DropdownItem onSelected="() => this.actionService.doAction('account.action_account_reconcile_model')">
+                View models
+            </DropdownItem>
+        </Dropdown>
+    </t>
+
+    <t t-name="account_accountant.bank_rec_widget_form_lines_widget" owl="1">
+        <t t-set="data" t-value="getRenderValues()"/>
+        <div class="o_list_renderer table-responsive">
+                <table class="o_list_table table table-sm position-relative mb-0 o_list_table_ungrouped table-striped o_bank_rec_lines_widget_table"
+                       style="table-layout: fixed">
+                    <thead>
+                        <t t-foreach="data.columns" t-as="column" t-key="column[0]">
+                            <t t-if="['amount_currency', 'debit', 'credit'].includes(column[0])">
+                                <th class="o_list_number_th text-end" t-esc="column[1]"/>
+                            </t>
+                            <t t-elif="column[0] === '__trash'">
+                                <th class="o_list_actions_header"/>
+                            </t>
+                            <t t-else="">
+                                <th t-esc="column[1]"/>
+                            </t>
+                        </t>
+                    </thead>
+                    <tbody>
+                        <t t-foreach="data.lines" t-as="line" t-key="line_index">
+
+                            <tr class="o_data_row o_list_no_open o_bank_rec_expanded_line"
+                                t-att-class="{
+                                    'o_bank_rec_liquidity_line': line.flag.value == 'liquidity',
+                                    'o_bank_rec_auto_balance_line': line.flag.value == 'auto_balance',
+                                    'o_bank_rec_selected_line': line.index.value == data.form_index,
+                                }"
+                                t-on-click="(ev) => this.mountLine(ev, line.index.value)">
+
+                                <t t-foreach="data.columns" t-as="column" t-key="column[0]">
+                                    <t t-if="column[0] === 'account'">
+                                        <td class="o_data_cell o_field_cell o_list_many2one"
+                                            field="account_id"
+                                            t-att-title="line.account_id.display"
+                                            t-esc="line.account_id.display"/>
+                                    </t>
+                                    <t t-if="column[0] === 'partner'">
+                                        <t t-if="line.flag.value == 'liquidity' &amp;&amp; !line.partner_id.id">
+                                            <td class="o_data_cell o_field_cell o_list_many2one text-muted"
+                                                field="partner_id"
+                                                t-att-title="data.partner_name or ''"
+                                                t-esc="data.partner_name or ''"/>
+                                        </t>
+                                        <t t-else="">
+                                            <td class="o_data_cell o_field_cell o_list_many2one"
+                                                field="partner_id"
+                                                t-att-title="line.partner_id.display"
+                                                t-esc="line.partner_id.display"/>
+                                        </t>
+                                    </t>
+                                    <t t-if="column[0] === 'date'">
+                                        <t t-if="['manual', 'early_payment', 'auto_balance', 'tax_line'].includes(line.flag.value)">
+                                            <td class="o_data_cell o_field_cell" field="date">
+                                                <span field="date" class="badge text-bg-secondary">New</span>
+                                            </td>
+                                        </t>
+                                        <t t-else="">
+                                            <td class="o_data_cell o_field_cell"
+                                                field="date"
+                                                t-esc="line.date.display"/>
+                                        </t>
+                                    </t>
+                                    <t t-if="column[0] === 'analytic_distribution'">
+                                        <td class="o_data_cell o_field_cell o_field_widget o_field_many2many_tags" field="analytic_distribution">
+                                            <t t-if="line.analytic_distribution.value">
+                                                <div class="o_field_tags d-inline-flex flex-wrap mw-100">
+                                                    <TagsList tags="line.analytic_distribution.display"/>
+                                                </div>
+                                            </t>
+                                        </td>
+                                    </t>
+                                    <t t-if="column[0] === 'taxes'">
+                                        <td class="o_data_cell o_field_cell o_field_widget o_field_many2many_tags"
+                                            field="tax_ids">
+                                            <div class="o_field_tags d-inline-flex flex-wrap mw-100">
+                                                <TagsList tags="line.tax_ids.display.map((tax)=>({text:tax,id:tax}))"/>
+                                            </div>
+                                        </td>
+                                    </t>
+                                    <t t-if="column[0] === 'amount_currency'">
+                                        <t t-if="line.flag.value == 'exchange_diff'">
+                                            <td/>
+                                        </t>
+                                        <t t-else="">
+                                            <td class="o_data_cell o_field_cell o_list_number"
+                                                field="amount_currency"
+                                                style="justify-content: right;"
+                                                t-esc="line.amount_currency.is_zero ? '' : line.amount_currency.display"/>
+                                        </t>
+                                    </t>
+                                    <t t-if="column[0] === 'currency'">
+                                        <t t-if="line.flag.value == 'exchange_diff'">
+                                            <td/>
+                                        </t>
+                                        <t t-else="">
+                                            <td class="o_data_cell o_field_cell o_list_many2one"
+                                                field="currency_id"
+                                                t-att-title="line.currency_id.display"
+                                                t-esc="line.currency_id.display"/>
+                                        </t>
+                                    </t>
+                                    <t t-if="column[0] === 'debit'">
+                                        <td class="o_data_cell o_field_cell o_list_number"
+                                            field="debit"
+                                            t-out="line.debit.is_zero ? '' : line.debit.display"/>
+                                    </t>
+                                    <t t-if="column[0] === 'credit'">
+                                        <td class="o_data_cell o_field_cell o_list_number"
+                                            field="credit"
+                                            t-out="line.credit.is_zero ? '' : line.credit.display"/>
+                                    </t>
+                                    <t t-if="column[0] === '__trash'">
+                                        <td class="o_list_record_remove">
+                                            <button t-if="['valid', 'invalid'].includes(data.state) and !['liquidity', 'auto_balance', 'tax_line'].includes(line.flag.value)"
+                                                    t-on-click.prevent.stop="(ev) => this.removeLine(line.index.value)"
+                                                    class="btn fa fa-trash-o"/>
+                                        </td>
+                                    </t>
+                                </t>
+                            </tr>
+                            <!-- Ensure the same color band will be applied -->
+                            <tr/>
+                            <tr class="o_data_row o_list_no_open o_bank_rec_second_line"
+                                t-att-class="{
+                                    'o_bank_rec_liquidity_line': line.flag.value == 'liquidity',
+                                    'o_bank_rec_auto_balance_line': line.flag.value == 'auto_balance',
+                                    'o_bank_rec_selected_line': line.index.value == data.form_index,
+                                }"
+                                t-on-click="(ev) => this.mountLine(ev, line.index.value)">
+                                <td t-att-colspan="data.columns.length - (data.display_multi_currency_column ? 5 : 3)"
+                                    class="o_data_cell o_field_cell o_list_char text-wrap fw-normal"
+                                    field="name">
+                                    <t t-if="line.source_aml_move_id.id and (['new_aml', 'aml'].includes(line.flag.value) or (line.flag.value == 'liquidity' and data.state == 'reconciled'))">
+                                        <span class="o_form_uri fst-italic"
+                                              t-out="line.source_aml_move_name.value"
+                                              t-on-click="() => this.showMove(line.source_aml_move_id.id)"/>
+                                        <span class="me-1 fst-italic" t-if="line.name.value">:</t>
+                                    </t>
+                                    <t t-if="line.flag.value == 'liquidity' and data.extra_notes">
+                                        <span class="text-muted fst-italic"
+                                              t-out="data.extra_notes"/>
+                                        <span class="text-muted mx-1">-</span>
+                                    </t>
+                                    <span class="text-muted fst-italic"
+                                          t-out="line.name.value"/>
+                                </td>
+                                <td t-if="data.display_multi_currency_column"
+                                    class="o_data_cell o_field_cell o_list_number"
+                                    field="amount_currency">
+                                    <span t-if="has_stroked_multi_currency"
+                                          class="text-muted text-decoration-line-through"
+                                          field="amount_currency"
+                                          t-out="line.source_amount_currency.display"/>
+                                </td>
+                                <td t-if="data.display_multi_currency_column" field="currency_id"/>
+                                <td class="o_data_cell o_field_cell o_list_number text-end"
+                                    field="debit">
+                                    <span t-if="line.display_stroked_balance.value and !line.debit.is_zero"
+                                          class="text-muted text-decoration-line-through"
+                                          field="debit"
+                                          t-out="line.source_debit.display"/>
+                                </td>
+                                <td class="o_data_cell o_field_cell o_list_number text-end"
+                                    field="credit">
+                                    <span t-if="line.display_stroked_balance.value and !line.credit.is_zero"
+                                          class="text-muted text-decoration-line-through"
+                                          field="credit"
+                                          t-out="line.source_credit.display"/>
+                                </td>
+                                <td class="empty_trash_cell"/>
+                            </tr>
+                        </t>
+
+                        <t t-set="nb_extra_lines" t-value="5 - data.lines.length"/>
+                        <tr t-foreach="range(nb_extra_lines)" t-as="i" t-key="i">
+                            <td t-att-colspan="data.columns.length">&#8205;</td>
+                        </tr>
+
+                    </tbody>
+                </table>
+        </div>
+    </t>
+
+    <t t-name="account_accountant.FormChatterContainer" owl="1">
+        <ChatterContainer
+            threadModel="this.props.record.fields[this.props.m2oField].relation"
+            threadId="this.props.record.data[this.props.m2oField][0]"/>
+    </t>
+
+    <t t-name="account_accountant.FormEmbeddedListView" owl="1">
+        <t t-if="props.record.id">
+            <View t-props="bankRecListViewProps"/>
+        </t>
+    </t>
+
+    <t t-name="account_accountant.BankRecWidgetHTML" owl="1">
+        <div t-on-click="handleButtonsClicks">
+            <t t-out="props.value"/>
+        </div>
+    </t>
+
+    <t t-name="account_accountant.BankRecWidgetViewSwitcher" owl="1">
+        <button class="btn btn-sm btn-secondary" t-on-click.stop="() => this.switchView()"><t t-out="buttonLabel"/></button>
+    </t>
+
+</templates>

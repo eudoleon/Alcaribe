@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="reporte_z_popup" xml:space="preserve">
+    <t t-name="ReporteZPopUp" owl="1">
+        <div class="popup popup-med">
+                <p class="title">
+                    Imprimiendo reporte Z
+                </p>
+                <p class="body">
+                    Por favor espere...
+                </p>
+                <div class="footer">
+
+                </div>
+        </div>
+    </t>
+</templates>

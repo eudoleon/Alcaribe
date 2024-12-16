@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="hr_payroll_structure_form_inherit" model="ir.ui.view">
+            <field name="name">hr_payroll_structure</field>
+            <field name="model">hr.payroll.structure</field>
+            <field name="inherit_id" ref="hr_payroll.view_hr_employee_grade_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='country_id']" position="after">
+                    <field name="activo_prestaciones" string="Ejecutar rutina de prestaciones sociales en esta nomina?"/>
+                </xpath>
+
+                <xpath expr="//field[@name='schedule_pay']" position="before">
+                    <field name="tipo_struct" string="Modo de Pago" required="1"/><!-- nuevo2 -->
+                </xpath>
+
+                <xpath expr="//field[@name='schedule_pay']" position="after">
+                    <field name="shedule_pay_value" string="Cada cuanto dias se paga"/>
+                    <field name="company_id" string="Compañia" invisible="1"/>
+                </xpath>
+
+                <xpath expr="//page[@name='salary_rules']" position="after">
+                    <page string="Empleados" name="studio_page_ssIP2">
+                      <group name="studio_group_ssIP2">
+                        <field name="employee_ids" nolabel="1" readonly="False" colspan="2">
+                            <tree string="Empleados" editable="buttom">
+                            <field name="empleado_id" string="Empleado" domain="[('active','=',True),('contract_id.state','=','open')]"/>
+                            <field name="company_id" string="Compañia"/>
+                        </tree>
+                        </field>
+                      </group>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="hr_payroll_structure_list_inherit" model="ir.ui.view">
+            <field name="name">hr_payroll_structure_list</field>
+            <field name="model">hr.payroll.structure</field>
+            <field name="inherit_id" ref="hr_payroll.view_hr_payroll_structure_list_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='country_id']" position="after">
+                    <field name="company_id" string="Compañia"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <data> 
+  <record id="paperformat_recibo_guerra" model="report.paperformat">
+
+      <field name="default" eval="True"/>
+        <field name="name">Formato Recibo Nomina</field>
+        <field name="default" eval="True"/>
+        <field name="format">custom</field>
+        <field name="page_height">130</field>
+        <field name="page_width">216</field>
+        <field name="orientation">Portrait</field>
+        <field name="margin_top">26</field>
+        <field name="margin_bottom">20</field>
+        <field name="margin_left">7</field>
+        <field name="margin_right">7</field>
+        <field name="header_line" eval="False"/>
+        <field name="header_spacing">20</field>
+        <field name="dpi">96</field>
+    </record>
+
+    <template id="report_recibo_pago_bono_guerra">
+            <t t-call="web.html_container">
+              <t t-foreach="docs" t-as="o">
+                <t t-call="web.basic_layout" >
+                  <div class="header">
+                    <table width="100%">
+                      <tr>
+                        <td>
+                          <t t-if="o.company_id.logo">  
+                              <img t-attf-src="data:image/*;base64,{{o.company_id.logo}}" style="width:auto; height:70px;"/>
+                          </t>
+                        </td>
+                        <td align="right"><span t-field="o.fecha_hoy"/></td>
+                      </tr>
+                      <tr>
+                        <td colspan="2" align="center"><h2>RECIBO DE PAGO</h2></td>
+                      </tr>
+                    </table>
+                  </div>
+                   <t t-set="monto" t-value="0"/>
+                  <t t-foreach="o.line_ids" t-as="line">
+                     <t t-set="monto" t-value="line.total_uds"/>
+                  </t>
+                  <div class="page">
+                    <table width="100%" border="1">
+                        <tr>
+                          <td width="20%" style="font-size:20px;"><br/>Nombre y Apellido </td>
+                          <td colspan="4"><br/>&amp;nbsp;&amp;nbsp;<span style="font-size:20px; text-decoration: underline;font-weight: bolder" t-field="o.employee_id.name"/>__________________________________________________________</td>
+                        </tr>
+                        <tr>
+                          <td style="font-size:20px;"><br/>Recibi de: </td>
+                          <td width="47%"><br/><span style="font-size:20px; text-decoration: underline;font-weight: bolder"><t t-esc="o.company_id.name" />_______________________</span></td>
+                          <td width="7%"></td>
+                          <td width="10%" style="font-size:20px;"><br/>Importe</td>
+                          <td width="16%"><br/><span style="font-size:20px; text-decoration: underline;font-weight: bolder">$ <t t-esc="o.float_format(monto)" /></span>____________</td>
+                        </tr>
+                        <tr>
+                          <td style="font-size:20px;"><br/>Monto:</td>
+                          <td colspan="4"><br/><span style="font-size:20px; text-decoration: underline;font-weight: bolder"><t t-esc="o.get_literal_amount(monto)" /></span>___________________________________________________________________</td>
+                        </tr>
+                        <tr>
+                          <td style="font-size:20px;"><br/>Concepto</td>
+                          <td colspan="4"><br/><span style="font-size:20px; text-decoration: underline;font-weight: bolder">Bono de Guerra Económica</span>______________________________________________________</td>
+                        </tr>
+                        <tr>
+                          <td style="font-size:20px;"><br/>Recibido por: </td>
+                          <td colspan="4"><br/>______________________________________________________________________________________________</td>
+                        </tr>
+                        <tr>
+                          <td></td>
+                          <td colspan="4" style="font-size:20px;"><br/><div align="right">Form de pago: [x] Efectivo </div></td>
+                        </tr>
+                    </table>
+                  </div>
+                </t> 
+              </t>
+            </t>
+    </template>
+
+    <!--t t-set="lang" t-value="o.invoice_user_id.sudo().lang if o.type in ('in_invoice', 'in_refund') else o.partner_id.lang"/>
+                    <t t-call="account.report_invoice_document_with_payments" t-lang="lang"/-->
+
+    <report
+            id="payslip_recibo_bono_guerra"
+            model="hr.payslip"
+            string="Recibo de Pago Bóno de Guerra Económica"
+            report_type="qweb-pdf"
+            name="hr_recibo_bono_guerra.report_recibo_pago_bono_guerra"
+            file="hr_recibo_bono_guerra.report_recibo_pago_bono_guerra"
+            paperformat="paperformat_recibo_guerra"
+        /> <!-- paperformat="paperformat_recibo_nomina" -->
+
+        <!--
+          attachment="(object.state == 'posted') and ((object.name or 'INV').replace('/','_')+'.pdf')"
+            print_report_name="(object._get_report_base_filename())"
+            groups="account.group_account_invoice"
+          -->
+  
+  </data>
+</odoo>

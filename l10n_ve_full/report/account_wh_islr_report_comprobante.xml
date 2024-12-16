@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <template id="template_wh_islr">
+    <t t-call="web.html_container">
+             <div class="article">
+                 <t t-foreach="data" t-as="d">
+                    <table style="width:100%;">
+                        <tr>
+                            <td style="width:10%;">
+                                     <img t-att-src="image_data_uri(d.company_id.logo)"  style="width:200px; height:100px; margin-top:28px; margin-bottom:0px;"/>
+                            </td>
+                            <td style="width:10%;text-align:center;">
+                                <p style="font-size:18px;color:red; text-align:left;">
+                                    Comprobante de Retención de ISLR
+                                </p>
+                            </td>
+                        </tr>
+                    </table>
+                    <br/>
+                        <table style="width:100%; font-size:14px;">
+                            <tr>
+                                <td style="width:40%;text-align:left;border-left:1px solid;border-top:1px solid;padding-top:10px;padding-left:10px">Nombre o Razón Social del Agente de Retención:
+                                </td>
+                                <td style="width:40%;text-align:left;border-left:1px solid;border-top:1px solid;padding-top:10px;padding-left:10px">Registro de Infomación Fiscal del Agente de Retención:
+                                </td>
+                                <td style="width:20%;text-align:left;border-left:1px solid;border-top:1px solid;border-right:1px solid;padding-top:10px;padding-left:10px">Período Fiscal:
+                                </td>
+                            </tr>
+                            <tr >
+                                <td style="width:40%;text-align:left;border-left:1px solid;border-bottom:1px solid;padding-top:10px;padding-left:10px;font-weight: bold;">
+                                    <span t-esc="d.company_id.partner_id.name"/>
+                                </td>
+                                <td style="width:40%;text-align:left;border-left:1px solid;border-bottom:1px solid;padding-top:10px;padding-left:10px;font-weight: bold;">
+                                    <span t-esc="d.company_id.partner_id.rif"/>
+                                </td>
+                                <td style="width:20%;text-align:left;border-left:1px solid;border-bottom:1px solid;border-right:1px solid;padding-top:10px;padding-left:10px;font-weight: bold;">
+                                    <span t-esc="period"/>
+                                </td>
+                            </tr>
+                            <tr >
+                                <td colspan="3" style="text-align:left;border-left:1px solid;border-right:1px solid;padding-top:10px;padding-left:10px">Dirección Fiscal del Agente de Retención:
+                                </td>
+                            </tr>
+                            <tr >
+                                <td colspan="3" style="text-align:left;border-left:1px solid;border-bottom:1px solid;border-right:1px solid;padding-top:10px;padding-left:10px;font-weight: bold;">
+                                    <span t-esc="model.get_direction(d.company_id.partner_id)"/>
+                                </td>
+                            </tr>
+                            <tr >
+                                <td style="width:40%;text-align:left;border-left:1px solid;padding-top:10px;padding-left:10px">Nombre o Razón Social del Agente de Retenido:
+                                </td>
+                                <td style="width:40%;text-align:left;border-left:1px solid;padding-top:10px;padding-left:10px">Registro de Infomación Fiscal del Agente de Retenido:
+                                </td>
+                                <td style="width:20%;text-align:left;border-left:1px solid;border-right:1px solid;padding-top:10px;padding-left:10px">Fecha:
+                                </td>
+                            </tr>
+                            <tr >
+                                <td style="width:40%;text-align:left;border-left:1px solid;border-bottom:1px solid;padding-top:10px;padding-left:10px;font-weight: bold;">
+                                    <span t-esc="d.partner_id.name"/>
+                                </td>
+                                <td style="width:40%;text-align:left;border-left:1px solid;border-bottom:1px solid;padding-top:10px;padding-left:10px;font-weight: bold;">
+<!--                                    <span t-esc="(d.partner_id.vat[2:] if 'VE' in d.partner_id.vat else d.partner_id.vat) if d.partner_id.vat else ''"/>-->
+                                        <span t-esc="d.partner_id.rif"/>
+                                </td>
+                                <td style="width:20%;text-align:left;border-left:1px solid;border-bottom:1px solid;border-right:1px solid;padding-top:10px;padding-left:10px;font-weight: bold;">
+                                   <span t-esc="date_ret"/>
+<!--                                    <span t-field="d.date_ret" t-options='{"format": "dd/MM/yyyy"}'/>-->
+                                </td>
+                            </tr>
+                            <tr >
+                                <td style="width:40%;text-align:left;border-left:1px solid;padding-top:10px;padding-left:10px">Dirección Fiscal del Agente Retenido:
+                                </td>
+                                <td colspan="2" style="width:40%;text-align:left;border-left:1px solid;border-right:1px solid;padding-top:10px;padding-left:10px">Teléfono del Agente Retenido:
+                                </td>
+                                <!--td style="width:20%;text-align:left;border-left:1px solid;border-right:1px solid;padding-top:10px;padding-left:10px">Fax del Agente Retenido:
+                                </td-->
+                            </tr>
+                            <tr >
+                                <td style="width:40%;text-align:left;border-left:1px solid;border-bottom:1px solid;padding-top:10px;padding-left:10px;font-weight: bold;">
+                                    <span t-esc="d.partner_id.street"/>
+                                    <span t-esc="d.partner_id.street2"/>
+                                </td>
+                                <td colspan="2" style="width:40%;text-align:left;border-left:1px solid;border-bottom:1px solid;border-right:1px solid;padding-top:10px;padding-left:10px;font-weight: bold;">
+                                    <span t-esc="d.partner_id.phone"/>
+                                </td>
+                                <!--td style="width:20%;text-align:left;border-left:1px solid;border-bottom:1px solid;border-right:1px solid;padding-top:10px;padding-left:10px">
+                                    <span t-esc="d.partner_id.fax"/>
+                               </td-->
+                            </tr>
+                        </table>
+                            <br/>
+                            <table style="font-size:14px;" width="100%; margin-top:30px;">
+                                <tr style="font-weight: bold;">
+                                    <th style="width:10%;text-align:center;background-color:#A9F5F2;border:1px solid #000;padding-top:10px;padding-right:10px;padding-bottom:3px;padding-left:10px">
+                                        Fecha Factura
+                                    </th>
+                                    <th style="width:9%;text-align:center;background-color:#A9F5F2;border:1px solid #000;padding-top:10px;padding-right:10px;padding-bottom:3px;padding-left:10px">
+                                        N° de Factura
+                                    </th>
+                                    <th style="width:9%;text-align:center;background-color:#A9F5F2;border:1px solid #000;padding-top:10px;padding-right:10px;padding-bottom:3px;padding-left:10px">
+                                        N° Control
+                                    </th>
+                                    <th style="width:32%;text-align:center;background-color:#A9F5F2;border:1px solid #000;padding-top:10px;padding-right:10px;padding-bottom:3px;padding-left:10px">
+                                        Concepto de Retención
+                                    </th>
+                                    <th style="width:8%;text-align:center;background-color:#A9F5F2;border:1px solid #000;padding-top:10px;padding-right:10px;padding-bottom:3px;padding-left:10px">
+                                        % de Retención
+                                    </th>
+                                    <th style="width:8%;text-align:center;background-color:#A9F5F2;border:1px solid #000;padding-top:10px;padding-right:10px;padding-bottom:3px;padding-left:10px">
+                                        Monto Total del Documento
+                                    </th>
+                                    <th style="width:8%;text-align:center;background-color:#A9F5F2;border:1px solid #000;padding-top:10px;padding-right:10px;padding-bottom:3px;padding-left:10px">
+                                        Base
+                                    </th>
+                                    <th style="width:8%;text-align:center;background-color:#A9F5F2;border:1px solid #000;padding-top:10px;padding-right:10px;padding-bottom:3px;padding-left:10px">
+                                        Sustraendo
+                                    </th>
+
+                                    <th style="width:8%;text-align:center;background-color:#A9F5F2;border:1px solid #000;padding-top:10px;padding-right:10px;padding-bottom:3px;padding-left:10px">
+                                        ISLR Monto Retenido
+                                    </th>
+                                </tr>
+                                <tr t-foreach="d.concept_ids" t-as="inv">
+                                    <td style="text-align:center;border:1px solid #000;">
+                                        <!--span t-esc="model._get_date_invoice(inv)"/-->
+                                        <span t-field="inv.invoice_id.invoice_date" t-options='{"format": "dd/MM/yyyy"}'/>
+                                    </td>
+                                    <td style="text-align:center;border:1px solid #000;">
+                                        <span t-esc="model._get_supplier_invoice_number(inv)"/>
+                                    </td>
+                                    <td style="text-align:center;border:1px solid #000;">
+                                        <span t-esc="model._get_nro_ctrl(inv)"/>
+                                    </td>
+                                    <td style="text-align:center;border:1px solid #000;">
+                                        <span t-esc="model._get_islr_wh_concept(inv)"/>
+                                    </td>
+                                    <td style="text-align:center;border:1px solid #000;">
+                                        <span t-esc="'{:,.2f}'.format(model._get_islr_wh_retencion_islr(inv)).replace(',', '@').replace('.', ',').replace('@', '.')"/>
+                                    </td>
+                                    <td style="font-size:13px;width:9%;text-align:center;border:1px solid #000;">
+                                        <span t-esc="'{:,.2f}'.format(total_doc).replace(',', '@').replace('.', ',').replace('@', '.')"/>
+                                    </td>
+                                    <td style="text-align:center;border:1px solid #000;">
+                                        <span t-esc="'{:,.2f}'.format(model._get_islr_wh_doc_invoices_base(inv)).replace(',', '@').replace('.', ',').replace('@', '.')"/>
+                                    </td>
+                                    <td style="text-align:center;border:1px solid #000;">
+                                        <span t-esc="'{:,.2f}'.format(model._get_islr_wh_doc_invoice_subtract(inv)).replace(',', '@').replace('.', ',').replace('@', '.')"/>
+                                    </td>
+                                    <td style="text-align:center;border:1px solid #000;">
+                                        <span t-esc="'{:,.2f}'.format(model._get_islr_invoice_amount_ret(inv)).replace(',', '@').replace('.', ',').replace('@', '.')"/>
+                                    </td>
+
+                                </tr>
+
+                            </table>
+                            <br/>
+                            <table width="100%;margin-top:30px;" style="text-align:right;">
+                                <tr>
+                                    <td class="text-right" style="width:80%">
+                                        <b>Total Impuesto Retenido: </b>
+                                    </td>
+                                    <td class="text-right" style="width:20%">
+                                        <b><span t-esc="'{:,.2f}'.format(d.amount_total_ret).replace(',', '@').replace('.', ',').replace('@', '.')"/></b>
+                                    </td>
+                                </tr>
+                            </table>
+
+                            <style>
+                                hr {
+                                    border-color: #000;
+                                    width: 60%;
+                                    margin-left: auto;
+                                    margin-right: auto;
+                                    margin-top: 0px;
+                                    margin-bottom: 0px;
+                                }
+                            </style>
+                         <br/>
+                         <div class="page" t-if="d.type">
+                                <t t-if="d.type == 'in_invoice'">
+                            <table border="1" style="width:100%;margin-top:10px;">
+                                <tr>
+                                    <td style="width:50%;text-align:center;padding:0px;margin:0px;">
+<!--                                        <img class="img Firma_fc" src="/l10n_ve_full/static/src/img/Firma_fc.png" style="width:180px; height:90px; margin-top:0px; margin-bottom:5px;"/>-->
+                                        <img t-attf-src="data:image/*;base64,{{d.company_id.firma_representante}}" style="border :0px;width:180px; height:90px;" width="180px" height="90px" />
+                                        <hr/>
+                                        <b><span t-if="d.company_id.representante_legal" t-esc="d.company_id.representante_legal"/></b>
+                                        <br/>
+                                        <b>Firma Sello</b>
+                                    </td>
+                                    <td style="width:50%;text-align:center;padding:0px;margin:0px;">
+<!--                                        <img class="img Firma_falta" src="/l10n_ve_full/static/src/img/Firma_falta.png" style="width:180px; height:90px; margin-top:0px; margin-bottom:5px;"/>-->
+                                        <br/>
+                                        <br/>
+                                        <br/>
+                                        <hr/>
+                                        <b><span t-esc="d.partner_id.name"/></b>
+
+                                        <br/>
+                                        <b>Firma Sello</b>
+                                    </td>
+                                </tr>
+                            </table>
+                                </t>
+                         </div>
+                        <div class="page" t-if="d.type">
+                                <t t-if="d.type == 'out_invoice'">
+                            <table border="1" style="width:100%;margin-top:80px;">
+                                <tr>
+                                    <td style="width:50%;text-align:center;padding:0px;margin:0px;">
+                                        <hr/>
+                                        <b><span t-esc="d.partner_id.name"/></b>
+                                        <br/>
+                                        <b>Firma Sello</b>
+                                    </td>
+                                    <td style="width:50%;text-align:center;padding:0px;margin:0px;">
+                                        <hr/>
+                                        <b><span t-esc="d.company_id.partner_id.name"/></b>
+                                        <br/>
+                                        <b>Firma Sello</b>
+                                    </td>
+                                </tr>
+                            </table>
+                                </t>
+                         </div>
+            </t>
+        </div>
+    </t>
+</template>
+
+        <record id="paperformat_withholding_islr_report" model="report.paperformat">
+            <field name="name">Report ISLR</field>
+            <field name="orientation">Landscape</field>
+            <field name="header_line" eval="False"/>
+            <field name="margin_top">10</field>
+            <field name="margin_right">5</field>
+            <field name="margin_bottom">2</field>
+            <field name="margin_left">5</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">0</field>
+            <field name="dpi">0</field>
+        </record>
+
+        <record id="action_withholdong_islr_report" model="ir.actions.report">
+            <field name="name">Comprobante de ISLR</field>
+            <field name="model">account.wh.islr.doc</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">l10n_ve_full.template_wh_islr</field>
+            <field name="report_file">l10n_ve_full.template_wh_islr</field>
+            <field name="paperformat_id" ref="l10n_ve_full.paperformat_withholding_islr_report"/>
+            <field name="binding_model_id" ref="model_account_wh_islr_doc"/>
+            <field name="binding_type">report</field>
+        </record>
+
+    </data>
+</odoo>

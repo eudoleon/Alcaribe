@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="login_session_res_config_settings_inherit_form_view_ah" model="ir.ui.view">
+        <field name="name">login.session.res.config.settings.inherit.form.view.ah</field>
+        <field name="model">res.config.settings</field>
+<!--		<field name="groups_id" eval="[(4, ref('group_login_log_admin_ah'))]"/>-->
+        <field name="inherit_id" ref="base_setup.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@id='contacts_settings']" position="after">
+                <h2>Audit log &amp; Session Configuration</h2>
+                <div class="row mt16 o_settings_container" groups="advanced_session_management.group_login_log_admin_ah">
+					<div class="col-12 col-lg-6 o_setting_box" >
+						<div class="o_setting_left_pane" />
+						<div class="o_setting_right_pane" >
+							<span class="o_form_label" >
+								Automatically remove the audit log after (in days)
+							</span>
+							<div class="text-muted" >
+                                This will remove old data from the Audit logs
+							</div>
+							<div class="text-muted" >
+								<field name="remove_sesions" />
+							</div>
+						</div>
+					</div>
+					<div class="col-xs-12 col-md-6 o_setting_box"  id="send_mail_session" >
+						<div class="o_setting_left_pane" >
+							<field name="send_mail" />
+						</div>
+						<div class="o_setting_right_pane" >
+							<label for="send_mail" string='Notify the User for any new Session'/>
+							<div class="text-muted" >
+								This will send a new mail to respective user whenever there is a new login
+							</div>
+						</div>
+					</div>
+					<div class="col-12 col-lg-6 o_setting_box" >
+						<div class="o_setting_left_pane" />
+						<div class="o_setting_right_pane" >
+							<span class="o_form_label" >
+								Automatically kill the session
+							</span>
+							<div class="text-muted" >
+                                None = Don't kill session automatically<br/>
+								Active = Session won't be killed automatically until user is active
+								Inactive = Session will be killed after the duration, no matter if the user is active or not
+							</div>
+							<div class="text-muted" >
+								<field name="session_timeout_active" required='1'/>
+								<!-- <field name="session_timeout_interval_type" style="width: 100px;"/> -->
+							</div>
+						</div>
+					</div>
+					<div class="col-12 col-lg-6 o_setting_box" attrs="{'invisible':[('session_timeout_active','=','none')],'required':[('session_timeout_active','!=','none')]}">
+						<div class="o_setting_left_pane" />
+						<div class="o_setting_right_pane" >
+							<span class="o_form_label" >
+								Auto kill session time-out duration (hours)
+							</span>
+							<div class="text-muted" >
+                                Time to kill any open session automatically
+							</div>
+							<div class="text-muted" >
+								<field name="session_timeout_interval_number" />
+								<!-- <field name="session_timeout_interval_type" style="width: 100px;"/> -->
+							</div>
+						</div>
+					</div>
+					
+				</div>
+				
+            </xpath>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,6 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_sale_report_usd,sale_report_usd,model_sale_report_usd,base.group_user,1,1,1,1
+access_report_pos_order_usd,report_pos_order_usd,model_report_pos_order_usd,base.group_user,1,1,1,1
+access_sale_report_wizard,report_pos_order_usd,model_sale_report_wizard,base.group_user,1,1,1,1
+access_sale_report_custom,report_pos_order_usd,model_sale_report_custom,base.group_user,1,1,1,1
+access_pos_report_z_excel_wizard,report_pos_order_usd,model_pos_report_z_excel_wizard,base.group_user,1,1,1,1

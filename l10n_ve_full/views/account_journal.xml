@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<odoo>
+    <data>
+        <record id="extra_account_journal_venezuela" model="ir.ui.view">
+            <field name="name">Extra account.journal.form Venezuela</field>
+            <field name="model">account.journal</field>
+            <field name="inherit_id" ref="account.view_account_journal_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//page[@name='bank_account']//group" position="inside">
+                    <group string="Información IVA e ISLR">
+                        <field name="is_iva_journal" widget="boolean_toggle" string="Es Diario de IVA"/>
+                        <field name="is_islr_journal" widget="boolean_toggle" string="Es Diario de ISLR"/>
+                        <field name="default_iva_account" attrs="{'invisible': [('is_iva_journal', '=', False)], 'required': [('is_iva_journal', '=', True)]}" />
+                        <field name="default_islr_account" attrs="{'invisible': [('is_islr_journal', '=', False)], 'required': [('is_islr_journal', '=', True)]}" />
+                    </group>
+                </xpath>
+                <xpath expr="//page[@name='bank_account']//field[@name='code']" position="after">
+                    <field name="eliminar_impuestos" widget="boolean_toggle" string="Eliminar impuestos"/>
+                    <field name="permitir_itf" widget="boolean_toggle"/>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>

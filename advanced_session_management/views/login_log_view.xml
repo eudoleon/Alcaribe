@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="login_log_form_view_ah" model="ir.ui.view">
+            <field name="name">login.log.form.view.ah</field>
+            <field name="groups_id" eval="[(4, ref('group_login_log_user_ah'))]"/>
+            <field name="model">login.log</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <style>
+                            .link-btn-ah.o_invisible_modifier{
+                                visibility: hidden;
+                                display: inline-block !important;
+                            }
+                        </style>
+                        <div class="oe_button_box" name="button_box">
+                            <button class="oe_stat_button o_stat_button_info" name="dummy_btn" type='object' attrs="{'invisible': [('is_active', '=', False)]}">
+                                <i class="fa fa-fw o_button_icon fa-circle text-success"/>
+                                <span>Connected</span>
+                            </button>
+                            <button class="oe_stat_button o_stat_button_info" attrs="{'invisible': [('is_active', '=', True)]}">
+                                <i class="fa fa-fw o_button_icon fa-circle text-danger"/>
+                                <span>Offline</span>
+                            </button>
+                            <button name="logout_button" type="object" class="oe_stat_button" icon="fa-times-circle" style="color:red;" attrs="{'invisible':[('state','=','close')]}">
+                                Close Session
+                            </button>
+                            <button name="location_lookup_ao" type="object" class="oe_stat_button" icon="fa-map-marker" attrs="{'invisible':[('ip','=','')]}">
+                                IP Lookup
+                            </button>
+                        </div>
+                        <h2>
+                            <field name="name" />
+                        </h2>
+                        <group>
+                            <group>
+                                <field name="user_id" default_focus="1" required='1'/>
+                                <!-- <field name="user_agent" /> -->
+                                <field name="is_active" invisible='1' />
+                                <field name="browser" />
+                                <field name="login_date" />
+                                <field name="logout_date" attrs="{'invisible':[('logout_date','=',False)]}"/>
+                                <field name="session_id" />
+                                
+                            </group>
+                            <group>
+                                <field name="device" />
+                                <field name="os" />
+                                <field name="ip" />
+                                <field name="country" />
+                                <field name="loc_state" />
+                                <field name="city" />
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string='Activity Log'>
+                                <field name='activity_log_ids' readonly='1'>
+                                    <tree editable='bottom' >
+                                        <field name="create_date" string='Date' />
+                                        <field name="model" />
+                                        <field name="name" string='Record Name'/>
+                                        <field name="action" string='Action Performed'/>
+                                        <field name="view" />
+                                        <!-- <button name="action_open_edit_view" type="object" class="oe_stat_button link-btn-ah" title="View Change(s)" icon="fa-bars" attrs="{'invisible':[('action','!=','edit')]}" /> -->
+                                        <button name="action_open_record" type="object" class="oe_stat_button link-btn-ah" title="Open Record" icon="fa-external-link" attrs="{'invisible':[('action','=','delete')]}"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <!-- <page string='Read Log'>
+                                <field name='read_activity_log_ids' readonly='1'>
+                                    <tree editable='bottom' >
+                                        <field name="create_date" string='Date' />
+                                        <field name="model" />
+                                        <field name="name" string='Record Name'/>
+                                        
+                                        <field name="action" string='Action Performed' invisible='1'/>
+                                        <field name="view" />
+                                        <button name="action_open_edit_view" type="object" class="oe_stat_button link-btn-ah" title="View Change(s)" icon="fa-bars" attrs="{'invisible':[('action','!=','edit')]}" />
+                                        <button name="action_open_record" type="object" class="oe_stat_button link-btn-ah" title="Open Record" icon="fa-external-link" attrs="{'invisible':[('action','=','delete')]}"/>
+                                    </tree>
+                                </field>
+                            </page> -->
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="login_log_seearch_view_ao" model="ir.ui.view">                                
+            <field name="name">login.log.seearch.view.ao</field>                                
+            <field name="model">login.log</field>                                
+            <field name="arch" type="xml">                                    
+                <search string="Search contacts">                                        
+                    <field name="name"/>
+                    <field name="user_id" />
+                    
+                    <filter string="Active" domain="[('state', '=', 'active')]" name="filter_active" />
+                    <filter string="Clossed" domain="[('state', '=', 'close')]" name="filter_close" />
+                    <separator/>
+                    <filter string="Date" name="filter_create_date" date="create_date"/>
+                    <group expand="0" string="Group By">                                            
+                        <filter string="Status" name="group_by_state" context="{'group_by': 'state'}" />
+                        <filter string="User" name="group_by_user_id" context="{'group_by': 'user_id'}" />
+                        <filter string="Date" name="group_by_create_date" context="{'group_by': 'create_date'}" />
+                        <filter string="Device" name="group_by_device" context="{'group_by': 'device'}" />
+                    </group>
+                </search>                                
+            </field>                            
+        </record>
+
+        <record id="login_log_tree_view_ah" model="ir.ui.view">
+            <field name="name">login.log.tree.view.ah</field>
+            <field name="groups_id" eval="[(4, ref('advanced_session_management.group_login_log_user_ah'))]"/>
+            <field name="model">login.log</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="is_active" invisible='1' />
+                    <button class="fa fa-fw o_button_icon fa-circle text-danger" name="dummy_btn" type='object' title='Offline' attrs="{'invisible':[('is_active','=',True)]}"/>
+                    <button class="fa fa-fw o_button_icon fa-circle text-success" name="dummy_btn" type='object' title='Online' attrs="{'invisible':[('is_active','=',False)]}"/>
+                    <field name="name"/>
+                    <field name="user_id"/>
+                    <field name="login_date" />  
+                    <field name="device" />
+                    <field name="os" />
+                    <field name="browser" />
+                    <field name="state" />
+                    <!-- style="color:red;font-size:15px;" -->
+                    <button name="logout_button" type="object" class="oe_stat_button session_cls_btn"  icon="fa-times-circle" title="Close Session" attrs="{'invisible':[('state','=','close')]}"/>                  
+                </tree>
+            </field>
+        </record>
+        
+        
+
+        <record id="action_login_log_ah" model="ir.actions.act_window">
+            <field name="name">Sessions</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">login.log</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id="menu_main_login_log_ah" name="Sessions"  groups="group_login_log_user_ah" web_icon="advanced_session_management,static/description/icon.png"/>
+        <menuitem id="menu_login_log_ah" name="Sessions" parent="menu_main_login_log_ah" action="action_login_log_ah" groups="group_login_log_user_ah" sequence='1'/>
+
+    </data>
+</odoo>

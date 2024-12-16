@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates id="template" xml:space="preserve">
+     <t t-name="ProductItem" t-inherit="point_of_sale.ProductItem" t-inherit-mode="extension">
+        <xpath expr="//div[hasclass('product-img')]" position="inside">
+            <t t-if="env.pos.config.show_dual_currency">
+                <t t-set="price_other_currency" t-value="0"/>
+                <t t-if="env.pos.config.rate_company &gt; env.pos.config.show_currency_rate">
+                    <t t-set="price_other_currency" t-value="props.product.get_display_price(pricelist, 1) * env.pos.config.show_currency_rate"/>
+                </t>
+                <t t-elif="env.pos.config.rate_company &lt; env.pos.config.show_currency_rate">
+                    <t t-set="price_other_currency" t-value="props.product.get_display_price(pricelist, 1) * env.pos.config.show_currency_rate"/>
+                </t>
+                <t t-else="">
+                    <t t-set="price_other_currency" t-value="props.product.get_display_price(pricelist, 1)"/>
+                </t>
+
+                <span class="currency" style="position: absolute;
+                                                top: 2px;
+                                                right: 2px;
+                                                vertical-align: top;
+                                                color: red;
+                                                line-height: 13px;
+                                                background: #5effb0;
+                                                padding: 2px 5px;
+                                                border-radius: 2px;
+                                                font-weight: bold;
+                                                font-size: x-small;">
+                    <t t-if="env.pos.config.show_currency_position == 'before'">
+                            <t t-esc="env.pos.config.show_currency_symbol"/>
+                    </t>
+                    <t t-esc="env.pos.format_currency_no_symbol(price_other_currency)"/>
+                    <t t-if="env.pos.config.show_currency_position == 'after'">
+                            <t t-esc="env.pos.config.show_currency_symbol"/>
+                    </t>
+                </span>
+            </t>
+        </xpath>
+    </t>
+    
+    
+    <t t-name="Orderline" t-inherit="point_of_sale.Orderline" t-inherit-mode="extension">
+        <xpath expr="//span[hasclass('price')]" position="inside">
+            <t t-if="env.pos.config.show_dual_currency">
+                <t t-set="subtotal_other_currency" t-value="0"/>
+                <t t-if="env.pos.config.rate_company &gt; env.pos.config.show_currency_rate">
+                        <t t-set="subtotal_other_currency"
+                           t-value="props.line.get_display_price() * env.pos.config.show_currency_rate"/>
+                </t>
+                <t t-elif="env.pos.config.rate_company &lt; env.pos.config.show_currency_rate">
+                        <t t-set="subtotal_other_currency"
+                           t-value="props.line.get_display_price() * env.pos.config.show_currency_rate"/>
+                </t>
+                <t t-else="">
+                        <t t-set="subtotal_other_currency" t-value="props.line.get_display_price()"/>
+                </t>
+                <span style="color: red; font-size:small">/
+                    <t t-if="env.pos.config.show_currency_position == 'before'">
+                                <t t-esc="env.pos.config.show_currency_symbol"/>
+                    </t>
+                    <t t-esc="env.pos.format_currency_no_symbol(subtotal_other_currency)"/>
+                    <t t-if="env.pos.config.show_currency_position == 'after'">
+                        <t t-esc="env.pos.config.show_currency_symbol"/>
+                    </t>
+                </span>
+            </t>
+        </xpath>
+    </t>
+
+    <t t-name="OrderSummary" t-inherit="point_of_sale.OrderSummary" t-inherit-mode="extension">
+        <xpath expr="//t[@t-esc='_total']" position="after">
+            / <span style="color: red">$ </span> <span style="color: red" t-esc="env.pos.format_currency_no_symbol(props.order.get_total_with_tax() * env.pos.config.show_currency_rate)" />
+        </xpath>
+    </t>
+
+ 
+   <!-- <t t-name="PaymentScreenStatus" t-inherit="point_of_sale.PaymentScreenStatus" t-inherit-mode="extension">
+        <xpath expr="//div[hasclass('paymentlines-empty')]/div[hasclass('total')]" position="replace">
+            <div class="total">
+                        <t t-esc="env.pos.format_currency_no_symbol(totalDueText)"/>
+                        <t t-set="total_other_currency" t-value="0"/>
+                        <t t-if="env.pos.config.rate_company &gt; env.pos.config.show_currency_rate">
+                                <t t-set="total_other_currency"
+                                   t-value="currentOrder.get_due() * env.pos.config.show_currency_rate"/>
+                        </t>
+                        <t t-elif="env.pos.config.rate_company &lt; env.pos.config.show_currency_rate">
+                                <t t-set="total_other_currency"
+                                   t-value="currentOrder.get_due() * env.pos.config.show_currency_rate"/>
+                        </t>
+                        <t t-else="">
+                                <t t-set="total_other_currency" t-value="totalDueText"/>
+                        </t>
+                        <span style="color: red; font-size: large">/
+                            <t t-if="env.pos.config.show_currency_position == 'before'">
+                                        <t t-esc="env.pos.config.show_currency_symbol"/>
+                            </t>
+                            <t t-esc="env.pos.format_currency_no_symbol(total_other_currency)"/>
+                            <t t-if="env.pos.config.show_currency_position == 'after'">
+                                <t t-esc="env.pos.config.show_currency_symbol"/>
+                            </t>
+                        </span>
+            </div>
+        </xpath>
+
+        <xpath expr="//div[hasclass('payment-status-container')]" position="replace">
+            <div class="payment-status-container">
+                <div>
+                    <t t-set="total_remaining" t-value="0"/>
+                    <t t-if="currentOrder.get_due()>0">
+                        <t t-set="total_remaining" t-value="currentOrder.get_due()"/>
+                    </t>
+
+                    <t t-set="total_due" t-value="currentOrder.get_total_with_tax() + currentOrder.get_rounding_applied()"/>
+
+                    <t t-set="total_change" t-value="0"/>
+                    <t t-if="currentOrder.get_change()>0">
+                        <t t-set="total_change" t-value="currentOrder.get_change()"/>
+                    </t>
+
+                    <div class="payment-status-remaining">
+                        <div class="">
+                            <span class="label">Remaining</span>
+                        </div>
+                        <div class="">
+                            <div>
+                                <span class="amount"
+                                    t-att-class="{ highlight: currentOrder.get_due() > 0 }">
+                                    <t t-esc="remainingText" />
+                                </span>
+                            </div>
+                            <div>
+                                <span style="color: red; font-size: large; font-weight: bold;">
+                                    $<t t-esc="env.pos.format_currency_no_symbol(total_remaining * env.pos.config.show_currency_rate)" />
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <hr/>
+
+                    <div class="payment-status-total-due">
+                        <span class="label">Total Due</span>
+                        <span>
+                            <t t-esc="totalDueText" />
+                        </span>
+                        <span style="color: red; font-size: small;">
+                            /$<t t-esc="env.pos.format_currency_no_symbol(total_due * env.pos.config.show_currency_rate)" />
+                        </span>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="payment-status-change">
+                        <div class="">
+                            <span class="label">Change</span>
+                        </div>
+                        <div class="">
+                            <div>
+                                <span class="amount"
+                                    t-att-class="{ highlight: currentOrder.get_change() > 0 }">
+                                    <t t-esc="changeText" />
+                                </span>
+                            </div>
+                            <div>
+                                <span style="color: red; font-size: large; font-weight: bold;">
+                                    $<t t-esc="env.pos.format_currency_no_symbol(total_change * env.pos.config.show_currency_rate)" />
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </xpath>
+        
+    </t>
+
+    <t t-name="PaymentScreenPaymentLinesShowDualCurrency" t-inherit="point_of_sale.PaymentScreenPaymentLines" t-inherit-mode="extension">
+        <xpath expr="//t[@t-if='line.selected']//div[hasclass('payment-amount')]" position="replace">
+                    <div class="payment-amount">
+                                <span>
+                                    <t t-if="line and line.payment_status and ['done', 'waitingCard', 'waiting', 'reversing', 'reversed'].includes(line.payment_status)">
+                                            <t t-esc="env.pos.format_currency_no_symbol(line.get_amount())" />
+                                    </t>
+                                    <t t-else="">
+                                            <t t-esc="formatLineAmount(line)" />
+                                    </t>
+                                </span>
+                                <span style="color: red; font-size: small">
+                                    /$<t t-esc="env.pos.format_currency_no_symbol(line.get_amount() * env.pos.config.show_currency_rate)" />
+                                </span>
+                            </div>            
+        </xpath>
+        <xpath expr="//t[@t-else='']//div[hasclass('payment-amount')]" position="replace">
+            <div class="payment-amount">
+                                <span>
+                                    <t t-if="line and line.payment_status and ['done', 'waitingCard', 'waiting', 'reversing', 'reversed'].includes(line.payment_status)">
+                                            <t t-esc="env.pos.format_currency_no_symbol(line.get_amount())" />
+                                    </t>
+                                    <t t-else="">
+                                            <t t-esc="formatLineAmount(line)" />
+                                    </t>
+                                </span>
+
+                                <span style="color: red; font-size: small">
+                                    /$<t t-esc="env.pos.format_currency_no_symbol(line.get_amount() * env.pos.config.show_currency_rate)" />
+                                </span>
+                            </div>
+        </xpath>
+    </t>-->
+
+    
+</templates>

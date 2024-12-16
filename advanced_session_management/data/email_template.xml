@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="new_session_start_mail_template_ah" model="mail.template">
+            <field name="name">New login on your Odoo account
+</field>
+            <field name="email_from">{{object.user_id.company_id.email}}</field>
+            <field name="subject">New login on your Odoo account
+</field>
+            <field name="email_to">{{object.user_id.email}}</field>
+            <field name="auto_delete" eval="False"/>
+            <field name="lang">{{object.user_id.partner_id.lang}}</field>
+            <field name="model_id" ref="advanced_session_management.model_login_log"/>
+            <field name="body_html" type="html">
+                <!-- <table border="0" cellpadding="0" cellspacing="0" style="padding-top: 16px;padding-bottom: 16px; background-color: #F1F1F1; font-family:Verdana, Arial,sans-serif; color: #454748; width: 100%; border-collapse:separate;"> -->
+                    <table border="0" cellpadding="0" style="padding-top: 16px; background-color: #F1F1F1; color: #454748; width: 100%; border-collapse:separate;"><tr><td align="center">
+                        <table border="0" width="590" cellpadding="0" style="padding: 16px; background-color: white; color: #454748; border-collapse:separate;" summary="o_mail_notification">
+                            <tbody>
+                                <tr>
+                                    <td align="center">
+                                        <table border="0" cellpadding="0" cellspacing="0" width="590" style="padding: 16px; background-color: white; color: #454748; border-collapse:separate;">
+                                            <tbody>
+                                                <!-- HEADER -->
+                                                <tr>
+                                                    <td align="center" style="min-width: 590px;">
+                                                        <table border="0" cellpadding="0" cellspacing="0" width="590" style="min-width: 590px; background-color: white; padding: 0px 8px 0px 8px; border-collapse:separate;">
+                                                            <tr>
+                                                                <td valign="middle" style="font-size: 18px;color: #0e0e0f;line-height: 28px;">
+                                                                    <span style="font-size: 20px; font-weight: bold;">
+                                                                        Are You Trying To Log In From a New Device?
+                                                                    </span>
+                                                                </td>
+                                                                <td valign="middle" align="right">
+                                                                    <img src="https://i.ibb.co/yQdZMNq/super-session.png" style="padding: 0px; margin: 0px; height: auto; width: 80px;" alt="By-Super Session Management"/>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td colspan="2" style="text-align:center;">
+                                                                    <hr width="100%" style="background-color:rgb(204,204,204);border:medium none;clear:both;display:block;font-size:0px;min-height:1px;line-height:0; margin: 16px 0px 16px 0px;"/>
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+                                                    </td>
+                                                </tr>
+                                                <!-- CONTENT -->
+                                                <tr>
+                                                    <td align="center" style="min-width: 590px;font:16px/22px 'Helvetica Neue',Arial,'sans-serif';text-align:left;color: #62646a;padding: 0px 40px 40px 40px;line-height: 24px;">
+                                                        <table border="0" cellpadding="0" cellspacing="0" width="590" style="min-width: 590px; background-color: white; padding: 0px 8px 0px 8px; border-collapse:separate;">
+                                                            <tr>
+                                                                <td valign="top" style="">
+                                                                    <div>
+                                                                        Hi <t t-out="object.user_id.name or ''" />,<br/>
+                                                                        <p>We just noticed a new login attempt to your Odoo account from a new device, and wanted to make sure it’s really you:</p>
+
+                                                                        <p style="">
+                                                                            <span style="color:#95979d;font-size:14px">Device</span>
+                                                                            <br/>
+                                                                            <span style="color:#222325"><t t-out="object.browser or ''" />, <t t-out="object.os or ''" />, <t t-out="object.device or ''" /></span>
+                                                                        </p>
+
+                                                                        <p style="">
+                                                                            <span style="color:#95979d;font-size:14px">IP</span>
+                                                                            <br/>
+                                                                            <span style="color:#222325"><t t-out="object.ip or ''" /></span>
+                                                                        </p>
+
+                                                                        <p style="">
+                                                                            <span style="color:#95979d;font-size:14px">Approximate Location</span>
+                                                                            <br/>
+                                                                            <span style="color:#222325"><t t-out="object.city or ''" />, <t t-out="object.loc_state or ''" />, <t t-out="object.country or ''" /></span>
+                                                                        </p>
+
+                                                                        <!-- <p style="">
+                                                                            <span style="color:#95979d;font-size:14px">Time</span>
+                                                                            <br/>
+                                                                            <span style="color:#222325">${object.login_date}</span>
+                                                                            <span style="color:#222325">Just Now</span>
+                                                                        </p> -->
+
+                                                                        <!-- <p>${object.name}</p> -->
+                                                                        <div style="margin: 16px 0px 16px 0px;text-align:center;">
+                                                                            <a t-att-href="'%s' % object.url" style="background-color: #388fcd; padding: 8px 16px 8px 16px; text-decoration: none; color: #fff; border-radius: 5px; font-size:16px;">
+                                                                                Check Session Activities
+                                                                            </a>
+                                                                        </div>
+                                                                        <p>Or if you didn’t try to log in recently, we recommend you <a t-att-href="'/web/reset_password?login=%s' % object.user_id.email" target="_blank" style="color: #2e4ba0;font-weight: 500;text-decoration-thickness: 2px;text-underline-offset: 1px;">
+                                                                            change your password
+                                                                        </a> ASAP to protect your account. 
+                                                                        By changing your password, all devices logged into your account will be logged out. </p>
+                                                                    Thanks,<br/>
+                                                                        <span style="color:#222325">The Super Session Management Team</span>
+                                    
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+                                                    </td>
+                                                </tr>
+                                    
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        </td>
+                        </tr>
+                    </table>
+                <!-- </table> -->
+            </field>
+
+</record>
+
+</data>
+</odoo>

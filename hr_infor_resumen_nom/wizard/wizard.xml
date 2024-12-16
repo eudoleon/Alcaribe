@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+       <!-- Wizard para imprimir reporte comprobante 1007-->
+      <record id="view_resumen_nomina" model="ir.ui.view">
+       	    <field name="name">Resumen de Nomina</field>
+            <field name="model">wizard.resumen.nomina</field>
+    	    <field name="arch" type="xml">
+
+    	    	<form string="Resumen de Nómina">
+                     <group colspan="8" col="4">
+                         
+                         <!--field name="date_from" string="Fecha Desde" required="1"/>
+                         <field name="date_to"  string="Fecha Hasta" required="1"/-->   
+                        <field name="lote_ids" string="Lotes de Nómina" required="1" widget="many2many_tags" domain="[('company_id','=',company_id)]"/> <!-- domain="[('date_start','>=',date_from),('date_end','=',date_to)]" widget="many2many_tags" widget="many2many_tags"-->
+                         <!--field name="lote_bono_id" string="Nómina tipo Ayuda Económica" required="1"/-->
+                        <field name="company_id" string="Compañia" readonly="1" />
+                                                                          
+                     </group>                   
+                     
+	                <footer>
+	                   <button name="print_resumen_nomina" string="Generar Resumen Nómina" type="object" class="oe_highlight" />                  
+	                   <button special="cancel" string="Cancel" class="oe_highlight" />
+	                </footer>
+                </form>
+
+    	    </field>
+      </record>
+
+      <record id="action_report_resum_nom" model="ir.actions.act_window">
+        	<field name="name">wizard Resumen Nomina</field>
+        	<field name="res_model">wizard.resumen.nomina</field>
+        	<field name="view_mode">form</field>
+        	<field name="view_id" ref="view_resumen_nomina"/>
+        	<field name="target">new</field>
+      </record>
+
+      <menuitem
+        id="menu_resumen_monina"
+        parent="hr_payroll.menu_hr_payroll_report"
+        name="Resumen de Nómina"
+        sequence="11"
+        action="action_report_resum_nom"/>
+
+    </data>
+</odoo>

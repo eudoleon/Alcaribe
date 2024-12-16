@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<record id="res_config_settings_view_form_vpos" model="ir.ui.view">
+		<field name="name">res.config.settings.view.form.inherit.pos_vpos</field>
+		<field name="model">res.config.settings</field>
+		<field name="priority" eval="99"/>
+		<field name="inherit_id" ref="point_of_sale.res_config_settings_view_form" />
+		<field name="arch" type="xml">
+			<xpath expr="//div[@id='pos_payment_terminals_section']" position="inside">
+
+				<div class="col-12 col-lg-6 o_setting_box" id="pos_vpos_section">
+
+					<div class="o_setting_left_pane">
+						<field name="pos_vpos" attrs="{'readonly': [('pos_has_active_session', '=', True)]}"/>
+					</div>
+					<div class="o_setting_right_pane">
+						<label for="pos_vpos" string="VPOS"/>
+						<div class="text-muted ">
+								Accept payments with an VPOS payment terminal
+						</div>
+
+						<div class="content-group vpos-config" attrs="{'invisible' : [('pos_vpos', '=', False)]}">
+
+							<div class="row">
+								<label string="Url" for="pos_vpos_restApi" class="col-lg-4 o_light_label"/>
+								<field name="pos_vpos_restApi"/>
+							</div>
+
+						</div>
+
+					</div>
+
+				</div>
+			</xpath>
+		</field>
+	</record>
+
+</odoo>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_pos_show_dual_currency_config_form" model="ir.ui.view">
+        <field name="name">pos.pin.config.form.show_dual_currency</field>
+        <field name="model">pos.config</field>
+        <field name="inherit_id" ref="point_of_sale.pos_config_view_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='is_posbox']/../../.." position="after">
+                <div class="col-xs-12 col-md-6 o_setting_box" id="show_prod_qtys">
+                    <div class="o_setting_left_pane">
+                        <field name="show_dual_currency" />
+                    </div>
+                    <div class="o_setting_right_pane">
+                        <label for="show_dual_currency" />
+                        <div class="text-muted">
+                            Adds price of other currency at products
+                        </div>
+                        <div class="content-group mt16 row"  attrs="{'invisible':[('show_dual_currency','=',False)]}">
+                            <label for="show_currency" string="Currency"  class="col-lg-3 o_light_label"/>
+                            <field name="show_currency"   />
+                        </div>
+                        <div class="content-group mt16 row"  attrs="{'invisible':[('show_dual_currency','=',False)]}">
+                             <label for="show_currency_rate" string="Rate"  class="col-lg-3 o_light_label"/>
+                             <field name="show_currency_rate" digits="[12,21]"/>
+                         </div>
+                    </div>
+                </div>
+            </xpath>
+        </field>
+    </record>
+</odoo>

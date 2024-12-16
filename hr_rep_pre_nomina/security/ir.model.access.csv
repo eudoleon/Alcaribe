@@ -1,0 +1,8 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+pre_monina_pdf,pre.monina.pdf,model_pre_monina_pdf,base.group_user,1,1,1,1
+wizard_pre_nomina,wizard.pre.nomina,model_wizard_pre_nomina,base.group_user,1,1,1,1
+hr_department2,hr.department2,model_hr_department2,base.group_user,1,1,1,1
+pre_nomina_resu_lote,pre.nomina.resu_lote,model_pre_nomina_resu_lote,base.group_user,1,1,1,1
+pre_nomina_resu_dep,pre.nomina.resu_dep,model_pre_nomina_resu_dep,base.group_user,1,1,1,1
+pre_nomina_resu_concepto,pre.nomina.resu_concepto,model_pre_nomina_resu_concepto,base.group_user,1,1,1,1
+pre_analytic_account,pre.analytic.account,model_pre_analytic_account,base.group_user,1,1,1,1

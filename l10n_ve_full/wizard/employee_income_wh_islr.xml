@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<odoo>
+    <data>
+
+        <record model="ir.ui.view" id="wizard_employee_income_wh_islr_form">
+            <field name="name">employee_income_wh_islr.form</field>
+            <field name="model">employee.income.wh</field>
+            <field name="arch" type="xml">
+                <form string="Importar Retenciones a Empleados">
+                    <group col="2">
+                        <field name="type"/>
+                        <field name="name"/>
+                        <field name="obj_file"/>
+                     </group>
+                    <footer>
+                        <button name="process_employee_income_wh" string="Importar" type="object" class="oe_highlight"/>
+                        <button special="cancel" string="Cancelar"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+    </data>
+</odoo>

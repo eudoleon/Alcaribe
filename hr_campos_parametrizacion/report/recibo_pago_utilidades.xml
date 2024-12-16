@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <data> 
+  <record id="paperformat_recibo_util" model="report.paperformat">
+
+      <field name="default" eval="True"/>
+        <field name="name">Formato Recibo Utilidades</field>
+        <field name="default" eval="True"/>
+        <field name="format">custom</field>
+        <field name="page_height">279</field>
+        <field name="page_width">216</field>
+        <field name="orientation">Portrait</field>
+        <field name="margin_top">26</field>
+        <field name="margin_bottom">20</field>
+        <field name="margin_left">7</field>
+        <field name="margin_right">7</field>
+        <field name="header_line" eval="False"/>
+        <field name="header_spacing">20</field>
+        <field name="dpi">96</field>
+    </record>
+
+    <template id="report_recibo_util">
+            <t t-call="web.html_container">
+              <t t-foreach="docs" t-as="o">
+                <t t-call="web.basic_layout" >
+                  <div class="header">
+                    <table width="100%">
+                      <tr>
+                        <td align="left">
+                          <t t-if="o.company_id.logo">  
+                              <img t-attf-src="data:image/*;base64,{{o.company_id.logo}}" style="width:auto; height:70px;"/>
+                          </t>
+                        </td>
+                        <td align="right">
+                          Recibo de Pago de Utilidades
+                          <br/>
+                          Emisión:&amp;nbsp;&amp;nbsp;
+                          <span t-field="o.fecha_hoy"/>
+                          <br/>
+                          Nómina Nro:&amp;nbsp;&amp;nbsp;
+                          <span t-field="o.number"/>
+                        </td>
+                      </tr>
+                    </table>
+                  </div>
+                  <div class="page">
+                    <!-- TABLA 1 -->
+                    <table class="table table-sm table-bordered" style="font-size:13px;">
+                      <tr>
+                        <td>
+                          Cédula No .V-<span t-field="o.employee_id.cedula"/>
+                        </td>
+                        <td colspan="2">
+                          Apellidos y Nombres: &amp;nbsp;&amp;nbsp;<span t-field="o.employee_id.name"/>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Ficha: </td>
+                        <td>Fecha de Ingreso:&amp;nbsp;&amp;nbsp;<span t-field="o.employee_id.contract_id.date_start"/></td>
+                        <td>Cargo: &amp;nbsp;&amp;nbsp;<span t-field="o.employee_id.job_id"/></td>
+                      </tr>
+                      <tr>
+                        <td>Sueldo Mensual a la fecha:&amp;nbsp;&amp;nbsp;<span t-esc="o.float_format(o.sueldo)"/> Bs.</td>
+                        <td>Sueldo Diario:&amp;nbsp;&amp;nbsp;<span t-esc="o.float_format(o.sueldo/30)"/> Bs.</td>
+                        <td>Dpto:&amp;nbsp;&amp;nbsp;<span t-field="o.employee_id.department_id.name"/></td>
+                      </tr>
+                    </table>
+
+                    <!-- TABLA 2 -->
+                    <table name="inf_concetos" width="100%">
+                      
+                        <tr align="center" height="5" class="table table-bordered" style="font-size:12px;">
+                          <!--td>COD. </td-->
+                          <td height="5">Concepto</td>
+                          <td>Referencia</td>
+                          <td>Asignación</td>
+                          <td>Deducción</td>
+                          
+                        </tr>
+                        <t t-set="acum_asig" t-value="0"/>
+                        <t t-set="acum_dedu" t-value="0"/>
+                        <t t-set="neto" t-value="0"/>
+
+                        <t t-foreach="o.line_ids.filtered(lambda line: line.appears_on_payslip)" t-as="line">
+                          <t t-if="line.category_id.code =='NET'">
+                              <t t-set="neto" t-value="neto+line.total"/>
+                          </t>
+                        <t t-if="line.category_id.code != 'GROSS'">                        
+                        <t t-if="line.category_id.code != 'NET'">
+                        <tr style="font-size:12px;height:20px">
+                          <!--td><span t-field="line.code"/></td-->
+                          <td height="20" style="height:10px"><span t-field="line.name"/></td>
+                          <td align="center"><span t-field="line.dias"/></td>
+                          <td align="right">
+                            <t t-if="line.category_id.code != 'DED'">
+                            <span t-esc="line.total"
+                                          t-options='{"widget": "monetary", "display_currency": o.company_id.currency_id}'/>
+                                <t t-set="acum_asig" t-value="acum_asig+line.total"/>
+                            </t>
+                          </td>
+                          <td align="right">
+                            <t t-if="line.category_id.code == 'DED'">
+                              <span t-esc="line.total"
+                                            t-options='{"widget": "monetary", "display_currency": o.company_id.currency_id}'/>
+                                  <t t-set="acum_dedu" t-value="acum_dedu+line.total"/>
+                            </t>
+                          </td>
+                          
+                        </tr>
+                        </t>
+                        </t>
+                        </t>
+                        <tr class="table table-bordered" style="font-size:12px;">
+                          <td colspan="2" align="left">
+                            Total Asignaciones y Deducciones:
+                          </td>
+                          <td align="right"><t t-esc="acum_asig" t-options='{"widget": "monetary", "display_currency": o.company_id.currency_id}'/></td>
+                          <td align="right"><t t-esc="acum_dedu" t-options='{"widget": "monetary", "display_currency": o.company_id.currency_id}'/></td>
+                        </tr>
+                        <tr class="table table-bordered" style="font-size:12px;">
+                          <td colspan="2">Periodo :&amp;nbsp;&amp;nbsp; <span t-esc="o.ano(o.date_from)"/>&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;
+                          Fecha del Pago: &amp;nbsp;&amp;nbsp;<span t-field="o.date_to"/>
+                          </td>
+                          <td colspan="2"><samp style="font-weight: bolder">NETO A COBRAR Bs.&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;
+                            <t t-esc="neto" t-options='{"widget": "monetary", "display_currency": o.company_id.currency_id}'/></samp></td>
+                        </tr>
+                        <tr class="table table-bordered" style="font-size:12px;">
+                          <td>No Cuenta:&amp;nbsp;&amp;nbsp;<span t-field="o.employee_id.contract_id.nr_cuenta"/></td>
+                          <td>Saldo Préstamo:</td>
+                        </tr>
+                      
+                      
+                      </table>
+                      <!-- TABLA 3 -->
+                      <table width="100%" name="pie">
+                        <tr>
+                          <td colspan="3" align="right" width="61%" style="font-size:12px;">Recibo Conforme: </td>
+                          <td align="center">______________________________________<br/><span t-field="o.employee_id.name" style="font-size:12px;"/></td>
+                        </tr>
+                      </table>
+                  </div>
+                </t> 
+              </t>
+            </t>
+    </template>
+
+    <!--t t-set="lang" t-value="o.invoice_user_id.sudo().lang if o.type in ('in_invoice', 'in_refund') else o.partner_id.lang"/>
+                    <t t-call="account.report_invoice_document_with_payments" t-lang="lang"/-->
+
+    <report
+            id="payslip_recibo_util"
+            model="hr.payslip"
+            string="Recibo de Pago Utilidades"
+            report_type="qweb-pdf"
+            name="hr_campos_parametrizacion.report_recibo_util"
+            file="hr_campos_parametrizacion.report_recibo_utilo"
+            paperformat="paperformat_recibo_util"
+        /> <!-- paperformat="paperformat_recibo_nomina" -->
+
+        <!--
+          attachment="(object.state == 'posted') and ((object.name or 'INV').replace('/','_')+'.pdf')"
+            print_report_name="(object._get_report_base_filename())"
+            groups="account.group_account_invoice"
+          -->
+  
+  </data>
+</odoo>

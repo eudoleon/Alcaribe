@@ -1,0 +1,239 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<odoo>
+    <data>
+
+        <record id="view_xml_islr_line_tree" model="ir.ui.view">
+            <field name="name">account.wh.islr.xml.line_tree</field>
+            <field name="model">account.wh.islr.xml.line</field>
+            <field name="arch" type="xml">
+                <tree string="Detalle del XML">
+                    <field name="partner_vat"/>
+                    <field name="partner_id"/>
+                    <field name="invoice_number"/>
+                    <field name="concept_code"/>
+                    <field name="base"/>
+                    <field name="porcent_rete"/>
+                    <field name="wh" sum='Wh total'/>
+                </tree>
+            </field>
+        </record>
+
+
+        <record id="view_xml_islr_line_form" model="ir.ui.view">
+            <field name="name">account.wh.islr.xml.line_form</field>
+            <field name="model">account.wh.islr.xml.line</field>
+            <field name="arch" type="xml">
+                <form string="Exportar en datos XML">
+                    <newline/>
+                        <separator string="Proveedor a Retener" colspan="6"/>
+                    <newline/>
+                    <group col="4" colspan="4">
+                        <field
+                            name="partner_id"
+                            domain="[('parent_id','=',False)]"
+                            colspan="4"
+                            on_change="onchange_partner_vat(partner_id)"/>
+                        <field name="partner_vat"/>
+                    </group>
+                    <newline/>
+                    <separator string="Concepto de retención de ingresos" colspan="6"/>
+                    <newline/>
+                    <group col="4" colspan="4">
+                        <field name="concept_id" colspan="4"/>
+                        <field name="rate_id" colspan="4" on_change="onchange_code_perc(rate_id)" required='1'/>
+                        <field name="porcent_rete"/>
+                        <field name="concept_code"/>
+                    </group>
+                    <newline/>
+                    <group col="4" colspan="4">
+                        <separator string="Factura" colspan="4" attrs="{'invisible':[('type','!=','invoice')]}"/>
+                        <newline/>
+                        <group col="4" colspan="4">
+                            <field name="account_invoice_line_id" colspan="4" attrs="{'invisible':[('type','!=','invoice')]}"/>
+                            <field name="date_ret" colspan="2" required='1'/>
+                            <!--field name="period_id" colspan="2" required='1'/-->
+                            <field name="invoice_number" />
+                            <field name="control_number" />
+                        </group>
+                    </group>
+                    <newline/>
+                    <separator string="Tarifa" colspan="6"/>
+                    <newline/>
+                    <group col="4" colspan="4">
+                        <field name="base"/>
+                        <field name="wh"/>
+                        <field name="type" invisible="1"/>
+                    </group>
+                </form>
+            </field>
+        </record>
+
+
+        <record id="view_xml_islr_tree" model="ir.ui.view">
+            <field name="name">account.wh.islr.xml_tree</field>
+            <field name="model">account.wh.islr.xml</field>
+            <field name="arch" type="xml">
+                <tree string="Retención de líneas para XML">
+                    <field name="name"/>
+                    <field name="date_start"/>
+                    <field name="date_end"/>
+                    <field name="company_id" groups="base.group_multi_company"/>
+                    <field name="state" widget="badge" decoration-danger="state == 'cancel'" decoration-info="state in ['draft','generated']" decoration-warning="state == 'confirmed'"  decoration-success="state == 'done'"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_xml_islr_form" model="ir.ui.view">
+            <field name="name">account.wh.islr.xml_form</field>
+            <field name="model">account.wh.islr.xml</field>
+            <field name="arch" type="xml">
+                <form string="Retención de líneas para XML">
+                    <header>
+                        <button name="action_confirm1" string="Confirmar" states="draft" type="object"  class="oe_highlight"/>
+                        <button name="action_done1" string="Validar XML" states="confirmed" type="object"  class="oe_highlight"/>
+                        <button name="action_anular1" string="Invalidar" states="confirmed,done" type="object" />
+                        <button name="action_generate_line_xml" string="Generar lineas del XML" states="draft" type="object" />
+                        <field name="state" widget="statusbar" statusbar_visible="draft,confirmed,done" statusbar_colorsa="{&quot;confirmed&quot;:&quot;blue&quot;}"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                <field name="date_start" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                <field name="date_end" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                            </group>
+                            <group>
+                                <field name="company_id" groups="base.group_multi_company" attrs="{'readonly': [('state', '!=', 'draft')]}" options="{'no_create': True, 'no_open': True}"/>
+                            </group>
+
+                        </group>
+                        <!--field name="period_id" widget="selection"/-->
+                        <notebook>
+                            <page string="Líneas de retención de facturas">
+                                <field name="invoice_xml_ids" nolabel="1" widget="many2many">
+                                    <tree string="Detalle del XML">
+                                        <field name="partner_vat"/>
+                                        <field name="partner_id"/>
+                                        <field name="invoice_number"/>
+                                        <field name="concept_code"/>
+                                        <field name="base"/>
+                                        <field name="porcent_rete"/>
+                                        <field name="wh"/>
+                                        <field name="date_ret"/>
+                                    </tree>
+                                </field>
+                                <group>
+                                    <group>
+                                        <field name="amount_total_ret"/>
+                                        <field name="amount_total_base"/>
+                                    </group>
+                                    <group>
+                                        <field name="xml_filename" string=" " invisible="1"/>
+                                        <field name="xml_binary" filename="xml_filename" readonly="1"/>
+                                    </group>
+                                 </group>
+                             </page>
+                             <page string="Líneas de retención de empleados">
+                                 <group>
+                                     <group>
+                                         <button
+                                         name="import_xml_employee"
+                                         string="Importar Retenciones a Empleados"
+                                         type="object"
+                                         states="draft" colspan="2"/>
+                                     </group>
+                                     <group>
+                                         <button
+                                         name="download_xml_employee_template"
+                                         string="Descargar Plantilla"
+                                         type="object"
+                                         class="oe_highlight"
+                                         states="draft"/>
+                                     </group>
+                                 </group>
+                                <group>
+                                    <field name="employee_xml_ids" nolabel="1" widget="many2many" colspan="2">
+                                        <tree string="Detalle del XML">
+                                            <field name="partner_vat"/>
+                                            <field name="partner_id" domain="[('parent_id','=',False)]" string="Empleado"/>
+                                            <field name="concept_code"/>
+                                            <field name="base"/>
+                                            <field name="porcent_rete"/>
+                                            <field name="wh"/>
+                                        </tree>
+                                    </field>
+                                </group>
+                             </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                          <field name="message_follower_ids" widget="mail_followers"/>
+                          <field name="activity_ids" widget="mail_activity"/>
+                          <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_generate_xml_filter" model="ir.ui.view">
+            <field name="name">account.wh.islr.xml.search</field>
+            <field name="model">account.wh.islr.xml</field>
+            <field name="arch" type="xml">
+                <search string="Buscar archivo XML">
+                   <group col="10" colspan="4">
+                        <filter name="draft" string="Borrador" domain="[('state','=','draft')]" help="Borrador de Documento de Generar Archivo XML"/>
+                        <filter name="confirmed" string="Confirmado" domain="[('state','=','confirmed')]" help="Documento Confirmado de Generar Archivo XML"/>
+                        <filter name="done" string="Realizado" domain="[('state','=','done')]" help="Hecho el documento de generar archivo XML"/>
+                        <filter name="cancel" string="Cancelado" domain="[('state','=','cancel')]" help="Cancelar documento de generar archivo XML"/>
+                        <separator orientation="vertical"/>
+                        <field name="company_id"/>
+                        <field name="user_id" select="1" widget="selection" string="Vendedor">
+<!--                        <filter domain="[('user_id', '=', uid)]" help="My Income Withholding"/>-->
+                        </field>
+                    </group>
+                    <newline/>
+                    <group expand="1" string="Group By...">
+                        <separator orientation="vertical"/>
+<!--                        <filter string="State" domain="[]" context="{'group_by': 'state'}"/>-->
+                    </group>
+               </search>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_xml_islr">
+            <field name="name">Generar archivo XML</field>
+            <field name="res_model">account.wh.islr.xml</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="binding_view_types">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="view_generate_xml_filter"/>
+            <field name="help">Con esta opción, puede crear y administrar la generación del archivo xml, requerido mensualmente para el SENIAT como agente especial de retención de ingresos</field>
+        </record>
+
+        <record model="ir.actions.act_window.view" id="action_xml_islr_tree_1">
+            <field name="sequence" eval="10"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_xml_islr_tree"/>
+            <field name="act_window_id" ref="action_xml_islr"/>
+        </record>
+
+        <record model="ir.actions.act_window.view" id="action_xml_islr_form_1">
+            <field name="sequence" eval="20"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_xml_islr_form"/>
+            <field name="act_window_id" ref="action_xml_islr"/>
+        </record>
+
+        <record model="ir.rule" id="xml_islr_company_rule">
+            <field name="name">XML ISLR: multi-company</field>
+            <field name="model_id" ref="model_account_wh_islr_xml"/>
+            <field name="global" eval="True"/>
+            <field name="domain_force">
+                [('company_id', 'in', company_ids)]
+            </field>
+        </record>
+
+        <menuitem name="Generar archivo XML" id="menu_action_xml_islr" parent="l10n_ve_full.menu_venezuela_reporting" action="action_xml_islr"/>
+
+    </data>
+</odoo>

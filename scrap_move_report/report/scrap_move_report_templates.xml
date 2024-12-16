@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Scrap report template-->
+    <template id="scrap_pdf_report">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+                <div class="page">
+                    <br/>
+                    <h2 align="center">Scrap Product Report</h2>
+                    <div class="col-xs-3">
+                        <strong>Date From:</strong>
+                        <t t-esc="start_date"/>
+                    </div>
+                    <div class="col-xs-3">
+                        <strong>Date To:</strong>
+                        <t t-esc="end_date"/>
+                    </div>
+                    <br/>
+                </div>
+                <div class="oe_structure">
+                    <t t-if="docs">
+                        <table class="table">
+                            <thead>
+                                <tr align="center">
+                                    <th>S N0</th>
+                                    <th align="right">Reference</th>
+                                    <th>Create Date</th>
+                                    <th>Product</th>
+                                    <th>Location</th>
+                                    <th>Quantity</th>
+                                    <th>Total</th>
+                                </tr>
+                            </thead>
+                            <t t-set="total_amount" t-value="0"/>
+                            <t t-set="total_scrap" t-value="0"/>
+                            <t t-set="s_no" t-value="0"/>
+                            <tbody>
+                                <tr t-foreach="docs" t-as="line">
+                                    <t t-set="s_no" t-value="s_no+1"/>
+                                    <td align="right">
+                                        <span t-esc="s_no"/>
+                                    </td>
+                                    <td align="left">
+                                        <span t-esc="line['reference']"/>
+                                    </td>
+                                    <td align="left">
+                                        <span t-esc="line['date_create']"/>
+                                    </td>
+                                    <td align="left">
+                                        <span t-esc="line['display_name']"/>
+                                    </td>
+                                    <td align="left">
+                                        <span t-esc="line['loc']"/>
+                                    </td>
+                                    <td align="right">
+                                        <span t-esc="line['scrap_qty']"/>
+                                    </td>
+                                    <td align="right">
+                                        <span t-esc="(line['price']*line['qty'])"
+                                              t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/>
+                                    </td>
+                                    <t t-set="total_scrap"
+                                       t-value="total_scrap+line['scrap_qty']"/>
+                                    <t t-set="total_amount"
+                                       t-value="total_amount+(line['price']*line['qty'])"/>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div align="left">
+                            <strong>Total Quantity</strong>
+                            <span t-esc="total_scrap"/>
+                            <div align="right">
+                                <strong>Total Amount</strong>
+                                <span t-esc="total_amount"
+                                      t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/>
+                            </div>
+                        </div>
+                    </t>
+                    <t t-else="">
+                        <div style="text-align: center;color:#ff0000; font-size:50px; font-weight:bold">
+                            No Records
+                        </div>
+                    </t>
+                </div>
+                <strong style="float right">Created By:</strong>
+                <t t-esc="user.name"/>
+                <br/>
+                <strong style="float right">Created On:</strong>
+                <t t-esc="created_date"/>
+            </t>
+        </t>
+    </template>
+</odoo>

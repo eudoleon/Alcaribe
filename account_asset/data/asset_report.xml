@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="assets_search_template" inherit_id="account_reports.search_template" primary="True">
+        <xpath expr="//div[@id='extra_options_dropdown']/t" position="replace">
+            <t t-call="account_asset.assets_search_template_extra_options"/>
+        </xpath>
+    </template>
+
+    <template id="assets_search_template_extra_options" inherit_id="account_reports.search_template_extra_options" primary="True">
+        <xpath expr="//div[@role='menu']" position="inside">
+            <a role="menuitem"
+               class="dropdown-item js_account_report_bool_filter"
+               title="Group By Account"
+               data-filter="assets_groupby_account"
+            >Group By Account</a>
+        </xpath>
+    </template>
+
+    <template id="main_template_assets" inherit_id="account_reports.main_template" primary="True">
+        <xpath expr="//div[hasclass('o_account_reports_page')]" position="attributes">
+            <attribute name="class" add="o_account_assets_report" separator=" "/>
+        </xpath>
+        <xpath expr="//table[hasclass('o_account_reports_table')]" position="inside">
+            <colgroup>
+                <col span="5"/>
+                <col class="o_account_asset_column_contrast"/>
+                <col/>
+                <col class="o_account_asset_column_contrast"/>
+                <col/>
+                <col class="o_account_asset_column_contrast"/>
+                <col/>
+                <col class="o_account_asset_column_contrast"/>
+                <col/>
+                <col class="o_account_asset_column_contrast"/>
+            </colgroup>
+        </xpath>
+    </template>
+
+    <template id="main_table_header_assets" inherit_id="account_reports.main_table_header" primary="True">
+        <xpath expr="//tr[contains(@t-if, 'column_headers_render_data')]" position="attributes">
+            <attribute name="class">o_account_asset_report_top_header_row</attribute>
+        </xpath>
+    </template>
+
+    <record id="assets_report" model="account.report">
+        <field name="name">Depreciation Schedule</field>
+        <field name="filter_hierarchy">optional</field>
+        <field name="filter_unfold_all" eval="True"/>
+        <field name="filter_period_comparison" eval="False"/>
+        <field name="custom_handler_model_id" ref="model_account_asset_report_handler"/>
+        <field name="search_template">account_asset.assets_search_template</field>
+        <field name="main_template">account_asset.main_template_assets</field>
+        <field name="main_table_header_template">account_asset.main_table_header_assets</field>
+        <field name="load_more_limit" eval="80"/>
+        <field name="column_ids">
+            <record id="assets_report_acquisition_date" model="account.report.column">
+                <field name="name">Acquisition Date</field>
+                <field name="expression_label">acquisition_date</field>
+                <field name="figure_type">none</field>
+            </record>
+            <record id="assets_report_first_depreciation" model="account.report.column">
+                <field name="name">First Depreciation</field>
+                <field name="expression_label">first_depreciation</field>
+                <field name="figure_type">none</field>
+            </record>
+            <record id="assets_report_first_method" model="account.report.column">
+                <field name="name">Method</field>
+                <field name="expression_label">method</field>
+                <field name="figure_type">none</field>
+            </record>
+            <record id="assets_report_duration_rate" model="account.report.column">
+                <field name="name">Duration / Rate</field>
+                <field name="expression_label">duration_rate</field>
+                <field name="figure_type">none</field>
+            </record>
+            <record id="assets_report_date_from" model="account.report.column">
+                <field name="name">date from</field>
+                <field name="expression_label">assets_date_from</field>
+                <field name="figure_type">monetary</field>
+                <field name="blank_if_zero" eval="False"/>
+            </record>
+            <record id="assets_report_assets_plus" model="account.report.column">
+                <field name="name">+</field>
+                <field name="expression_label">assets_plus</field>
+                <field name="figure_type">monetary</field>
+                <field name="blank_if_zero" eval="False"/>
+            </record>
+            <record id="assets_report_assets_minus" model="account.report.column">
+                <field name="name">-</field>
+                <field name="expression_label">assets_minus</field>
+                <field name="figure_type">monetary</field>
+                <field name="blank_if_zero" eval="False"/>
+            </record>
+            <record id="assets_report_assets_date_to" model="account.report.column">
+                <field name="name">date to</field>
+                <field name="expression_label">assets_date_to</field>
+                <field name="figure_type">monetary</field>
+                <field name="blank_if_zero" eval="False"/>
+            </record>
+            <record id="assets_report_depre_date_from" model="account.report.column">
+                <field name="name">date from</field>
+                <field name="expression_label">depre_date_from</field>
+                <field name="figure_type">monetary</field>
+                <field name="blank_if_zero" eval="False"/>
+            </record>
+            <record id="assets_report_depre_plus" model="account.report.column">
+                <field name="name">+</field>
+                <field name="expression_label">depre_plus</field>
+                <field name="figure_type">monetary</field>
+                <field name="blank_if_zero" eval="False"/>
+            </record>
+            <record id="assets_report_depre_minus" model="account.report.column">
+                <field name="name">-</field>
+                <field name="expression_label">depre_minus</field>
+                <field name="figure_type">monetary</field>
+                <field name="blank_if_zero" eval="False"/>
+            </record>
+            <record id="assets_report_depre_date_to" model="account.report.column">
+                <field name="name">date to</field>
+                <field name="expression_label">depre_date_to</field>
+                <field name="figure_type">monetary</field>
+                <field name="blank_if_zero" eval="False"/>
+            </record>
+            <record id="assets_report_balance" model="account.report.column">
+                <field name="name">book_value</field>
+                <field name="expression_label">balance</field>
+                <field name="figure_type">monetary</field>
+                <field name="blank_if_zero" eval="False"/>
+            </record>
+      </field>
+    </record>
+</odoo>

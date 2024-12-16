@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!--  vista lista -->
+        <record id="view_hr_payroll_vacation_tree" model="ir.ui.view">
+            <field name="name">view.hr.payroll.vacation.tree</field>
+            <field name="model">hr.payroll.dias.vacaciones</field>
+            <field name="arch" type="xml">
+                <tree string="Dias Adicionales segun Antiguedad" editable="bottom">
+                    <field name="service_years" string="Años de servicios"/>
+                    <field name="pay_day" string="Dias a Pagar Vacaiones"/>
+                    <field name="pay_day_garantia" string="Dias adicionales por año Prestaciones"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="act_hr_payroll_days_vacation_tree" model="ir.actions.act_window">
+            <field name="name">DIAS ADICIONALES DE VACACIONES/PRESTACIONES</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">hr.payroll.dias.vacaciones</field>
+            <!--field name="view_type">form</field-->
+            <field name="view_mode">tree,form</field>
+            <!--field name="act_window_id" ref="view_hr_payroll_hollydays_tree"/-->
+            <!--field name="context">{'readonly_by_pass': True}</field-->
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+
+              </p><p>
+
+              </p>
+            </field>
+        </record>
+
+        <menuitem
+            id="view_hr_payroll_day_vacation_menu"
+            parent="hr_work_entry_contract_enterprise.menu_hr_payroll_configuration"
+            name="Dias de Vacación Adicionales"
+            sequence="90"
+            action="act_hr_payroll_days_vacation_tree"/>
+    </data>
+</odoo>

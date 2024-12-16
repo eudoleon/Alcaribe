@@ -1,0 +1,188 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* bi_pos_manager_validation
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 16.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-05-09 10:00+0000\n"
+"PO-Revision-Date: 2023-05-09 10:00+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: bi_pos_manager_validation
+#: model:ir.model.fields,help:bi_pos_manager_validation.field_res_users__pos_security_pin
+msgid ""
+"A Security PIN used to protect sensible functionality in the Point of Sale"
+msgstr ""
+"Een beveiligingspincode die wordt gebruikt om verstandige functionaliteit in het verkooppunt te beschermen"
+
+#. module: bi_pos_manager_validation
+#: model:ir.model.fields,field_description:bi_pos_manager_validation.field_pos_config__qty_detail
+#: model:ir.model.fields,field_description:bi_pos_manager_validation.field_res_config_settings__pos_qty_detail
+msgid "Add/Remove Quantity"
+msgstr "Hoeveelheid toevoegen/verwijderen"
+
+#. module: bi_pos_manager_validation
+#: model_terms:ir.ui.view,arch_db:bi_pos_manager_validation.res_config_settings_view_form
+msgid "Allow manager to validate closing pos."
+msgstr "Sta manager toe om sluitingspositie te valideren."
+
+#. module: bi_pos_manager_validation
+#: model_terms:ir.ui.view,arch_db:bi_pos_manager_validation.res_config_settings_view_form
+msgid ""
+"Allow manager to validate if Add or remove quantity is valid on order lines."
+msgstr ""
+"Manager toestaan te valideren of Aantal toevoegen of verwijderen geldig is op orderregels."
+
+#. module: bi_pos_manager_validation
+#: model_terms:ir.ui.view,arch_db:bi_pos_manager_validation.res_config_settings_view_form
+msgid "Allow manager to validate if discount is applicable to orderline."
+msgstr "Laat manager valideren of korting van toepassing is op orderline."
+
+#. module: bi_pos_manager_validation
+#: model_terms:ir.ui.view,arch_db:bi_pos_manager_validation.res_config_settings_view_form
+msgid "Allow manager to validate if order for payment."
+msgstr "Sta manager toe om te valideren als bestelling voor betaling."
+
+#. module: bi_pos_manager_validation
+#: model_terms:ir.ui.view,arch_db:bi_pos_manager_validation.res_config_settings_view_form
+msgid "Allow manager to validate if price change is need to be order line."
+msgstr "Sta manager toe om te valideren of prijswijziging een orderregel moet zijn."
+
+#. module: bi_pos_manager_validation
+#: model_terms:ir.ui.view,arch_db:bi_pos_manager_validation.res_config_settings_view_form
+msgid "Allow manager to validate order lines need to be delete."
+msgstr "Sta manager toe om te valideren dat orderregels moeten worden verwijderd."
+
+#. module: bi_pos_manager_validation
+#: model_terms:ir.ui.view,arch_db:bi_pos_manager_validation.res_config_settings_view_form
+msgid "Allow manager to validate order need to be delete."
+msgstr "Sta manager toe om te valideren dat de bestelling moet worden verwijderd."
+
+#. module: bi_pos_manager_validation
+#: model:ir.model.fields,field_description:bi_pos_manager_validation.field_pos_config__discount_app
+#: model:ir.model.fields,field_description:bi_pos_manager_validation.field_res_config_settings__pos_discount_app
+msgid "Apply Discount"
+msgstr "Korting toepassen"
+
+#. module: bi_pos_manager_validation
+#: model:ir.model.fields,field_description:bi_pos_manager_validation.field_pos_config__close_pos
+#: model:ir.model.fields,field_description:bi_pos_manager_validation.field_res_config_settings__pos_close_pos
+msgid "Closing Of POS"
+msgstr "Sluiten van POS"
+
+#. module: bi_pos_manager_validation
+#: model:ir.model,name:bi_pos_manager_validation.model_res_config_settings
+msgid "Config Settings"
+msgstr "Configuratie-instellingen"
+
+#. module: bi_pos_manager_validation
+#: model_terms:ir.ui.view,arch_db:bi_pos_manager_validation.res_config_settings_view_form
+msgid "If user want to added password only once for every functionality."
+msgstr "Als de gebruiker slechts één keer een wachtwoord wil toevoegen voor elke functionaliteit."
+
+#. module: bi_pos_manager_validation
+#. odoo-javascript
+#: code:addons/bi_pos_manager_validation/static/src/js/models.js:0
+#, python-format
+msgid "Invalid Password"
+msgstr "ongeldig wachtwoord"
+
+#. module: bi_pos_manager_validation
+#: model:ir.model.fields,field_description:bi_pos_manager_validation.field_pos_config__user_id
+#: model:ir.model.fields,field_description:bi_pos_manager_validation.field_res_config_settings__pos_user_id
+#: model_terms:ir.ui.view,arch_db:bi_pos_manager_validation.res_config_settings_view_form
+msgid "Manager"
+msgstr "Manager"
+
+#. module: bi_pos_manager_validation
+#. odoo-javascript
+#: code:addons/bi_pos_manager_validation/static/src/js/models.js:0
+#, python-format
+msgid "Manager Password"
+msgstr "Manager wachtwoord"
+
+#. module: bi_pos_manager_validation
+#: model_terms:ir.ui.view,arch_db:bi_pos_manager_validation.res_config_settings_view_form
+msgid "Manager Validation"
+msgstr "Manager validatie"
+
+#. module: bi_pos_manager_validation
+#: model:ir.model.fields,field_description:bi_pos_manager_validation.field_pos_config__one_time_valid
+#: model:ir.model.fields,field_description:bi_pos_manager_validation.field_res_config_settings__pos_one_time_valid
+msgid "One Time Password for an Order"
+msgstr "Eenmalig wachtwoord voor een bestelling"
+
+#. module: bi_pos_manager_validation
+#: model:ir.model.fields,field_description:bi_pos_manager_validation.field_pos_config__order_delete
+#: model:ir.model.fields,field_description:bi_pos_manager_validation.field_res_config_settings__pos_order_delete
+msgid "Order Deletion"
+msgstr "Bestelling verwijderen"
+
+#. module: bi_pos_manager_validation
+#: model:ir.model.fields,field_description:bi_pos_manager_validation.field_pos_config__order_line_delete
+#: model:ir.model.fields,field_description:bi_pos_manager_validation.field_res_config_settings__pos_order_line_delete
+msgid "Order Line Deletion"
+msgstr "Orderregel verwijderen"
+
+#. module: bi_pos_manager_validation
+#: model:ir.model.fields,field_description:bi_pos_manager_validation.field_pos_config__payment_perm
+#: model:ir.model.fields,field_description:bi_pos_manager_validation.field_res_config_settings__pos_payment_perm
+msgid "Payment"
+msgstr "Betaling"
+
+#. module: bi_pos_manager_validation
+#: model_terms:ir.ui.view,arch_db:bi_pos_manager_validation.res_users_view_form
+msgid "Point of Sale"
+msgstr "Verkooppunt"
+
+#. module: bi_pos_manager_validation
+#: model:ir.model,name:bi_pos_manager_validation.model_pos_config
+msgid "Point of Sale Configuration"
+msgstr "Point of Sale-configuratie"
+
+#. module: bi_pos_manager_validation
+#: model:ir.model,name:bi_pos_manager_validation.model_pos_session
+msgid "Point of Sale Session"
+msgstr "Point of Sale-sessie"
+
+#. module: bi_pos_manager_validation
+#: model:ir.model.fields,field_description:bi_pos_manager_validation.field_pos_config__price_change
+#: model:ir.model.fields,field_description:bi_pos_manager_validation.field_res_config_settings__pos_price_change
+msgid "Price Change"
+msgstr "Prijs verandering"
+
+#. module: bi_pos_manager_validation
+#: model:ir.model.fields,field_description:bi_pos_manager_validation.field_res_users__pos_security_pin
+msgid "Security PIN"
+msgstr "Beveiligingscode"
+
+#. module: bi_pos_manager_validation
+#. odoo-python
+#: code:addons/bi_pos_manager_validation/models/pos_config.py:0
+#, python-format
+msgid "Security PIN can only contain digits"
+msgstr "Beveiligingspincode mag alleen cijfers bevatten"
+
+#. module: bi_pos_manager_validation
+#: model_terms:ir.ui.view,arch_db:bi_pos_manager_validation.res_config_settings_view_form
+msgid "Set up managers for this point of sale."
+msgstr "Stel managers in voor dit verkooppunt."
+
+#. module: bi_pos_manager_validation
+#: model:ir.model,name:bi_pos_manager_validation.model_res_users
+msgid "User"
+msgstr "Gebruiker"
+
+#. module: bi_pos_manager_validation
+#. odoo-javascript
+#: code:addons/bi_pos_manager_validation/static/src/js/models.js:0
+#, python-format
+msgid "Wrong Password"
+msgstr "Verkeerd wachtwoord"

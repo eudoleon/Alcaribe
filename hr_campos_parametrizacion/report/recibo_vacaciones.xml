@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <data> 
+
+    <template id="report_recibo_vacaciones">
+            <t t-call="web.html_container">
+              <t t-foreach="docs" t-as="o">
+                <t t-call="web.basic_layout" >
+                  <div class="header">
+                    <table width="100%">
+                      <tr>
+                        <td align="left">
+                          <t t-if="o.company_id.logo">  
+                              <img t-attf-src="data:image/*;base64,{{o.company_id.logo}}" style="width:auto; height:80px;"/>
+                          </t>
+                        </td>
+                      </tr>
+                    </table>
+                  </div>
+                  <div class="page">
+                    <table width="100%" class="table table-sm table-bordered">
+                      <tr><td colspan="4" align="center">RECIBO DE VACACIONES</td></tr>
+                      <tr>
+                        <td align="left" colspan="2">
+                          PERIODO DISFRUTE DESDE: <span t-field="o.date_from"/>
+                        </td>
+                        
+                        <td align="left" colspan="">DISFRUTE HASTA: <span t-field="o.date_to"/></td>
+                        
+                        <td align="right">C.I:<span t-field="o.employee_id.identification_id"/></td>
+                      </tr>
+                      <tr>
+                        <td colspan="2">
+                          TRABAJADOR: <span t-field="o.employee_id.name"/>
+                        </td>
+                        <td>
+                          CARGO: <span t-field="o.employee_id.job_id"/>
+                        </td>
+                        <td colspan="2" align="left">PERIODO VACACIONAL: 
+                          <t t-set="periodo" t-value="o.saturdays+o.sundays+o.workdays+o.holydays"/>
+                          <t t-esc="periodo"/>
+                        </td>
+                      </tr>
+                      <tr> 
+                        <td colspan="5" align="left">SUELDO MENSUAL A LA FECHA: <span t-esc="o.float_format(o.sueldo)"/> Bs.</td>
+                      </tr>
+                    </table>
+
+                    <table name="inf_concetos" width="100%" class="table table-bordered">
+                      <tbody>
+                        <tr align="center">
+                          <td>COD. </td>
+                          <td>DESCRIPCIONES</td>
+                          <td>VALOR AUXILIAR</td>
+                          <td>ASIGNACIONES</td>
+                          <td>DEDUCCIONES</td>
+                          
+                        </tr>
+                        <t t-set="acum_asig" t-value="0"/>
+                        <t t-set="acum_dedu" t-value="0"/>
+
+                        <t t-foreach="o.line_ids.filtered(lambda line: line.appears_on_payslip)" t-as="line">
+                        <t t-if="line.category_id.code != 'GROSS'">
+                        <t t-if="line.category_id.code != 'NET'">
+                        <tr>
+                          <td><span t-field="line.code"/></td>
+                          <td><span t-field="line.name"/></td>
+                          <td align="center">
+                            <t t-if="line.code == 'DIVA'">
+                              <span t-field="o.workdays"/>
+                            </t>
+                            <t t-if="line.code == 'BONVAC'">
+                              <span t-field="o.workdays"/>
+                            </t>
+                            <t t-if="line.code == 'FINSE'">
+                              <t t-set="total_fin" t-value="o.saturdays+o.sundays"/>
+                              <t t-esc="total_fin"/>
+                            </t>
+                            <t t-if="line.code == 'DIFE'">
+                              <span t-field="o.holydays"/>
+                            </t>
+                          </td>
+                          <td align="right">
+                            <t t-if="line.category_id.code != 'DED'">
+                            <span t-esc="line.total"
+                                          t-options='{"widget": "monetary", "display_currency": o.company_id.currency_id}'/>
+                                <t t-set="acum_asig" t-value="acum_asig+line.total"/>
+                            </t>
+                          </td>
+                          <td align="right">
+                            <t t-if="line.category_id.code == 'DED'">
+                              <span t-esc="line.total"
+                                            t-options='{"widget": "monetary", "display_currency": o.company_id.currency_id}'/>
+                                  <t t-set="acum_dedu" t-value="acum_dedu+line.total"/>
+                            </t>
+                          </td>
+                          
+                        </tr>
+                        </t>
+                        </t>
+                        </t>
+                        <tr>
+                          <td colspan="3" align="right">
+                            TOTALES:
+                          </td>
+                          <td align="right"><t t-esc="acum_asig" t-options='{"widget": "monetary", "display_currency": o.company_id.currency_id}'/></td>
+                          <td align="right"><t t-esc="acum_dedu" t-options='{"widget": "monetary", "display_currency": o.company_id.currency_id}'/></td>
+                        </tr>
+                      </tbody>
+                      
+                      </table>
+
+                      <table width="100%">
+                        <tr>
+                        <td colspan="2" align="left">
+                          RECIBO CONFIRME
+                        </td>
+                        <td colspan="2">
+                          
+                        </td>
+                      </tr>
+                      <tr>
+                        <td colspan="2" align="left">
+                          
+                        </td>
+                        <t t-set="neto" t-value="acum_asig-acum_dedu"/>
+                        <td colspan="2" align="right">
+                          NETO A PAGAR:  <t t-esc="neto" t-options='{"widget": "monetary", "display_currency": o.company_id.currency_id}'/> 
+                        </td>
+                      </tr>
+                      <tr>
+                        <td colspan="4">
+                          __________________________________________
+                        </td>
+                      </tr>
+                      <tr>
+                        <td colspan="4">
+                          <span t-field="o.employee_id.name"/>
+                        </td>
+                      </tr>
+                    </table>
+                  </div>
+                </t> 
+              </t>
+            </t>
+    </template>
+
+    <!--t t-set="lang" t-value="o.invoice_user_id.sudo().lang if o.type in ('in_invoice', 'in_refund') else o.partner_id.lang"/>
+                    <t t-call="account.report_invoice_document_with_payments" t-lang="lang"/-->
+
+    <report
+            id="zz"
+            model="hr.payslip"
+            string="Recibo de Vacaciones"
+            report_type="qweb-pdf"
+            name="hr_campos_parametrizacion.report_recibo_vacaciones"
+            file="hr_campos_parametrizacion.report_recibo_vacaciones"
+            paperformat="paperformat_recibo_nomina"
+        /> <!-- paperformat="paperformat_recibo_nomina" -->
+
+        <!--
+          attachment="(object.state == 'posted') and ((object.name or 'INV').replace('/','_')+'.pdf')"
+            print_report_name="(object._get_report_base_filename())"
+            groups="account.group_account_invoice"
+          -->
+  
+  </data>
+</odoo>

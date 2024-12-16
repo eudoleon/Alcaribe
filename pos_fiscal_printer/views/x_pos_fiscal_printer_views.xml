@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="x_pos_fiscal_printer_view_tree" model="ir.ui.view">
+        <field name="name">x.pos.fiscal.printer.view.tree</field>
+        <field name="model">x.pos.fiscal.printer</field>
+        <field name="arch" type="xml">
+            <tree string="Impresoras fiscales">
+                <field name="name" required="1" />
+                <field name="serial" required="1" />
+                <field name="flag_21" />
+                <field name="serial_port" required="1" />
+                <field name="connection_type" />
+                <field name="api_url" />
+            </tree>
+        </field>
+    </record>
+    <record id="x_pos_fiscal_printer_view_form" model="ir.ui.view">
+        <field name="name">x.pos.fiscal.printer.view.form</field>
+        <field name="model">x.pos.fiscal.printer</field>
+        <field name="arch" type="xml">
+            <form string="Impresoras fiscales">
+                <sheet>
+                    <group>
+                        <field name="name" required="1" />
+                        <field name="serial" required="1" />
+                        <field name="flag_21" />
+                        <field name="serial_port" />
+                        <field name="connection_type" />
+                        <field name="api_url" />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="x_pos_fiscal_printer_action" model="ir.actions.act_window">
+        <field name="name">Impresoras fiscales</field>
+        <field name="res_model">x.pos.fiscal.printer</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <menuitem
+        id="x_pos_fiscal_printer_menu"
+        name="Impresoras fiscales"
+        action="x_pos_fiscal_printer_action"
+        parent="point_of_sale.menu_point_config_product"
+    />
+
+</odoo>

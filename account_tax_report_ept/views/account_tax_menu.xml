@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+	 <record id="account_tax_wizard" model="ir.ui.view">
+			<field name="name">Informe de Impuestos</field>
+			<field name="model">account.tax.reports</field>
+			<field name="type">form</field>
+			<field name="arch" type="xml">
+				<form>
+					<group>
+						<group>
+							<field name="from_date"/>
+							<field name="to_date"/>
+							<field name="company_id"/>
+							<field name="datas" invisible="1"/>
+							<field name="tax_or_group" required="1"/>
+							<field name="tax_ids" widget="many2many_tags" String="Taxes" attrs="{'invisible':['|',('tax_or_group','=','group'),('tax_or_group','=',False)]}"></field>
+							<field name="tax_group_ids" widget="many2many_tags" String="Tax Groups" attrs="{'invisible':['|',('tax_or_group','=','tax'),('tax_or_group','=',False)]}"></field>
+						</group>
+					</group>
+					<footer>
+						<button colspan="2" class="btn-primary" string="Descargar" type="object" name="get_account_tax_report"/>
+						<button colspan="2" class="btn-primary" string="Resumen" type="object" name="get_account_tax_report_summary"/>
+						<button string="Cancelar" class="oe_highlight" special="cancel"/>
+					</footer>	
+				</form>
+			</field>
+		</record>
+         
+		<record id="action_account_tax_wizard" model="ir.actions.act_window">
+            <field name="name">Informe de Impuestos</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">account.tax.reports</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="account_tax_wizard"/>
+            <field name="target">new</field>
+        </record>
+    
+    <menuitem id="account_tax_report" name="Informe Impuestos en Excel" parent="account.menu_finance_reports"/>
+	<menuitem id="account_tax_report_submenu" name="Informes de Impuestos" parent="account_tax_report" sequence="1" action="action_account_tax_wizard"/>
+	
+        
+	</data>
+	
+</odoo>

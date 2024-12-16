@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="hr_leave_inherit" model="ir.ui.view">
+            <field name="name">hr.leave.inherit</field>
+            <field name="model">hr.leave</field>
+            <field name="inherit_id" ref="hr_holidays.hr_leave_view_form_manager_approve"/>
+            <field name="arch" type="xml">
+               
+                <xpath expr="//form[1]/sheet[1]/group[1]/group[1]/label[1]" position="before"><!-- odoo 14-->
+                    <field name="descontar_nom" widget="boolean_toggle" string="Descontar de la Nómina?"/>
+                </xpath>
+                
+               
+            </field>
+        </record>
+    </data>
+</odoo>

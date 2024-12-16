@@ -1,0 +1,174 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<odoo>
+    <data>
+
+        <menuitem id="menu_venezuela_reporting" name="Informes de Venezuela" parent="account.menu_finance_reports"/>
+        <menuitem id="menu_wh_configuration" name="Retenciones" parent="menu_finance_fiscal_settings"/>
+        <menuitem id="menu_withholdings" name="Retenciones" parent="account.menu_finance"/>
+
+        <record id="action_change_invoice_sin_cred" model="ir.actions.act_window">
+            <field name="name">Change Invoice Sin Cred</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">change.invoice.sin.cred</field>
+<!--            <field name="view_type">form</field>-->
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <record id="extra_account_move_venezuela" model="ir.ui.view">
+            <field name="name">Extra account.move Venezuela</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_move_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='date']" position="attributes">
+                    <attribute name="attrs">
+                        {'invisible': False}
+                    </attribute>
+                </xpath>
+                <xpath expr="//field[@name='partner_id']" position="after">
+                    <field name="rif" string="RIF"
+                           attrs="{'invisible':[ '|', ('move_type', 'not in',  ('out_invoice', 'out_refund', 'out_receipt','in_invoice', 'in_refund', 'in_receipt')), ('people_type_company1','=','pjnd')]}"/>
+                    <field name="nationality1" string="Tipo de Documento"  attrs="{'invisible':['|', ('move_type', 'not in',  ('out_invoice', 'out_refund', 'out_receipt','in_invoice', 'in_refund', 'in_receipt')),('company_type1', '=', 'company')]}"/>
+                    <field name="identification_id1" string="Documento de Identidad" attrs="{'invisible':['|', ('move_type', 'not in',  ('out_invoice', 'out_refund', 'out_receipt','in_invoice', 'in_refund', 'in_receipt')),('company_type1', '=', 'company')]}"/>
+                </xpath>
+
+
+
+                <xpath expr="//field[@name='partner_id']" position="attributes">
+                    <attribute name="create">0</attribute>
+                </xpath>
+
+                <xpath expr="//field[@name='partner_id']" position="replace">
+                    <div>
+                        <field name="partner_id" widget="res_partner_many2one"
+                               context="{'res_partner_search_mode': (context.get('default_move_type', 'entry') in ('out_invoice', 'out_refund', 'out_receipt') and 'customer') or (context.get('default_move_type', 'entry') in ('in_invoice', 'in_refund', 'in_receipt') and 'supplier') or False,
+                                         'show_address': 1, 'default_is_company': True, 'show_vat': True}"
+                               attrs="{'invisible': [('move_type', 'not in',  ('out_invoice', 'out_refund', 'out_receipt','in_invoice', 'in_refund', 'in_receipt'))]}" options="{'no_open': True, 'no_quick_create': True, 'no_create_edit' : True}"/>
+                    </div>
+                </xpath>
+
+                <xpath expr="//field[@name='ref']" position="after">
+                    <field name="invoice_reverse_purchase_id" string="Referencia Factura origen" force_save="1"
+                           domain="[('move_type', 'in', ['in_invoice']), ('state', '=', 'posted'),('partner_id', '=', partner_id)]"
+                           attrs="{'invisible': [('move_type', 'not in', ['in_refund', 'in_receipt'])],
+                                  'required': [('move_type', 'in', ['in_refund', 'in_receipt'])],
+                                  'readonly': [('state', 'in', ['posted', 'cancel'])]}"/>
+                    <field name="marck_paper" string="Papel para anular" required="0" attrs="{'invisible': [ '|', ('state','!=','posted'),('move_type', 'not in',  ('out_invoice', 'out_refund', 'out_receipt','in_invoice', 'in_refund', 'in_receipt'))]}"/>
+                    <field name="maq_fiscal_p" string="Maquina Fiscal?" attrs="{'invisible': ['|',('move_type', 'not in',  ('in_invoice', 'in_refund', 'in_receipt')),('move_type', '=', 'entry')]}"/>
+                    <field name="nro_ctrl" string="Número de Control" force_save="1" attrs="{'required': [('move_type', 'in',  ('out_invoice', 'out_refund', 'out_receipt','in_invoice', 'in_refund', 'in_receipt')),('maq_fiscal_p','=',False)], 'readonly':[('state','not in','draft')], 'invisible': [ ('move_type', 'not in',  ('out_invoice', 'out_refund', 'out_receipt','in_invoice', 'in_refund', 'in_receipt'))]}" context ="{'res_partner_search_mode': 'supplier'}"/>
+                    <field name="supplier_invoice_number" force_save="1" string="Número de Factura de Proveedor" attrs="{'required': [ ('move_type', '!=', 'entry'), ('move_type', 'not in',  ('out_invoice', 'out_refund', 'out_receipt')),('maq_fiscal_p','=',False)], 'readonly':[('state','not in','draft')], 'invisible': [('move_type', 'not in',  ('in_invoice', 'in_refund', 'in_receipt'))]}" context ="{'res_partner_search_mode': 'supplier'}"/>
+                    <field name="invoice_import_id" attrs="{'invisible': [ '|', ('move_type', 'not in',  ('in_invoice', 'in_refund', 'in_receipt')), ('people_type_company1', '!=', 'pjnd')]}"/>
+
+                </xpath>
+
+                <xpath expr="//field[@name='id']" position="after">
+                   <field name="type_name" invisible="1"></field>
+                </xpath>
+                <xpath expr="//page[@name='other_info']" position="before">
+                   <page string="Retenciones" attrs="{'invisible':[('move_type', '=', 'entry')]}">
+                        <group>
+                            <group string="Retención IVA">
+                                <field name="wh_iva" readonly="1"/>
+                                <field name="wh_iva_id"/>
+                                <field name="iva_number_asignado" readonly="1" force_save="1"/>
+                                <!--<button name="button_generate_wh_doc" string="Generate Wh doc" class="oe_highlight" type="object" colspan="1" attrs="{'invisible': ['|',('wh_iva_id','!=',False),('state','=','posted')],'readonly':['|',('wh_iva_id','!=',False),('state','!=','posted')]}"/>-->
+                                <!--<field name="consolidate_vat_wh" attrs="{'invisible':[('type', '=', 'entry')]}"/>-->
+                                <field name="vat_apply" attrs="{'invisible':[('move_type', '=', 'entry')]}" string="Excluir este documento de la retención de IVA"/>
+                            </group>
+                            <group string="Retención ISLR">
+
+                                <field name="status"  colspan="2"/>
+                                <field name="islr_wh_doc_id" readonly="1"/>
+                                <field name="islr_number_asignado" readonly="1" force_save="1"/>
+<!--
+                                <button name="generate_islr" string="Generar retención" class="oe_highlight" type="object" attrs="{'invisible': ['|',('islr_wh_doc_id','!=',False),('state','!=','posted')]}"/>
+-->
+
+                            </group>
+                        </group>
+                    </page>
+                    <page string="Resumen IVA por Alicuota" attrs="{'invisible': [('move_type', '=', 'entry')]}">
+
+                            <field name="alicuota_line_ids" nolabel="1" readonly="True">
+                                <tree string="VAT Retention Line" editable="buttom">
+                                    <field name="tipo_doc"/>
+                                    <field name="total_con_iva" sum="total_con_iva"/>
+                                    <field name="total_base" sum="total_base"/>
+
+                                    <field name="total_exento"/>
+                                    <field name="alicuota_general"/>
+                                    <field name="alicuota_reducida"/>
+                                    <field name="alicuota_adicional"/>
+
+
+                                    <field name="total_valor_iva" sum="total_valor_iva"/>
+                                    <field name="porcentaje_ret"/>
+                                    <field name="total_ret_iva" sum="total_ret_iva"/>
+                                    <field name="nro_comprobante"/>
+                                    <field name="state"/>
+                                </tree>
+                            </field>
+
+                    </page>
+                </xpath>
+
+                <xpath expr="//page[@name='other_info']/group/group[3]" position="after">
+                    <group>
+                        <separator string="Informacion fiscal"/>
+                        <group colspan="1" col="4">
+                            <field name="sin_cred" />
+                            <button name="%(action_change_invoice_sin_cred)d" invisible="1" type="action" string="Cambiar Exclusión" colspan="2" help="Haga clic en este botón para cambiar este campo."  states="draft"/>
+                        </group>
+                        <newline/>
+                        <field name="people_type_company1" invisible="1"/>
+                        <field name="people_type_individual1" invisible="1"/>
+                        <field name="company_type1" invisible="1"/>
+                        <field name="create_invoice" invisible="1"/>
+                        <button name="%(action_wiz_nroctrl)d" type="action" string="Cambiar Número de Control" colspan="6" attrs="{'invisible': [('state','=','draft')]}"/>
+                    </group>
+                </xpath>
+                <xpath expr="//field[@name='quantity']" position="before">
+                    <field name="concept_id" required="1" force_save="1" readonly="1" optional="hide" />
+                </xpath>
+
+                <xpath expr="//div[@name='journal_div']" position="after">
+                    <field name="supplier_rank1" invisible="1"/>
+                    <field name="customer_rank1" invisible="1"/>
+                    <field name="company_type1" invisible="1"/>
+                    <field name="people_type_company1" invisible="1"/>
+                    <field name="people_type_individual1" invisible="1"/>
+                    <field name="nro_planilla_impor" string="N° de Planilla de Importación" context="{'res_partner_search_mode': 'supplier'}" attrs="{'invisible': [ '|', ('move_type', 'not in',  ('in_invoice', 'in_refund', 'in_receipt')), ('people_type_company1', '!=', 'pjnd')], 'required': [('move_type', 'in',  ('in_invoice', 'in_refund', 'in_receipt')), ('people_type_company1', '=', 'pjnd')]}"/>
+                    <field name="nro_expediente_impor" string="N° de Expediente de Importación" context="{'res_partner_search_mode': 'supplier'}" attrs="{'invisible': [ '|', ('move_type', 'not in',  ('in_invoice', 'in_refund', 'in_receipt')), ('people_type_company1', '!=', 'pjnd')], 'required': [('move_type', 'in',  ('in_invoice', 'in_refund', 'in_receipt')), ('people_type_company1', '=', 'pjnd')]}"/>
+                    <field name="fecha_importacion" string="Fecha de la Planilla de Importación" context="{'res_partner_search_mode': 'supplier'}" attrs="{'invisible': [ '|', ('move_type', 'not in',  ('in_invoice', 'in_refund', 'in_receipt')), ('people_type_company1', '!=', 'pjnd')], 'required': [('people_type_company1', '=', 'pjnd')]}"/>
+                </xpath>
+
+            </field>
+        </record>
+
+        <record id="extra_account_move_search_venezuela" model="ir.ui.view">
+            <field name="name">Extra account.move.search Venezuela</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_account_invoice_filter"/>
+            <field name="arch" type="xml">
+
+                    <xpath expr="//filter[@name='late']" position="after">
+                    <!--separator-->
+                        <filter name="paper_anu" string="Papel Dañado" domain="[('paper_anu', '=', True)]"/>
+                    <!--/separator-->
+                    </xpath>
+
+            </field>
+        </record>
+        <record id="extra_account_move_tree_venezuela" model="ir.ui.view">
+            <field name="name">Extra account.move tree Venezuela</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_invoice_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='name']" position="after">
+                    <field name="nro_ctrl" string="N° Control"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

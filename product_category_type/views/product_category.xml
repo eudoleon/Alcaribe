@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2021 Sylvain LE GAL (https://twitter.com/legalsylvain)
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo>
+
+    <record model="ir.ui.view" id="view_product_category_search">
+        <field name="model">product.category</field>
+        <field name="inherit_id" ref="product.product_category_search_view" />
+        <field name="arch" type="xml">
+            <field name="parent_id" position="after">
+                <field name="type" />
+            </field>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_product_category_tree">
+        <field name="model">product.category</field>
+        <field name="inherit_id" ref="product.product_category_list_view" />
+        <field name="arch" type="xml">
+            <tree position="attributes">
+                <attribute name="decoration-info">type == 'view'</attribute>
+            </tree>
+            <field name="display_name" position="after">
+                <field name="type" invisible="1" />
+            </field>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_product_category_form">
+        <field name="model">product.category</field>
+        <field name="inherit_id" ref="product.product_category_form_view" />
+        <field name="arch" type="xml">
+            <field name="parent_id" position="before">
+                <field name="type" class="oe_inline" />
+            </field>
+        </field>
+    </record>
+    <record id="product_normal_form_view_add_cate" model="ir.ui.view">
+        <field name="name">product.normal.form</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="product.product_normal_form_view" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='categ_id']" position="before">
+                <field name="ve_origen"  />
+                <field name="hr_department_id"  />
+                <field name="categ_seccion_id"  />
+                <field name="categ_familia_id"  />
+            </xpath>
+        </field>
+    </record>
+    <record id="product_template_only_form_view_add_cate" model="ir.ui.view">
+        <field name="name">product.template.only.form</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_only_form_view" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='categ_id']" position="before">
+                <field name="ve_origen"  />
+                <field name="hr_department_id"  />
+                <field name="categ_seccion_id" />
+                <field name="categ_familia_id"  />
+            </xpath>
+        </field>
+    </record>
+    <record model="ir.ui.view" id="product_template_view_tree_inherit_product_state_id">
+        <field name="name">product.template.tree (product_state_id)</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_tree_view" />
+        <field name="priority">50</field>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='categ_id']" position="before">
+                <field name="ve_origen"  />
+                <field name="hr_department_id" optional="hide"  />
+                <field name="categ_seccion_id" optional="hide"  />
+                <field name="categ_familia_id" optional="hide"  />
+            </xpath>
+        </field>
+    </record>
+    <record model="ir.ui.view" id="product_product_view_tree_inherit_product_state_id">
+        <field name="name">product.product.tree (product_state_id)</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="product.product_product_tree_view" />
+        <field name="priority">50</field>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='categ_id']" position="before">
+                <field name="ve_origen"  />
+                <field name="hr_department_id" optional="hide" />
+                <field name="categ_seccion_id" optional="hide"  />
+                <field name="categ_familia_id" optional="hide"  />
+            </xpath>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="activity_log_form_view_ah" model="ir.ui.view">
+            <field name="name">activity.log.form.view.ah</field>
+            <field name="groups_id" eval="[(4, ref('group_login_log_user_ah'))]"/>
+            <field name="model">activity.log</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button name="action_open_record" type="object" class="oe_stat_button" icon="fa-external-link" attrs="{'invisible':[('action','=','delete')]}">
+                                Open Record
+                            </button>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="name" readonly='1' />
+                                <field name="model" readonly='1' />
+                                <field name="login_log_id" readonly='1' />
+                                <!-- <field name="login_log_read_id" string='Session' readonly='1' attrs="{'invisible':[('action','!=','read')]}"/> -->
+                            </group>
+                            <group>
+                                <field name="res_id" readonly='1' />
+                                <field name="action" readonly='1' />
+                                <field name="create_date" string="Performed Date" readonly='1' />
+                                <field name="has_change_view" invisible='1' />
+                            </group>
+                        </group>
+                        <notebook attrs="{'invisible':[('action','!=','edit')]}">
+                            <page string='Changes'>
+                                <field name="value" readonly='1' />
+                            </page>
+                            <page string='Changes Views' attrs="{'invisible':[('has_change_view','=',False)]}">
+                                <field name="edit_value_ids" readonly='1' />
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <footer>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="activity_log_seearch_view_ao" model="ir.ui.view">                                
+            <field name="name">activity.log.seearch.view.ao</field>                                
+            <field name="model">activity.log</field>                                
+            <field name="arch" type="xml">                                    
+                <search string="Search contacts">                                        
+                    <field name="name"/>
+                    <field name="model" string="Model"/>
+                    <field name="res_id" />  
+                    <field name="action" />
+                    <field name="user_id" />
+                    
+                    <filter string="Performed Date" name="filter_create_date" date="create_date"/>                                     
+                    <filter string="Only Read" domain="[('action', '=', 'read')]" name="only_read" />
+                    <filter string="Only Create" domain="[('action', '=', 'create')]" name="only_create" />
+                    <filter string="Only Modify" domain="[('action', '=', 'edit')]" name="only_edit" />
+                    <filter string="Only Delete" domain="[('action', '=', 'delete')]" name="only_delete" />
+                    <group expand="0" string="Group By">                                            
+                        <filter string="Model" name="group_by_model" context="{'group_by': 'model'}" />
+                        <filter string="Performed Action" name="group_by_action" context="{'group_by': 'action'}" />
+                        <filter string="User" name="group_by_user_id" context="{'group_by': 'user_id'}" />
+                        <filter string="Session" name="group_by_login_log_id" context="{'group_by': 'login_log_id'}" />
+                        <filter string="Performed Date" name="group_by_performed_date" context="{'group_by': 'create_date'}" />
+                    </group>
+                </search>                                
+            </field>                            
+        </record>
+
+        <record id="activity_log_tree_view_ah" model="ir.ui.view">
+            <field name="name">activity_log.tree.view.ah</field>
+            <field name="groups_id" eval="[(4, ref('group_login_log_user_ah'))]"/>
+            <field name="model">activity.log</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="user_id"/>
+                    <field name="create_date" string="Performed Date" />
+                    <field name="model"/>
+                    <!-- <field name="res_id" /> -->
+                    <field name="action" />
+                    
+                </tree>
+            </field>
+        </record>
+        
+        
+
+        <record id="action_activity_log_ah" model="ir.actions.act_window">
+            <field name="name">Activity Log</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">activity.log</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id="menu_activity_log_ah" name="Activity Log" parent="menu_main_login_log_ah" action="action_activity_log_ah" groups="group_login_log_user_ah" sequence='2'/>
+
+
+    </data>
+</odoo>

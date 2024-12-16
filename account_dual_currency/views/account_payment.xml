@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="account_payment_dual_currency" model="ir.ui.view">
+            <field name="name">Dual Currency: account.payment.form</field>
+            <field name="model">account.payment</field>
+            <field name="inherit_id" ref="account.view_account_payment_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='date']" position="before">
+                     <field name="currency_equal" invisible="1"/>
+                     <field name="tax_today" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                     <field name="amount_local" readonly="1" force_save="1" attrs="{'invisible':[('currency_equal', '!=',  True)]}"/>
+                     <field name="amount_ref" readonly="1" force_save="1" attrs="{'invisible':[('currency_equal', '=',  True)]}"/>
+                     <field name="currency_id_dif" readonly="1" attrs="{'invisible':[('currency_equal', '=',  True)]}"/>
+                     <field name="currency_id_company" invisible="1"/>
+                </xpath>
+                <xpath expr="//field[@name='journal_id']" position="after">
+                    <field name="move_id_dif"/>
+                </xpath>
+                <xpath expr="//group[@name='group2']" position="after">
+                    <group name="group_igtf">
+                        <field name="currency_id_name" invisible="1"/>
+                        <field name="aplicar_igtf_divisa" attrs="{'readonly': [('state', '!=', 'draft')],'invisible': [('currency_id_name','=','VEF')]}"/>
+                        <field name="journal_igtf_id" widget="selection"  domain="[('type', 'in', ('bank', 'cash'))]"  attrs="{'readonly': [('state', '!=', 'draft')],'invisible': ['|',('aplicar_igtf_divisa','=',False),('currency_id_name','=','VEF')]}"/>
+                        <field name="igtf_divisa_porcentage" attrs="{'invisible': ['|',('aplicar_igtf_divisa','=',False),('currency_id_name','=','VEF')]}"/>
+                        <field name="mount_igtf" attrs="{'invisible': ['|',('aplicar_igtf_divisa','=',False),('currency_id_name','=','VEF')]}"/>
+                        <field name="amount_total_pagar" style="color: red;" attrs="{'invisible': ['|',('aplicar_igtf_divisa','=',False),('currency_id_name','=','VEF')]}"/>
+                        <field name="move_id_igtf_divisa" attrs="{'invisible': ['|',('aplicar_igtf_divisa','=',False),('currency_id_name','=','VEF')]}"/>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

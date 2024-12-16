@@ -1,0 +1,6 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_payment_detail_treasury_all_2,Detalle de pagos,model_account_payment_detail_massive,,1,1,0,0
+access_payment_detail_account_user_1,Detalle de pagos,model_account_payment_detail_massive,account.group_account_invoice,1,1,1,1
+access_account_payment_ce_1,Detalle de pagos,model_account_payment_ce,account.group_account_invoice,1,1,1,1
+access_account.payment.tag,Detalle de pagos tag,model_account_payment_tag,,1,1,1,1
+access_vendor.vendor.tag,Detalle vendor.vendor,model_vendor_vendor,,1,1,1,1

@@ -1,0 +1,26 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <data >
+        <!-- Add you code here -->
+        <record id="base.VEF" model="res.currency">
+            <field name="name">Bs.</field>
+            <field name="symbol">Bs.</field>
+            <field name="decimal_places">2</field>
+        </record>
+
+        <record id="update_sale_price_product" model="ir.cron">
+            <field name="name">Actualizar Producto </field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+            <field name="doall" eval="False"/>
+            <field name="user_id" ref="base.user_root"/>
+            <field name="priority">2</field>
+            <field name="state">code</field>
+            <field name="model_id" ref="vzla_currency_rate.model_res_currency_rate_server" />
+            <field name="code">model._cron_update_product()</field>
+            <field name="active" eval="True"/>
+        </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,105 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<odoo>
+    <data>
+        <record id="view_generate_txt_iva_tree" model="ir.ui.view">
+            <field name="name">generate.account.wh.iva.txt.tree</field>
+            <field name="model">account.wh.iva.txt</field>
+            <field name="arch" type="xml">
+                <tree string="Field TXT">
+                    <field name="name"/>
+                    <field name="date_start"/>
+                    <field name="date_end"/>
+                    <!--field name="period_id"/-->
+                    <field name="amount_total_ret"/>
+                    <field name="amount_total_base"/>
+                    <field name="type"/>
+                    <field name="company_id" groups="base.group_multi_company"/>
+                    <field name="state" widget="badge" decoration-danger="state == 'cancel'" decoration-info="state == 'draft'" decoration-warning="state == 'confirmed'"  decoration-success="state == 'done'"/>
+                </tree>
+            </field>
+        </record>
+        <record id="view_generate_txt_iva_form" model="ir.ui.view">
+            <field name="name">generate.account.wh.iva.txt.form</field>
+            <field name="model">account.wh.iva.txt</field>
+            <field name="arch" type="xml">
+                <form string="Líneas de Retención para TXT IVA">
+                    <header>
+                        <button name="action_generate_lines_txt" string="Generar Lineas TXT" states="draft" type="object"  class="oe_highlight"/>
+                        <button name="action_confirm" string="Confirmar" states="draft" type="object"  class="oe_highlight"/>
+                        <button name="action_done" string="Generar TXT" states="confirmed" type="object"  class="oe_highlight"/>
+                        <button name="action_anular" string="Cancelar" states="confirmed,done" type="object"  class="oe_highlight"/>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,confirmed,done"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                <field name="date_start" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                <field name="date_end" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                            </group>
+                            <group>
+                                <field name="type"/>
+                                <field name="company_id" groups="base.group_multi_company"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Lineas de Retención">
+                                <group>
+                                    <field name="txt_ids" nolabel="1" widget="one2many_list" colspan="2">
+                                        <tree string="Field of lines TXT"  create="false">
+                                            <field name="partner_id" readonly="1" force_save="1"/>
+                                            <field name="invoice_id" readonly="1" force_save="1"/>
+                                            <field name="voucher_id" readonly="1" force_save="1"/>
+                                            <field name="untaxed" readonly="1" force_save="1"/>
+                                            <field name="amount_withheld" readonly="1" force_save="1"/>
+                                            <field name="tax_wh_iva_id" readonly="1" force_save="1"/>
+                                            <field name="amount_sdcf" readonly="1" force_save="1"/>
+                                        </tree>
+                                    </field>
+                                </group>
+                                <group>
+                                    <group>
+                                        <field name="amount_total_ret" readonly="1" force_save="1"/>
+                                        <field name="amount_total_base"  readonly="1" force_save="1"/>
+                                    </group>
+                                    <group>
+                                        <field name="txt_name" invisible="1"/>
+                                        <field name="txt_file" string="Archivo TXT" filename="txt_name" readonly="1"/>
+                                    </group>
+                                </group>
+
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                          <field name="message_follower_ids" widget="mail_followers"/>
+                          <field name="activity_ids" widget="mail_activity"/>
+                          <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_generate_text_iva">
+            <field name="name">Generar TXT</field>
+            <field name="res_model">account.wh.iva.txt</field>
+            <field name="type">ir.actions.act_window</field>
+<!--            <field name="view_type">form</field>-->
+            <field name="view_mode">tree,form</field>
+<!--            <field name="search_view_id" ref="view_generate_txt_filter"/>-->
+            <field name="help"> Con esta opción puedes crear y manejar la generación del Archivo TXT de IVA, requerido por la localización venezolana para los agentes de retención de IVA</field>
+        </record>
+
+        <record model="ir.rule" id="txt_iva_company_rule">
+            <field name="name">TXT IVA: multi-company</field>
+            <field name="model_id" ref="model_account_wh_iva_txt"/>
+            <field name="global" eval="True"/>
+            <field name="domain_force">
+                [('company_id', 'in', company_ids)]
+            </field>
+        </record>
+
+        <menuitem name="Generar TXT IVA" id="menu_action_generate_txt_iva" parent="l10n_ve_full.menu_venezuela_reporting" action="action_generate_text_iva"/>
+
+    </data>
+</odoo>

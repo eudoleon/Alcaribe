@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <data>    
+    <record id="paperformat_resumen_nomina" model="report.paperformat">
+
+      <field name="default" eval="True"/>
+        <field name="name">A4 Resumen nomina</field>
+        <field name="default" eval="True"/>
+        <field name="format">custom</field>
+        <field name="page_height">210</field>
+        <field name="page_width">297</field>
+        <field name="orientation">Portrait</field>
+        <field name="margin_top">35</field>
+        <field name="margin_bottom">15</field>
+        <field name="margin_left">5</field>
+        <field name="margin_right">5</field>
+        <field name="header_line" eval="False"/>
+        <field name="header_spacing">30</field>
+        <field name="dpi">110</field>
+    </record>
+
+    <report id="report_resumen_nomina"
+        model="wizard.resumen.nomina"
+        name="hr_infor_resumen_nom.reporte_resumen_nomina"
+        file="hr_infor_resumen_nom.reporte_resumen_nomina"
+        string="Reporte Resumen Nómina"
+        report_type="qweb-html"
+        paperformat="hr_infor_resumen_nom.paperformat_resumen_nomina"
+        /><!-- paperformat="hr_infor_resumen_nom.paperformat_resumen_nomina"-->
+
+    <template id="reporte_resumen_nomina">
+
+       <t t-call="web.html_container" ><!-- realiza llamados a template propio de odoo -->
+         <t t-call="web.basic_layout" ><!-- realiza llamados a template propio de odoo -->
+          <t t-foreach="docs" t-as="o">
+
+            <div class="header">
+              <table width="100%"  border="1">
+                <tr>
+                  <td align="left">
+                      <t t-if="o.company_id.logo">  
+                          <img t-attf-src="data:image/*;base64,{{o.company_id.logo}}" style="width:300px; height:auto;"/>
+                      </t>
+                  </td>
+                </tr>
+                <tr>
+                  <td>EMPRESA: <samp style="font-size:18px;font-weight: bolder"><t t-esc="docs.company_id.name" /></samp></td>
+                </tr>
+                <tr><td> </td></tr>
+              </table>
+            </div>
+
+            <div class="page">
+              <table class="table table-sm table-bordered" style="font-size:10px;">
+                <tr style="background-color:#CCCCCC">
+                  <td>Nro</td>
+                  <td>CEDULA</td>
+                  <td>NOMBRE</td>
+                  <td>CARGO</td>
+                  <td>TOTAL DEPOSITO NOMINA</td>
+                  <td>BONO COMP.BENEF.ALIMENT. Bs</td>
+                  <td>TOTAL CESTA TIKET</td>
+                  <td>DESC. PRESTAMO</td>
+                  <td>PREST. USD</td>
+                  <td>TOTAL COBRAR BONO COMP. BENEF. ALIMENT- EFECTIVOBs</td>
+                  <td>DEPARTAMEBNTO</td>
+                </tr>
+                <t t-set="num" t-value="0"/>
+                <t t-set="deposito_total" t-value="0"/>
+                <t t-set="bono_total" t-value="0"/>
+                <t t-set="descuento_total" t-value="0"/>
+                <t t-set="descuento_usd" t-value="0"/>
+                <t t-set="bno_total_pagar" t-value="0"/>
+                <t t-set="total_cesta" t-value="0"/>
+                <t t-foreach="o.line.sorted(key=lambda x: (x.employee_id.name),reverse=False)" t-as="line" >
+                  <t t-set="num" t-value="num+1"/>
+                  <tr>
+                    <td><span t-esc="num"/></td>
+                    <td><span t-esc="line.employee_id.tipo_contribuyente"/>-<span t-esc="line.employee_id.rif"/></td>
+                    <td><span t-esc="line.employee_id.name"/></td>
+                    <td><span t-esc="line.employee_id.job_id.name"/></td>
+                    <td align="right"><span t-esc="line.float_format(line.total_deposito)"/> Bs</td>
+                        <t t-set="deposito_total" t-value="deposito_total+line.total_deposito"/>
+                    <td align="right"><span t-esc="line.float_format(line.total_bono+line.total_desc_prestamo)"/> Bs</td>
+                        <t t-set="bono_total" t-value="bono_total+line.total_bono+line.total_desc_prestamo"/>
+
+                    <td align="right"><span t-esc="line.float_format(line.total_cesta_tiket)"/> Bs</td>
+                    <t t-set="total_cesta" t-value="total_cesta+line.total_cesta_tiket"/>
+
+                    <td align="right"><span t-esc="line.float_format(line.total_desc_prestamo)"/> Bs</td>
+                        <t t-set="descuento_total" t-value="descuento_total+line.total_desc_prestamo"/>
+                    <td align="right">$ <span t-esc="line.float_format(line.total_desc_prestamo/line.payslip_id.os_currecy_rate_gene)"/></td>
+                        <t t-set="descuento_usd" t-value="descuento_usd+line.total_desc_prestamo/line.payslip_id.os_currecy_rate_gene"/>
+                    <td align="right"><span t-esc="line.float_format(line.total_bono)"/> Bs</td>
+                        <t t-set="bno_total_pagar" t-value="bno_total_pagar+line.total_bono"/>
+                    <td><span t-esc="line.employee_id.department_id.name"/></td>
+                  </tr>
+                </t>
+                <tr>
+                  <td colspan="4" align="center">TOTAL >>>>>>>>>>>>>>> </td>
+                  <td align="right"><t t-esc="o.float_format2(deposito_total)"/> Bs</td>
+                  <td align="right"><t t-esc="o.float_format2(bono_total)"/> Bs</td>
+                  <td align="right"><t t-esc="o.float_format2(total_cesta)"/> Bs </td>
+                  <td align="right"><t t-esc="o.float_format2(descuento_total)"/> Bs</td>
+                  <td align="right">$ <t t-esc="o.float_format2(descuento_usd)"/></td>
+                  <td align="right"><t t-esc="o.float_format2(bno_total_pagar)"/> Bs</td>
+                  <td align="right"></td>
+                </tr>
+              </table>
+            </div>
+
+          </t>
+         </t>
+       </t>
+
+     </template>
+  
+  </data>
+</odoo>

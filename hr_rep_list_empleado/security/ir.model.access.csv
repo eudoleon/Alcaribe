@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+wizard_rep_lista_empleados,wizard.rep.lista_empleados,model_wizard_rep_lista_empleados,base.group_user,1,1,1,1
+hr_employee_list,hr.employee.list,model_hr_employee_list,base.group_user,1,1,1,1

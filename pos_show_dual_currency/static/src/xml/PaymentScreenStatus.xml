@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    <t t-name="PaymentScreenStatus" t-inherit="point_of_sale.PaymentScreenStatus" t-inherit-mode="extension">
+        <xpath expr="//div[hasclass('total')]/t[@t-esc='totalDueText']" position="after">
+                / <span style="color: red;font-size: 35px;">$ </span> <span style="color: red; font-size: 35px;" t-esc="env.pos.format_currency_no_symbol(props.order.get_total_with_tax() * env.pos.config.show_currency_rate)" />
+        </xpath>
+        <xpath expr="//div[hasclass('payment-status-total-due')]/span[2]/t[@t-esc='totalDueText']" position="after">
+                / <span style="color: red;">$ </span> <span style="color: red;" t-esc="env.pos.format_currency_no_symbol(props.order.get_total_with_tax() * env.pos.config.show_currency_rate)" />
+        </xpath>
+        <xpath expr="//div[hasclass('payment-status-remaining')]/span[2]/t[@t-esc='remainingText']" position="after">
+                / <span style="color: red;">$ </span>
+            <span style="color: red;" t-esc="remainingTextUSD" />
+        </xpath>
+        <xpath expr="//div[hasclass('payment-status-change')]/span[2]/t[@t-esc='changeText']" position="after">
+                / <span style="color: red;">$ </span>
+            <span style="color: red;" t-esc="changeTextUSD" />
+        </xpath>
+    </t>
+</templates>

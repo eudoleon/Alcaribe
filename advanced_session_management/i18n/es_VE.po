@@ -1,0 +1,663 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* advanced_session_management
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 16.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-05-24 23:42+0000\n"
+"PO-Revision-Date: 2024-05-24 18:47-0500\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: es_VE\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 3.3.2\n"
+
+#. module: advanced_session_management
+#: model:mail.template,body_html:advanced_session_management.new_session_start_mail_template_ah
+msgid ""
+"<!-- <table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" style=\"padding-top: 16px;padding-bottom: 16px; background-color: #F1F1F1; font-family:Verdana, Arial,sans-serif; color: #454748; width: 100%; border-collapse:separate;\"> -->\n"
+"                    <table border=\"0\" cellpadding=\"0\" style=\"padding-top: 16px; background-color: #F1F1F1; color: #454748; width: 100%; border-collapse:separate;\"><tr><td align=\"center\">\n"
+"                        <table border=\"0\" width=\"590\" cellpadding=\"0\" style=\"padding: 16px; background-color: white; color: #454748; border-collapse:separate;\" summary=\"o_mail_notification\">\n"
+"                            <tbody>\n"
+"                                <tr>\n"
+"                                    <td align=\"center\">\n"
+"                                        <table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"590\" style=\"padding: 16px; background-color: white; color: #454748; border-collapse:separate;\">\n"
+"                                            <tbody>\n"
+"                                                <!-- HEADER -->\n"
+"                                                <tr>\n"
+"                                                    <td align=\"center\" style=\"min-width: 590px;\">\n"
+"                                                        <table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"590\" style=\"min-width: 590px; background-color: white; padding: 0px 8px 0px 8px; border-collapse:separate;\">\n"
+"                                                            <tr>\n"
+"                                                                <td valign=\"middle\" style=\"font-size: 18px;color: #0e0e0f;line-height: 28px;\">\n"
+"                                                                    <span style=\"font-size: 20px; font-weight: bold;\">\n"
+"                                                                        Are You Trying To Log In From a New Device?\n"
+"                                                                    </span>\n"
+"                                                                </td>\n"
+"                                                                <td valign=\"middle\" align=\"right\">\n"
+"                                                                    <img src=\"https://i.ibb.co/yQdZMNq/super-session.png\" style=\"padding: 0px; margin: 0px; height: auto; width: 80px;\" alt=\"By-Super Session Management\">\n"
+"                                                                </td>\n"
+"                                                            </tr>\n"
+"                                                            <tr>\n"
+"                                                                <td colspan=\"2\" style=\"text-align:center;\">\n"
+"                                                                    <hr width=\"100%\" style=\"background-color:rgb(204,204,204);border:medium none;clear:both;display:block;font-size:0px;min-height:1px;line-height:0; margin: 16px 0px 16px 0px;\">\n"
+"                                                                </td>\n"
+"                                                            </tr>\n"
+"                                                        </table>\n"
+"                                                    </td>\n"
+"                                                </tr>\n"
+"                                                <!-- CONTENT -->\n"
+"                                                <tr>\n"
+"                                                    <td align=\"center\" style=\"min-width: 590px;font:16px/22px 'Helvetica Neue',Arial,'sans-serif';text-align:left;color: #62646a;padding: 0px 40px 40px 40px;line-height: 24px;\">\n"
+"                                                        <table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"590\" style=\"min-width: 590px; background-color: white; padding: 0px 8px 0px 8px; border-collapse:separate;\">\n"
+"                                                            <tr>\n"
+"                                                                <td valign=\"top\" style=\"\">\n"
+"                                                                    <div>\n"
+"                                                                        Hi <t t-out=\"object.user_id.name or ''\"></t>,<br>\n"
+"                                                                        <p>We just noticed a new login attempt to your Odoo account from a new device, and wanted to make sure it’s really you:</p>\n"
+"\n"
+"                                                                        <p style=\"\">\n"
+"                                                                            <span style=\"color:#95979d;font-size:14px\">Device</span>\n"
+"                                                                            <br>\n"
+"                                                                            <span style=\"color:#222325\"><t t-out=\"object.browser or ''\"></t>, <t t-out=\"object.os or ''\"></t>, <t t-out=\"object.device or ''\"></t></span>\n"
+"                                                                        </p>\n"
+"\n"
+"                                                                        <p style=\"\">\n"
+"                                                                            <span style=\"color:#95979d;font-size:14px\">IP</span>\n"
+"                                                                            <br>\n"
+"                                                                            <span style=\"color:#222325\"><t t-out=\"object.ip or ''\"></t></span>\n"
+"                                                                        </p>\n"
+"\n"
+"                                                                        <p style=\"\">\n"
+"                                                                            <span style=\"color:#95979d;font-size:14px\">Approximate Location</span>\n"
+"                                                                            <br>\n"
+"                                                                            <span style=\"color:#222325\"><t t-out=\"object.city or ''\"></t>, <t t-out=\"object.loc_state or ''\"></t>, <t t-out=\"object.country or ''\"></t></span>\n"
+"                                                                        </p>\n"
+"\n"
+"                                                                        <!-- <p style=\"\">\n"
+"                                                                            <span style=\"color:#95979d;font-size:14px\">Time</span>\n"
+"                                                                            <br/>\n"
+"                                                                            <span style=\"color:#222325\">${object.login_date}</span>\n"
+"                                                                            <span style=\"color:#222325\">Just Now</span>\n"
+"                                                                        </p> -->\n"
+"\n"
+"                                                                        <!-- <p>${object.name}</p> -->\n"
+"                                                                        <div style=\"margin: 16px 0px 16px 0px;text-align:center;\">\n"
+"                                                                            <a t-att-href=\"'%s' % object.url\" style=\"background-color: #388fcd; padding: 8px 16px 8px 16px; text-decoration: none; color: #fff; border-radius: 5px; font-size:16px;\">\n"
+"                                                                                Check Session Activities\n"
+"                                                                            </a>\n"
+"                                                                        </div>\n"
+"                                                                        <p>Or if you didn’t try to log in recently, we recommend you <a t-att-href=\"'/web/reset_password?login=%s' % object.user_id.email\" target=\"_blank\" style=\"color: #2e4ba0;font-weight: 500;text-decoration-thickness: 2px;text-underline-offset: 1px;\">\n"
+"                                                                            change your password\n"
+"                                                                        </a> ASAP to protect your account. \n"
+"                                                                        By changing your password, all devices logged into your account will be logged out. </p>\n"
+"                                                                    Thanks,<br>\n"
+"                                                                        <span style=\"color:#222325\">The Super Session Management Team</span>\n"
+"                                    \n"
+"                                                                    </div>\n"
+"                                                                </td>\n"
+"                                                            </tr>\n"
+"                                                        </table>\n"
+"                                                    </td>\n"
+"                                                </tr>\n"
+"                                    \n"
+"                                            </tbody>\n"
+"                                        </table>\n"
+"                                    </td>\n"
+"                                </tr>\n"
+"                            </tbody>\n"
+"                        </table>\n"
+"                        </td>\n"
+"                        </tr>\n"
+"                    </table>\n"
+"                <!-- </table> -->\n"
+"            "
+msgstr ""
+
+#. module: advanced_session_management
+#: model_terms:ir.ui.view,arch_db:advanced_session_management.login_log_form_view_ah
+msgid ""
+"<i class=\"fa fa-fw o_button_icon fa-circle text-danger\"/>\n"
+"                                <span>Offline</span>"
+msgstr "<i class=\"fa fa-fw o_button_icon fa-circle text-danger\"/><span>Desconectado</span></i>"
+
+#. module: advanced_session_management
+#: model_terms:ir.ui.view,arch_db:advanced_session_management.login_log_form_view_ah
+msgid ""
+"<i class=\"fa fa-fw o_button_icon fa-circle text-success\"/>\n"
+"                                <span>Connected</span>"
+msgstr "<i class=\"fa fa-fw o_button_icon fa-circle text-success\"/><span>Conectado</span></i>"
+
+#. module: advanced_session_management
+#: model_terms:ir.ui.view,arch_db:advanced_session_management.login_session_res_config_settings_inherit_form_view_ah
+msgid ""
+"<span class=\"o_form_label\">\n"
+"\t\t\t\t\t\t\t\tAuto kill session time-out duration (hours)\n"
+"\t\t\t\t\t\t\t</span>"
+msgstr "<span class=\"o_form_label\">Duración del tiempo de espera de la sesión de finalización automática (horas)</span>"
+
+#. module: advanced_session_management
+#: model_terms:ir.ui.view,arch_db:advanced_session_management.login_session_res_config_settings_inherit_form_view_ah
+msgid ""
+"<span class=\"o_form_label\">\n"
+"\t\t\t\t\t\t\t\tAutomatically kill the session\n"
+"\t\t\t\t\t\t\t</span>"
+msgstr "<span class=\"o_form_label\">Matar automáticamente la sesión</span>"
+
+#. module: advanced_session_management
+#: model_terms:ir.ui.view,arch_db:advanced_session_management.login_session_res_config_settings_inherit_form_view_ah
+msgid ""
+"<span class=\"o_form_label\">\n"
+"\t\t\t\t\t\t\t\tAutomatically remove the audit log after (in days)\n"
+"\t\t\t\t\t\t\t</span>"
+msgstr "<span class=\"o_form_label\">Eliminar automáticamente el registro de auditoría después (en días)</span>"
+
+#. module: advanced_session_management
+#: model:ir.model.fields,field_description:advanced_session_management.field_activity_log__action
+msgid "Action"
+msgstr "Acción"
+
+#. module: advanced_session_management
+#: model_terms:ir.ui.view,arch_db:advanced_session_management.login_log_form_view_ah
+msgid "Action Performed"
+msgstr "Acción realizada"
+
+#. module: advanced_session_management
+#: model:ir.model.fields.selection,name:advanced_session_management.selection__login_log__state__active
+#: model:ir.model.fields.selection,name:advanced_session_management.selection__res_config_settings__session_timeout_active__active
+#: model_terms:ir.ui.view,arch_db:advanced_session_management.login_log_seearch_view_ao
+msgid "Active"
+msgstr "Activo"
+
+#. module: advanced_session_management
+#: model:ir.actions.act_window,name:advanced_session_management.action_activity_log_ah
+#: model:ir.model,name:advanced_session_management.model_activity_log
+#: model:ir.model.fields,field_description:advanced_session_management.field_edit_value__activity_log_id
+#: model:ir.ui.menu,name:advanced_session_management.menu_activity_log_ah
+#: model_terms:ir.ui.view,arch_db:advanced_session_management.login_log_form_view_ah
+msgid "Activity Log"
+msgstr "Registro de actividades"
+
+#. module: advanced_session_management
+#: model:ir.model.fields,field_description:advanced_session_management.field_login_log__activity_log_ids
+msgid "Activity Logs"
+msgstr "Registros de actividad"
+
+#. module: advanced_session_management
+#: model:ir.module.category,name:advanced_session_management.group_category_advanced_session_management
+msgid "Advanced Session Management"
+msgstr "Gestión avanzada de sesiones"
+
+#. module: advanced_session_management
+#: model_terms:ir.ui.view,arch_db:advanced_session_management.login_session_res_config_settings_inherit_form_view_ah
+msgid "Audit log &amp; Session Configuration"
+msgstr "Registro de auditoría y Configuración de sesión"
+
+#. module: advanced_session_management
+#: model:ir.model,name:advanced_session_management.model_base
+msgid "Base"
+msgstr "Base"
+
+#. module: advanced_session_management
+#: model:ir.model.fields,field_description:advanced_session_management.field_login_log__browser
+msgid "Browser"
+msgstr "Navegador"
+
+#. module: advanced_session_management
+#. odoo-python
+#: code:addons/advanced_session_management/models/activity_log.py:0
+#: model:ir.model.fields,field_description:advanced_session_management.field_activity_log__value
+#: model_terms:ir.ui.view,arch_db:advanced_session_management.activity_log_form_view_ah
+#, python-format
+msgid "Changes"
+msgstr "Cambios"
+
+#. module: advanced_session_management
+#: model_terms:ir.ui.view,arch_db:advanced_session_management.activity_log_form_view_ah
+msgid "Changes Views"
+msgstr "Cambia las vistas"
+
+#. module: advanced_session_management
+#: model:ir.model.fields,field_description:advanced_session_management.field_login_log__city
+msgid "City"
+msgstr "Ciudad"
+
+#. module: advanced_session_management
+#: model_terms:ir.ui.view,arch_db:advanced_session_management.login_log_form_view_ah
+#: model_terms:ir.ui.view,arch_db:advanced_session_management.login_log_tree_view_ah
+msgid "Close Session"
+msgstr "Cerrar la sesión"
+
+#. module: advanced_session_management
+#: model:ir.model.fields.selection,name:advanced_session_management.selection__login_log__state__close
+#: model_terms:ir.ui.view,arch_db:advanced_session_management.login_log_seearch_view_ao
+msgid "Clossed"
+msgstr "Cerrado"
+
+#. module: advanced_session_management
+#: model:ir.model,name:advanced_session_management.model_res_config_settings
+msgid "Config Settings"
+msgstr "Opciones de configuración"
+
+#. module: advanced_session_management
+#: model:ir.model.fields,field_description:advanced_session_management.field_login_log__country
+msgid "Country"
+msgstr "País"
+
+#. module: advanced_session_management
+#: model:ir.model.fields.selection,name:advanced_session_management.selection__activity_log__action__create
+msgid "Create"
+msgstr "Crear"
+
+#. module: advanced_session_management
+#: model:ir.model.fields,field_description:advanced_session_management.field_activity_log__create_uid
+#: model:ir.model.fields,field_description:advanced_session_management.field_edit_value__create_uid
+#: model:ir.model.fields,field_description:advanced_session_management.field_login_log__create_uid
+msgid "Created by"
+msgstr "Creado por"
+
+#. module: advanced_session_management
+#: model:ir.model.fields,field_description:advanced_session_management.field_activity_log__create_date
+#: model:ir.model.fields,field_description:advanced_session_management.field_edit_value__create_date
+#: model:ir.model.fields,field_description:advanced_session_management.field_login_log__create_date
+msgid "Created on"
+msgstr "Creada el"
+
+#. module: advanced_session_management
+#: model_terms:ir.ui.view,arch_db:advanced_session_management.login_log_form_view_ah
+#: model_terms:ir.ui.view,arch_db:advanced_session_management.login_log_seearch_view_ao
+msgid "Date"
+msgstr "Fecha"
+
+#. module: advanced_session_management
+#: model:ir.model.fields.selection,name:advanced_session_management.selection__activity_log__action__delete
+msgid "Delete"
+msgstr "Borrar"
+
+#. module: advanced_session_management
+#: model:ir.model.fields,field_description:advanced_session_management.field_login_log__device
+#: model_terms:ir.ui.view,arch_db:advanced_session_management.login_log_seearch_view_ao
+msgid "Device"
+msgstr "Dispositivo"
+
+#. module: advanced_session_management
+#: model:ir.model.fields,field_description:advanced_session_management.field_activity_log__display_name
+#: model:ir.model.fields,field_description:advanced_session_management.field_edit_value__display_name
+#: model:ir.model.fields,field_description:advanced_session_management.field_login_log__display_name
+msgid "Display Name"
+msgstr "Mostrar Nombre"
+
+#. module: advanced_session_management
+#: model:ir.model.fields,field_description:advanced_session_management.field_res_config_settings__session_timeout_active
+msgid "Do not timeout active session"
+msgstr "No agotar el tiempo de espera de la sesión activa"
+
+#. module: advanced_session_management
+#: model:ir.model,name:advanced_session_management.model_edit_value
+#: model:ir.model.fields,field_description:advanced_session_management.field_activity_log__edit_value_ids
+msgid "Edit Value"
+msgstr "Editar valor"
+
+#. module: advanced_session_management
+#: model:ir.actions.server,name:advanced_session_management.enable_user_activity_log_ir_actions_server
+#: model:ir.cron,cron_name:advanced_session_management.enable_user_activity_log
+msgid "Enable User Activity Log"
+msgstr "Habilitar registro de actividad del usuario"
+
+#. module: advanced_session_management
+#. odoo-python
+#: code:addons/advanced_session_management/models/login_log.py:0
+#, python-format
+msgid "For the security purpose, you can't delete your own sessions and activities."
+msgstr "Por motivos de seguridad, no puede eliminar sus propias sesiones y actividades."
+
+#. module: advanced_session_management
+#: model_terms:ir.ui.view,arch_db:advanced_session_management.activity_log_seearch_view_ao
+#: model_terms:ir.ui.view,arch_db:advanced_session_management.login_log_seearch_view_ao
+msgid "Group By"
+msgstr "Agrupar por"
+
+#. module: advanced_session_management
+#: model:ir.model.fields,field_description:advanced_session_management.field_activity_log__has_change_view
+msgid "Has Change View"
+msgstr "Tiene vista de cambio"
+
+#. module: advanced_session_management
+#: model:ir.model.fields,field_description:advanced_session_management.field_activity_log__id
+#: model:ir.model.fields,field_description:advanced_session_management.field_edit_value__id
+#: model:ir.model.fields,field_description:advanced_session_management.field_login_log__id
+msgid "ID"
+msgstr ""
+
+#. module: advanced_session_management
+#: model:ir.model.fields,field_description:advanced_session_management.field_login_log__ip
+msgid "IP"
+msgstr ""
+
+#. module: advanced_session_management
+#: model_terms:ir.ui.view,arch_db:advanced_session_management.login_log_form_view_ah
+msgid "IP Lookup"
+msgstr "Búsqueda de IP"
+
+#. module: advanced_session_management
+#: model:ir.model.fields.selection,name:advanced_session_management.selection__res_config_settings__session_timeout_active__inactive
+msgid "Inactive"
+msgstr "Inactivo"
+
+#. module: advanced_session_management
+#: model:ir.model.fields,field_description:advanced_session_management.field_res_config_settings__session_timeout_interval_number
+msgid "Interval Number"
+msgstr "Número de intervalo"
+
+#. module: advanced_session_management
+#: model:ir.model.fields,field_description:advanced_session_management.field_login_log__is_active
+msgid "Is Active"
+msgstr "Está activo"
+
+#. module: advanced_session_management
+#: model_terms:ir.ui.view,arch_db:advanced_session_management.login_session_res_users_inherit_form_view_ah
+msgid "Kill All Session"
+msgstr "Matar toda la sesión"
+
+#. module: advanced_session_management
+#: model:ir.model.fields,field_description:advanced_session_management.field_login_log__timeout_date
+msgid "Last Activity"
+msgstr "Última actividad"
+
+#. module: advanced_session_management
+#: model:ir.model.fields,field_description:advanced_session_management.field_activity_log____last_update
+#: model:ir.model.fields,field_description:advanced_session_management.field_edit_value____last_update
+#: model:ir.model.fields,field_description:advanced_session_management.field_login_log____last_update
+msgid "Last Modified on"
+msgstr "Última Modificación en"
+
+#. module: advanced_session_management
+#: model:ir.model.fields,field_description:advanced_session_management.field_activity_log__write_uid
+#: model:ir.model.fields,field_description:advanced_session_management.field_edit_value__write_uid
+#: model:ir.model.fields,field_description:advanced_session_management.field_login_log__write_uid
+msgid "Last Updated by"
+msgstr "Última Actualización por"
+
+#. module: advanced_session_management
+#: model:ir.model.fields,field_description:advanced_session_management.field_activity_log__write_date
+#: model:ir.model.fields,field_description:advanced_session_management.field_edit_value__write_date
+#: model:ir.model.fields,field_description:advanced_session_management.field_login_log__write_date
+msgid "Last Updated on"
+msgstr "Ultima Actualización el"
+
+#. module: advanced_session_management
+#: model:ir.model.fields,field_description:advanced_session_management.field_login_log__logout_date
+msgid "Logged out Date"
+msgstr "Fecha de cierre de sesión"
+
+#. module: advanced_session_management
+#: model:ir.model.fields,field_description:advanced_session_management.field_login_log__login_date
+msgid "Login Date"
+msgstr "Fecha de inicio de sesión"
+
+#. module: advanced_session_management
+#: model:ir.model,name:advanced_session_management.model_login_log
+msgid "Login Log"
+msgstr "Iniciar sesión Iniciar sesión"
+
+#. module: advanced_session_management
+#: model:res.groups,name:advanced_session_management.group_login_log_admin_ah
+msgid "Manager"
+msgstr "Gerente"
+
+#. module: advanced_session_management
+#: model:ir.model.fields,field_description:advanced_session_management.field_activity_log__model
+#: model_terms:ir.ui.view,arch_db:advanced_session_management.activity_log_seearch_view_ao
+msgid "Model"
+msgstr "Modelo"
+
+#. module: advanced_session_management
+#: model:ir.model.fields.selection,name:advanced_session_management.selection__activity_log__action__edit
+msgid "Modify"
+msgstr "Modificar"
+
+#. module: advanced_session_management
+#: model:ir.model,name:advanced_session_management.model_ir_module_module
+msgid "Module"
+msgstr "Módulo"
+
+#. module: advanced_session_management
+#: model:ir.model,name:advanced_session_management.model_base_module_uninstall
+msgid "Module Uninstall"
+msgstr "Desinstalar módulo"
+
+#. module: advanced_session_management
+#: model:ir.model.fields,field_description:advanced_session_management.field_edit_value__name
+#: model:ir.model.fields,field_description:advanced_session_management.field_login_log__name
+msgid "Name"
+msgstr "Nombre"
+
+#. module: advanced_session_management
+#. odoo-python
+#: code:addons/advanced_session_management/models/login_log.py:0
+#, python-format
+msgid "New"
+msgstr "Nuevo"
+
+#. module: advanced_session_management
+#: model:ir.model.fields,field_description:advanced_session_management.field_edit_value__new
+msgid "New Changes"
+msgstr "Nuevos cambios"
+
+#. module: advanced_session_management
+#: model:mail.template,name:advanced_session_management.new_session_start_mail_template_ah
+#: model:mail.template,subject:advanced_session_management.new_session_start_mail_template_ah
+msgid "New login on your Odoo account\n"
+msgstr "Nuevo inicio de sesión en su cuenta Odoo\n"
+
+#. module: advanced_session_management
+#: model:ir.model.fields.selection,name:advanced_session_management.selection__res_config_settings__session_timeout_active__none
+msgid "None"
+msgstr "Nada"
+
+#. module: advanced_session_management
+#: model_terms:ir.ui.view,arch_db:advanced_session_management.login_session_res_config_settings_inherit_form_view_ah
+msgid ""
+"None = Don't kill session automatically<br/>\n"
+"\t\t\t\t\t\t\t\tActive = Session won't be killed automatically until user is active\n"
+"\t\t\t\t\t\t\t\tInactive = Session will be killed after the duration, no matter if the user is active or not"
+msgstr "Ninguno = No cerrar la sesión automáticamente<br/> Activo = La sesión no se cerrará automáticamente hasta que el usuario esté activo Inactivo = La sesión se cerrará después de la duración, sin importar si el usuario está activo o no"
+
+#. module: advanced_session_management
+#: model_terms:ir.ui.view,arch_db:advanced_session_management.login_session_res_config_settings_inherit_form_view_ah
+msgid "Notify the User for any new Session"
+msgstr "Notificar al Usuario sobre cualquier nueva Sesión"
+
+#. module: advanced_session_management
+#: model:ir.model.fields,field_description:advanced_session_management.field_login_log__os
+msgid "OS"
+msgstr "SO"
+
+#. module: advanced_session_management
+#: model_terms:ir.ui.view,arch_db:advanced_session_management.login_log_tree_view_ah
+msgid "Offline"
+msgstr "Desconectado"
+
+#. module: advanced_session_management
+#: model:ir.model.fields,field_description:advanced_session_management.field_edit_value__old
+msgid "Old Changes"
+msgstr "Viejos cambios"
+
+#. module: advanced_session_management
+#: model_terms:ir.ui.view,arch_db:advanced_session_management.login_log_tree_view_ah
+msgid "Online"
+msgstr "En línea"
+
+#. module: advanced_session_management
+#: model_terms:ir.ui.view,arch_db:advanced_session_management.activity_log_seearch_view_ao
+msgid "Only Create"
+msgstr "Sólo crear"
+
+#. module: advanced_session_management
+#: model_terms:ir.ui.view,arch_db:advanced_session_management.activity_log_seearch_view_ao
+msgid "Only Delete"
+msgstr "Sólo eliminar"
+
+#. module: advanced_session_management
+#: model_terms:ir.ui.view,arch_db:advanced_session_management.activity_log_seearch_view_ao
+msgid "Only Modify"
+msgstr "Sólo modificar"
+
+#. module: advanced_session_management
+#: model_terms:ir.ui.view,arch_db:advanced_session_management.activity_log_seearch_view_ao
+msgid "Only Read"
+msgstr "Solo lectura"
+
+#. module: advanced_session_management
+#: model_terms:ir.ui.view,arch_db:advanced_session_management.activity_log_form_view_ah
+#: model_terms:ir.ui.view,arch_db:advanced_session_management.login_log_form_view_ah
+msgid "Open Record"
+msgstr "Registro abierto"
+
+#. module: advanced_session_management
+#: model_terms:ir.ui.view,arch_db:advanced_session_management.activity_log_seearch_view_ao
+msgid "Performed Action"
+msgstr "Acción realizada"
+
+#. module: advanced_session_management
+#: model_terms:ir.ui.view,arch_db:advanced_session_management.activity_log_form_view_ah
+#: model_terms:ir.ui.view,arch_db:advanced_session_management.activity_log_seearch_view_ao
+#: model_terms:ir.ui.view,arch_db:advanced_session_management.activity_log_tree_view_ah
+msgid "Performed Date"
+msgstr "Fecha de realización"
+
+#. module: advanced_session_management
+#: model:ir.model.fields.selection,name:advanced_session_management.selection__activity_log__action__read
+msgid "Read"
+msgstr "Leer"
+
+#. module: advanced_session_management
+#: model:ir.model.fields,field_description:advanced_session_management.field_activity_log__res_id
+msgid "Record IDs"
+msgstr "ID de registro"
+
+#. module: advanced_session_management
+#: model:ir.model.fields,field_description:advanced_session_management.field_activity_log__name
+#: model_terms:ir.ui.view,arch_db:advanced_session_management.login_log_form_view_ah
+msgid "Record Name"
+msgstr "Nombre del registro"
+
+#. module: advanced_session_management
+#: model:ir.actions.server,name:advanced_session_management.cron_remove_old_login_session_ir_actions_server
+#: model:ir.cron,cron_name:advanced_session_management.cron_remove_old_login_session
+msgid "Remove old data from the Audit logs"
+msgstr "Eliminar datos antiguos de los registros de auditoría"
+
+#. module: advanced_session_management
+#: model:ir.model.fields,field_description:advanced_session_management.field_res_config_settings__remove_sesions
+msgid "Scheduled remove old sessions"
+msgstr "Eliminación programada de sesiones antiguas"
+
+#. module: advanced_session_management
+#: model_terms:ir.ui.view,arch_db:advanced_session_management.activity_log_seearch_view_ao
+#: model_terms:ir.ui.view,arch_db:advanced_session_management.login_log_seearch_view_ao
+msgid "Search contacts"
+msgstr "Buscar contactos"
+
+#. module: advanced_session_management
+#: model:ir.model.fields,field_description:advanced_session_management.field_res_config_settings__send_mail
+msgid "Send Mail When New Session Start"
+msgstr "Enviar correo cuando comience una nueva sesión"
+
+#. module: advanced_session_management
+#: model:ir.model.fields,field_description:advanced_session_management.field_activity_log__login_log_id
+#: model_terms:ir.ui.view,arch_db:advanced_session_management.activity_log_seearch_view_ao
+msgid "Session"
+msgstr "Sesión"
+
+#. module: advanced_session_management
+#: model:ir.model.fields,field_description:advanced_session_management.field_login_log__session_id
+msgid "Session ID"
+msgstr "ID de sesión"
+
+#. module: advanced_session_management
+#: model:ir.actions.server,name:advanced_session_management.session_timeout_ah_ir_actions_server
+#: model:ir.cron,cron_name:advanced_session_management.session_timeout_ah
+msgid "Session Timeout"
+msgstr "Hora de término de la sesión"
+
+#. module: advanced_session_management
+#: model:ir.actions.act_window,name:advanced_session_management.action_login_log_ah
+#: model:ir.model.fields,field_description:advanced_session_management.field_res_users__login_log_ids
+#: model:ir.ui.menu,name:advanced_session_management.menu_login_log_ah
+#: model:ir.ui.menu,name:advanced_session_management.menu_main_login_log_ah
+#: model_terms:ir.ui.view,arch_db:advanced_session_management.login_session_res_users_inherit_form_view_ah
+msgid "Sessions"
+msgstr "Sesiones"
+
+#. module: advanced_session_management
+#: model:ir.model.fields,field_description:advanced_session_management.field_login_log__loc_state
+msgid "State"
+msgstr "Estado"
+
+#. module: advanced_session_management
+#: model:ir.model.fields,field_description:advanced_session_management.field_login_log__state
+#: model_terms:ir.ui.view,arch_db:advanced_session_management.login_log_seearch_view_ao
+msgid "Status"
+msgstr "Estado"
+
+#. module: advanced_session_management
+#: model:ir.model,name:advanced_session_management.model_ir_config_parameter
+msgid "System Parameter"
+msgstr "Parámetro del sistema"
+
+#. module: advanced_session_management
+#: model_terms:ir.ui.view,arch_db:advanced_session_management.login_session_res_config_settings_inherit_form_view_ah
+msgid "This will remove old data from the Audit logs"
+msgstr "Esto eliminará los datos antiguos de los registros de auditoría."
+
+#. module: advanced_session_management
+#: model_terms:ir.ui.view,arch_db:advanced_session_management.login_session_res_config_settings_inherit_form_view_ah
+msgid "This will send a new mail to respective user whenever there is a new login"
+msgstr "Esto enviará un nuevo correo al usuario respectivo cada vez que haya un nuevo inicio de sesión."
+
+#. module: advanced_session_management
+#: model_terms:ir.ui.view,arch_db:advanced_session_management.login_session_res_config_settings_inherit_form_view_ah
+msgid "Time to kill any open session automatically"
+msgstr "Es hora de finalizar cualquier sesión abierta automáticamente"
+
+#. module: advanced_session_management
+#: model:ir.model.fields,field_description:advanced_session_management.field_login_log__url
+msgid "URL"
+msgstr "URL"
+
+#. module: advanced_session_management
+#: model:ir.model.fields,field_description:advanced_session_management.field_activity_log__url
+msgid "Url"
+msgstr "URL"
+
+#. module: advanced_session_management
+#: model:ir.model,name:advanced_session_management.model_res_users
+#: model:ir.model.fields,field_description:advanced_session_management.field_activity_log__user_id
+#: model:ir.model.fields,field_description:advanced_session_management.field_login_log__user_id
+#: model:res.groups,name:advanced_session_management.group_login_log_user_ah
+#: model_terms:ir.ui.view,arch_db:advanced_session_management.activity_log_seearch_view_ao
+#: model_terms:ir.ui.view,arch_db:advanced_session_management.login_log_seearch_view_ao
+msgid "User"
+msgstr "Usuario"
+
+#. module: advanced_session_management
+#: model:ir.model.fields,field_description:advanced_session_management.field_login_log__user_agent
+msgid "User Agent"
+msgstr "Agente de usuario"
+
+#. module: advanced_session_management
+#: model:ir.model.fields,field_description:advanced_session_management.field_activity_log__view
+msgid "View"
+msgstr "Vista"
+
+#. module: advanced_session_management
+#. odoo-python
+#: code:addons/advanced_session_management/models/activity_log.py:0
+#, python-format
+msgid "You cant delete your own sessions and activitiy."
+msgstr "No puedes eliminar tus propias sesiones y actividades."

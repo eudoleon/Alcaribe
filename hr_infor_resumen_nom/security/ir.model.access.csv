@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+resumen_monina_pdf,resumen.monina.pdf,model_resumen_monina_pdf,base.group_user,1,1,1,1
+wizard_resumen_nomina,wizard.resumen.nomina,model_wizard_resumen_nomina,base.group_user,1,1,1,1

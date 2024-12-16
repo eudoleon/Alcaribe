@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_advance_type_user_account,Tipos de anticipos,model_advance_type,,1,1,1,1
+access_payment_detail_treasury_all,Detalle de pagos,model_account_payment_detail,,1,1,0,0
+access_payment_detail_treasury_user,Detalle de pagos,model_account_payment_detail,custom_account_treasury.group_treasury_user,1,1,1,1
+access_payment_detail_account_user,Detalle de pagos,model_account_payment_detail,account.group_account_invoice,1,1,1,1

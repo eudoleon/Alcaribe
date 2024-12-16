@@ -1,0 +1,90 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* sh_product_multi_barcode
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 14.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-10-14 09:31+0000\n"
+"PO-Revision-Date: 2020-10-14 09:31+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: sh_product_multi_barcode
+#: model:ir.model.fields,field_description:sh_product_multi_barcode.field_product_template_barcode__name
+msgid "Barcode"
+msgstr "code à barre"
+
+#. module: sh_product_multi_barcode
+#: model:ir.model.fields,field_description:sh_product_multi_barcode.field_product_product__barcode_line_ids
+#: model:ir.model.fields,field_description:sh_product_multi_barcode.field_product_template__barcode_line_ids
+msgid "Barcode Lines"
+msgstr "Lignes de code à barres"
+
+#. module: sh_product_multi_barcode
+#: model_terms:ir.ui.view,arch_db:sh_product_multi_barcode.sh_product_barcode_view
+#: model_terms:ir.ui.view,arch_db:sh_product_multi_barcode.sh_product_product_barcode_view
+msgid "Barcodes"
+msgstr "Codes à barres"
+
+#. module: sh_product_multi_barcode
+#: model:ir.model.fields,field_description:sh_product_multi_barcode.field_product_template_barcode__create_uid
+msgid "Created by"
+msgstr "Créé par"
+
+#. module: sh_product_multi_barcode
+#: model:ir.model.fields,field_description:sh_product_multi_barcode.field_product_template_barcode__create_date
+msgid "Created on"
+msgstr "Créé sur"
+
+#. module: sh_product_multi_barcode
+#: model:ir.model.fields,field_description:sh_product_multi_barcode.field_product_product__display_name
+#: model:ir.model.fields,field_description:sh_product_multi_barcode.field_product_template__display_name
+#: model:ir.model.fields,field_description:sh_product_multi_barcode.field_product_template_barcode__display_name
+msgid "Display Name"
+msgstr "Afficher un nom"
+
+#. module: sh_product_multi_barcode
+#: model:ir.model.fields,field_description:sh_product_multi_barcode.field_product_product__id
+#: model:ir.model.fields,field_description:sh_product_multi_barcode.field_product_template__id
+#: model:ir.model.fields,field_description:sh_product_multi_barcode.field_product_template_barcode__id
+msgid "ID"
+msgstr "identifiant"
+
+#. module: sh_product_multi_barcode
+#: model:ir.model.fields,field_description:sh_product_multi_barcode.field_product_product____last_update
+#: model:ir.model.fields,field_description:sh_product_multi_barcode.field_product_template____last_update
+#: model:ir.model.fields,field_description:sh_product_multi_barcode.field_product_template_barcode____last_update
+msgid "Last Modified on"
+msgstr "Dernière modification sur"
+
+#. module: sh_product_multi_barcode
+#: model:ir.model.fields,field_description:sh_product_multi_barcode.field_product_template_barcode__write_uid
+msgid "Last Updated by"
+msgstr "Dernière mise à jour par"
+
+#. module: sh_product_multi_barcode
+#: model:ir.model.fields,field_description:sh_product_multi_barcode.field_product_template_barcode__write_date
+msgid "Last Updated on"
+msgstr "Dernière mise à jour le"
+
+#. module: sh_product_multi_barcode
+#: model:ir.model,name:sh_product_multi_barcode.model_product_product
+#: model:ir.model.fields,field_description:sh_product_multi_barcode.field_product_template_barcode__product_id
+msgid "Product"
+msgstr "Produit"
+
+#. module: sh_product_multi_barcode
+#: model:ir.model,name:sh_product_multi_barcode.model_product_template_barcode
+msgid "Product Barcode"
+msgstr "Code à barres de produit"
+
+#. module: sh_product_multi_barcode
+#: model:ir.model,name:sh_product_multi_barcode.model_product_template
+msgid "Product Template"
+msgstr "Modèle de produit"

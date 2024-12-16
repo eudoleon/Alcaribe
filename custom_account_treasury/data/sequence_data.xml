@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+    	
+		<record id="sequence_payment_employee" model="ir.sequence">
+            <field name="name">Payments employee sequence</field>
+            <field name="code">account.payment.employee</field>
+            <field name="prefix">EMPL.OUT-%(range_year)s-</field>
+            <field eval="1" name="number_next"/>
+            <field eval="1" name="number_increment"/>
+            <field eval="True" name="use_date_range"/>
+            <field eval="False" name="company_id"/>
+            <field name="padding">4</field>
+        </record>
+
+		<record id="sequence_payment_advance_supplier" model="ir.sequence">
+            <field name="name">Payments advance supplier sequence</field>
+            <field name="code">account.payment.advance.supplier</field>
+            <field name="prefix">ANT.SUPP-%(range_year)s-</field>
+            <field eval="1" name="number_next"/>
+            <field eval="1" name="number_increment"/>
+            <field eval="True" name="use_date_range"/>
+            <field eval="False" name="company_id"/>
+            <field name="padding">4</field>
+        </record>
+
+        <record id="sequence_payment_advance_customer" model="ir.sequence">
+            <field name="name">Payments advance customer sequence</field>
+            <field name="code">account.payment.advance.customer</field>
+            <field name="prefix">ANT.CUST-%(range_year)s-</field>
+            <field eval="1" name="number_next"/>
+            <field eval="1" name="number_increment"/>
+            <field eval="True" name="use_date_range"/>
+            <field eval="False" name="company_id"/>
+            <field name="padding">4</field>
+        </record>
+        
+        <record id="sequence_payment_advance_employee" model="ir.sequence">
+            <field name="name">Payments advance employee sequence</field>
+            <field name="code">account.payment.advance.employee</field>
+            <field name="prefix">ANT.EMPL-%(range_year)s-</field>
+            <field eval="1" name="number_next"/>
+            <field eval="1" name="number_increment"/>
+            <field eval="True" name="use_date_range"/>
+            <field eval="False" name="company_id"/>
+            <field name="padding">4</field>
+        </record>
+        
+    </data>
+</odoo>

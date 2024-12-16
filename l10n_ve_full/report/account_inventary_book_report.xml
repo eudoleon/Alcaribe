@@ -1,0 +1,232 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<odoo>
+    <data>
+
+		<record id="report_inventary_book" model="ir.actions.report">
+            <field name="name">Libro de Inventario</field>
+            <field name="model">account.fiscal.book.wizard</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">l10n_ve_full.report_invantary_book_template</field>
+            <field name="report_file">l10n_ve_full.report_invantary_book_template</field>
+            <field name="paperformat_id" ref="l10n_ve_full.paperformat_sale_fiscal_book_report_record"/>
+        </record>
+
+        <template id="report_invantary_book_template" >
+          <t t-call="web.html_container">
+            <div class="article">
+                <div class="page">
+					<div class="oe_structure"/>
+                    <t t-foreach="company" t-as="c">
+                        <div class="text-left">
+
+                            <h5 ><b>Nombre de la Empresa:</b> <span t-esc="c.name"/></h5>
+                           <h5><b>RIF.:&amp;nbsp;</b><span t-field="c.rif"/></h5>
+                            <h5 ><b>Dirección de la Empresa:</b><span t-esc="c.street2"/></h5>
+                        </div>
+                        <div class="text-center">
+                            <h2><b>LIBRO DE INVENTARIO</b></h2>
+                             <h5>Desde: <span t-esc="date_start"></span> &amp;nbsp;Hasta: <span t-esc="date_end"></span></h5>
+                        </div>
+                        <center>
+							<t t-set="total_general_inicial" t-value="0"/>
+							<t t-set="total_general_entradas" t-value="0"/>
+							<t t-set="total_general_salida" t-value="0"/>
+							<t t-set="total_general" t-value="0"/>
+
+
+							<t t-set="cat_general_inicial" t-value="0"/>
+							<t t-set="cat_general_entradas" t-value="0"/>
+							<t t-set="cat_general_salida" t-value="0"/>
+							<t t-set="cat_general" t-value="0"/>
+							<table class="table table-sm o_main_table" >
+								<thead>
+									<tr class="margin-top: 50px">
+										<th colspan="14"  >-</th>
+									</tr>
+
+									<tr >
+										<th style="border-top: 1px solid black;" class="text-center"></th>
+										<th style="border-top: 1px solid black;" class="text-center"></th>
+										<th colspan="3" style="border-top: 1px solid black;" class="text-center"><b>Inventario  Inicial</b></th>
+										<th colspan="3" style="border-top: 1px solid black;" class="text-center"><b>Entradas  del  Mes</b></th>
+										<th colspan="3" style="border-top: 1px solid black;" class="text-center"><b>Salidas  del  Mes</b></th>
+										<th colspan="3" style="border-top: 1px solid black;" class="text-center"><b>Inventario  Final</b></th>
+									</tr>
+									<tr style="font-size: x-small;">
+										<th style="border-top: 1px solid black;border-bottom: 1px solid black;" class="text-center"><b>Código</b></th>
+										<th style="border-top: 1px solid black;border-bottom: 1px solid black;" class="text-center"><b>Unidad Descripción</b></th>
+										<th style="border-top: 1px solid black;border-bottom: 1px solid black;" class="text-center"><b>Existencia Inicial</b></th>
+										<th style="border-top: 1px solid black;border-bottom: 1px solid black;" class="text-center"><b>Costo Inicial </b></th>
+										<th style="border-top: 1px solid black;border-bottom: 1px solid black;" class="text-center"><b>Total Bolivares</b></th>
+										<th style="border-top: 1px solid black;border-bottom: 1px solid black;" class="text-center"><b>Cantidad Entradas</b></th>
+										<th style="border-top: 1px solid black;border-bottom: 1px solid black;" class="text-center"><b>Costo de Entradas</b></th>
+										<th style="border-top: 1px solid black;border-bottom: 1px solid black;" class="text-center"><b>Total Bolivares</b></th>
+										<th style="border-top: 1px solid black;border-bottom: 1px solid black;" class="text-center"><b>Cantidad Salidas</b></th>
+										<th style="border-top: 1px solid black;border-bottom: 1px solid black;" class="text-center"><b>Costo de Salidas</b></th>
+										<th style="border-top: 1px solid black;border-bottom: 1px solid black;" class="text-center"><b>Total Bolivares</b></th>
+										<th style="border-top: 1px solid black;border-bottom: 1px solid black;" class="text-center"><b>Stock Final</b></th>
+										<th style="border-top: 1px solid black;border-bottom: 1px solid black;" class="text-center"><b>Costo Promedio</b></th>
+										<th style="border-top: 1px solid black;border-bottom: 1px solid black;" class="text-center"><b>Total Bolivares</b></th>
+									</tr>
+								</thead>
+
+								<t t-set="categoria" t-value=""/>
+								<t t-set="validar"   t-value="True"/>
+								<tbody class="sale_tbody" style="font-size: x-small;">
+									<tr t-foreach="datos" t-as="d">
+										<td class="text-left"><span t-esc="d['default_code']"/></td>
+										<td class="text-left"><span t-esc="d['name']"/></td>
+										<td class="text-right"><span t-esc="d['existencia_inicial']" /></td>
+										<td class="text-right"><span t-esc="d['precio_inicial']" t-options='{"widget": "monetary", "display_currency": currency}'/></td>
+										<td class="text-right"><span t-esc="d['precio_total_inicial']" t-options='{"widget": "monetary", "display_currency": currency}'/></td>
+										<td class="text-right"><span t-esc="d['entradas_mes']" /></td>
+										<td class="text-right"><span t-esc="d['entradas_mes_precio']" t-options='{"widget": "monetary", "display_currency": currency}'/></td>
+										<td class="text-right"><span t-esc="d['entradas_mes_precio_total']" t-options='{"widget": "monetary", "display_currency": currency}'/></td>
+										<td class="text-right"><span t-esc="d['salida_mes']"/></td>
+										<td class="text-right"><span t-esc="d['salida_mes_precio']" t-options='{"widget": "monetary", "display_currency": currency}'/></td>
+										<td class="text-right"><span t-esc="d['salida_mes_precio_total']" t-options='{"widget": "monetary", "display_currency": currency}'/></td>
+										<td class="text-right"><span t-esc="d['final']"/></td>
+										<td class="text-right"><span t-esc="d['final_precio']" t-options='{"widget": "monetary", "display_currency": currency}'/></td>
+										<td class="text-right"><span t-esc="d['final_precio_total']" t-options='{"widget": "monetary", "display_currency": currency}'/></td>
+									</tr>
+								<!--<t t-foreach="o.libro" t-as="k">
+									<t t-if="len(k.line_id) > 0">
+										<tr>
+											<th class="text-center"><b>LÍNEA:</b></th>
+											<th class="text-center"><b><span t-esc="k.name.name"/> </b></th>
+
+										</tr>
+										<tr>
+											<th colspan="14" style="border-bottom: 1px solid black; border-style: dotted; color: white">
+											-&#45;&#45;
+											</th>
+										</tr>
+										<t t-set="total_bolivares_inicial" t-value="0"/>
+										<t t-set="total_bolivares_entradas" t-value="0"/>
+										<t t-set="total_bolivares_salida" t-value="0"/>
+										<t t-set="total_bolivares" t-value="0"/>
+
+										<t t-set="linea_bolivares_inicial" t-value="0"/>
+										<t t-set="linea_bolivares_entradas" t-value="0"/>
+										<t t-set="linea_bolivares_salida" t-value="0"/>
+										<t t-set="linea_bolivares" t-value="0"/>
+
+
+										<tr t-foreach="k.line_id" t-as="l">
+											<t t-if="l.cantidad_inicial == 0 and l.cantidad_entradas == 0 and l.cantidad_salidas == 0">
+
+											</t>
+											<t t-else="">
+
+												<th class="text-left"><span t-esc="l.name.default_code"/></th>
+												<th class="text-left"><span t-esc="l.name.name"/></th>
+
+												<th class="text-right"><span t-esc="o.float_format(l.cantidad_inicial)"/></th>
+												<th class="text-right"><span t-esc="o.float_format(l.costo_intradas)"/></th>
+												<th class="text-right"><span t-esc="o.float_format(l.total_bolivares_inicial)"/></th>
+
+												<th class="text-right"><span t-esc="o.float_format(l.cantidad_entradas)"/></th>
+												<th class="text-right"><span t-esc="o.float_format(l.costo_entradas)"/></th>
+												<th class="text-right"><span t-esc="o.float_format(l.total_bolivares_entradas)"/></th>
+
+												<th class="text-right"><span t-esc="o.float_format(l.cantidad_salidas)"/></th>
+												<th class="text-right"><span t-esc="o.float_format(l.costo_salidas)"/></th>
+												<th class="text-right"><span t-esc="o.float_format(l.total_bolivares_salida)"/></th>
+
+												<th class="text-right"><span t-esc="o.float_format(l.total)"/></th>
+												<th class="text-right"><span t-esc="o.float_format(l.promedio)"/></th>
+												<th class="text-right"><span t-esc="o.float_format(l.total_bolivares)"/></th>
+
+												<t t-set="total_bolivares_inicial" t-value="l.total_bolivares_inicial  + total_bolivares_inicial"/>
+												<t t-set="total_bolivares_entradas" t-value="l.total_bolivares_entradas + total_bolivares_entradas "/>
+												<t t-set="total_bolivares_salida" t-value="l.total_bolivares_salida + total_bolivares_salida  "/>
+												<t t-set="total_bolivares" t-value="l.total_bolivares + total_bolivares  "/>
+
+												<t t-set="linea_bolivares_inicial" t-value=" linea_bolivares_inicial + l.cantidad_inicial "/>
+												<t t-set="linea_bolivares_entradas" t-value="linea_bolivares_entradas + l.cantidad_entradas"/>
+												<t t-set="linea_bolivares_salida" t-value="linea_bolivares_salida + l.cantidad_salidas"/>
+												<t t-set="linea_bolivares" t-value="linea_bolivares + l.total "/>
+
+												<t t-set="total_general_inicial" t-value="total_bolivares_inicial  + total_general_inicial"/>
+												<t t-set="total_general_entradas" t-value=" total_general_entradas + total_bolivares_entradas"/>
+												<t t-set="total_general_salida" t-value="total_bolivares_salida +  total_general_salida"/>
+												<t t-set="total_general" t-value="total_general + total_bolivares "/>
+
+												<t t-set="cat_general_inicial" t-value="cat_general_inicial + l.cantidad_inicial "/>
+												<t t-set="cat_general_entradas" t-value=" cat_general_entradas  + l.cantidad_entradas"/>
+												<t t-set="cat_general_salida" t-value="cat_general_salida + l.cantidad_salidas"/>
+												<t t-set="cat_general" t-value="cat_general + l.total "/>
+											</t>
+										</tr>
+										<tr>
+											<th colspan="2" style="border-top: 1px solid black;" class="text-center"><b>TOTAL  LÍNEA:</b></th>
+											<th  style="border-top: 1px solid black;" class="text-right"><b><span t-esc="o.float_format(linea_bolivares_inicial)"/></b></th>
+											<th colspan="2" style="border-top: 1px solid black;" class="text-right"><b><span t-esc="o.float_format(total_bolivares_inicial)"/></b></th>
+
+											<th  style="border-top: 1px solid black;" class="text-right"><b><span t-esc="o.float_format(linea_bolivares_entradas)"/></b></th>
+											<th colspan="2" style="border-top: 1px solid black;" class="text-right"><b><span t-esc="o.float_format(total_bolivares_entradas)"/></b></th>
+
+											<th  style="border-top: 1px solid black;" class="text-right"><b><span t-esc="o.float_format(linea_bolivares_salida)"/></b></th>
+											<th  colspan="2" style="border-top: 1px solid black;" class="text-right"><b><span t-esc="o.float_format(total_bolivares_salida)"/></b></th>
+
+											<th style="border-top: 1px solid black;" class="text-right"><b><span t-esc="o.float_format(linea_bolivares)"/></b></th>
+											<th  colspan="2" style="border-top: 1px solid black;" class="text-right"><b><span t-esc="o.float_format(total_bolivares)"/></b></th>
+										</tr>
+										<tr>
+											<th colspan="14" style="color: white;" class="text-center">
+											&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;
+											&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;
+											&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;
+											</th>
+										</tr>
+									</t>
+
+								</t>
+
+								<tr>
+									<th colspan="2" style="border-top: 1px solid black;" class="text-right"><b>TOTAL GENERAL:</b></th>
+									<th  style="border-top: 1px solid black;" class="text-right"><b><span t-esc="o.float_format(cat_general_inicial)"/></b></th>
+									<th colspan="2" style="border-top: 1px solid black;" class="text-right"><b><span t-esc="o.float_format(total_general_inicial)"/></b></th>
+									<th  style="border-top: 1px solid black;" class="text-right"><b><span t-esc="o.float_format(cat_general_entradas)"/></b></th>
+									<th colspan="2" style="border-top: 1px solid black;" class="text-right"><b><span t-esc="o.float_format(total_general_entradas)"/></b></th>
+									<th  style="border-top: 1px solid black;" class="text-right"><b><span t-esc="o.float_format(cat_general_salida)"/></b></th>
+									<th colspan="2" style="border-top: 1px solid black;" class="text-right"><b><span t-esc="o.float_format(total_general_salida)"/></b></th>
+									<th  style="border-top: 1px solid black;" class="text-right"><b><span t-esc="o.float_format(cat_general)"/></b></th>
+									<th  colspan="2" style="border-top: 1px solid black;" class="text-right"><b><span t-esc="o.float_format(total_general)"/></b></th>
+								</tr>-->
+								<tr>
+									<th colspan="14" style="color: white;" class="text-center">
+									--------------------------------------------------------------------------------------------------------------------------------------
+									--------------------------------------------------------------------------------------------------------------------------------------
+									--------------------------------------------------------------------------------------------------------------------------------------
+									</th>
+								</tr>
+								</tbody>
+
+
+							</table>
+						</center>
+                    </t>
+            </div>
+            </div>
+             <div class="footer">
+            <div class="row text-center" style="border-top: 1px solid black;">
+                <div class="col-xs-3 col-xs-offset-9 text-right">
+                    <ul class="list-inline" style="margin-top:10px;">
+                        <li>Pag:</li>
+                        <li>
+                            <span class="page"/>
+                        </li>
+                        <li>/</li>
+                        <li>
+                            <span class="topage"/>
+                        </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+          </t>
+        </template>
+
+    </data>
+</odoo>

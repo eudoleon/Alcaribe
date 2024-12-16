@@ -1,0 +1,53 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<odoo>
+        <record id="account_asset_view_form_dual_currency" model="ir.ui.view">
+            <field name="name">account.asset.view.form dual currency</field>
+            <field name="model">account.asset</field>
+            <field name="inherit_id" ref="account_asset.view_account_asset_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='original_value']" position="after">
+                    <field name="original_value_ref" readonly="1" force_save="1"/>
+                </xpath>
+                <xpath expr="//div[@class='oe_title']" position="after">
+                    <group>
+                        <group>
+                            <field name="currency_id" readonly="1" force_save="1" string="Moneda Compañía"/>
+                            <field name="currency_id_dif" options="{'no_create': True, 'no_open': True}"/>
+                            <field name="tax_today" attrs="{'readonly': [('state', 'not in', ('draft', 'model'))]}"/>
+                        </group>
+                        <group>
+
+                        </group>
+                    </group>
+                </xpath>
+                <xpath expr="//field[@name='salvage_value']" position="after">
+                    <field name="salvage_value_ref" readonly="1" force_save="1"/>
+                </xpath>
+                <xpath expr="//field[@name='book_value']/.." position="after">
+                    <label for="book_value_ref" string="Valor contable Ref."/>
+                    <span>
+                        <field name="book_value_ref" class="oe_inline" widget="monetary" required="1" attrs="{'invisible': [('state', '=', 'model')]}" options="{'currency_field': 'currency_id_dif'}"/>
+                        <span attrs="{'invisible': [('salvage_value', '=', 0)]}">
+                            (incl.
+                            <field name="value_residual_ref" nolabel="1" force_save="1" widget="monetary" attrs="{'invisible': [('state', '=', 'model')]}" options="{'currency_field': 'currency_id_dif'}"/>
+                            depreciable)
+                        </span>
+                    </span>
+                </xpath>
+                <xpath expr="//field[@name='depreciation_move_ids']/tree/field[@name='ref']" position="after">
+                    <field name="tax_today" readonly="1" force_save="1"/>
+                    <field name="currency_id_dif" invisible="1"/>
+                </xpath>
+                <xpath expr="//field[@name='already_depreciated_amount_import']" position="after">
+                    <field name="already_depreciated_amount_import_ref" readonly="1" force_save="1"/>
+                </xpath>
+                <xpath expr="//field[@name='depreciation_move_ids']/tree/field[@name='asset_depreciated_value']" position="after">
+                    <field name="asset_depreciated_value_ref" readonly="1" force_save="1"/>
+                </xpath>
+                <xpath expr="//field[@name='depreciation_move_ids']/tree/field[@name='asset_remaining_value']" position="after">
+                    <field name="asset_remaining_value_ref" readonly="1" force_save="1"/>
+                </xpath>
+            </field>
+        </record>
+
+</odoo>

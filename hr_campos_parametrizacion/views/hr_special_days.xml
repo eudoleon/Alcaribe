@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!--  dias Feriados -->
+
+        <!--VISTA FORMULARIO-->
+        <record id="view_hr_payroll_hollydays_form_view" model="ir.ui.view">
+            <field name="name">Dias Feriados</field>
+            <field name="model">hr.payroll.hollydays</field>
+            <field name="arch" type="xml">
+                <form>
+                    <!--header>
+                        <button name="actualiza_periodo" string="Actualizar Período" type="object"/>
+                    </header-->
+
+                    <group col="6" colspan="4">
+                        <field name="hollydays"/>
+                        <field name="nombre"/>
+                        <field name="date_from"/>
+                        <field name="date_to"/>
+                    </group>
+                </form>
+            </field>
+        </record>
+<!--attrs="{'required': [('hollydays','=', True)], 'readonly': [('hollydays','=', False)]}"/-->
+        <!--VISTA DE BUSQUEDA-->
+
+        <record id="view_hr_payroll_hollydays_filter" model="ir.ui.view">
+            <field name="name">hr.payroll.hollydays.search</field>
+            <field name="model">hr.payroll.hollydays</field>
+            <field name="arch" type="xml">
+                <search string="Search Hollydays">
+                   <group col="10" colspan="4">
+                        <field name="hollydays"/>
+                        <field name="nombre"/>
+                        <field name="date_from"/>
+                        <field name="date_to"/>
+                    </group>
+               </search>
+            </field>
+        </record>
+
+        <!--  vista lista -->
+        <record id="view_hr_payroll_hollydays_tree" model="ir.ui.view">
+            <field name="name">hr.payroll.hollydays.tree</field>
+            <field name="model">hr.payroll.hollydays</field>
+            <field name="arch" type="xml">
+                <tree string="feriados" editable="bottom">
+                    <field name="hollydays"/>
+                    <field name="nombre"/>
+                    <field name="date_from"/>
+                    <field name="date_to" attrs="{'required': [('hollydays','=', True)]}"/>
+
+                </tree>
+            </field>
+        </record>
+
+        <record id="act_hr_payroll_hollydays_tree" model="ir.actions.act_window">
+            <field name="name">DIAS FERIADOS</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">hr.payroll.hollydays</field>
+            <!--field name="view_type">form</field-->
+            <field name="view_mode">tree,form</field>
+            <!--field name="act_window_id" ref="view_hr_payroll_hollydays_tree"/-->
+            <!--field name="context">{'readonly_by_pass': True}</field-->
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+
+              </p><p>
+
+              </p>
+            </field>
+        </record>
+
+        <menuitem
+            id="view_hr_payroll_hollydays_menu"
+            parent="hr_work_entry_contract_enterprise.menu_hr_payroll_configuration"
+            name="Dias Feriados"
+            sequence="81"
+            action="act_hr_payroll_hollydays_tree"/>
+
+    </data>
+</odoo>

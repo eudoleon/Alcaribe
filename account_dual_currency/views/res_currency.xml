@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+        <record id="view_currency_form_inherit_views_ve" model="ir.ui.view">
+            <field name="name">view_currency_form_inherit_views_ve</field>
+            <field name="model">res.currency</field>
+            <field name="inherit_id" ref="base.view_currency_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//sheet" position="before">
+                    <field name="facturas_por_actualizar" invisible="1"/>
+                    <div class="alert alert-danger" role="alert" style="margin-bottom:0px;" attrs="{'invisible': [('facturas_por_actualizar','=',True)]}">
+                        <strong>
+                            - Existen facturas por actualizar a la nueva tasa
+                        </strong>
+                    </div>
+                    <header>
+                        <button name="actualizar_facturas" string="Actualizar Facturas" class="oe_highlight" type="object" attrs="{'invisible': [('facturas_por_actualizar','=',True)]}"/>
+                        <button name="actualizar_productos" string="Actualizar Productos" class="oe_highlight" type="object"/>
+                    </header>
+                </xpath>
+                 <xpath expr="//field[@name='currency_subunit_label']" position="after">
+                     <field name="sincronizar"/>
+                     <field name="server" attrs="{'invisible': [('sincronizar','=',False)], 'required': [('sincronizar','=',True)]}"/>
+                     <field name="act_productos" attrs="{'invisible': [('sincronizar','=',False)]}"/>
+                     <button name="actualizar_tasa" string="Actualizar Ahora" class="oe_highlight" type="object"  attrs="{'invisible': [('sincronizar','=',False)]}"/>
+                     <field name="facturas_por_actualizar" invisible="1"/>
+                </xpath>
+                <!--<xpath expr="//sheet" position="before">
+                    <header>
+                        <button name="actualizar_facturas" string="Actualizar Facturas" class="oe_highlight" type="object" />
+                        <button name="actualizar_productos" string="Actualizar Productos" class="oe_highlight" type="object"/>
+                    </header>
+                    <div class="alert alert-danger" role="alert" style="margin-bottom:0px;"
+                     attrs="{'invisible': [('facturas_por_actualizar','=',0)]}">
+                        <strong>
+                            - Existen facturas por actualizar a la nueva tasa
+                        </strong>
+                    </div>
+                </xpath>-->
+                <!--<xpath expr="//field[@name='currency_subunit_label']" position="after">
+                     <field name="inverse_rate" />
+                </xpath>-->
+            </field>
+        </record>
+
+        <record id="currency_tree_inherit_ve" model="ir.ui.view">
+         <field name="name">currency.tree.inherit.increment.precision.ve</field>
+         <field name="model">res.currency</field>
+         <field name="inherit_id" ref="base.view_currency_tree" />
+         <field name="arch" type="xml">
+                <xpath expr="//field[@name='rate']" position="before">
+                     <field name="inverse_rate"></field>
+                </xpath>
+
+         </field>
+       </record>
+
+</odoo>

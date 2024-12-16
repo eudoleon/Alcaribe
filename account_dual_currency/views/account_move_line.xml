@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="account_move_line_form_inherit_views_dual" model="ir.ui.view">
+            <field name="name">account_move_line_form_inherit_views dual</field>
+            <field name="model">account.move.line</field>
+            <field name="inherit_id" ref="account.view_move_line_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='credit']" position="after">
+                    <field name="tax_today" string="Tasa"/>
+                    <field name="currency_id_dif" readonly="1" invisible="1"/>
+                    <field name="debit_usd"  sum="Débito Total $" />
+                    <field name="credit_usd"  sum="Crédito Total $"/>
+                    <field name="balance_usd" invisible="1"/>
+                    <field name="amount_residual_usd"  optional="hide" readonly="1" widget='monetary' options="{'currency_field': 'currency_id_dif'}"/>
+                    <field name="amount_residual"  readonly="1"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="view_move_line_form_inherit_views_dual" model="ir.ui.view">
+            <field name="name">view_move_line_form_inherit_views dual</field>
+            <field name="model">account.move.line</field>
+            <field name="inherit_id" ref="account.view_move_line_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='balance']" position="after">
+                    <field name="tax_today" string="Tasa"/>
+                    <field name="currency_id_dif" readonly="1" invisible="1"/>
+                    <field name="debit_usd" readonly="1"/>
+                    <field name="credit_usd" readonly="1"/>
+                    <field name="balance_usd" readonly="1"/>
+                    <field name="amount_residual_usd" optional="hide" readonly="1" widget='monetary' options="{'currency_field': 'currency_id_dif'}"/>
+                    <field name="amount_residual"  readonly="1"/>
+                </xpath>
+            </field>
+        </record>
+
+        <!--<record id="account_move_line_tree_grouped_inherit_views" model="ir.ui.view">
+            <field name="name">account_move_line_tree_grouped_inherit_views</field>
+            <field name="model">account.move.line</field>
+            <field name="inherit_id" ref="account.view_move_line_tree_grouped"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='credit']" position="after">
+                    <field name="tax_today" string="Tasa"></field>
+                    <field name="currency_id_dif" readonly="1" invisible="1"></field>
+                    <field name="debit_usd"  sum="Débito Total $" ></field>
+                    <field name="credit_usd"  sum="Crédito Total $"></field>
+                </xpath>
+                <xpath expr="//field[@name='amount_currency']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+            </field>
+        </record>-->
+    </data>
+</odoo>

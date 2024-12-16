@@ -1,0 +1,22 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<odoo>
+    <data>
+        <record id="extra_account_tax_venezuela" model="ir.ui.view">
+            <field name="name">Extra account.tax Venezuela</field>
+            <field name="model">account.tax</field>
+            <field name="inherit_id" ref="account.view_tax_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='type_tax_use']" position="after">
+                    <field name="appl_type" string="Tipo de Alicuota" groups="account.group_account_manager"/>
+                </xpath>
+                <xpath expr="//field[@name='name']" position="after">
+                    <field name="type_tax" widget = "selection" string="Tipo de Impuesto"/>
+                </xpath>
+                 <xpath expr="//field[@name='analytic']" position="before">
+                     <field name="wh_vat_collected_account_id"/>
+                     <field name="wh_vat_paid_account_id"/>
+                 </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

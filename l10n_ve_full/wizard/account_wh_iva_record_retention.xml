@@ -1,0 +1,39 @@
+<odoo>
+  <data>
+      <record id="view_record_retention_iva" model="ir.ui.view">
+            <field name="name">account.wh.iva.record.retention.form</field>
+                <field name="model">account.wh.iva.record.retention</field>
+                <field name="arch" type="xml">
+                    <form string="Registro de retencion de IVA cliente">
+                        <div >
+                            <group colspan="2" col="2">
+                                <field name="partner_id" string="Cliente" options="{'no_create': True, 'no_open': True}"/>
+                            </group>
+                            <group colspan="2" col="2">
+                                <group>
+                                    <field name="invoice_ids" string="Facturas" domain="[('partner_id','=', partner_id), ('move_type','in', ('out_refund', 'out_invoice')), ('wh_iva', '=', False)]" widget="many2many_tags" options="{'no_create': True, 'no_open': True}"/>
+                                </group>
+                                <group>
+                                    <field name="control_number" string="Número de Comprobante" required="1"/>
+                                </group>
+                            </group>
+                        </div>
+                        <footer>
+                            <button name="generate_retention_iva" string="Generar Retención" type="object" class="btn-primary"/>
+                            <button string="Cancel" class="btn-default" special="cancel" />
+                        </footer>
+                    </form>
+                </field>
+        </record>
+
+        <record id="action_retention_iva" model="ir.actions.act_window">
+        	<field name="name">Registro de retenciones de cliente</field>
+        	<field name="res_model">account.wh.iva.record.retention</field>
+        	<field name="binding_view_types">form</field>
+        	<field name="view_mode">form</field>
+        	<field name="view_id" ref="view_record_retention_iva"/>
+        	<field name="target">new</field>
+    	</record>
+        <menuitem id="menu_action_record_iva_retention" name="Registrar Retención de IVA" parent="account.menu_finance_receivables" action="action_retention_iva"/>
+  </data>
+</odoo>

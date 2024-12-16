@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="hr_salary_rule_inherit" model="ir.ui.view">
+            <field name="name">hr.salary.rule.inherit</field>
+            <field name="model">hr.salary.rule</field>
+            <field name="inherit_id" ref="hr_payroll.hr_salary_rule_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='active']" position="after">
+                    <field name="desc_ley" string="Articulo o ley"/>
+                    <field name="company_id" string="Compañia"/>
+                </xpath>
+
+                <xpath expr="//field[@name='appears_on_payslip']" position="after">
+                    <field name="devengado" string="Será un devengado?"/>
+                </xpath>
+
+                <xpath expr="//group[@name='main_details']" position="after">
+                    <div name="central_devengado" attrs="{'invisible': [('devengado', '!=', True)]}">
+                        <h3><a><b>Este Concepto aplica o se emplea en el Cálculo de:</b></a></h3>
+                        <newline/>
+                        <group name="devengados_details" col="4">
+                            <field name="salario_normal"/>
+                            <field name="utilidades"/>
+                            <field name="vacaciones"/>
+                            <field name="prestaciones"/>
+                            <field name="islr"/>
+                            <field name="inces"/>
+                            <field name="rpvh" string="Ley de politica Habitacional"/>
+                        </group>
+                    </div>
+                </xpath>
+                
+            </field>
+        </record>
+
+        <record id="hr_salary_rule_lista_inherit" model="ir.ui.view">
+            <field name="name">hr.salary.rule.lista.inherit</field>
+            <field name="model">hr.salary.rule</field>
+            <field name="inherit_id" ref="hr_payroll.hr_salary_rule_list"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='code']" position="before">
+                    <field name="desc_ley" string="Articulo o ley"/>
+                </xpath>
+                <xpath expr="//field[@name='partner_id']" position="replace">
+                    <field name="company_id" string="Compañia"/>
+                </xpath>
+
+                <!--xpath expr="//field[@name='name']" position="before"-->
+                
+            </field>
+        </record>
+
+    </data>
+</odoo>

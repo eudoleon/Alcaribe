@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <data>    
+    <record id="paperformat_resumen_list" model="report.paperformat">
+
+      <field name="default" eval="True"/>
+        <field name="name">A4 Listado empleados</field>
+        <field name="default" eval="True"/>
+        <field name="format">custom</field>
+        <field name="page_height">297</field>
+        <field name="page_width">210</field>
+        <field name="orientation">Portrait</field>
+        <field name="margin_top">35</field>
+        <field name="margin_bottom">15</field>
+        <field name="margin_left">5</field>
+        <field name="margin_right">5</field>
+        <field name="header_line" eval="False"/>
+        <field name="header_spacing">30</field>
+        <field name="dpi">110</field>
+    </record>
+
+    <report id="report_list"
+        model="wizard.rep.lista_empleados"
+        name="hr_rep_list_empleado.reporte_list"
+        file="hr_rep_list_empleado.reporte_list"
+        string="Reporte de Empleados"
+        report_type="qweb-html"
+        paperformat="hr_rep_list_empleado.paperformat_resumen_list"
+        /><!-- paperformat="hr_infor_resumen_nom.paperformat_resumen_nomina"-->
+
+    <template id="reporte_list">
+
+       <t t-call="web.html_container" ><!-- realiza llamados a template propio de odoo -->
+         <t t-call="web.basic_layout" ><!-- realiza llamados a template propio de odoo -->
+          <t t-foreach="docs" t-as="o">
+
+            <div class="header">
+              <div align="center"><samp style="font-weight: bolder;font-size:20px;">Listado de Trabajadores - Status actual</samp></div>
+            </div>
+
+            <div class="page">
+              <table width="100%"  border="1" class="table table-bordered">
+                <tr>
+                  <td><samp style="font-weight: bolder">Código</samp></td>
+                  <td><samp style="font-weight: bolder;font-size:16px;">Apellidos y Nombres</samp></td>
+                  <td><samp style="font-weight: bolder;font-size:16px;">Cédula</samp></td>
+                  <td><samp style="font-weight: bolder;font-size:16px;">Dpto.</samp></td>
+                  <td><samp style="font-weight: bolder;font-size:16px;">Cargo Trabajador</samp></td>
+                  <td><samp style="font-weight: bolder;font-size:16px;">F.Ingreso</samp></td>
+                  <td><samp style="font-weight: bolder;font-size:16px;">Sueldo Actual</samp></td>
+                  <td><samp style="font-weight: bolder;font-size:16px;">Status</samp></td>
+                </tr>
+                <t t-set="cont" t-value="0"/>
+                <t t-foreach="o.line_employee" t-as="employee">
+                  <tr>
+                    <td><t t-esc="employee.employee_id.registration_number"/></td>
+                    <td><t t-esc="employee.employee_id.name" /></td>
+                    <td><t t-esc="employee.employee_id.cedula" /></td>
+                    <td><t t-esc="employee.employee_id.department_id.name" /></td>
+                    <td><t t-esc="employee.employee_id.job_id.name" /></td>
+                    <td><t t-esc="o.formato_fecha(employee.employee_id.contract_id.date_start)" /></td>
+                    <td align="right"><t t-esc="employee.employee_id.contract_id.wage" /> Bs.</td>
+                    <td><t t-esc="o.status(employee.employee_id.contract_id.state)" /></td>
+                  </tr>
+                  <t t-set="cont" t-value="cont+1"/>
+                </t>
+                <tr>
+                  <td colspan="2"><samp style="font-weight: bolder;font-size:16px;">Total de Trabajadores:</samp></td>
+                  <td colspan="6"><t t-esc="cont"/></td>
+                </tr>
+              </table>
+            </div>
+
+          </t>
+         </t>
+       </t>
+
+     </template>
+  
+  </data>
+</odoo>

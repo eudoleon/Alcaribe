@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="extra_sale_order_venezuela" model="ir.ui.view">
+            <field name="name">Extra sale.order Venezuela</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+                    <xpath expr="//field[@name='validity_date']" position="after">
+                            <field name="people_type_company" invisible="1"/>
+                            <field name="people_type_individual" invisible="1"/>
+                            <field name="company_type" invisible="1"/>
+                     </xpath>
+                     <xpath expr="//field[@name='partner_id']" position="after">
+                            <field name="rif" string="RIF"
+                                   attrs="{'invisible':['|', ('company_type', '=', 'person'), ('people_type_company','=','pjnd')]}"/>
+                            <field name="nationality" string="Tipo de Documento"  attrs="{'invisible':[('company_type', '=', 'company')]}"/>
+                            <field name="identification_id" string="Documento de Identidad" attrs="{'invisible':[('company_type', '=', 'company')]}"/>
+                     </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>
+

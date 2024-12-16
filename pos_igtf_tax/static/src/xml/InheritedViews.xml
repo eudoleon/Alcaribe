@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="reprinting_popup" xml:space="preserve">
+    <t t-name="IGTFAmount" t-inherit="point_of_sale.PaymentScreenStatus" t-inherit-mode="extension" owl="1">
+        <div class="payment-status-total-due" position="after">
+            <div class="payment-status-total-due">
+                <span class="label">Monto IGTF</span>
+                <strong t-esc="props.order.x_igtf_amount" />
+                <span> Bs.F</span>
+            </div>
+        </div>
+    </t>
+    <t t-name="Paymentlines" t-inherit="point_of_sale.PaymentScreenPaymentLines" t-inherit-mode="extension" owl="1">
+        <div class="paymentline" position="attributes">
+            <attribute name="t-att-class">line.payment_method.x_is_foreign_exchange ? 'igtf-payment' : ''</attribute>
+        </div>
+    </t>
+    <t t-name="PaymentName" t-inherit="point_of_sale.PaymentScreen" t-inherit-mode="extension" owl="1">
+        <div class="payment-name" position="attributes">
+            <attribute name="t-att-class">paymentMethod.x_is_foreign_exchange ? 'igtf-payment' : ''</attribute>
+        </div>
+    </t>
+</templates>

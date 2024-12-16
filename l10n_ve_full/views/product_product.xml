@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<odoo>
+    <data>
+
+        <record model="ir.ui.view" id="view_product_product_islr">
+            <field name="name">product.product.form.islr</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//page[@name='purchase']" position="after">
+                    <page string="Retención ISLR" name="ret_islr" attrs="{'invisible':[('type', '!=', 'service')]}">
+                        <newline/>
+                        <separator string="Concepto de retención de ingresos" attrs="{'invisible': [('type', '!=', 'service')]}"/>
+                        <newline/>
+                        <group col="6" colspan="6" attrs="{'invisible': [('type', '!=', 'service')]}">
+                            <field name="concept_id"/>
+                        </group>
+                        <newline/>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

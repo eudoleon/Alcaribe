@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+	<record id="vista_from_prestamo" model="ir.ui.view">
+		<field name="name">vista.from.prestamo</field>
+		<field name="model">hr.prestamo</field>
+		<field name="arch" type="xml">
+			<form string="Asignaciones de Prestamos al Empleado">
+				<header>
+                		<field name="status_prestamo" widget="statusbar" statusbar_visible="hold,pending,solvent" readonly="True"/>
+                		<button name="aprobar" string="Aprobar Prestamo" type="object" attrs="{'invisible': [('status_prestamo', '!=','hold')]}"/>
+                		<button name="cancel" string="Cancelar" type="object" attrs="{'invisible': [('status_prestamo', '=','hold')]}"/>
+                </header>
+                <sheet>
+                <group name="Campos ref">
+				    <group>						
+				        <field name="empleado_id" required='1'></field>	
+				        <field name="cedula" invisible="1"></field>
+						<field name="monto_prestamo" string="Monto del Prestamo" required='1'></field>
+						<field name="cuotas"></field>
+						<field name="adeudado" string="Monto a pagar"></field>
+						
+				    </group>
+				    <group>
+				    	<field name="prestamo_fecha" required='1'></field>
+				    	<field name="porcentaje"></field>
+				    	<field name="forma_pago" string="Como se va a pagar el Préstamo?" required='1'></field>
+				    	<field name="monto_cuotas"></field> <!-- readonly="True" -->
+				    </group>
+				</group>
+
+				<notebook>
+
+        		<page string="Calendarios de Pagos">
+            		<field name="prestamo_line_ids" nolabel="1" readonly="True">
+                    	<tree string="Registro de Pagos" editable="buttom">
+                    		<field name="num_cuota" string="Cuota nro"/>
+	                        <field name="fecha_pago" string="Fecha del Pago"/>
+	                        <field name="monto_pagado" string="Monto"/>
+	                        <field name="status_pago" string="Status"/>
+                    	</tree>
+            		</field>
+        		</page>
+    			</notebook>
+    			<newline/>
+
+                </sheet>		
+			</form>
+		</field>
+	</record>
+
+	<record id="vista_tree_prestamo" model="ir.ui.view">
+		<field name="name">vista.tree.prestamo</field>
+		<field name="model">hr.prestamo</field>
+		<field name="arch" type="xml">
+			<tree string="Asignaciones de Prestamos al Empleado" >
+				<field name="empleado_id"></field>
+				<field name="cedula"></field>	
+				<field name="monto_prestamo" string="Monto del Prestamo" sum="monto_prestamo"></field>
+				<field name="porcentaje" string="% de Interes"></field>
+				<field name="adeudado" string="Monto a Pagar" sum="adeudado"></field>
+				<field name="cuotas"></field>	
+				<field name="status_prestamo" string="Status" readonly="True"></field>		
+			</tree>
+		</field>
+	</record>
+
+
+    <!--field name="retention_line_ids" nolabel="1" readonly="True"-->
+
+	<record id="hr_solicitud_prestamo_menu" model="ir.actions.act_window">
+		<field name="name">Registro de solicitud de prestamos</field>
+		<field name="res_model">hr.prestamo</field>
+		<field name="view_mode">tree,form</field>
+		<field name="view_id" ref="vista_tree_prestamo"></field>
+	</record>
+
+	<menuitem
+		id="menu_solicitud_prestamo"
+		name="Asignar Préstamos" 
+		parent="hr_payroll.menu_hr_payroll_payslips"
+		action="hr_solicitud_prestamo_menu"
+		sequence="90"/>
+</odoo>

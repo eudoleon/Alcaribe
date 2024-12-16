@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <data> 
+    <record id="paperformat_requisiciones" model="report.paperformat">
+
+      <field name="default" eval="True"/>
+        <field name="name">Formato requisiciones</field>
+        <field name="default" eval="True"/>
+        <field name="format">custom</field>
+        <field name="page_height">279</field>
+        <field name="page_width">216</field>
+        <field name="orientation">Portrait</field>
+        <field name="margin_top">40</field>
+        <field name="margin_bottom">50</field>
+        <field name="margin_left">7</field>
+        <field name="margin_right">7</field>
+        <field name="header_line" eval="False"/>
+        <field name="header_spacing">35</field>
+        <field name="dpi">96</field>
+    </record>
+  
+  <template id="report_requisiciones">
+            <t t-call="web.html_container">
+              <t t-foreach="docs" t-as="o">
+                <t t-call="web.basic_layout" >
+                  <div class="header">
+                    <table width="100%">
+                      <tr>
+                        <td align="left">
+                          <t t-if="o.company_id.logo">  
+                              <img t-attf-src="data:image/*;base64,{{o.company_id.logo}}" style="width:350px; height:auto;"/>
+                          </t>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          RIF: <!--t t-esc="docs.company_id.partner_id.doc_type" />-<t t-esc="docs.company_id.partner_id.vat" /-->
+                        </td>
+                      </tr>
+                    </table>
+                  </div>
+                  <div class="page">
+                    <table width="100%" class="table table-sm table-bordered">
+                      <tr style="background-color:#D3D3D3">
+                        <td align="center" colspan="2" style="font-weight: bolder">
+                          REQUISICION DE UNIFORMES Y EPP
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          FECHA: <t t-esc="docs.fecha" />
+                          <br/>
+                          ATENCIÓN: <t t-esc="docs.jefe_compras_id.name" />
+                          <br/>
+                          <t t-esc="docs.jefe_compras_id.department_id.name" />
+                        </td>
+                        <td>
+                          DEPARTAMENTO SOLICITANTE: <t t-esc="docs.departamento_solicitante.name" />
+                          <br/>
+                          NUMERO: <t t-esc="docs.name" />
+                        </td>
+                      </tr>
+                    </table>
+                    <table width="100%" class="table table-sm table-bordered">
+                      <tr style="background-color:#D3D3D3; font-weight: bolder">
+                        <td align="center" width="150">
+                          CANTIDAD
+                        </td>
+                        <td align="center">
+                          DESCRIPCIÓN
+                        </td>
+                      </tr>
+                      <t t-foreach="docs.requisicion_line_ids" t-as="line" >
+                        <tr>
+                          <td align="center">
+                            <t t-esc="line.cantidad" />
+                          </td>
+                          <td>
+                            <t t-esc="line.descripcion" />
+                          </td>
+                        </tr>
+                      </t>
+                      <tr>
+                        <td height="50">.</td>
+                        <td></td>
+                      </tr>
+                      <tr>
+                        <td colspan="2">Para ser utilizado en :
+                          <t t-esc="docs.motivo" />
+                        </td>
+                        
+                      </tr>
+                    </table>
+
+
+                  </div>
+
+                  <div class="footer">
+                    <table width="100%" class="table table-sm table-bordered">
+                      <tr>
+                      <td align="center" width="33%">SOLICITANTE</td>
+                      <td align="center" width="33%">RECIBE</td>
+                      <td align="center" width="33%">AUTORIZÓ</td>
+                    </tr>
+                    <tr>
+                      <td align="center">
+                        <br/><br/><br/><br/>----------------------<br/>
+                        DPTO:
+                        <t t-esc="docs.departamento_solicitante.name" />
+                      </td>
+                      <td align="center">
+                        <br/><br/><br/><br/>----------------------<br/>
+                        DPTO:
+                        <t t-esc="docs.jefe_compras_id.department_id.name" /></td>
+                      <td align="center">
+                        <br/><br/><br/><br/>----------------------<br/>
+                        GERENCIA<br/>ADMINISTRATIVA</td>
+                    </tr>
+                    </table>
+                  </div>
+                </t> 
+              </t>
+            </t>
+    </template>
+
+    <!--t t-set="lang" t-value="o.invoice_user_id.sudo().lang if o.type in ('in_invoice', 'in_refund') else o.partner_id.lang"/>
+                    <t t-call="account.report_invoice_document_with_payments" t-lang="lang"/-->
+
+    <!--report
+            id="paperformat_requisiciones"
+            model="hr.requisiciones"
+            string="Orden de Requisiciones"
+            report_type="qweb-pdf"
+            name="hr_campos_parametrizacion.report_requisiciones"
+            file="hr_campos_parametrizacion.report_requisiciones"
+           
+        /--> <!--  paperformat="paperformat_requisiciones"-->
+  
+  </data>
+</odoo>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Scrap move report action -->
+    <record id="scrap_move_report_pdf_action" model="ir.actions.report">
+        <field name="name">Scrap Products Report</field>
+        <field name="model">scrap.move.report</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">scrap_move_report.scrap_pdf_report</field>
+        <field name="report_file">scrap_move_report.scrap_pdf_report</field>
+    </record>
+</odoo>

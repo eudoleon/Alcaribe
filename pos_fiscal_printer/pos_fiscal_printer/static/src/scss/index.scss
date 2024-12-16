@@ -1,0 +1,53 @@
+.receipt-screen .default-view .actions .buttons {
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.button:disabled {
+    filter: brightness(.8);
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+.reprinting-button {
+    align-self: center;
+    color: white;
+    display: inline-flex;
+    font-size: 1rem;
+    column-gap: .35rem;
+    align-content: center;
+    cursor: pointer;
+
+    &:hover {
+        filter: brightness(.95);
+    }
+}
+
+form[name="nota-credito"], form[name="reprinting"] {
+    fieldset {
+        display: grid;
+        gap: .75rem;
+        padding: 1rem;
+    
+        label {
+            display: flex;
+            padding: .25rem;
+            align-items: center;
+            column-gap: .25rem;
+            font-size: .75rem;
+
+            input {
+                font-size: 1rem !important;
+            }
+
+            select {
+                width: 100%;
+                padding: .5rem;
+            }
+        }
+    }
+}
+
+form[name="reprinting"] fieldset {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+}

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="fiscal_templates" xml:space="preserve">
+    <t t-name="FiscalPrinting" t-inherit="point_of_sale.ReceiptScreen" t-inherit-mode="extension" owl="1">
+        <xpath expr="//div[hasclass('print')]" position="after">
+            <div class="button" t-att-disabled="printing" t-on-click="() => this.doPrinting('fiscal')">
+                Factura fiscal
+            </div>
+            <div class="button" t-att-disabled="printing" t-on-click="() => this.doPrinting('noFiscal')">
+                Nota de entrega
+            </div>
+            <div class="button" t-att-disabled="printing" t-on-click="() => this.doPrinting('notaCredito')">
+                Nota de crédito
+            </div>
+        </xpath>
+    </t>
+    <t t-name="FiscalReprinting" t-inherit="point_of_sale.ReprintReceiptScreen" t-inherit-mode="extension" owl="1">
+        <xpath expr="//div[hasclass('print')]" position="after">
+            <div class="button" t-att-disabled="impresa" t-on-click="() => this.doPrinting('fiscal')">
+                Factura fiscal
+            </div>
+            <div class="button" t-att-disabled="impresa" t-on-click="() => this.doPrinting('noFiscal')">
+                Nota de entrega
+            </div>
+            <div class="button" t-att-disabled="impresa" t-on-click="() => this.doPrinting('notaCredito')">
+                Nota de crédito
+            </div>
+        </xpath>
+    </t>
+    <t t-name="ReporteZ" t-inherit="point_of_sale.ClosePosPopup" t-inherit-mode="extension" owl="1">
+        <xpath expr="//div[@class='notes-container']" position="before">
+            <input type="text" name="zReport" placeholder="Reporte Z" t-model="state.zReport" />
+        </xpath>
+        <xpath expr="//footer[@class='footer']" position="inside">
+            <div class="button" t-on-click="printZReport">
+                Reporte Z
+            </div>
+            <div class="button" t-on-click="printXReport">
+                Reporte X
+            </div>
+        </xpath>
+    </t>
+</templates>

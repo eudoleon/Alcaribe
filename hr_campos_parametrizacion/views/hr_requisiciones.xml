@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="vista_requisicion_from" model="ir.ui.view">
+            <field name="name">vista.requisicion.from</field>
+            <field name="model">hr.requisiciones</field>
+            <field name="arch" type="xml">
+                <form string="Requisiciones de Uniformes y Equipos">
+                    <header>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,posted" readonly="True"/>
+
+                        <button name="confirmar" string="Confirmar" type="object" attrs="{'invisible': [('state', '=','posted')]}"/>
+                        <button name="cancel" string="Cancelar" type="object" attrs="{'invisible': [('state', '=','draft')]}"/>
+                        <!-- attrs="{'invisible': [('manual', '=',False)]}"-->
+                    </header>
+                    <sheet>
+                        <group name="central">
+                            <group name="izquierdo">
+                                <field name="name" string="Nro Requisición" readonly="1"/>
+                                <field name="jefe_compras_id" string="Dirigido a:" attrs="{'readonly': [('state', '=','posted')]}"/> 
+                            </group>
+                            <group name="derecho">
+                                <field name="departamento_solicitante" string="Dep Solicitante" attrs="{'readonly': [('state', '=','posted')]}"/>
+                                <field name="fecha" string="Fecha" required="1" attrs="{'readonly': [('state', '=','posted')]}"/>
+                                <field name="company_id" string="Compañia" attrs="{'readonly': [('state', '=','posted')]}"/>
+                            </group>
+                            
+                        </group>
+
+                        <notebook>
+                        <page name="lineas" string="Lineas">
+                            <field name="requisicion_line_ids" nolabel="1" attrs="{'readonly': [('state', '=','posted')]}" colspan="2">
+                                <tree string="Registro Lineas requisiciones" editable="buttom">
+                                    <field name="requisicion_id" string="ID" invisible="0" readonly="1"/>
+                                    <field name="cantidad" string="Cantidad"/>
+                                    <field name="descripcion" string="Descripción"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page name="motivo" string="Motivo requisición">
+                            <field name="motivo" required="1"/>
+                        </page>
+                        </notebook>
+                        <newline/>
+
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="vista_requisicion_tree" model="ir.ui.view">
+        <field name="name">vista.requisicion.tree</field>
+        <field name="model">hr.requisiciones</field>
+        <field name="arch" type="xml">
+            <tree string="Requisiciones" >
+                <field name="name" string="Nro requisicion"></field>
+                <field name="fecha" string="Fecha"></field>   
+                <field name="departamento_solicitante"/>  
+            </tree>
+        </field>
+        </record>
+
+       <record id="act_hr_requisiciones" model="ir.actions.act_window">
+            <field name="name">Requisiciones</field>
+            <field name="res_model">hr.requisiciones</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="vista_requisicion_tree"></field>
+        </record>
+
+        <menuitem
+            id="view_hr_requisiciones_menu"
+            parent="hr.menu_hr_root"
+            name="Requisiciones de Uniformes y equipos"
+            sequence="5"
+            action="act_hr_requisiciones"/>
+    </data>
+</odoo>

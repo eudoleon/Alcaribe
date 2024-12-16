@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+       <!-- Wizard para imprimir reporte comprobante 1007-->
+      <record id="view_pre_arc" model="ir.ui.view">
+       	    <field name="name">Reporte de ARC ISLR</field>
+            <field name="model">wizard.rep.arc</field>
+    	    <field name="arch" type="xml">
+
+    	    	<form string="Reporte de ARC">
+                    <group colspan="8" col="4">
+                         
+                        <field name="date_from" string="Fecha Desde" required="1"/>
+                        <field name="date_to"  string="Fecha Hasta" required="1"/>  
+                        <field name="employee_ids" string="Empleados" widget="many2many_tags" />
+                        <field name="company_id" string="Compañia" readonly="1" />                                                 
+                    </group>                   
+                     
+	                <footer>
+	                   <button name="print_rep_arc" string="REporte de ARC" type="object" class="oe_highlight"/> 
+
+	                   <button special="cancel" string="Cancel" class="oe_highlight" />
+	                </footer>
+                </form>
+
+    	    </field>
+      </record>
+
+      <record id="action_report_arc" model="ir.actions.act_window">
+        	<field name="name">wizard arc</field>
+        	<field name="res_model">wizard.rep.arc</field>
+        	<field name="view_mode">form</field>
+        	<field name="view_id" ref="view_pre_arc"/>
+        	<field name="target">new</field>
+      </record>
+
+      <menuitem
+        id="menu_rep_arc"
+        parent="hr.hr_menu_hr_reports"
+        name="Reporte ARC ISLR"
+        sequence="12"
+        action="action_report_arc"/>
+
+    </data>
+</odoo>

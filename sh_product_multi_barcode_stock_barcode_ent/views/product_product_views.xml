@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- PRODUCT PRODUCT VIEW SEARCH INHERIT -->
+    <record id="product_search_form_view_inherit" model="ir.ui.view">
+        <field name="name">product.product.view.search.inherit</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="product.product_search_form_view"/>
+        <field name="arch" type="xml">
+            <!-- Add Multi barcode domain -->
+            <field name="name" position="attributes">
+                <attribute name="filter_domain">['|', '|', '|', ('default_code', 'ilike', self), ('name', 'ilike', self), ('barcode', 'ilike', self),('barcode_line_ids.name','ilike',self)]</attribute>
+            </field>
+        </field>
+    </record>
+
+</odoo>
