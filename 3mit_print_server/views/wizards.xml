@@ -1,0 +1,142 @@
+<odoo>
+
+
+    <record id="action_print_NC" model="ir.actions.act_window">
+        <field name="name">Nota de Crédito</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">pos.print.notacredito</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <record id="action_print_Factura" model="ir.actions.act_window">
+        <field name="name">Factura Fiscal</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">pos.print.factura</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <record id="3mit_print_server_order_form" model="ir.ui.view">
+        <field name="name">3mit_print_server_order.form</field>
+        <field name="model">pos.order</field>
+        <field name="inherit_id" ref="point_of_sale.view_pos_pos_form" />
+        <field name="arch" type="xml">
+
+            <xpath expr="//header/button[last()]" position="after">
+                <field name="ticket_fiscal" attrs="{'invisible':True}"></field>
+                <field name="canPrintNC" invisible="1"></field>
+                <field name="canPrint" invisible="1"></field>
+
+                <button id="print_NC" name="print_NC" type="object" string="Nota de Crédito"
+                    attrs="{'invisible': [('canPrintNC', '=', False)]}" /> />
+                
+                <button id="print_DF" name="print_factura" type="object"  string="Print Fiscal"
+                    attrs="{'invisible': ['|',('ticket_fiscal', 'not in', [False,'']),('canPrint', '=', False)]}" />
+            </xpath>
+
+            <xpath expr="//group[@name='order_fields']" position="before">
+
+                <style>
+                    .datos_fiscales {
+                        margin-top: -10px;
+                    }
+
+                    .datos_fiscales span,
+                    .datos_fiscales .o_field_char {
+                        margin-right: 4px;
+                    }
+
+                    .datos_fiscales .o_field_char {
+                        margin-right: 8px;
+                        font-weight: bold;
+                    }
+                </style>
+
+                <div class="datos_fiscales" >
+                    <field name="fiscal_editable" invisible="1" />
+                    <span>Nro Fiscal: </span>
+                    <field name="ticket_fiscal" attrs="{'readonly' : [('fiscal_editable','=',False)]}" />
+                    <span>Fecha: </span>
+                    <field name="fecha_fiscal"  attrs="{'readonly' : [('fiscal_editable','=',False)]}" />
+                    <span>Impresora:</span>
+                    <field name="serial_fiscal"  attrs="{'readonly' : [('fiscal_editable','=',False)]}" />
+                </div>
+
+            </xpath>
+        </field>
+    </record>
+
+
+    <!-- caja de datos y confirmación para Nota de Crédito-->
+
+    <record id="view_print_nc" model="ir.ui.view">
+        <field name="name">Nota de Crédito</field>
+        <field name="model">pos.print.notacredito</field>
+        <field name="arch" type="xml">
+
+            <form id="dlg_print_nota_credito" js_class="pos_printer_nota_credito" string="Nota de Crédito">
+                <field name="config_id" invisible="1" />
+                <field name="printer_host" invisible="1" />
+
+                <sheet modifiers="{}">
+                    <h2 modifiers="{}">
+                        Datos de Factura
+                    </h2>
+
+                    <div class="row">
+                        <div class="col-12">
+                            <group>
+                                <field name="numFactura" required="1" readonly="1" />
+                                <field name="fechaFactura" required="1" readonly="1" />
+                                <field name="serialImpresora" required="1" readonly="1" />
+                            </group>
+                        </div>
+
+                    </div>
+
+                </sheet>
+                <footer>
+                    <button string="Imprimir" id="print_NC" special="save" class="btn-primary"></button>
+                    <button string="Cancelar" class="btn-secondary" special='cancel'></button>
+                </footer>
+            </form>
+
+        </field>
+    </record>
+
+    <!-- caja de datos y confirmación para la Factura-->
+
+    <record id="view_print_factura" model="ir.ui.view">
+        <field name="name">Factura Fiscal</field>
+        <field name="model">pos.print.factura</field>
+        <field name="arch" type="xml">
+
+            <form id="dlg_print_factura" js_class="pos_printer_factura" string="Factura Fiscal">
+                <field name="config_id" invisible="1" />
+                <field name="printer_host" invisible="1" />
+
+                <sheet modifiers="{}">
+                    
+
+                    <div class="row">
+                        <div class="col-12">
+                            <h2 modifiers="{}">
+                        Desea imprimir esta factura en la impresora fiscal ?
+                    </h2>
+                        </div>
+
+                    </div>
+
+                </sheet>
+                <footer>
+                    <button string="Imprimir" id="print_Factura" special="save" class="btn-primary"></button>
+                    <button string="Cancelar" class="btn-secondary" special='cancel'></button>
+                </footer>
+            </form>
+
+        </field>
+    </record>
+
+
+</odoo>
