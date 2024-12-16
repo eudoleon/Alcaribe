@@ -11,6 +11,7 @@ class AccountMove(models.Model):
     serial_fiscal = fields.Char()
     fecha_fiscal = fields.Char()
     ticket_fiscal = fields.Char()
+    es_pago_en_divisa = fields.Boolean(string="¿Es Pago en Divisa?")
 
     #
     @api.depends('ticket_fiscal')
@@ -39,62 +40,57 @@ class AccountMove(models.Model):
     canPrintNC = fields.Boolean(compute=_compute_canPrintNC)
 
     def printFactura(self):
-
-        # Obtener la tasa de conversión de la moneda VEF
-        vef_currency = self.env['res.currency'].search([('name', '=', 'VEF')], limit=1)
-        tasa = 1.0
-        
-        if vef_currency:
-            tasa = vef_currency.rate or 1.0
-
+        # Calcula la tasa
+        tasa = self.currency_id._get_conversion_rate(
+            self.currency_id, 
+            self.company_id.currency_id, 
+            self.company_id, 
+            self.invoice_date
+        ) if self.currency_id != self.company_id.currency_id else 1
 
         cliente = self.partner_id
         ticket = dict()
         ticket['fechaFactura'] = datetime.now().strftime('%Y-%m-%d %H:%S')
 
         ticket['backendRef'] = self.name
-        ticket['idFiscal'] = cliente.vat #cliente.rif or cliente.identification_id
+        ticket['idFiscal'] = cliente.vat
 
-        ticket['razonSocial'] = cliente.name  # self.commercial_partner_id.commercial_company_name
-        ticket['direccion'] = cliente.contact_address_complete # self.commercial_partner_id.contact_address or self.commercial_partner_id.city
-        ticket['telefono'] = cliente.phone  # self.commercial_partner_id.phone
+        ticket['razonSocial'] = cliente.name
+        ticket['direccion'] = cliente.contact_address_complete
+        ticket['telefono'] = cliente.phone
 
         items = []
         for line in self.invoice_line_ids:
             item = dict()
-            item['nombre'] = line.name  # line.name.splitlines()[0]
+            item['nombre'] = line.name
             item['cantidad'] = line.quantity
-            item['precio'] = line.price_unit
-            # taxes=line.tax_ids.read()
+            item['precio'] = line.price_unit * tasa  # Corregido: eliminar tupla
             taxes = line.tax_ids
-            if len(taxes) == 0:
-                item['impuesto'] = 0
-            else:
-                item['impuesto'] = taxes[0].amount
+            item['impuesto'] = taxes[0].amount if taxes else 0
             item['descuento'] = line.discount
             item['tipoDescuento'] = 'p'
 
             items.append(item)
 
         ticket['items'] = items
-        
-        # Verificar si existen pagos asociados a la factura
-        payments = []
-        payment = dict()
-        payment['codigo'] = '20' if self.es_pago_en_divisa else '01'
-        payment['nombre'] = 'EFECTIVO 1'  # Nombre predeterminado del método de pago
-        payment['monto'] = self.amount_total
 
-        payments.append(payment)
-        ticket['pagos'] = payments
+        pagos = []
+        pagos.append({
+            'codigo': '20' if self.es_pago_en_divisa else '01',
+            'nombre': 'EFECTIVO',
+            'monto': self.amount_total * tasa,
+        })
+        ticket['pagos'] = pagos
 
         return {
-            'res_model': 'account.move',
-            'type': 'ir.actions.client',
-            'tag': 'printFactura',
-            'target': 'new',
+        'res_model': 'account.move',
+        'type': 'ir.actions.client',
+        'tag': 'printFactura',
+        'target': 'new',
+        'context': {
             'data': ticket
         }
+    }
 
     def print_NC(self):
         invoice = self.reversed_entry_id
