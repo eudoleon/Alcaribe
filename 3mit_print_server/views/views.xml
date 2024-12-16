@@ -10,7 +10,7 @@
         </field>
     </record>
 
-    <record id="account_move_form_inherit_igtf" model="ir.ui.view">
+    <!--<record id="account_move_form_inherit_igtf" model="ir.ui.view">
         <field name="name">account.move.form.inherit.igtf</field>
         <field name="model">account.move</field>
         <field name="inherit_id" ref="account.view_move_form"/>
@@ -20,7 +20,7 @@
                 <field name="serial_impresora_pos"/>
             </xpath>
         </field>
-    </record>
+    </record>-->
 
     <!-- para mapear con info en la impresoar fiscal. -->
     <record id="view_pos_payment_metho_igtf_form" model="ir.ui.view">
