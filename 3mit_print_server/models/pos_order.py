@@ -30,12 +30,6 @@ class PosSession(models.Model):
 class AccountMove(models.Model):
     _inherit = 'account.move'
 
-    ticket_fiscal_pos = fields.Char(
-        string='Ticket Fiscal POS', 
-        related='pos_order_id.ticket_fiscal', 
-        readonly=True,
-        store=True  # Opcional, depende de si necesitas almacenar este valor en la base de datos para búsquedas o reportes
-    )
     serial_impresora_pos = fields.Char(
         string='Serial Impresora POS', 
         related='pos_order_id.serial_fiscal', 
@@ -116,7 +110,6 @@ class PosOrder(models.Model):
             res.update({
                 'invoice_line_ids': inv_lines,
                 'pos_order_id': self.id,
-                'ticket_fiscal_pos': self.ticket_fiscal
             })
         return res
 
