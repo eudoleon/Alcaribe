@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_3mit_print_server_pos_print_notacredito,access_3mit_print_server_pos_print_notacredito,model_pos_print_notacredito,,1,1,1,1
+access_3mit_print_server_pos_print_factura,access_3mit_print_server_pos_print_factura,model_pos_print_factura,,1,1,1,1
+access_3mit_print_server_pos_printer_options,access_3mit_print_server_pos_printer_options,model_pos_printer_options,,1,1,1,1
+

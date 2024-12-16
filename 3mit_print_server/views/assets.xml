@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="print_nc" name="Frontend Assets" inherit_id="web.assets_backend">
+        <xpath expr="." position="inside">
+            <script type="text/javascript" src="/3mit_print_server/static/src/js/dialog.js"></script>
+            <script type="text/javascript" src="/3mit_print_server/static/src/js/print_nc.js"></script>
+            <script type="text/javascript" src="/3mit_print_server/static/src/js/print_factura.js"></script>
+            <script type="text/javascript" src="/3mit_print_server/static/src/js/print_options.js"></script>
+        </xpath>
+    </template>
+
+    <template id="assets" inherit_id="point_of_sale.assets">
+        <xpath expr="." position="inside">
+            <script type="text/JavaScript" src="/3mit_print_server/static/src/js/print_ticket.js"></script>
+        </xpath>
+    </template>
+
+</odoo>
