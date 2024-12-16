@@ -18,13 +18,18 @@ class inv_nota_credito(models.TransientModel):
     def getTicket(self, *args):
         invoice = self.env['account.move'].browse(self.env.context.get('active_id', False))
 
-        # Calcula la tasa
-        tasa = self.currency_id._get_conversion_rate(
-            self.currency_id, 
-            self.company_id.currency_id, 
-            self.company_id, 
-            self.invoice_date
-        ) if self.currency_id != self.company_id.currency_id else 1
+        # Obtener la tasa de conversión de la moneda VEF
+        vef_currency = self.env['res.currency'].search([('name', '=', 'VEF')], limit=1)
+        tasa = 1.0
+        
+        if vef_currency:
+            tasa = vef_currency.rate or 1.0
+        else:
+            if tasa == 0:
+                tasa = invoice.currency_id._get_conversion_rate(
+                    invoice.currency_id, invoice.company_id.currency_id,
+                    invoice.company_id, invoice.invoice_date
+                )
 
         cliente = invoice.partner_id
         ticket = {
