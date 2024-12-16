@@ -19,7 +19,7 @@
     'version': '16.3.2.3',
 
     # any module necessary for this one to work correctly
-    'depends':['point_of_sale'],
+    'depends':['3mit_impresora_fiscal','point_of_sale'],
 
     # always loaded
     'data': [
