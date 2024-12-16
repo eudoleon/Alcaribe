@@ -54,9 +54,9 @@ class inv_nota_credito(models.TransientModel):
 
         pagos = []
         pagos.append({
-            'codigo': '20' if self.es_pago_en_divisa else '01',
+            'codigo': '20' if invoice.es_pago_en_divisa else '01',
             'nombre': 'EFECTIVO',
-            'monto': self.amount_total * tasa
+            'monto': invoice.amount_total * tasa
         })
         ticket['pagos'] = pagos
 
