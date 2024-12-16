@@ -16,7 +16,6 @@
         <field name="inherit_id" ref="account.view_move_form"/>
         <field name="arch" type="xml">
             <xpath expr="//field[@name='pos_order_id']" position="before">
-                <field name="ticket_fiscal_pos"/>
                 <field name="serial_impresora_pos"/>
             </xpath>
         </field>
