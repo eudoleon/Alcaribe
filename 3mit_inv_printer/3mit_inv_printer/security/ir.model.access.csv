@@ -1,3 +1,0 @@
-id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_3mit_inv_printer_invoice_print_notacredito,access_3mit_inv_printer_invoice_print_notacredito,model_invoice_print_notacredito,,1,1,1,1
-access_3mit_inv_printer_printer_options,access_3mit_inv_printer_printer_options,model_printer_options,,1,1,1,1
