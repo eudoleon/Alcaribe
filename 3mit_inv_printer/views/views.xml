@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>        
+        <record id="printFactura" model="ir.actions.client">
+            <field name="name">printFactura</field>
+            <field name="tag">printFactura</field>
+            <field name="target">new</field>
+        </record>
+        <record id="action_print_NC" model="ir.actions.act_window">
+            <field name="name">Nota de Crédito</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">invoice.print.notacredito</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+        <record id="3mit_view_move_form" model="ir.ui.view">
+            <field name="name">3mit_inv_printer.form</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_move_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//header/button[last()]" position="after">
+                    <field invisible="True" name="move_type"/>
+                    <field force_save="1" invisible="True" name="ticket_fiscal"/>
+                    <field invisible="True" name="canPrintFF"/>
+                    <field invisible="True" name="canPrintNC"/>
+                    <button id="print_FF" name="printFactura" string="IMPRIMIR FACTURA FISCAL" type="object"
+                            attrs="{'invisible': [('ticket_fiscal', '=', False)]}"/>
+                    <!-- Actualización de la visibilidad del botón para imprimir nota de crédito -->
+                    <button id="print_NC" name="print_NC" string="IMPRIMIR NOTA DE CREDITO" type="object"
+                            attrs="{'invisible': [('ticket_fiscal', '=', False)]}"/>
+                </xpath>
+                <xpath expr="//div[hasclass('oe_title')]" position="inside">
+                    <style>
+                        .datos_fiscales{
+                            margin-top:-10px;
+                        }
+                        .datos_fiscales label, .datos_fiscales .o_field_char{
+                            margin-right:4px;
+                        }
+                        .datos_fiscales .o_field_char{
+                            margin-right:8px;
+                            font-weight:bold;
+                        }
+                    </style>
+                    <div class="datos_fiscales">
+                        <span>Nro Fiscal:</span>
+                        <field force_save="1" name="ticket_fiscal" readonly="1"/>
+                        <span>Fecha:</span>
+                        <field name="fecha_fiscal" readonly="1"/>
+                        <span>Impresora:</span>
+                        <field name="serial_fiscal" readonly="1"/>
+                    </div>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>
