@@ -401,8 +401,15 @@
                                             t-value="total_withheld + i.total_withheld" />
                                     </td>
                                     <td>
-                                        <t t-out="f(i.subtracting)" />
-                                        <t t-set="subtracting" t-value="subtracting + i.subtracting" />
+                                        <t t-if="i.invoice_line_ids.filtered(lambda l: 'SUSTRAENDO' in (l.name or ''))">
+                                            <t t-set="sustraendo_line" t-value="i.invoice_line_ids.filtered(lambda l: 'SUSTRAENDO' in (l.name or ''))[0]" />
+                                            <t t-out="f(sustraendo_line.price_total)" />
+                                            <t t-set="subtracting" t-value="subtracting + sustraendo_line.price_total" />
+                                        </t>
+                                        <t t-else="">
+                                            <t t-out="f(i.subtracting)" />
+                                            <t t-set="subtracting" t-value="subtracting + i.subtracting" />
+                                        </t>
                                     </td>
                                     <td>
                                         <t t-out="f(i.amount_withholding)" />
