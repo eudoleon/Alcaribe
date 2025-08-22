@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_tax_withholdings_tax_withholdings,tax_withholdings.tax_withholdings,model_tax_withholdings_tax_withholdings,base.group_user,1,1,1,1
