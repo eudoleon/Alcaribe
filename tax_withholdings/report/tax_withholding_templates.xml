@@ -406,11 +406,10 @@
                                             <t t-out="f(sustraendo_line.price_total)" />
                                             <t t-set="subtracting" t-value="subtracting + sustraendo_line.price_total" />
                                         </t>
-                                        <t t-else="">
+                                        <td>
                                             <t t-out="f(i.subtracting)" />
                                             <t t-set="subtracting" t-value="subtracting + i.subtracting" />
-                                        </t>
-                                    </td>
+                                        </td>
                                     <td>
                                         <t t-out="f(i.amount_withholding)" />
                                         <t t-set="amount_withholding"

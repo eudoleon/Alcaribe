@@ -141,13 +141,19 @@ class TaxWithholdingISLRReport(models.AbstractModel):
     _inherit = 'report.tax_withholdings.mixin'
 
     def extract_data(self, record):
+        # Buscar líneas que contengan "SUSTRAENDO" en su descripción
+        sustraendo_amount = 0.0
+        for line in record.invoice_line_ids:
+            if line.name and 'SUSTRAENDO' in line.name.upper():
+                sustraendo_amount += line.price_total
+        
         data = {
             "amount_base": record.amount_untaxed - record.vat_exempt_amount_islr,
             "amount_total": record.amount_total_islr,
             "amount_withholding": record.withholding_opp_islr,
             "total_purchase": record.amount_total_purchase,
             "percentage": record.withholding_percentage_islr,
-            "subtracting": record.subtracting,
+            "subtracting": sustraendo_amount if sustraendo_amount > 0 else record.subtracting,
             "total_withheld": record.total_withheld,
             "code": record.withholding_code_islr
         }
