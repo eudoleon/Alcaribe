@@ -9,14 +9,6 @@ VAT_DEFAULT = 'XXXXX'
 class AccountMoveWithHoldings(models.Model):
     _inherit = "account.move"
 
-    @api.onchange(
-        'invoice_line_ids',
-        'invoice_line_ids.name',
-        'invoice_line_ids.price_subtotal',
-        'invoice_line_ids.price_unit',
-        'invoice_line_ids.quantity',
-    )
-
     invoice_tax_id = fields.Many2one(
         comodel_name='account.tax',
         string="VAT withholding",
@@ -214,29 +206,6 @@ class AccountMoveWithHoldings(models.Model):
         copy=False,
         readonly=True,
     )
-
-    def _onchange_set_subtracting_from_label(self):
-        """Si alguna línea de la factura tiene 'SUSTRAENDO' en la etiqueta (name),
-        sumar su importe y colocarlo en move.subtracting para el comprobante ISLR.
-        """
-        for move in self:
-            # Aplica solo a compras / documentos que pueden tener ISLR (ajusta si necesitas otros tipos)
-            if move.move_type not in ('in_invoice', 'in_refund', 'in_receipt'):
-                continue
-
-            amount = 0.0
-            for line in move.invoice_line_ids:
-                # name = "Etiqueta" que ves en la UI
-                if not line.name:
-                    continue
-                if 'sustraendo' in line.name.lower():
-                    # Tomamos el subtotal (cantidad * precio, sin impuestos)
-                    # Si prefieres usar el precio unitario, cambia a line.price_unit
-                    amount += line.price_subtotal or 0.0
-
-            # Solo pisamos si encontramos algo; así permites editar manualmente si no hay línea marcada
-            if amount:
-                move.subtracting = amount
 
     @api.depends(
         'invoice_tax_id',
