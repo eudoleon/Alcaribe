@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <record id="action_allow_edit_reconciled_wizard" model="ir.actions.act_window">
+    <field name="name">Allow Edit Reconciled</field>
+    <field name="res_model">allow.edit.reconciled.wizard</field>
+    <field name="view_mode">form</field>
+    <field name="target">new</field>
+  </record>
+
+  <menuitem id="menu_allow_edit_reconciled_root" name="Allow Edit Reconciled" parent="account.menu_finance"
+            sequence="1000"/>
+
+  <menuitem id="menu_allow_edit_reconciled_action" name="Run" parent="menu_allow_edit_reconciled_root" action="action_allow_edit_reconciled_wizard"/>
+</odoo>
