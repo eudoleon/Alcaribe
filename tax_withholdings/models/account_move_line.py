@@ -31,22 +31,17 @@ class AccountMoveLineWithHoldings(models.Model):
                     partner=line.partner_id,
                     is_refund=line.is_refund,
                 )
+                # Guardar subtotal normal de Odoo
                 line.price_subtotal = taxes_res['total_excluded']
 
-                # Solo IVA (nada de ISLR)
-                tax_iva = 0.0
-                if line.move_id:
-                    for tax in line.tax_ids:
-                        # Cálculo adicional cuando tengas un impuesto "IVA" + un "invoice_tax_id"
-                        # (mantengo tu lógica original, pero aislada a IVA)
-                        if 'iva' in (tax.name or '').lower() and line.move_id.invoice_tax_id:
-                            amount = line.price_unit * tax.amount / 100
-                            amount_iva = (amount * line.move_id.invoice_tax_id.amount / 100) * line.quantity
-                            tax_iva += amount_iva
+                # ⚡ Aquí el cambio importante:
+                # Antes sumabas la retención al total → daba doble descuento.
+                # Ahora dejamos que Odoo maneje el IVA normal.
+                line.price_total = taxes_res['total_included']
 
-                line.price_total = taxes_res['total_included'] + tax_iva
             else:
                 line.price_total = line.price_subtotal = subtotal
+
 
     def reconcile(self):
         """Reconciliación dejando SOLO la generación de retención IVA."""
