@@ -11,8 +11,3 @@ class AccountPayment(models.Model):
         copy=False,
         readonly=True,
     )
-    temp_sequence_withholding_islr = fields.Char(
-        string="Temporary ISLR withholding sequence",
-        copy=False,
-        readonly=True,
-    )

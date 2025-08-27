@@ -133,38 +133,3 @@ class TaxWithholdingIVAReport(models.AbstractModel):
         super().validate_record(record)
         if (record.withholding_iva or 0.0) >= 0.0:
             raise UserError(_("This invoice has no withholding tax"))
-
-
-class TaxWithholdingISLRReport(models.AbstractModel):
-    _name = 'report.tax_withholdings.template_tax_withholding_islr'
-    _description = 'Tax Withholding ISLR Report'
-    _inherit = 'report.tax_withholdings.mixin'
-
-    def extract_data(self, record):
-        data = {
-            "amount_base": record.amount_untaxed - record.vat_exempt_amount_islr,
-            "amount_total": record.amount_total_islr,
-            "amount_withholding": record.withholding_opp_islr,
-            "total_purchase": record.amount_total_purchase,
-            "percentage": record.withholding_percentage_islr,
-            "subtracting": record.subtracting,
-            "total_withheld": record.total_withheld,
-            "code": record.withholding_code_islr
-        }
-
-        if record.sequence_withholding_islr:
-            date = record.date or record.invoice_date
-            data["number_withholding"] = f"{date:%Y%m}{record.sequence_withholding_islr:>08}"
-        else:
-            data["number_withholding"] = _('To be defined')
-
-        return data
-
-    def validate_record(self, record):
-        super().validate_record(record)
-
-        if not record.withholding_code_islr:
-            raise ValidationError(_("Withholding requires the Withholding Code"))
-
-        if (record.withholding_islr or 0.0) >= 0.0:
-            raise UserError(_("This invoice has no withholding tax"))

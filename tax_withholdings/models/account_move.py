@@ -9,6 +9,7 @@ VAT_DEFAULT = 'XXXXX'
 class AccountMoveWithHoldings(models.Model):
     _inherit = "account.move"
 
+    # Solo IVA
     invoice_tax_id = fields.Many2one(
         comodel_name='account.tax',
         string="VAT withholding",
@@ -20,31 +21,13 @@ class AccountMoveWithHoldings(models.Model):
         required=False,
     )
     withholding_iva = fields.Monetary(
-        string='VAT withholding ',
-        store=True,
-        compute='_compute_withholding',
-        currency_field='company_currency_id'
-    )
-    withholding_islr = fields.Monetary(
-        string='ISLR withholding ',
-        store=True,
-        compute='_compute_withholding',
-        currency_field='company_currency_id'
-    )
-    withholding_islr_base = fields.Monetary(
-        string='ISLR base withholding',
+        string='VAT withholding',
         store=True,
         compute='_compute_withholding',
         currency_field='company_currency_id'
     )
     sequence_withholding_iva = fields.Char(
         string="VAT withholding sequence",
-        readonly=True,
-        store=True,
-        copy=False
-    )
-    sequence_withholding_islr = fields.Char(
-        string="ISLR withholding sequence",
         readonly=True,
         store=True,
         copy=False
@@ -63,7 +46,7 @@ class AccountMoveWithHoldings(models.Model):
         currency_field='company_currency_id'
     )
 
-    # Fields to export
+    # Exportación solo para IVA
     withholding_agent_vat = fields.Char(
         string="RIF of the Withholding Agent",
         compute="_compute_fields_to_export",
@@ -90,26 +73,8 @@ class AccountMoveWithHoldings(models.Model):
         compute="_compute_fields_to_export",
         copy=False,
     )
-    withholding_percentage_islr = fields.Float(
-        string="Withholding percentage",
-        compute="_compute_fields_to_export",
-        copy=False,
-    )
-    withholding_code_islr = fields.Char(
-        string="Withholding code",
-        compute="_compute_fields_to_export",
-        copy=False,
-    )
     amount_tax_iva = fields.Monetary(
         string="Total taxes (VAT)",
-        compute="_compute_fields_to_export",
-        store=False,
-        copy=False,
-        readonly=True,
-        currency_field='company_currency_id'
-    )
-    amount_tax_islr = fields.Monetary(
-        string="Total taxes (ISLR)",
         compute="_compute_fields_to_export",
         store=False,
         copy=False,
@@ -132,22 +97,6 @@ class AccountMoveWithHoldings(models.Model):
         readonly=True,
         currency_field='company_currency_id'
     )
-    vat_exempt_amount_islr = fields.Monetary(
-        string="Amount exempt from ISLR",
-        compute="_compute_fields_to_export",
-        store=False,
-        copy=False,
-        readonly=True,
-        currency_field='company_currency_id'
-    )
-    amount_total_islr = fields.Monetary(
-        string="Total less ISLR withholdings",
-        compute="_compute_fields_to_export",
-        store=False,
-        copy=False,
-        readonly=True,
-        currency_field='company_currency_id'
-    )
     amount_total_purchase = fields.Monetary(
         string="Total purchase",
         compute="_compute_fields_to_export",
@@ -157,23 +106,7 @@ class AccountMoveWithHoldings(models.Model):
         currency_field='company_currency_id'
     )
     withholding_opp_iva = fields.Monetary(
-        string='VAT withholding   ',
-        compute="_compute_fields_to_export",
-        store=False,
-        copy=False,
-        readonly=True,
-        currency_field='company_currency_id'
-    )
-    withholding_opp_islr = fields.Monetary(
-        string='Total retained',
-        compute="_compute_fields_to_export",
-        store=False,
-        copy=False,
-        readonly=True,
-        currency_field='company_currency_id'
-    )
-    total_withheld = fields.Monetary(
-        string='ISLR withholding',
+        string='VAT withholding',
         compute="_compute_fields_to_export",
         store=False,
         copy=False,
@@ -200,12 +133,6 @@ class AccountMoveWithHoldings(models.Model):
         copy=False,
         readonly=True,
     )
-    withholding_islr_generated_by_payment_id = fields.Many2one(
-        "account.payment",
-        string="Payment that generated the ISLR withholding",
-        copy=False,
-        readonly=True,
-    )
 
     @api.depends(
         'invoice_tax_id',
@@ -216,19 +143,11 @@ class AccountMoveWithHoldings(models.Model):
     def _compute_withholding(self):
         for move in self:
             amount_total_withholding_iva = 0.0
-            amount_total_withholding_islr = 0.0
-
             if move.is_invoice(True):
                 for line in move.line_ids:
-                    if line.tax_line_id:
-                        if line.tax_line_id.withholding_type == "iva":
-                            amount_total_withholding_iva += line.amount_currency
-                        elif line.tax_line_id.withholding_type == "islr":
-                            amount_total_withholding_islr += line.amount_currency
-
+                    if line.tax_line_id and line.tax_line_id.withholding_type == "iva":
+                        amount_total_withholding_iva += line.amount_currency
             move.withholding_iva = amount_total_withholding_iva
-            move.withholding_islr_base = amount_total_withholding_islr - move.subtracting
-            move.withholding_islr = amount_total_withholding_islr
 
     def validation_generation_withholding(self, label_value, label_sequence):
         is_one = len(self._ids) == 1
@@ -249,7 +168,7 @@ class AccountMoveWithHoldings(models.Model):
                     "Please select only invoices that do not have such "
                     "withholdings already associated with them"
                 ))
-            
+
             if move.state != "posted" or (move[label_value] or 0.0) >= 0.0:
                 raise ValidationError(_(
                     "Please select invoices that have information "
@@ -265,22 +184,11 @@ class AccountMoveWithHoldings(models.Model):
             "account.move.withholding.iva"
         )
 
-    def generate_withholding_islr(self):
-        self.validation_generation_withholding("withholding_islr", "sequence_withholding_islr")
-        self._generate_withholding_islr()
-
-    def _generate_withholding_islr(self):
-        self.sequence_withholding_islr = self.env["ir.sequence"].next_by_code(
-            "account.move.withholding.islr"
-        )
-
     @api.depends(
         "invoice_tax_id",
         "subtracting",
         "sequence_withholding_iva",
-        "sequence_withholding_islr",
         "withholding_iva",
-        "withholding_islr"
     )
     def _compute_fields_to_export(self):
         self.withholding_agent_vat = (
@@ -292,7 +200,6 @@ class AccountMoveWithHoldings(models.Model):
         for move in self:
             sign = -1
             move.withholding_opp_iva = withholding_iva = sign * (move.withholding_iva or 0.0)
-            move.withholding_opp_islr = withholding_islr = sign * (move.withholding_islr or 0.0)
 
             move.retained_subject_vat = (
                 move.partner_id.vat.upper()
@@ -300,95 +207,39 @@ class AccountMoveWithHoldings(models.Model):
                 else VAT_DEFAULT
             )
 
-            if move.move_type in {'in_invoice', 'in_refund', 'in_receipt'} and (
-                withholding_iva != 0.0 or withholding_islr != 0.0
-            ):
-                move.amount_total_purchase = move.amount_total + withholding_iva + withholding_islr
+            if move.move_type in {'in_invoice', 'in_refund', 'in_receipt'} and withholding_iva != 0.0:
+                move.amount_total_purchase = move.amount_total + withholding_iva
 
-                if withholding_iva != 0.0:
-                    date = move.date or move.invoice_date
-                    move.withholding_number = f"{date:%Y%m}{move.sequence_withholding_iva:>08}"
-                    move.amount_tax_iva = move.amount_tax + withholding_iva + withholding_islr
-                    move.amount_total_iva = move.amount_total + withholding_islr
+                date = move.date or move.invoice_date
+                move.withholding_number = f"{date:%Y%m}{move.sequence_withholding_iva:>08}"
+                move.amount_tax_iva = move.amount_tax + withholding_iva
+                move.amount_total_iva = move.amount_total
 
-                    aliquot_iva = 0.0
-                    vat_exempt_amount = 0.0
+                aliquot_iva = 0.0
+                vat_exempt_amount = 0.0
 
-                    for line in move.line_ids:
-                        if (
-                            not line.tax_repartition_line_id
-                            and line.display_type == 'product'
-                            and (
-                                not line.tax_ids or not any(
-                                    tax.amount != 0.0 for tax in line.tax_ids
-                                    if not tax.withholding_type
-                                )
+                for line in move.line_ids:
+                    if (
+                        not line.tax_repartition_line_id
+                        and line.display_type == 'product'
+                        and (
+                            not line.tax_ids or not any(
+                                tax.amount != 0.0 for tax in line.tax_ids
+                                if not tax.withholding_type
                             )
-                        ):
-                            vat_exempt_amount += line.amount_currency
-                        elif (
-                            aliquot_iva == 0.0
-                            and line.tax_line_id
-                            and line.tax_line_id.withholding_type == False
-                            and line.tax_line_id.amount != 0.0
-                        ):
-                            aliquot_iva = line.tax_line_id.amount
+                        )
+                    ):
+                        vat_exempt_amount += line.amount_currency
+                    elif (
+                        aliquot_iva == 0.0
+                        and line.tax_line_id
+                        and not line.tax_line_id.withholding_type
+                        and line.tax_line_id.amount != 0.0
+                    ):
+                        aliquot_iva = line.tax_line_id.amount
 
-                    move.aliquot_iva = aliquot_iva
-                    move.vat_exempt_amount_iva = vat_exempt_amount
-
-                else:
-                    move.withholding_number = "0"
-                    move.aliquot_iva = 0
-                    move.amount_tax_iva = 0
-                    move.amount_total_iva = 0
-                    move.vat_exempt_amount_iva = 0
-
-                if withholding_islr != 0.0:
-                    move.total_withheld = sign * move.withholding_islr_base
-                    move.amount_tax_islr = move.amount_tax + move.total_withheld
-                    move.amount_total_islr = move.amount_total + withholding_iva
-
-                    withholding_percentage_islr = 0.0
-                    withholding_code_islr = ''
-                    vat_exempt_amount = 0.0
-
-                    for line in move.line_ids:
-                        if (
-                            not line.tax_repartition_line_id
-                            and line.display_type == 'product'
-                            and (
-                                not line.tax_ids or not any(
-                                    tax.amount != 0.0 for tax in line.tax_ids
-                                    if tax.withholding_type == "islr"
-                                )
-                            )
-                        ):
-                            vat_exempt_amount += line.amount_currency
-                        elif (
-                            withholding_percentage_islr == 0.0
-                            and line.tax_line_id
-                            and line.tax_line_id.withholding_type == "islr"
-                            and line.tax_line_id.amount != 0.0
-                        ):
-                            withholding_percentage_islr = line.tax_line_id.amount
-
-                        if (line.tax_ids):
-                            for tax_id in line.tax_ids:
-                                if tax_id.withholding_type == 'islr' and line.tsc_cod_retencion_islr:
-                                    withholding_code_islr = line.tsc_cod_retencion_islr
-
-                    move.vat_exempt_amount_islr = vat_exempt_amount
-                    move.withholding_percentage_islr = sign * withholding_percentage_islr
-                    move.withholding_code_islr = withholding_code_islr
-
-                else:
-                    move.amount_tax_islr = 0
-                    move.amount_total_islr = 0
-                    move.withholding_percentage_islr = 0
-                    move.withholding_code_islr = ''
-                    move.vat_exempt_amount_islr = 0
-                    move.total_withheld = 0
+                move.aliquot_iva = aliquot_iva
+                move.vat_exempt_amount_iva = vat_exempt_amount
 
             else:
                 move.amount_total_purchase = 0
@@ -396,48 +247,13 @@ class AccountMoveWithHoldings(models.Model):
                 move.aliquot_iva = 0
                 move.amount_tax_iva = 0
                 move.amount_total_iva = 0
-                move.amount_tax_islr = 0
-                move.amount_total_islr = 0
-                move.withholding_percentage_islr = 0
-                move.withholding_code_islr = ''
                 move.vat_exempt_amount_iva = 0
-                move.total_withheld = 0
 
     @api.onchange("invoice_tax_id")
     def _onchange_invoice_tax(self):
         super()._compute_tax_totals()
 
-    def validate_subtracting(self, move=None):
-        move = move or self
-        if abs(move.subtracting) > abs(move.withholding_islr_base):
-            raise ValidationError(_(
-                'The value of the ISLR Subtrahend must be less '
-                'than or equal to the ISLR Withholding. Please change '
-                'the value of the subtrahend to "0.00" if not applicable or '
-                'to a value less than or equal to the withholding'
-            ))
-
-    @api.onchange("subtracting")
-    def _onchance_subtracting(self):
-        self.ensure_one()
-        super()._compute_tax_totals()
-        self.validate_subtracting()
-
-    @api.constrains('subtracting')
-    def _check_subtracting(self):
-        for move in self:
-            self.validate_subtracting(move)
-
     def action_post(self):
-        for move in self:
-            if move.move_type in {'in_invoice', 'in_refund', 'in_receipt'}:
-                for line in move.line_ids:
-                    for tax_id in line.tax_ids:
-                        if tax_id.withholding_type == 'islr' and not line.tsc_cod_retencion_islr:
-                            raise ValidationError(_(
-                                "Please, indicate the ISLR withholding code"
-                            ))
-
         moves_with_payments = self.filtered('payment_id')
         other_moves = self - moves_with_payments
 

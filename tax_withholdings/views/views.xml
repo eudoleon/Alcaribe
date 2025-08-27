@@ -1,6 +1,7 @@
 <odoo>
   <data>
 
+    <!-- Herencia en impuestos -->
     <record model="ir.ui.view" id="view_tax_form_inherited">
       <field name="name">account.tax.form.inherited</field>
       <field name="model">account.tax</field>
@@ -16,6 +17,7 @@
       </field>
     </record>
 
+    <!-- Factura (account.move) -->
     <record id="view_move_form_inherit" model="ir.ui.view">
       <field name="name">account.move.form.inherit</field>
       <field name="model">account.move</field>
@@ -33,7 +35,6 @@
           <field name="invoice_tax_id"
             attrs="{'invisible': [('move_type', 'not in', ('in_invoice', 'in_refund', 'in_receipt'))], 'readonly': [('state', '!=', 'draft')]}" />
           <field name="sequence_withholding_iva" invisible="1" />
-          <field name="sequence_withholding_islr" invisible="1" />
         </field>
 
         <div name="journal_div" position="after">
@@ -43,41 +44,17 @@
             attrs="{'invisible': [('move_type', 'not in', ('in_invoice', 'in_refund', 'in_receipt'))]}" />
         </div>
 
-        <xpath expr="//sheet/notebook/page/field/tree/field[@name='tax_ids']" position="attributes">
-          <attribute name="domain">
-            [
-            ('type_tax_use', '=?', parent.invoice_filter_type_domain),
-            ('company_id', '=', parent.company_id),
-            ('country_id', '=', parent.tax_country_id),
-            ('withholding_type', '!=', 'iva')
-            ]
-          </attribute>
-        </xpath>
-
-        <xpath expr="//sheet/notebook/page/field/tree/field[@name='tax_ids']" position="after">
-          <field name="tsc_cod_retencion_islr"
-            attrs="{'column_invisible': [('parent.move_type', 'not in', ('in_invoice', 'in_refund', 'in_receipt'))]}" />
-        </xpath>
-
-        <field name="tax_totals" position="before">
-          <field name="subtracting" widget='monetary' colspan="2"
-            attrs="{'invisible': [('move_type', 'not in', ('in_invoice', 'in_refund', 'in_receipt'))], 'readonly': [('state', '!=', 'draft')]}" />
-        </field>
-
+        <!-- Botón solo IVA -->
         <button name="action_register_payment" type="object" position="after">
           <button name="generate_withholding_iva" type="object" string="Generate VAT withholding"
             groups="account.group_account_user"
-            attrs="{'invisible': ['|', ('sequence_withholding_iva', '!=', False), ('state', '!=', 'posted')]}"
-            invisible="context.get('default_move_type') not in ('in_invoice', 'in_refund','in_receipt')" />
-          <button name="generate_withholding_islr" type="object" string="Generate ISLR Withholding"
-            groups="account.group_account_user"
-            attrs="{'invisible': ['|', ('sequence_withholding_islr', '!=', False), ('state', '!=', 'posted')]}"
-            invisible="context.get('default_move_type') not in ('in_invoice', 'in_refund','in_receipt')" />
+            attrs="{'invisible': ['|', ('sequence_withholding_iva', '!=', False), ('state', '!=', 'posted')]}"/>
         </button>
 
       </field>
     </record>
 
+    <!-- Órdenes de compra (purchase.order) -->
     <record id="purchase_order_form_inherit" model="ir.ui.view">
       <field name="name">purchase.order.form.inherit</field>
       <field name="model">purchase.order</field>
@@ -89,8 +66,7 @@
             [
             ('type_tax_use','=','purchase'),
             ('company_id', '=', parent.company_id),
-            ('country_id', '=', parent.tax_country_id),
-            ('withholding_type', '!=', 'iva')
+            ('country_id', '=', parent.tax_country_id)
             ]
           </attribute>
         </xpath>
@@ -98,6 +74,7 @@
       </field>
     </record>
 
+    <!-- Vista árbol de facturas -->
     <record id="view_invoice_tree_inherit" model="ir.ui.view">
       <field name="name">account.invoice.tree.inherit</field>
       <field name="model">account.move</field>
@@ -106,9 +83,6 @@
 
         <button name="action_register_payment" type="object" position="after">
           <button name="generate_withholding_iva" type="object" string="Generate VAT withholding"
-            groups="account.group_account_user"
-            invisible="context.get('default_move_type') not in ('in_invoice', 'in_refund','in_receipt')" />
-          <button name="generate_withholding_islr" type="object" string="Generate ISLR Withholding"
             groups="account.group_account_user"
             invisible="context.get('default_move_type') not in ('in_invoice', 'in_refund','in_receipt')" />
         </button>
@@ -129,12 +103,6 @@
           <field name="sequence_withholding_iva" optional="show"
             invisible="context.get('default_move_type') not in ('in_invoice', 'in_refund','in_receipt')"
             groups="base.group_user" />
-          <field name="withholding_islr" optional="show"
-            invisible="context.get('default_move_type') not in ('in_invoice', 'in_refund','in_receipt')"
-            groups="base.group_user" sum="Total ISLR Withholding" />
-          <field name="sequence_withholding_islr" optional="show"
-            invisible="context.get('default_move_type') not in ('in_invoice', 'in_refund','in_receipt')"
-            groups="base.group_user" />
         </field>
 
       </field>
@@ -142,17 +110,11 @@
 
   </data>
 
+  <!-- Secuencia solo IVA -->
   <data noupdate="1">
     <record id="secuence_move_withholding_iva" model="ir.sequence">
       <field name="name">VAT withholding sequence</field>
       <field name="code">account.move.withholding.iva</field>
-      <field name="number_next_actual">1</field>
-      <field name="padding">1</field>
-    </record>
-
-    <record id="secuence_move_withholding_islr" model="ir.sequence">
-      <field name="name">ISLR withholding sequence</field>
-      <field name="code">account.move.withholding.islr</field>
       <field name="number_next_actual">1</field>
       <field name="padding">1</field>
     </record>
