@@ -141,15 +141,9 @@ class AccountMoveWithHoldings(models.Model):
         'line_ids.tax_line_id'
     )
     def _compute_withholding(self):
+        """Ya no recalcula nada. Solo respeta lo que puso _prepare_tax_totals."""
         for move in self:
-            amount_total_withholding_iva = 0.0
-            if move.is_invoice(True):
-                for line in move.line_ids:
-                    if line.tax_line_id and line.tax_line_id.withholding_type == "iva":
-                        amount_total_withholding_iva += line.amount_currency
-
-            # ⚡ Forzar que siempre sea negativo
-            move.withholding_iva = -abs(amount_total_withholding_iva)
+            move.withholding_iva = move.withholding_iva or 0.0  # se asegura que no sea None
 
     def validation_generation_withholding(self, label_value, label_sequence):
         is_one = len(self._ids) == 1

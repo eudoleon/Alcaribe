@@ -48,17 +48,6 @@ class AccountTax(models.Model):
                 'base_amount': tax_detail['base_amount_currency'],
                 'tax_amount': tax_detail['tax_amount_currency'],
             }
-
-            # Handle manual edition of tax lines.
-            if tax_lines is not None:
-                matched_tax_lines = [
-                    x
-                    for x in tax_lines
-                    if x['tax_repartition_line'].tax_id.tax_group_id == tax_detail['tax_group']
-                ]
-                if matched_tax_lines:
-                    tax_group_vals['tax_amount'] = sum(x['tax_amount'] for x in matched_tax_lines)
-
             tax_group_vals_list.append(tax_group_vals)
 
         if in_move:
@@ -98,7 +87,7 @@ class AccountTax(models.Model):
                 'formatted_tax_group_base_amount': formatLang(self.env, tax_group_vals['base_amount'], currency_obj=currency),
             })
 
-            # Retención → solo se guarda en el move, NO se agrega al subtotal
+            # Retención IVA = el mismo IVA pero negativo
             if in_move and move_id and move_id.invoice_tax_id:
                 if 'iva' in tax_group.name.lower():
                     withholding_iva += tax_group_vals['tax_amount']
