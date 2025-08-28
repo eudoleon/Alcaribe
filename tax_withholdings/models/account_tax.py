@@ -100,63 +100,19 @@ class AccountTax(models.Model):
             )
 
             if in_move and move_id and move_id.invoice_tax_id:
+                # Calcular IVA normal
                 iva_amounts = []
                 for base in base_lines:
                     for l in base['record']:
                         for tax_id in l.tax_ids:
                             name = tax_id.name
                             amount = l.price_unit * tax_id.amount / 100
-                            if ('IVA' in name or 'iva' in name) and move_id.invoice_tax_id:
-                                amount_currency = (
-                                    (amount * l.move_id.invoice_tax_id.amount / 100) * l.quantity
-                                )
-                                withholding_iva += amount_currency
-                                iva_amounts.append(amount_currency)
-
-                # IVA normal positivo
-                iva_total = sum(iva_amounts)
-
-                rep_line = self.env['account.tax.repartition.line'].search([
-                    ('invoice_tax_id', '=', move_id.invoice_tax_id.id),
-                    ('account_id', '!=', False)
-                ], limit=1)
-
-                if move_id.id:
-                    total_amount_currency = move_id.currency_id._convert(
-                        iva_total,
-                        move_id.company_currency_id,
-                        move_id.company_id,
-                        move_id.date
-                    )
-
-                    line_invoice_tax = self.env['account.move.line'].search([
-                        ('move_id', '=', move_id.id),
-                        ('tax_line_id', '=', move_id.invoice_tax_id.id)
-                    ])
-
-                    vals = {
-                        'move_id': move_id.id,
-                        'tax_line_id': move_id.invoice_tax_id.id,
-                        'credit': total_amount_currency if total_amount_currency > 0 else total_amount_currency * -1,
-                        'balance': total_amount_currency,
-                        'amount_currency': iva_total,
-                        'tax_base_amount': tax_group_vals['base_amount'],
-                        'display_type': 'tax',
-                        'name': move_id.invoice_tax_id.name,
-                        'move_name': move_id.name,
-                        'currency_id': move_id.currency_id.id,
-                        'sequence': 10000,
-                        'account_id': rep_line.account_id.id if rep_line else False,
-                        'tax_group_id': move_id.invoice_tax_id.tax_group_id.id,
-                        'tax_repartition_line_id': rep_line.id if rep_line else False,
-                    }
-
-                    if line_invoice_tax:
-                        line_invoice_tax.write(vals)
-                    else:
-                        self.env['account.move.line'].create(vals)
+                            if 'iva' in name.lower():
+                                iva_amounts.append(amount * l.quantity)
 
                 # IVA positivo
+                iva_total = sum(iva_amounts)
+
                 groups_by_subtotal[subtotal_title].append({
                     'group_key': tax_group.id,
                     'tax_group_id': tax_group.id,
@@ -166,6 +122,10 @@ class AccountTax(models.Model):
                     'formatted_tax_group_amount': formatLang(self.env, iva_total, currency_obj=currency),
                     'formatted_tax_group_base_amount': formatLang(self.env, tax_group_vals['base_amount'], currency_obj=currency),
                 })
+
+                # Guardar retención como negativo en el move_id (NO se agrega al groups_by_subtotal)
+                withholding_iva = iva_total
+
             else:
                 groups_by_subtotal[subtotal_title].append({
                     'group_key': tax_group.id,
@@ -191,7 +151,7 @@ class AccountTax(models.Model):
         amount_total = amount_untaxed + amount_tax
 
         if in_move and move_id:
-            # Retención siempre negativa
+            # ⚡ Solo la retención va en negativo
             move_id.withholding_iva = -abs(withholding_iva)
 
         return {
