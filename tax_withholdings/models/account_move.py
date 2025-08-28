@@ -198,8 +198,8 @@ class AccountMoveWithHoldings(models.Model):
         )
 
         for move in self:
-            sign = -1
-            move.withholding_opp_iva = withholding_iva = sign * (move.withholding_iva or 0.0)
+            # ⚡ Ya viene en negativo desde _prepare_tax_totals
+            move.withholding_opp_iva = move.withholding_iva
 
             move.retained_subject_vat = (
                 move.partner_id.vat.upper()
@@ -207,12 +207,12 @@ class AccountMoveWithHoldings(models.Model):
                 else VAT_DEFAULT
             )
 
-            if move.move_type in {'in_invoice', 'in_refund', 'in_receipt'} and withholding_iva != 0.0:
-                move.amount_total_purchase = move.amount_total + withholding_iva
+            if move.move_type in {'in_invoice', 'in_refund', 'in_receipt'} and move.withholding_iva != 0.0:
+                move.amount_total_purchase = move.amount_total + move.withholding_iva
 
                 date = move.date or move.invoice_date
                 move.withholding_number = f"{date:%Y%m}{move.sequence_withholding_iva:>08}"
-                move.amount_tax_iva = move.amount_tax + withholding_iva
+                move.amount_tax_iva = move.amount_tax + move.withholding_iva
                 move.amount_total_iva = move.amount_total
 
                 aliquot_iva = 0.0
