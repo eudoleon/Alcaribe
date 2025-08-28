@@ -147,7 +147,9 @@ class AccountMoveWithHoldings(models.Model):
                 for line in move.line_ids:
                     if line.tax_line_id and line.tax_line_id.withholding_type == "iva":
                         amount_total_withholding_iva += line.amount_currency
-            move.withholding_iva = amount_total_withholding_iva
+
+            # ⚡ Forzar que siempre sea negativo
+            move.withholding_iva = -abs(amount_total_withholding_iva)
 
     def validation_generation_withholding(self, label_value, label_sequence):
         is_one = len(self._ids) == 1
