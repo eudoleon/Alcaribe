@@ -113,7 +113,8 @@ class AccountTax(models.Model):
                                 withholding_iva += amount_currency
                                 iva_amounts.append(amount_currency)
 
-                total_tax_amount = sum(iva_amounts)
+                # IVA normal positivo
+                iva_total = sum(iva_amounts)
 
                 rep_line = self.env['account.tax.repartition.line'].search([
                     ('invoice_tax_id', '=', move_id.invoice_tax_id.id),
@@ -122,7 +123,7 @@ class AccountTax(models.Model):
 
                 if move_id.id:
                     total_amount_currency = move_id.currency_id._convert(
-                        total_tax_amount,
+                        iva_total,
                         move_id.company_currency_id,
                         move_id.company_id,
                         move_id.date
@@ -138,7 +139,7 @@ class AccountTax(models.Model):
                         'tax_line_id': move_id.invoice_tax_id.id,
                         'credit': total_amount_currency if total_amount_currency > 0 else total_amount_currency * -1,
                         'balance': total_amount_currency,
-                        'amount_currency': total_tax_amount,
+                        'amount_currency': iva_total,
                         'tax_base_amount': tax_group_vals['base_amount'],
                         'display_type': 'tax',
                         'name': move_id.invoice_tax_id.name,
@@ -155,13 +156,14 @@ class AccountTax(models.Model):
                     else:
                         self.env['account.move.line'].create(vals)
 
+                # IVA positivo
                 groups_by_subtotal[subtotal_title].append({
                     'group_key': tax_group.id,
                     'tax_group_id': tax_group.id,
                     'tax_group_name': tax_group.name,
-                    'tax_group_amount': total_tax_amount,
+                    'tax_group_amount': iva_total,
                     'tax_group_base_amount': tax_group_vals['base_amount'],
-                    'formatted_tax_group_amount': formatLang(self.env, total_tax_amount, currency_obj=currency),
+                    'formatted_tax_group_amount': formatLang(self.env, iva_total, currency_obj=currency),
                     'formatted_tax_group_base_amount': formatLang(self.env, tax_group_vals['base_amount'], currency_obj=currency),
                 })
             else:
@@ -189,7 +191,8 @@ class AccountTax(models.Model):
         amount_total = amount_untaxed + amount_tax
 
         if in_move and move_id:
-            move_id.withholding_iva = withholding_iva
+            # Retención siempre negativa
+            move_id.withholding_iva = -abs(withholding_iva)
 
         return {
             'amount_untaxed': currency.round(amount_untaxed) if currency else amount_untaxed,
@@ -201,7 +204,7 @@ class AccountTax(models.Model):
             'subtotals_order': sorted(subtotal_order.keys(), key=lambda k: subtotal_order[k]),
             'display_tax_base': (
                 (len(global_tax_details['tax_details']) == 1 and
-                 currency.compare_amounts(tax_group_vals_list[0]['base_amount'], amount_untaxed) != 0)
+                currency.compare_amounts(tax_group_vals_list[0]['base_amount'], amount_untaxed) != 0)
                 or len(global_tax_details['tax_details']) > 1
             )
         }
