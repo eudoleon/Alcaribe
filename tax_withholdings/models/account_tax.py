@@ -76,21 +76,31 @@ class AccountTax(models.Model):
                 subtotal_order.get(subtotal_title, float('inf')), sequence
             )
 
-            # IVA normal → sí va al subtotal
+            # IVA normal → positivo
             groups_by_subtotal[subtotal_title].append({
-                'group_key': tax_group.id,
+                'group_key': f"{tax_group.id}_iva",
                 'tax_group_id': tax_group.id,
-                'tax_group_name': tax_group.name,
+                'tax_group_name': f"{tax_group.name} (IVA)",
                 'tax_group_amount': tax_group_vals['tax_amount'],
                 'tax_group_base_amount': tax_group_vals['base_amount'],
                 'formatted_tax_group_amount': formatLang(self.env, tax_group_vals['tax_amount'], currency_obj=currency),
                 'formatted_tax_group_base_amount': formatLang(self.env, tax_group_vals['base_amount'], currency_obj=currency),
             })
 
-            # Retención IVA = el mismo IVA pero negativo
+            # Retención IVA → negativo
             if in_move and move_id and move_id.invoice_tax_id:
                 if 'iva' in tax_group.name.lower():
-                    withholding_iva += tax_group_vals['tax_amount']
+                    withholding_iva = -abs(tax_group_vals['tax_amount'])
+
+                    groups_by_subtotal[subtotal_title].append({
+                        'group_key': f"{tax_group.id}_ret_iva",
+                        'tax_group_id': tax_group.id,
+                        'tax_group_name': f"{tax_group.name} (Retención IVA)",
+                        'tax_group_amount': withholding_iva,
+                        'tax_group_base_amount': tax_group_vals['base_amount'],
+                        'formatted_tax_group_amount': formatLang(self.env, withholding_iva, currency_obj=currency),
+                        'formatted_tax_group_base_amount': formatLang(self.env, tax_group_vals['base_amount'], currency_obj=currency),
+                    })
 
         # ==== Build the final result ====
         subtotals = []
