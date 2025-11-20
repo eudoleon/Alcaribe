@@ -1,0 +1,15 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_user_manager,access.user.management,model_user_management,,1,1,1,1
+access_model_access,access_model.access,model_model_access,,1,1,1,1
+access_field_access,access_field.access,model_field_access,,1,1,1,1
+access_domain_access,access_domain.access,model_domain_access,,1,1,1,1
+access_button_tab_access,access_button.tab.access,model_button_tab_access,,1,1,1,1
+access_filter_group_access,access_filter.group.access,model_filter_group_access,,1,1,1,1
+access_filter_group_data,access_filter.group.data,model_filter_group_data,,1,1,1,1
+access_button_tab_data,access_button_tab.data,model_button_tab_data,,1,1,1,1
+access_report_action_data,access_report.action.data,model_report_action_data,,1,1,1,1
+
+access_user_profiles,access_user_profiles,model_user_profiles,,1,1,1,1
+access_user_profile_lines,access_user_profile_lines,model_user_profile_lines,,1,1,1,1
+
+access_recent_activity,access_recent.activity,model_recent_activity,,1,1,1,1

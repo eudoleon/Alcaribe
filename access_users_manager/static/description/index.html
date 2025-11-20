@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Access Profile User Manager</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+          integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+    $(document).ready(function(){
+      $('.prev-btn').on('click', function() {
+        $('.active').prev().addClass('active').siblings().removeClass('active');
+      });
+
+      $('.next-btn').on('click', function() {
+        $('.active').next().addClass('active').siblings().removeClass('active');
+      });
+    });
+
+
+    </script>
+    <style>
+      /* Custom styles */
+      .oe_slogan {
+        color: #1c4375;
+      }
+
+      /* Add custom class to sections */
+      section.oe_section {
+        margin-top: 10px;
+        padding: 20px;
+      }
+
+      /* Add custom class to sections */
+      section.oe_dark {
+        background-color: #f5f5f5;
+        color: #1c4375;
+      }
+
+
+    </style>
+</head>
+<body>
+
+<section class="oe_section">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <h1 class="oe_slogan text-left">Access Profile User Manager</h1>
+            </div>
+            <div class="col-12">
+                <p><strong>Description</strong>:
+      Access User Manager is an Odoo application designed to streamline and simplify user access management.
+
+                    <br/>It provides an intuitive interface for users to control various access rights without requiring intricate technical knowledge. <br/><br/>With this tool, users can <b>hide menus, buttons, and tabs, manage model access rights (including create, edit, delete, view, actions, archive/unarchive, duplicate, and export), and set field access rights (such as making fields invisible, required, or read-only)</b>.
+                    <br/>Additionally, the application allows for domain-based access rights, enabling conditional restrictions on creating, editing, deleting, and reading records based on field values.
+
+                    <br/>Users can hide specific buttons, tabs, or menu/submenu items and make any user read-only, hide chatter, or disable developer mode.
+                    <br/>Model-wise chatter access rights and global access rights for chatter items can be managed conveniently.
+
+                    <br/>Furthermore, the application allows users to disable login for specific users and hide import/export buttons across models. The tool aims to empower users with comprehensive access control functionalities, offering a seamless user experience without the need for complex technical skills.
+
+            </div>
+            <div class="col-12">
+                <div class="text-left mt16 mb16"
+                     style="display:block; border-radius:20px; border:solid 1px #999; background-color:#3d7a8d; padding:24px; color:#fff">
+                    You start by Creating your different profiles
+                </div>
+
+                <img src="ima_profile_tree.png" alt="0"
+                     style="border:10px solid rgba(28,67,117, 0.2); border-radius:10px;width: 100%;">
+
+                <div class="text-left mt16 mb16"
+                     style="display:block; border-radius:20px; border:solid 1px #999; background-color:#3d7a8d; padding:24px; color:#fff">
+                    Profile by color for user and groups
+                </div>
+                <img src="image_profile_form.png" alt="1"
+                     style="border:10px solid rgba(28,67,117, 0.2); border-radius:10px;width: 100%;">
+                <br/>
+                    </div>
+
+            <div class="text-left mt16 mb16"
+                     style="display:block; border-radius:20px; border:solid 1px #999; background-color:#3d7a8d; padding:24px; color:#fff">
+                    Then you create rules for yours profiles
+                </div>
+
+                <img src="acces_manager.png" alt="0"
+                     style="border:10px solid rgba(28,67,117, 0.2); border-radius:10px;width: 100%;">
+
+                        <div class="text-left mt16 mb16"
+                     style="display:block; border-radius:20px; border:solid 1px #999; background-color:#3d7a8d; padding:24px; color:#fff">
+                    Hide Any Menus
+                </div>
+
+                <img src="any_menu.png" alt="0"
+                     style="border:10px solid rgba(28,67,117, 0.2); border-radius:10px;width: 100%;">
+                                    <div class="text-left mt16 mb16"
+                     style="display:block; border-radius:20px; border:solid 1px #999; background-color:#3d7a8d; padding:24px; color:#fff">
+                    Hide Any Button or Tab
+                </div>
+
+                <img src="any_buton_tab.png" alt="0"
+                     style="border:10px solid rgba(28,67,117, 0.2); border-radius:10px;width: 100%;">
+                                    <div class="text-left mt16 mb16"
+                     style="display:block; border-radius:20px; border:solid 1px #999; background-color:#3d7a8d; padding:24px; color:#fff">
+                    Hide Any Filter or Group By
+                </div>
+
+                <img src="any_filter_group.png" alt="0"
+                     style="border:10px solid rgba(28,67,117, 0.2); border-radius:10px;width: 100%;">
+                                    <div class="text-left mt16 mb16"
+                     style="display:block; border-radius:20px; border:solid 1px #999; background-color:#3d7a8d; padding:24px; color:#fff">
+                    Edit Access for any Field
+                </div>
+
+                <img src="any_fields.png" alt="0"
+                     style="border:10px solid rgba(28,67,117, 0.2); border-radius:10px;width: 100%;">
+                                    <div class="text-left mt16 mb16"
+                     style="display:block; border-radius:20px; border:solid 1px #999; background-color:#3d7a8d; padding:24px; color:#fff">
+                    Edit Access for any Model
+                </div>
+
+                <img src="action_buton.png" alt="0"
+                     style="border:10px solid rgba(28,67,117, 0.2); border-radius:10px;width: 100%;">
+
+
+                                                <div class="text-left mt16 mb16"
+                     style="display:block; border-radius:20px; border:solid 1px #999; background-color:#3d7a8d; padding:24px; color:#fff">
+                    Give acces by Domain
+                </div>
+
+                <img src="not_allrecord.png" alt="0"
+                     style="border:10px solid rgba(28,67,117, 0.2); border-radius:10px;width: 100%;">
+
+    </div>
+    </div>
+    </div>
+</section>
+
+</section>
+
+<section class="oe_section oe_dark text-center">
+    <div class="oe_row oe_spaced">
+        <div class="oe_span12">
+            <h2 class="oe_slogan">Contact / Support</h2>
+            <h3 class="oe_slogan">Need help or want extra features?</h3>
+        </div>
+        <div class="oe_span6">
+            <div class="oe_demo oe_picture oe_screenshot">
+                <a><img src="module_image.png"></a>
+            </div>
+        </div>
+        <div class="oe_span6">
+            <p class="oe_mt32">
+                Need help with the configuration or want this module to have more
+                functionalities? <br> <b>Contact us on</b>
+            </p>
+            <ul class="list-group">
+                <li class="list-group-item ">E Mail : <a href="mailto:"
+                                                         contact="">medconsultantweb@gmail.com@gmail.com</a></li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+        integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+        integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
+        Crossorigin="anonymous"></script>
+</body>
+</html>

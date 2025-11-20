@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="res_user_form_inherit" model="ir.ui.view">
+        <field name="name">res.users.form.view.inherit</field>
+        <field name="model">res.users</field>
+        <field name="inherit_id" ref="base.view_users_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form/sheet/div/group/field[@name='partner_id']" position="before">
+                <field name="access_profile_line_ids" widget="many2many_tags" string="Profiles" groups="base.group_system"
+                       attrs="{'invisible':[('access_admin_user', '=', True)], 'required':[('access_admin_user', '=', False)]}"/>
+                <field name="access_password_expire_date" invisible="1"/>
+                <field name="access_admin_user" invisible="1" force_save="1"/>
+            </xpath>
+            <xpath expr="//div[@class='oe_button_box']/button[@name='action_show_groups']" position="before">
+                <button
+                        class="oe_stat_button"
+                        string="Create Profile"
+                        icon="fa-users"
+                        name="access_action_create_profile"
+                        type="object"
+                        groups="base.group_system"
+                        attrs="{'invisible': [('access_admin_user', '=', True)]}"
+                />
+            </xpath>
+            <xpath expr="//notebook" position="inside">
+                <page string="Profile manager" groups="base.group_system" attrs="{'invisible': [('access_admin_user', '=', True)]}">
+                    <field name="access_user_manager_id">
+                        <tree>
+                            <field name="name"/>
+                        </tree>
+                    </field>
+                </page>
+                <page string="Recent Activity">
+                    <field name="access_recent_activity_line">
+                        <tree editable="top" default_order="access_login_date desc">
+                            <field name="access_user_id"/>
+                            <field name="access_login_date"/>
+                            <field name="access_logout_date"/>
+                            <field name="access_duration"/>
+                            <field name="access_status" string="Status"/>
+                            <button string="Logout" attrs="{'invisible': [('access_status', '=', 'close')]}"
+                                    groups="base.group_system" name="access_action_logout" type="object"/>
+                        </tree>
+                    </field>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+
+    <record id="res_user_tree_inherit" model="ir.ui.view">
+        <field name="name">res.users.tree.inherit</field>
+        <field name="model">res.users</field>
+        <field name="inherit_id" ref="base.view_users_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='login']" position="after">
+                <field name="access_profile_line_ids" widget="many2many_tags" string="User Profile" groups="base.group_system"/>
+                <field name="access_password_expire_date" invisible="0" groups="base.group_system"/>
+                <field name="access_password_update" invisible="0"/>
+                <field name="access_is_passwd_expired" invisible="1"/>
+                <field name="access_admin_user" invisible="1"/>
+            </xpath>
+            <xpath expr="//field[@name='state']" position="after">
+                <button name="access_action_login_confirm" groups="base.group_system" string="Login" type="object"/>
+            </xpath>
+        </field>
+    </record>
+    <record id="res_users_search_inherit" model="ir.ui.view">
+        <field name="name">res.users.search.inherit</field>
+        <field name="model">res.users</field>
+        <field name="inherit_id" ref="base.view_users_search"/>
+        <field name="arch" type="xml">
+            <field name="company_ids" position="after">
+                <field name="access_profile_ids" string="Profile" widget="many2many_tags" groups="base.group_system"/>
+            </field>
+        </field>
+    </record>
+
+
+</odoo>

@@ -1,0 +1,7 @@
+openpyxl==3.1.2
+werkzeug==0.16.1
+lxml==4.9.3
+xlsxwriter==3.1.7
+markupsafe==2.0.1
+bs4==0.0.1
+

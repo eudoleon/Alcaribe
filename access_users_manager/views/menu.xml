@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+            <menuitem name="Profile User Manager" id="menu_user_profiles"
+                  action="access_users_manager.action_res_user_profiles_tree"/>
+                  <!--web_icon="access_users_manager,static/description/icon.png"-->
+
+    <menuitem id="menu_user_profiles_tree" name="Profiles manager" parent="menu_user_profiles" action="action_res_user_profiles_tree" sequence="20"/>
+    <menuitem id="menu_user_manager" name="User manager" parent="menu_user_profiles" action="action_user_access_manager" sequence="30"/>
+</odoo>
