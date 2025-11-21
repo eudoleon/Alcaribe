@@ -153,10 +153,10 @@ class accessResUsersInherit(models.Model):
                 group_ids += profile_groups[profile]
             group_ids = list(set(group_ids))  # Remove duplicates IDs
             groups_to_add = list(set(group_ids) - set(user.groups_id.ids))
-            groups_to_remove = list(set(user.groups_id.ids) - set(group_ids))
+            # groups_to_remove = list(set(user.groups_id.ids) - set(group_ids))
             to_add = [(4, gr) for gr in groups_to_add]
-            to_remove = [(3, gr) for gr in groups_to_remove]
-            groups = to_remove + to_add
+            # to_remove = [(3, gr) for gr in groups_to_remove]
+            groups = to_add
             if groups:
                 vals = {"groups_id": groups}
                 super(accessResUsersInherit, user).sudo().write(vals)
