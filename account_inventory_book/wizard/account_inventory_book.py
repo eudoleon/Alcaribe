@@ -277,7 +277,7 @@ class AccountInventoryBookReport(models.AbstractModel):
 
         productos_ids = self.env["product.product"].search(dominio_productos)
         for p in productos_ids:
-            # Buscar saldos iniciales del producto
+            # 1. Buscar saldos iniciales del producto
             initial_moves = self.env["stock.move"].search(
                 [
                     ("product_id", "=", p.id),
@@ -287,9 +287,9 @@ class AccountInventoryBookReport(models.AbstractModel):
                 ]
             )
 
-            existencia_inicial = 0
-            precio_inicial = 0
-            precio_total_inicial = 0
+            existencia_inicial = 0.0
+            precio_inicial = 0.0
+            precio_total_inicial = 0.0
 
             initial_layers = initial_moves.mapped("stock_valuation_layer_ids")
             if initial_layers:
@@ -298,9 +298,12 @@ class AccountInventoryBookReport(models.AbstractModel):
                 if existencia_inicial != 0:
                     precio_inicial = precio_total_inicial / existencia_inicial
                 else:
-                    precio_inicial = 0
+                    precio_inicial = 0.0
+            elif p.standard_price:
+                # Si no tiene layers iniciales pero tiene precio estándar y stock
+                precio_inicial = p.standard_price
 
-            # Inventario del mes
+            # 2. Movimientos del mes
             period_moves = self.env["stock.move"].search(
                 [
                     ("product_id", "=", p.id),
@@ -313,40 +316,95 @@ class AccountInventoryBookReport(models.AbstractModel):
 
             period_layers = period_moves.mapped("stock_valuation_layer_ids")
 
-            entradas_mes = 0
-            entradas_mes_precio = 0
-            entradas_mes_precio_total = 0
-            salida_mes = 0
-            salida_mes_precio = 0
-            salida_mes_precio_total = 0
+            entradas_mes = 0.0
+            entradas_mes_precio = 0.0
+            entradas_mes_precio_total = 0.0
 
-            if period_layers:
-                entadas_ids = period_layers.filtered(lambda x: x.quantity > 0)
-                salidas_ids = period_layers.filtered(lambda x: x.quantity < 0)
+            salida_mes = 0.0
+            salida_mes_precio = 0.0
+            salida_mes_precio_total = 0.0
 
-                if entadas_ids:
-                    entradas_mes = sum(entadas_ids.mapped("quantity"))
-                    entradas_mes_precio_total = sum(entadas_ids.mapped("value"))
-                    if entradas_mes != 0:
-                        entradas_mes_precio = entradas_mes_precio_total / entradas_mes
-                    else:
-                        entradas_mes_precio = 0
+            # 2.1 Cálculo de ENTRADAS basado en facturas de compra asociadas
+            entradas_layers = period_layers.filtered(lambda x: x.quantity > 0)
+            if entradas_layers:
+                entradas_mes = sum(entradas_layers.mapped("quantity"))
+                for layer in entradas_layers:
+                    move = layer.stock_move_id
+                    layer_qty = layer.quantity
+                    unit_cost = 0.0
+                    found_invoice = False
 
-                if salidas_ids:
-                    salida_mes = abs(sum(salidas_ids.mapped("quantity")))
-                    salida_mes_precio_total = abs(sum(salidas_ids.mapped("value")))
-                    if salida_mes != 0:
-                        salida_mes_precio = salida_mes_precio_total / salida_mes
-                    else:
-                        salida_mes_precio = 0
+                    if move:
+                        # Buscar factura de compra asociada (PO line -> invoice lines)
+                        inv_lines = self.env["account.move.line"]
+                        if move.purchase_line_id:
+                            inv_lines = move.purchase_line_id.invoice_lines.filtered(
+                                lambda l: l.move_id.state == "posted"
+                                and l.move_id.move_type in ("in_invoice", "in_refund")
+                            )
+                        if not inv_lines and move.picking_id and getattr(move.picking_id, "purchase_id", False):
+                            po_lines = move.picking_id.purchase_id.order_line.filtered(
+                                lambda pol: pol.product_id == p
+                            )
+                            inv_lines = po_lines.mapped("invoice_lines").filtered(
+                                lambda l: l.move_id.state == "posted"
+                                and l.move_id.move_type in ("in_invoice", "in_refund")
+                            )
 
+                        if inv_lines:
+                            found_invoice = True
+                            # Calcular precio unitario en moneda de la compañía según la factura
+                            total_inv_val = sum(abs(l.balance) for l in inv_lines)
+                            total_inv_qty = sum(l.quantity for l in inv_lines)
+                            if total_inv_qty:
+                                unit_cost = total_inv_val / total_inv_qty
+                            else:
+                                unit_cost = inv_lines[0].price_unit
+
+                    # Fallbacks si no hay factura de compra asociada
+                    if not found_invoice or unit_cost <= 0:
+                        if layer.quantity != 0 and layer.value != 0:
+                            unit_cost = layer.value / layer.quantity
+                        elif move and move.purchase_line_id and move.purchase_line_id.price_unit:
+                            unit_cost = move.purchase_line_id.price_unit
+                        else:
+                            unit_cost = p.standard_price or 0.0
+
+                    entradas_mes_precio_total += layer_qty * unit_cost
+
+                if entradas_mes > 0:
+                    entradas_mes_precio = entradas_mes_precio_total / entradas_mes
+
+            # 2.2 Cálculo de SALIDAS basado en el Coste Promedio de la ficha del producto
+            salidas_layers = period_layers.filtered(lambda x: x.quantity < 0)
+            if salidas_layers:
+                salida_mes = abs(sum(salidas_layers.mapped("quantity")))
+                # Coste promedio de la ficha del producto
+                costo_ficha = p.standard_price
+                if not costo_ficha or costo_ficha <= 0:
+                    # Fallback a capas de salida o costo inicial
+                    total_val_salidas = abs(sum(salidas_layers.mapped("value")))
+                    costo_ficha = (total_val_salidas / salida_mes) if salida_mes > 0 else (precio_inicial or 0.0)
+
+                salida_mes_precio = costo_ficha
+                salida_mes_precio_total = salida_mes * salida_mes_precio
+
+            # 3. Cálculo de INVENTARIO FINAL (Valuación contable estándar: Costo Promedio Ponderado)
             final = existencia_inicial + entradas_mes - salida_mes
-            final_precio_total = (
-                precio_total_inicial
-                + entradas_mes_precio_total
-                - salida_mes_precio_total
-            )
-            final_precio = (final_precio_total / final) if final > 0 else 0
+            total_disponible_qty = existencia_inicial + entradas_mes
+            total_disponible_val = precio_total_inicial + entradas_mes_precio_total
+
+            if total_disponible_qty > 0 and total_disponible_val > 0:
+                costo_promedio_final = total_disponible_val / total_disponible_qty
+            elif p.standard_price > 0:
+                costo_promedio_final = p.standard_price
+            elif precio_inicial > 0:
+                costo_promedio_final = precio_inicial
+            else:
+                costo_promedio_final = 0.0
+
+            final_precio = costo_promedio_final
+            final_precio_total = (final * final_precio) if final > 0 else 0.0
 
             datos.append(
                 {
