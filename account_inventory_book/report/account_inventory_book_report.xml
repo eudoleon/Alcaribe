@@ -37,7 +37,7 @@
                         <t t-foreach="company" t-as="c">
                             <div class="text-left">
                                 <h5><b>Nombre de la Empresa:</b> <span t-esc="c.name"/></h5>
-                                <h5><b>RIF.:&#160;</b><span t-esc="getattr(c, 'rif', False) or c.vat or ''"/></h5>
+                                <h5><b>RIF.:&#160;</b><span t-esc="company_rif or c.vat or ''"/></h5>
                                 <h5><b>Dirección de la Empresa:</b>
                                     <span t-esc="c.street"/>
                                     <span t-if="c.street2" t-esc="', ' + c.street2"/>

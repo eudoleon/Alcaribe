@@ -367,8 +367,12 @@ class AccountInventoryBookReport(models.AbstractModel):
                 }
             )
 
+        company_rif = (
+            getattr(company_id, "rif", False) or company_id.vat or ""
+        )
         return {
             "company": company_id,
+            "company_rif": company_rif,
             "currency": company_id.currency_id,
             "date_start": (
                 date_start.date() if isinstance(date_start, datetime) else date_start
